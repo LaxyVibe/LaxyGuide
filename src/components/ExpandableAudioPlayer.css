@@ -1,0 +1,398 @@
+.expandable-audio-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    /* Allow clicks through when collapsed (except on the player itself) */
+}
+
+/* Mini Player (Collapsed) */
+.expandable-audio-player.collapsed {
+    height: auto;
+    padding: 0 16px 24px 16px;
+    /* Add padding for floating effect */
+}
+
+.expandable-audio-player.collapsed .mini-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    height: 78px;
+    cursor: pointer;
+    background: #000000;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    pointer-events: auto;
+    position: relative; /* allow absolute positioning of controls */
+}
+
+.expandable-audio-player.collapsed .mini-player-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    /* keep title left and subtitle centered */
+}
+
+.expandable-audio-player.collapsed .mini-player-title {
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    align-self: flex-start;
+}
+
+.expandable-audio-player.collapsed .mini-player-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+.expandable-audio-player.collapsed .mini-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute; /* pin to top-right */
+    right: 12px;
+    top: 12px;
+}
+
+.mini-player .control-button.play-pause {
+    background: transparent; /* remove the white circle */
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    padding: 4px;
+    color: white; /* make the icon white (svgs use currentColor) */
+    box-shadow: none;
+}
+
+.mini-player .control-button.play-pause svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Prevent default grey tap/active background on mobile and desktop */
+.mini-player .control-button.play-pause,
+.mini-player .control-button.play-pause:focus,
+.mini-player .control-button.play-pause:active {
+    background-color: transparent !important;
+    background: transparent !important;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Keep a small accessible focus ring while avoiding the grey square */
+.mini-player .control-button.play-pause:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.12);
+    outline-offset: 2px;
+}
+
+/* Mini-player read-only progress */
+.mini-progress-section {
+    width: 100%;
+    display: block;
+}
+
+.mini-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    pointer-events: auto; /* clickable to expand (non-seek) */
+}
+
+.mini-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.85) 100%);
+    width: 0%;
+    transition: width 0.15s linear;
+}
+
+.expandable-audio-player.collapsed .mini-player-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    margin: 0;
+    align-self: center; /* horizontally center the subtitle */
+}
+
+.expandable-audio-player.collapsed .mini-player-info > .mini-progress-section {
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+/* Expanded Player */
+.expandable-audio-player.expanded {
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    /* Dim background */
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.expandable-audio-player.expanded .player-container {
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    /* Half-height (approx) */
+    background: #000000;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.expandable-audio-player.expanded .player-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* allow absolute positioning of the close button */
+}
+
+.expandable-audio-player.expanded .player-title {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+    width: 100%; /* ensure title sits centered in the header */
+}
+
+.expandable-audio-player.expanded .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: background 0.2s;
+    position: absolute; /* position it over the header */
+    left: 16px; /* place on the left side */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.expandable-audio-player.expanded .close-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Subtitle Container */
+.subtitle-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 24px 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.subtitle-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.subtitle-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.subtitle-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.subtitle-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.subtitle-text {
+    color: white;
+    font-size: 18px;
+    line-height: 1.6;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600;
+    text-align: justify;
+}
+
+.subtitle-segment {
+    display: inline;
+    cursor: pointer;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    opacity: 0.5;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.subtitle-segment.active {
+    opacity: 1;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+@media (hover: hover) {
+    .subtitle-segment:hover {
+        opacity: 0.8;
+    }
+}
+
+.no-subtitles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+}
+
+/* Player Controls */
+.player-controls {
+    background: #000000;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress-section {
+    margin-bottom: 16px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
+
+.progress-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    transition: left 0.1s linear;
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.control-button:hover {
+    opacity: 0.7;
+}
+
+.control-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.control-button.play-pause {
+    width: 64px;
+    height: 64px;
+    background: white;
+    border-radius: 50%;
+    color: #000000;
+}
+
+.control-button.play-pause:hover {
+    background: rgba(255, 255, 255, 0.9);
+    opacity: 1;
+}
+
+.control-button svg,
+.control-button img {
+    width: 30px;
+    height: 30px;
+}
+
+.control-button.play-pause svg {
+    width: 32px;
+    height: 32px;
+}
+
+.skip-button img {
+    transition: transform 0.6s ease-in-out;
+}
+
+.skip-button.animating.backward img {
+    transform: rotate(-360deg);
+}
+
+.skip-button.animating.forward img {
+    transform: rotate(360deg);
+}
+
+/* Hidden elements */
+.expandable-audio-player.collapsed .player-container {
+    display: none;
+}
+
+.expandable-audio-player.expanded .mini-player {
+    display: none;
+}
+
+/* Loading state */
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

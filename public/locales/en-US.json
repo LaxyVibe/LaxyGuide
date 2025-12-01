@@ -1,0 +1,41 @@
+{
+    "landing": {
+        "selectLanguage": "Select Language",
+        "poweredBy": "Powered by"
+    },
+    "poiListing": {
+        "title": "Artworks"
+    },
+    "poiDetail": {
+        "notFound": "POI not found"
+    },
+    "survey": {
+        "title": "Survey",
+        "prompt": "What did you think of the tour?",
+        "placeholder": "Your feedback...",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "submitted": "Submitted!"
+    },
+    "languageSwitch": {
+        "title": "Language Setting",
+        "apply": "Apply",
+        "poweredBy": "Powered by"
+    },
+    "startButton": {
+        "next": "Next"
+    },
+    "audioPlayer": {
+        "clickToExpand": "Click to see details",
+        "loadingSubtitles": "Loading subtitles...",
+        "noSubtitles": "No subtitles available"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "noData": "No data found"
+    },
+    "meta": {
+        "title": "OPAM 10th Anniversary Exhibition: Sparkling Japanese Art: 1300 Years of Treasures - OPAM- Laxy"
+    }
+}

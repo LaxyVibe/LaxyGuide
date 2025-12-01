@@ -1,0 +1,41 @@
+{
+    "landing": {
+        "selectLanguage": "言語を選択",
+        "poweredBy": "Powered by"
+    },
+    "poiListing": {
+        "title": "作品"
+    },
+    "poiDetail": {
+        "notFound": "作品が見つかりません"
+    },
+    "survey": {
+        "title": "アンケート",
+        "prompt": "ツアーはいかがでしたか？",
+        "placeholder": "ご意見をお聞かせください...",
+        "cancel": "キャンセル",
+        "submit": "送信",
+        "submitted": "送信しました！"
+    },
+    "languageSwitch": {
+        "title": "言語設定",
+        "apply": "適用",
+        "poweredBy": "Powered by"
+    },
+    "startButton": {
+        "next": "次へ"
+    },
+    "audioPlayer": {
+        "clickToExpand": "クリックして詳細を見る",
+        "loadingSubtitles": "字幕を読み込み中...",
+        "noSubtitles": "字幕はありません"
+    },
+    "common": {
+        "loading": "読み込み中...",
+        "error": "エラー",
+        "noData": "データが見つかりません"
+    },
+    "meta": {
+        "title": "OPAM開館10周年記念 きらめく日本美術 1300年の至宝展 - 大分県立美術館(OPAM) - Laxy"
+    }
+}

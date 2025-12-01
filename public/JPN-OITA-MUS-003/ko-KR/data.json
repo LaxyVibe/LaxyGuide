@@ -1,0 +1,37 @@
+{
+    "guideTitle": "OPAM 10th Anniversary",
+    "guideUnderlayImage": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764483202/1300_cover_1_difndz.jpg",
+    "pois": [
+        {
+            "number": "051",
+            "title": "달마 초상",
+            "hero": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764473003/051_hero_p8rgwc.jpg",
+            "withAudio": true,
+            "metadata": [
+                {
+                    "label": "작가",
+                    "value": "하쿠인 에카쿠"
+                },
+                {
+                    "label": "시대",
+                    "value": "에도 시대, 18세기"
+                },
+                {
+                    "label": "재료 · 기법",
+                    "value": "지본수묵담채 족자"
+                },
+                {
+                    "label": "크기",
+                    "value": "192.0 × 112.0cm"
+                },
+                {
+                    "label": "소장처",
+                    "value": "오이타시·만수사"
+                }
+            ],
+            "content": "이 작품은 하쿠인 에카쿠가 달마를 그린 대표작이다. 달마는 인도에서 중국으로 건너가 선종의 시조가 된 승려이다. 화면 좌측 상단의 찬문은 밀랍 기법으로 작성되었다. 밀랍으로 글자를 쓴 후 그 위에 진한 먹을 칠하면 밀랍 부분만 먹을 튕겨내어 흰색으로 나타나게 된다. 찬문의 내용은 \"직지인심, 견성성불\"이다. 즉 \"자신의 마음을 똑바로 바라보라. 본래 자신에게 갖추어진 불성에 눈을 뜨라\"는 것으로, 달마가 설파한 선의 가르침의 본질이다. 하쿠인 에카쿠(1686-1769)는 임제종 중흥의 조로 불리는 에도 중기의 선승이다. 그는 선의 가르침을 알기 쉽게 전하기 위해 수많은 그림을 그렸다.\n\n![달마 초상 상세](https://res.cloudinary.com/dui2mxeuh/image/upload/v1764338529/large_51_100692_20200722_LA_588_002_L_144e34dcbd.jpg)",
+            "audio": "",
+            "subtitle": ""
+        }
+    ]
+}

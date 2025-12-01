@@ -1,0 +1,31 @@
+.landing-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* Ensure overlay does not block clicks */
+    z-index: 1;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.9) 0%,
+        rgba(0,0,0,0.0) 20%,
+        rgba(0,0,0,0.0) 30%,
+        rgba(0,0,0,0.9) 100%
+    );
+}
+
+.survey-icon-btn {
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.survey-icon-btn:active {
+    box-shadow: 0 0 0 4px #c2a06c33;
+    transform: scale(0.95);
+}
+
+/* Match width to .start-button */
+.lang-switch-btn {
+    transition: box-shadow 0.2s;
+    width: 100%;
+    max-width: 400px;
+}
+.lang-switch-btn:active {
+    box-shadow: 0 0 0 2px #c2a06c33;
+}

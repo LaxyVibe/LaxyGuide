@@ -1,0 +1,37 @@
+{
+    "guideTitle": "OPAM 10th Anniversary",
+    "guideUnderlayImage": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764483202/1300_cover_1_difndz.jpg",
+    "pois": [
+        {
+            "number": "051",
+            "title": "菩提达摩像",
+            "hero": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764473003/051_hero_p8rgwc.jpg",
+            "withAudio": true,
+            "metadata": [
+                {
+                    "label": "作者",
+                    "value": "白隐慧鹤"
+                },
+                {
+                    "label": "年代",
+                    "value": "江户时代，18世纪"
+                },
+                {
+                    "label": "材质·技法",
+                    "value": "纸本水墨设色 立轴"
+                },
+                {
+                    "label": "尺寸",
+                    "value": "192.0 × 112.0厘米"
+                },
+                {
+                    "label": "收藏",
+                    "value": "大分市·万寿寺"
+                }
+            ],
+            "content": "本作品是白隐慧鹤描绘菩提达摩的代表作。菩提达摩是从印度来到中国的僧侣，成为禅宗的始祖。画面左上方的题赞采用了蜡染技法：先用蜡书写文字，再在上面涂抹浓墨，使蜡字部分排斥墨色而呈现白色。题赞内容为\"直指人心，见性成佛\"。意即\"直视自己的内心，觉悟本来就具备的佛性\"，这是菩提达摩所传禅宗教义的核心。白隐慧鹤（1686-1769）被誉为临济宗中兴之祖，是江户中期的禅僧。他创作了无数绘画作品，以浅显易懂的方式阐释禅的教义。\n\n![菩提达摩像细节](https://res.cloudinary.com/dui2mxeuh/image/upload/v1764338529/large_51_100692_20200722_LA_588_002_L_144e34dcbd.jpg)",
+            "audio": "https://res.cloudinary.com/dui2mxeuh/video/upload/v1764508108/JPOITAO3001CMN02_ehdp85.mp3",
+            "subtitle": "https://res.cloudinary.com/dui2mxeuh/raw/upload/v1764508373/JPOITAO3001CN02_csgw0w.srt"
+        }
+    ]
+}

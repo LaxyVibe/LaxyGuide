@@ -1,0 +1,41 @@
+{
+    "landing": {
+        "selectLanguage": "选择语言",
+        "poweredBy": "Powered by"
+    },
+    "poiListing": {
+        "title": "艺术品"
+    },
+    "poiDetail": {
+        "notFound": "未找到作品"
+    },
+    "survey": {
+        "title": "问卷调查",
+        "prompt": "您对本次导览有何看法？",
+        "placeholder": "请留下您的反馈...",
+        "cancel": "取消",
+        "submit": "提交",
+        "submitted": "已提交！"
+    },
+    "languageSwitch": {
+        "title": "语言设置",
+        "apply": "应用",
+        "poweredBy": "Powered by"
+    },
+    "startButton": {
+        "next": "下一步"
+    },
+    "audioPlayer": {
+        "clickToExpand": "点击查看详情",
+        "loadingSubtitles": "正在加载字幕...",
+        "noSubtitles": "无字幕"
+    },
+    "common": {
+        "loading": "加载中...",
+        "error": "错误",
+        "noData": "未找到数据"
+    },
+    "meta": {
+        "title": "OPAM 10周年纪念展：璀璨的日本艺术：1300年的珍宝 - OPAM- Laxy"
+    }
+}
