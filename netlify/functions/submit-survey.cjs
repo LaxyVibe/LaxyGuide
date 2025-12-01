@@ -8,10 +8,19 @@ exports.handler = async (event) => {
   try {
     const { responses } = JSON.parse(event.body); // your survey answers object/array
 
+    let privateKey = process.env.GOOGLE_PRIVATE_KEY;
+    if (!privateKey) {
+      throw new Error('GOOGLE_PRIVATE_KEY env var is missing');
+    }
+
+    // Clean up the key: remove surrounding quotes if present, and fix escaped newlines
+    // This handles cases where the key was pasted with quotes or as a JSON string
+    privateKey = privateKey.replace(/^"|"$/g, '').replace(/\\n/g, '\n');
+
     const auth = new google.auth.GoogleAuth({
       credentials: {
         client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'), // Netlify fixes newlines
+        private_key: privateKey,
       },
       scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
