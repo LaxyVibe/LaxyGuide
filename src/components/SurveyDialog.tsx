@@ -40,12 +40,12 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
                 body: JSON.stringify({ responses: { rating, feedback } }),
             });
 
-            const contentType = res.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
+            let data;
+            try {
+                data = await res.json();
+            } catch (e) {
                 throw new Error('Received non-JSON response from server. Function might be missing or returning HTML.');
             }
-
-            const data = await res.json();
 
             if (res.ok && data.success) {
                 alert(t('survey.submitted'));
