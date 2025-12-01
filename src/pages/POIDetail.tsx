@@ -222,7 +222,7 @@ const POIDetail: React.FC = () => {
                     height: 'calc(var(--vh, 1vh) * 100)', // Full height to allow scrolling
                     overflowY: 'auto',
                     background: 'transparent', // Transparent to show hero initially
-                    overscrollBehaviorY: 'none' // Disable rubberband effect on iOS
+
                 }}
             >
                 {/* Spacer to push content down */}
