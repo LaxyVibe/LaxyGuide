@@ -1,7 +1,7 @@
 /* App.css */
 .app {
   min-height: calc(var(--vh, 1vh) * 100);
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, var(--neutral-100) 0%, var(--neutral-200) 100%);
 }
 
 /* Reset and base styles */
@@ -63,12 +63,12 @@ h6 {
   max-width: 400px;
   height: 40px;
   transition: transform 0.2s, background-color 0.2s;
-  background-color: #d4a373;
+  background-color: var(--misc-opam);
   color: white;
 }
 
 .start-button:hover {
-  background-color: #c39262;
+  background-color: var(--third-500);
   transform: translateY(-2px);
 }
 

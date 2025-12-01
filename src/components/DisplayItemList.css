@@ -12,13 +12,13 @@
 
 .header h1 {
     font-size: 2.5rem;
-    color: #2c3e50;
+    color: var(--neutral-800);
     margin-bottom: 10px;
     font-weight: 600;
 }
 
 .subtitle {
-    color: #7f8c8d;
+    color: var(--neutral-500);
     font-size: 1.1rem;
 }
 
@@ -38,7 +38,7 @@
 .search-input {
     width: 100%;
     padding: 12px 16px;
-    border: 2px solid #e1e8ed;
+    border: 2px solid var(--neutral-200);
     border-radius: 25px;
     font-size: 16px;
     outline: none;
@@ -46,12 +46,12 @@
 }
 
 .search-input:focus {
-    border-color: #3498db;
+    border-color: var(--primary-400);
 }
 
 .category-select {
     padding: 12px 16px;
-    border: 2px solid #e1e8ed;
+    border: 2px solid var(--neutral-200);
     border-radius: 8px;
     font-size: 16px;
     background: white;
@@ -86,7 +86,7 @@
 .item-image {
     height: 200px;
     overflow: hidden;
-    background: #f8f9fa;
+    background: var(--neutral-100);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +101,7 @@
 
 .no-image {
     font-size: 3rem;
-    color: #bdc3c7;
+    color: var(--neutral-300);
 }
 
 .item-content {
@@ -114,19 +114,19 @@
 .item-title {
     font-size: 1.3rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--neutral-800);
     margin-bottom: 8px;
     line-height: 1.3;
 }
 
 .item-year {
-    color: #e74c3c;
+    color: var(--status-red-200);
     font-weight: 500;
     margin-bottom: 4px;
 }
 
 .item-location {
-    color: #7f8c8d;
+    color: var(--neutral-500);
     margin-bottom: 12px;
     font-size: 0.9rem;
 }
@@ -139,8 +139,8 @@
 }
 
 .tag {
-    background: #ecf0f1;
-    color: #2c3e50;
+    background: var(--neutral-100);
+    color: var(--neutral-800);
     padding: 4px 8px;
     border-radius: 12px;
     font-size: 0.8rem;
@@ -148,7 +148,7 @@
 }
 
 .tag.more {
-    background: #3498db;
+    background: var(--primary-400);
     color: white;
 }
 
@@ -159,8 +159,8 @@
 }
 
 .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
+    border: 4px solid var(--neutral-100);
+    border-top: 4px solid var(--primary-400);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -179,7 +179,7 @@
 }
 
 .error-container button {
-    background: #e74c3c;
+    background: var(--status-red-200);
     color: white;
     border: none;
     padding: 12px 24px;
@@ -192,7 +192,7 @@
 .no-items {
     text-align: center;
     padding: 60px 20px;
-    color: #7f8c8d;
+    color: var(--neutral-500);
 }
 
 /* Audio Icon */

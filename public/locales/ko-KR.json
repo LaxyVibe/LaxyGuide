@@ -19,14 +19,13 @@
     },
     "languageSwitch": {
         "title": "언어 설정",
-        "apply": "적용",
-        "poweredBy": "Powered by"
+        "apply": "적용"
     },
     "startButton": {
         "next": "다음"
     },
     "audioPlayer": {
-        "clickToExpand": "클릭하여 자세히 보기",
+        "clickToExpand": "클릭하여 가이드 내용을 확인하세요",
         "loadingSubtitles": "자막 로딩 중...",
         "noSubtitles": "자막이 없습니다"
     },

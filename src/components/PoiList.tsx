@@ -29,7 +29,7 @@ const PoiList: React.FC<PoiListProps> = ({ pois }) => {
                         </div>
 
                         <div className="item-content">
-                            <span className="item-year" style={{ color: '#666', fontSize: '0.9rem' }}>#{poi.number}</span>
+                            <span className="item-year" style={{ color: 'var(--neutral-600)', fontSize: '0.9rem' }}>#{poi.number}</span>
                             <h3 className="item-title">{poi.title}</h3>
                         </div>
                     </ViewTransitionLink>

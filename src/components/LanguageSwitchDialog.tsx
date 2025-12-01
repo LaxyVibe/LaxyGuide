@@ -59,13 +59,9 @@ const LanguageSwitchDialog: React.FC<LanguageSwitchDialogProps> = ({
                             <span>{lang.label}</span>
                         </div>
                     ))}
-                </div>
-                <div className="language-dialog-bottom">
-                    <button className="language-dialog-apply" onClick={onApply}>{t('languageSwitch.apply')}</button>
-                </div>
-                <div className="language-dialog-footer">
-                    <span className="footer-text">{t('languageSwitch.poweredBy')}</span>
-                    <div className="footer-logo" />
+                    <div className="language-dialog-bottom">
+                        <button className="language-dialog-apply" onClick={onApply}>{t('languageSwitch.apply')}</button>
+                    </div>
                 </div>
             </div>
         </div>

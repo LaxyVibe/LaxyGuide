@@ -50,10 +50,10 @@
 }
 
 .dialog-actions button:first-child {
-    background: #ccc;
+    background: var(--neutral-300);
 }
 
 .dialog-actions button:last-child {
-    background: #007bff;
+    background: var(--primary-400);
     color: white;
 }

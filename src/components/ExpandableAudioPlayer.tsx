@@ -4,6 +4,11 @@ import { getLanguageFromQuery } from '../utils/languageUtils';
 import { useTranslation } from '../hooks/useTranslation';
 import { parseSRT, type Subtitle } from '../utils/srtParser';
 import './ExpandableAudioPlayer.css';
+import playIcon from '../assets/icons/play.svg';
+import pauseIcon from '../assets/icons/pause.svg';
+import collapseIcon from '../assets/icons/collapse.svg';
+import rewindIcon from '../assets/icons/rewind.svg';
+import fastForwardIcon from '../assets/icons/fast-forward.svg';
 
 interface ExpandableAudioPlayerProps {
     src?: string;
@@ -259,8 +264,8 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
 
             {/* Mini Player */}
             <div className="mini-player" onClick={() => setIsExpanded(true)}>
-                <div className="mini-player-info">
-                    <p className="mini-player-title">{title}</p>
+                <p className="mini-player-subtitle">{t('audioPlayer.clickToExpand')}</p>
+                <div className="mini-player-bottom">
                     <div
                         className="mini-progress-section"
                         onClick={() => setIsExpanded(true)}
@@ -274,24 +279,15 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                             />
                         </div>
                     </div>
-                    <p className="mini-player-subtitle">{t('audioPlayer.clickToExpand')}</p>
-                </div>
-                <div className="mini-player-controls" onClick={(e) => e.stopPropagation()}>
-                    <button
-                        className="control-button play-pause"
-                        onClick={togglePlayPause}
-                        aria-label={isPlaying ? 'Pause' : 'Play'}
-                    >
-                        {isPlaying ? (
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                        )}
-                    </button>
+                    <div className="mini-player-controls" onClick={(e) => e.stopPropagation()}>
+                        <button
+                            className="control-button play-pause"
+                            onClick={togglePlayPause}
+                            aria-label={isPlaying ? 'Pause' : 'Play'}
+                        >
+                            <img src={isPlaying ? pauseIcon : playIcon} alt={isPlaying ? 'Pause' : 'Play'} style={{ width: 42, height: 42, filter: 'brightness(0) invert(1)' }} />
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -304,9 +300,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                         onClick={() => setIsExpanded(false)}
                         aria-label="Close"
                     >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
+                        <img src={collapseIcon} alt="Collapse" style={{ width: 42, height: 42 }} />
                     </button>
                 </div>
 
@@ -365,10 +359,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                             onClick={handleSkipBackward}
                             aria-label="Rewind 15 seconds"
                         >
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
-                                <text x="12" y="15" fontSize="8" textAnchor="middle" fill="currentColor" fontWeight="bold">15</text>
-                            </svg>
+                            <img src={rewindIcon} alt="Rewind 15 seconds" style={{ width: 40, height: 40 }} />
                         </button>
 
                         <button
@@ -376,15 +367,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                             onClick={togglePlayPause}
                             aria-label={isPlaying ? 'Pause' : 'Play'}
                         >
-                            {isPlaying ? (
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                                </svg>
-                            ) : (
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M8 5v14l11-7z" />
-                                </svg>
-                            )}
+                            <img src={isPlaying ? pauseIcon : playIcon} alt={isPlaying ? 'Pause' : 'Play'} style={{ width: 24, height: 24, filter: 'brightness(0) saturate(100%) invert(72%) sepia(16%) saturate(1024%) hue-rotate(343deg) brightness(95%) contrast(86%)' }} />
                         </button>
 
                         <button
@@ -392,10 +375,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                             onClick={handleSkipForward}
                             aria-label="Forward 15 seconds"
                         >
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z" />
-                                <text x="12" y="15" fontSize="8" textAnchor="middle" fill="currentColor" fontWeight="bold">15</text>
-                            </svg>
+                            <img src={fastForwardIcon} alt="Forward 15 seconds" style={{ width: 40, height: 40 }} />
                         </button>
                     </div>
                 </div>

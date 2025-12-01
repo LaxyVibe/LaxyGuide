@@ -18,87 +18,55 @@
 
 .expandable-audio-player.collapsed .mini-player {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    height: 78px;
+    flex-direction: column;
+    padding: 16px;
+    height: auto;
     cursor: pointer;
-    background: #000000;
+    background: var(--neutral-900);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     pointer-events: auto;
-    position: relative; /* allow absolute positioning of controls */
-}
-
-.expandable-audio-player.collapsed .mini-player-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    /* keep title left and subtitle centered */
-}
-
-.expandable-audio-player.collapsed .mini-player-title {
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
-    margin: 0;
-    align-self: flex-start;
+    gap: 12px;
 }
 
 .expandable-audio-player.collapsed .mini-player-subtitle {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+    font-weight: 500;
 }
 
-.expandable-audio-player.collapsed .mini-player-controls {
+.mini-player-bottom {
     display: flex;
     align-items: center;
-    gap: 10px;
-    position: absolute; /* pin to top-right */
-    right: 12px;
-    top: 12px;
+    gap: 16px;
+    width: 100%;
 }
 
+.mini-player-controls {
+    flex-shrink: 0;
+}
+
+/* Mini player play/pause button - no background circle */
 .mini-player .control-button.play-pause {
-    background: transparent; /* remove the white circle */
-    border-radius: 0;
+    background: none;
+    border: none;
+    padding: 0;
     width: auto;
     height: auto;
-    padding: 4px;
-    color: white; /* make the icon white (svgs use currentColor) */
-    box-shadow: none;
+    border-radius: 0;
 }
 
-.mini-player .control-button.play-pause svg {
-    width: 20px;
-    height: 20px;
-    display: block;
+.mini-player .control-button.play-pause:hover {
+    background: none;
+    opacity: 0.8;
 }
 
-/* Prevent default grey tap/active background on mobile and desktop */
-.mini-player .control-button.play-pause,
-.mini-player .control-button.play-pause:focus,
-.mini-player .control-button.play-pause:active {
-    background-color: transparent !important;
-    background: transparent !important;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-appearance: none;
-    appearance: none;
-    outline: none;
-    box-shadow: none;
-}
-
-/* Keep a small accessible focus ring while avoiding the grey square */
-.mini-player .control-button.play-pause:focus-visible {
-    outline: 2px solid rgba(255,255,255,0.12);
-    outline-offset: 2px;
-}
-
-/* Mini-player read-only progress */
 .mini-progress-section {
-    width: 100%;
-    display: block;
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .mini-progress-bar {
@@ -107,27 +75,18 @@
     background: rgba(255, 255, 255, 0.12);
     border-radius: 2px;
     overflow: hidden;
-    pointer-events: auto; /* clickable to expand (non-seek) */
+    pointer-events: auto;
+    /* clickable to expand (non-seek) */
 }
 
 .mini-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.85) 100%);
+    background: linear-gradient(90deg, var(--neutral-100) 0%, rgba(245, 245, 245, 0.85) 100%);
     width: 0%;
     transition: width 0.15s linear;
 }
 
-.expandable-audio-player.collapsed .mini-player-subtitle {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
-    margin: 0;
-    align-self: center; /* horizontally center the subtitle */
-}
 
-.expandable-audio-player.collapsed .mini-player-info > .mini-progress-section {
-    margin-top: 4px;
-    margin-bottom: 2px;
-}
 
 /* Expanded Player */
 .expandable-audio-player.expanded {
@@ -145,7 +104,7 @@
     flex-direction: column;
     height: 60vh;
     /* Half-height (approx) */
-    background: #000000;
+    background: var(--neutral-900);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
@@ -158,7 +117,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* allow absolute positioning of the close button */
+    position: relative;
+    /* allow absolute positioning of the close button */
 }
 
 .expandable-audio-player.expanded .player-title {
@@ -167,7 +127,8 @@
     font-weight: 600;
     margin: 0;
     text-align: center;
-    width: 100%; /* ensure title sits centered in the header */
+    width: 100%;
+    /* ensure title sits centered in the header */
 }
 
 .expandable-audio-player.expanded .close-button {
@@ -184,8 +145,10 @@
     height: 32px;
     border-radius: 50%;
     transition: background 0.2s;
-    position: absolute; /* position it over the header */
-    left: 16px; /* place on the left side */
+    position: absolute;
+    /* position it over the header */
+    left: 16px;
+    /* place on the left side */
     top: 50%;
     transform: translateY(-50%);
 }
@@ -263,8 +226,9 @@
 
 /* Player Controls */
 .player-controls {
-    background: #000000;
+    background: var(--neutral-900);
     padding: 20px;
+    padding-bottom: 50px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -336,15 +300,17 @@
     cursor: not-allowed;
 }
 
-.control-button.play-pause {
-    width: 64px;
-    height: 64px;
+/* Expanded view play/pause button - only one white circle */
+.player-controls .control-button.play-pause {
+    width: 50px;
+    height: 50px;
     background: white;
     border-radius: 50%;
-    color: #000000;
+    color: var(--neutral-900);
+    padding: 0;
 }
 
-.control-button.play-pause:hover {
+.player-controls .control-button.play-pause:hover {
     background: rgba(255, 255, 255, 0.9);
     opacity: 1;
 }

@@ -19,14 +19,13 @@
     },
     "languageSwitch": {
         "title": "言語設定",
-        "apply": "適用",
-        "poweredBy": "Powered by"
+        "apply": "適用"
     },
     "startButton": {
         "next": "次へ"
     },
     "audioPlayer": {
-        "clickToExpand": "クリックして詳細を見る",
+        "clickToExpand": "クリックしてガイド内容を見る",
         "loadingSubtitles": "字幕を読み込み中...",
         "noSubtitles": "字幕はありません"
     },

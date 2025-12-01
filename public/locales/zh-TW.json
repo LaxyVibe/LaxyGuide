@@ -19,14 +19,13 @@
     },
     "languageSwitch": {
         "title": "語言設定",
-        "apply": "套用",
-        "poweredBy": "Powered by"
+        "apply": "套用"
     },
     "startButton": {
         "next": "下一步"
     },
     "audioPlayer": {
-        "clickToExpand": "點擊查看詳情",
+        "clickToExpand": "點擊查看導覽内容",
         "loadingSubtitles": "正在載入字幕...",
         "noSubtitles": "無字幕"
     },

@@ -19,14 +19,13 @@
     },
     "languageSwitch": {
         "title": "Language Setting",
-        "apply": "Apply",
-        "poweredBy": "Powered by"
+        "apply": "Apply"
     },
     "startButton": {
         "next": "Next"
     },
     "audioPlayer": {
-        "clickToExpand": "Click to see details",
+        "clickToExpand": "Click to view the guide content",
         "loadingSubtitles": "Loading subtitles...",
         "noSubtitles": "No subtitles available"
     },

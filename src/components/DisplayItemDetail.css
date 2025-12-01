@@ -28,7 +28,7 @@
 }
 
 .image-carousel {
-    background: #f8f9fa;
+    background: var(--neutral-100);
     border-radius: 12px;
     overflow: hidden;
 }
@@ -95,7 +95,7 @@
 }
 
 .thumbnail.active {
-    border-color: #3498db;
+    border-color: var(--primary-400);
 }
 
 .thumbnail img {
@@ -110,8 +110,8 @@
     align-items: center;
     justify-content: center;
     font-size: 4rem;
-    color: #bdc3c7;
-    background: #f8f9fa;
+    color: var(--neutral-300);
+    background: var(--neutral-100);
     border-radius: 12px;
 }
 
@@ -125,7 +125,7 @@
 
 .item-title {
     font-size: 2.5rem;
-    color: #2c3e50;
+    color: var(--neutral-800);
     margin-bottom: 10px;
     font-weight: 600;
     line-height: 1.2;
@@ -133,12 +133,12 @@
 
 .item-year {
     font-size: 1.5rem;
-    color: #e74c3c;
+    color: var(--status-red-200);
     font-weight: 500;
 }
 
 .item-meta {
-    background: #f8f9fa;
+    background: var(--neutral-100);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 25px;
@@ -154,7 +154,7 @@
 }
 
 .meta-item strong {
-    color: #2c3e50;
+    color: var(--neutral-800);
     margin-right: 8px;
 }
 
@@ -165,7 +165,7 @@
 .item-tags-section strong {
     display: block;
     margin-bottom: 10px;
-    color: #2c3e50;
+    color: var(--neutral-800);
     font-size: 1.1rem;
 }
 
@@ -176,7 +176,7 @@
 }
 
 .tag {
-    background: #3498db;
+    background: var(--primary-400);
     color: white;
     padding: 6px 12px;
     border-radius: 15px;
@@ -191,7 +191,7 @@
 .audio-section strong {
     display: block;
     margin-bottom: 10px;
-    color: #2c3e50;
+    color: var(--neutral-800);
     font-size: 1.1rem;
 }
 
@@ -201,7 +201,7 @@
 }
 
 .item-description h3 {
-    color: #2c3e50;
+    color: var(--neutral-800);
     font-size: 1.5rem;
     margin-bottom: 15px;
     font-weight: 600;
@@ -210,7 +210,7 @@
 .description-content {
     line-height: 1.7;
     font-size: 1.1rem;
-    color: #34495e;
+    color: var(--neutral-700);
 }
 
 /* Markdown content styling */
@@ -229,7 +229,7 @@
 
 
 .error-container button {
-    background: #e74c3c;
+    background: var(--status-red-200);
     color: white;
     border: none;
     padding: 12px 24px;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import backIcon from '../assets/icons/back.svg';
 
 interface GlobalHeaderProps {
     title?: string;
@@ -23,7 +24,7 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onB
                         navigate(-1);
                     }
                 }}>
-                    &larr;
+                    <img src={backIcon} alt="Back" style={{ width: 28, height: 28 }} />
                 </button>
             )}
             <h1>{title}</h1>

@@ -8,6 +8,8 @@ import GlobalHeader from '../components/GlobalHeader';
 import { useNavigate } from 'react-router-dom';
 import ExpandableAudioPlayer from '../components/ExpandableAudioPlayer';
 import '../components/DisplayItemDetail.css';
+import surveyIcon from '../assets/icons/survey.svg';
+import languageIcon from '../assets/icons/language.svg';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import SurveyDialog from '../components/SurveyDialog';
 import LanguageSwitchDialog, { type LanguageOption } from '../components/LanguageSwitchDialog';
@@ -101,7 +103,7 @@ const POIDetail: React.FC = () => {
     };
 
     return (
-        <div className="page display-item-detail" style={{ padding: 0, background: '#f5f5f5' }}>
+        <div className="page display-item-detail" style={{ padding: 0, background: 'var(--neutral-100)' }}>
             <Helmet>
                 <title>{poi.title} - {t('meta.title')}</title>
                 <meta name="description" content={poi.content ? poi.content.substring(0, 150) + '...' : poi.title} />
@@ -141,7 +143,7 @@ const POIDetail: React.FC = () => {
                     top: 0,
                     left: 0,
                     right: 0,
-                    background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
+                    background: isScrolled ? 'rgba(245, 245, 245, 0.95)' : 'transparent',
                     backdropFilter: isScrolled ? 'blur(10px)' : 'none',
                     boxShadow: isScrolled ? '0 2px 10px rgba(0,0,0,0.1)' : 'none',
                     zIndex: 20,
@@ -165,7 +167,7 @@ const POIDetail: React.FC = () => {
                         width: '40px',
                         height: '40px',
                         borderRadius: '50%',
-                        background: 'rgba(0, 0, 0, 0.5)',
+                        background: 'rgba(33, 36, 39, 0.5)',
                         border: 'none',
                         display: 'flex',
                         alignItems: 'center',
@@ -180,7 +182,7 @@ const POIDetail: React.FC = () => {
                     onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                    <img src={surveyIcon} alt="Survey" style={{ width: 28, height: 28 }} />
                 </button>
 
                 {/* Language Button */}
@@ -190,7 +192,7 @@ const POIDetail: React.FC = () => {
                         width: '40px',
                         height: '40px',
                         borderRadius: '50%',
-                        background: 'rgba(0, 0, 0, 0.5)',
+                        background: 'rgba(33, 36, 39, 0.5)',
                         border: 'none',
                         display: 'flex',
                         alignItems: 'center',
@@ -205,11 +207,7 @@ const POIDetail: React.FC = () => {
                     onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                    </svg>
+                    <img src={languageIcon} alt="Language" style={{ width: 28, height: 28 }} />
                 </button>
             </div>
 
@@ -231,7 +229,7 @@ const POIDetail: React.FC = () => {
                 <div style={{ height: 'calc(var(--vh, 1vh) * 40)' }} />
 
                 <div style={{
-                    background: '#f5f5f5',
+                    background: 'var(--neutral-100)',
                     borderRadius: '24px 24px 0 0',
                     padding: '24px 20px 120px 20px',
                     minHeight: 'calc(var(--vh, 1vh) * 60)',
@@ -241,7 +239,7 @@ const POIDetail: React.FC = () => {
                         <div className="info-section" style={{ paddingTop: 0 }}>
                             <div className="item-header" style={{ marginBottom: '20px' }}>
                                 <span className="item-number" style={{
-                                    background: '#d4a373',
+                                    background: 'var(--misc-opam)',
                                     color: 'white',
                                     padding: '4px 12px',
                                     borderRadius: '4px',
@@ -274,15 +272,15 @@ const POIDetail: React.FC = () => {
                                             marginBottom: '8px',
                                             fontSize: '0.95rem'
                                         }}>
-                                            <strong style={{ color: '#d4a373' }}>{item.label}</strong>
-                                            <span style={{ color: '#333' }}>{item.value}</span>
+                                            <strong style={{ color: 'var(--misc-opam)' }}>{item.label}</strong>
+                                            <span style={{ color: 'var(--neutral-800)' }}>{item.value}</span>
                                         </div>
                                     ))}
                                 </div>
                             )}
 
                             <div className="item-description">
-                                <div className="description-content markdown-content" style={{ fontSize: '1rem', lineHeight: '1.8', color: '#444' }}>
+                                <div className="description-content markdown-content" style={{ fontSize: '1rem', lineHeight: '1.8', color: 'var(--neutral-700)' }}>
                                     <ReactMarkdown>{poi.content}</ReactMarkdown>
                                 </div>
                             </div>

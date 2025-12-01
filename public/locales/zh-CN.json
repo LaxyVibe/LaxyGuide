@@ -19,14 +19,13 @@
     },
     "languageSwitch": {
         "title": "语言设置",
-        "apply": "应用",
-        "poweredBy": "Powered by"
+        "apply": "应用"
     },
     "startButton": {
         "next": "下一步"
     },
     "audioPlayer": {
-        "clickToExpand": "点击查看详情",
+        "clickToExpand": "点击查看导览内容",
         "loadingSubtitles": "正在加载字幕...",
         "noSubtitles": "无字幕"
     },

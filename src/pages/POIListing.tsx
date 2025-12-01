@@ -29,7 +29,7 @@ const POIListing: React.FC = () => {
 
     return (
         <div className="page poi-listing">
-            <div style={{ flexShrink: 0, zIndex: 10, background: '#f5f7fa' }}>
+            <div style={{ flexShrink: 0, zIndex: 10, background: 'var(--neutral-100)' }}>
                 <GlobalHeader title={t('poiListing.title')} showBack={true} />
                 <div className="header-actions" style={{ padding: '0 20px 10px' }}>
                     <LanguageButton />
