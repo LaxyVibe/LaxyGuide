@@ -7,7 +7,7 @@ import './App.css';
 
 const AdminRedirect = () => {
   useEffect(() => {
-    window.location.href = '/laxy-admin/index.html';
+    window.location.href = '/index.html';
   }, []);
   return null;
 };
@@ -17,12 +17,12 @@ function App() {
     <Router>
       <Routes>
         {/* Handle /admin route explicitly to bypass SPA routing and load static admin page */}
-        <Route path="/laxy-admin" element={<AdminRedirect />} />
         <Route path="/:guideId" element={<Landing />} />
         <Route path="/:guideId/list" element={<POIListing />} />
         <Route path="/:guideId/:poiId" element={<POIDetail />} />
         {/* Redirect root to a default guide or 404 */}
-        <Route path="/" element={<Navigate to="/JPN-OITA-MUS-003" replace />} />
+        <Route path="/" element={<AdminRedirect />} />
+        {/* <Route path="/" element={<Navigate to="/JPN-OITA-MUS-003" replace />} /> */}
       </Routes>
     </Router>
   );
