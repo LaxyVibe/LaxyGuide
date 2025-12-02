@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useEffect } from 'react';
 import Landing from './pages/Landing';
 import POIListing from './pages/POIListing';
+import POISearch from './pages/POISearch';
 import POIDetail from './pages/POIDetail';
 import './App.css';
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/laxy-admin" element={<AdminRedirect />} />
         <Route path="/:guideId" element={<Landing />} />
         <Route path="/:guideId/list" element={<POIListing />} />
+        <Route path="/:guideId/search" element={<POISearch />} />
         <Route path="/:guideId/:poiId" element={<POIDetail />} />
         {/* Redirect root to a default guide or 404 */}
         <Route path="/" element={<Navigate to="/JPN-OITA-MUS-003" replace />} />

@@ -6,6 +6,13 @@
     "poiListing": {
         "title": "Artworks"
     },
+    "poiSearch": {
+        "title": "Guide Number",
+        "prompt": "Is this what you are looking for?",
+        "visit": "Visit",
+        "languageButton": "Change language",
+        "delete": "Delete"
+    },
     "poiDetail": {
         "notFound": "POI not found"
     },

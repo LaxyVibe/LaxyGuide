@@ -3,7 +3,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import type { POI } from '../types';
 import { getLanguageFromQuery } from '../utils/languageUtils';
 import ViewTransitionLink from './ViewTransitionLink';
-import './DisplayItemList.css';
+import audioIcon from '../assets/icons/audio.svg';
+import './PoiList.css';
 
 interface PoiListProps {
     pois: POI[];
@@ -15,26 +16,21 @@ const PoiList: React.FC<PoiListProps> = ({ pois }) => {
     const lang = getLanguageFromQuery(searchParams);
 
     return (
-        <div className="display-item-list">
-            <div className="items-grid">
-                {pois.map((poi) => (
-                    <ViewTransitionLink key={poi.number} to={`/${guideId}/${poi.number}?t=${lang}`} className="item-card">
-                        <div className="item-image">
-                            <img src={poi.hero} alt={poi.title} loading="lazy" />
-                            {poi.withAudio && (
-                                <div className="audio-icon-overlay">
-                                    🔊
-                                </div>
-                            )}
+        <div className="poi-list">
+            {pois.map((poi) => (
+                <ViewTransitionLink key={poi.number} to={`/${guideId}/${poi.number}?t=${lang}`} className="poi-list-item">
+                    <div className="poi-number">{poi.number}</div>
+                    <div className="poi-thumbnail">
+                        <img src={poi.hero} alt={poi.title} loading="lazy" />
+                    </div>
+                    <div className="poi-title">{poi.title}</div>
+                    {poi.withAudio && (
+                        <div className="poi-audio-icon">
+                            <img src={audioIcon} alt="Audio available" />
                         </div>
-
-                        <div className="item-content">
-                            <span className="item-year" style={{ color: 'var(--neutral-600)', fontSize: '0.9rem' }}>#{poi.number}</span>
-                            <h3 className="item-title">{poi.title}</h3>
-                        </div>
-                    </ViewTransitionLink>
-                ))}
-            </div>
+                    )}
+                </ViewTransitionLink>
+            ))}
         </div>
     );
 };

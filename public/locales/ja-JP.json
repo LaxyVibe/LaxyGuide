@@ -6,6 +6,13 @@
     "poiListing": {
         "title": "作品"
     },
+    "poiSearch": {
+        "title": "ガイド番号",
+        "prompt": "これが探しているものですか？",
+        "visit": "訪問",
+        "languageButton": "言語を変更",
+        "delete": "削除"
+    },
     "poiDetail": {
         "notFound": "作品が見つかりません"
     },

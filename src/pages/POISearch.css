@@ -1,0 +1,222 @@
+.poi-search {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.poi-search-header {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.poi-search .scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem;
+    background-color: #f5f5f5;
+}
+
+/* Guide Number Display */
+.guide-number-display {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.guide-number-display .digit {
+    width: 4rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    font-weight: bold;
+    font-style: italic;
+    color: #d4a574;
+    background-color: transparent;
+}
+
+.guide-number-display .digit.empty {
+    color: #d4a574;
+    opacity: 0.3;
+}
+
+.guide-number-display .digit.empty::after {
+    content: '_';
+}
+
+/* Search Prompt */
+.search-prompt {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Matching POI Display */
+.matching-poi {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.matching-poi img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+}
+
+.matching-poi .poi-info {
+    flex: 1;
+}
+
+.matching-poi .poi-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.matching-poi .poi-subtitle {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Visit Button */
+.visit-button {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+    background-color: #e0e0e0;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: not-allowed;
+    margin-bottom: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.visit-button.active {
+    background-color: #d4a574;
+    cursor: pointer;
+}
+
+.visit-button.active:hover {
+    background-color: #c49564;
+}
+
+.visit-button:disabled {
+    cursor: not-allowed;
+}
+
+/* Numeric Keypad */
+.numeric-keypad {
+    width: 100%;
+    max-width: 400px;
+    background-color: #d0d0d0;
+    border-radius: 1rem 1rem 0 0;
+    padding: 1rem;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.keypad-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.keypad-row:last-child {
+    margin-bottom: 0;
+}
+
+.key-button {
+    background-color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.key-button:active {
+    background-color: #f0f0f0;
+}
+
+.key-button.empty {
+    background-color: transparent;
+    cursor: default;
+}
+
+.key-button.delete {
+    background-color: white;
+}
+
+.key-button .number {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    line-height: 1;
+}
+
+.key-button .letters {
+    font-size: 0.7rem;
+    color: #666;
+    margin-top: 0.25rem;
+    line-height: 1;
+}
+
+.key-button.delete svg {
+    width: 24px;
+    height: 24px;
+    color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 375px) {
+    .guide-number-display .digit {
+        width: 3.5rem;
+        height: 4.5rem;
+        font-size: 3rem;
+    }
+
+    .key-button {
+        min-height: 50px;
+        padding: 0.75rem;
+    }
+
+    .key-button .number {
+        font-size: 1.25rem;
+    }
+
+    .key-button .letters {
+        font-size: 0.65rem;
+    }
+}
