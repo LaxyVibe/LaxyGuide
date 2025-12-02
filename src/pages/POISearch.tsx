@@ -6,7 +6,7 @@ import GlobalHeader from '../components/GlobalHeader';
 import { getLanguageFromQuery, ensureLanguageParam, setLanguageInQuery } from '../utils/languageUtils';
 import Loading from '../components/Loading';
 import LanguageSwitchDialog from '../components/LanguageSwitchDialog';
-import { LANGUAGES } from '../types';
+import { LANGUAGES, type Language } from '../types';
 import translateIcon from '../assets/icons/language-black.svg';
 import './POISearch.css';
 
@@ -27,7 +27,7 @@ const POISearch: React.FC = () => {
     const { data, loading } = useGuideData(guideId, lang);
     const { t, loading: transLoading } = useTranslation(lang);
     const [langDialogOpen, setLangDialogOpen] = useState(false);
-    const [selectedLang, setSelectedLang] = useState<string>(lang);
+    const [selectedLang, setSelectedLang] = useState<Language>(lang);
 
     const handleNumberClick = (num: string) => {
         if (guideNumber.length < 3) {
@@ -70,11 +70,11 @@ const POISearch: React.FC = () => {
                     >
                         <img src={translateIcon} alt={t('poiSearch.languageButton')} />
                     </button>
-                    <LanguageSwitchDialog
+                        <LanguageSwitchDialog
                         open={langDialogOpen}
                         languages={Object.entries(LANGUAGES).map(([code, label]) => ({ code, label }))}
                         selectedLanguage={selectedLang}
-                        onSelect={(code: string) => setSelectedLang(code)}
+                            onSelect={(code: string) => setSelectedLang(code as Language)}
                         onApply={() => {
                             setSearchParams(setLanguageInQuery(searchParams, selectedLang), { replace: true });
                             setLangDialogOpen(false);
