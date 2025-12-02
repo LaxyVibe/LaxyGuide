@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decap CMS | Laxy Lite Guide</title>
+  <script>
+    // Disable auto-init to prevent config loading issues
+    window.CMS_MANUAL_INIT = true;
+  </script>
+  <!-- Include the script that builds the page and powers Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Initialize CMS immediately after it loads
+    window.addEventListener('load', function () {
+      if (window.CMS) {
+        window.CMS.init({
+          load_config_file: false,
+          config: {
+            logo: {
+              src: "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764660125/Group_9133_ufaz64.svg",
+              show_in_header: true
+            },
+            backend: {
+                name: 'git-gateway',
+                repo: 'LaxyVibe/LaxyLiteGuidePWA',
+                branch: 'v2'
+            },
+            media_folder: 'public/media',
+            public_folder: '/media',
+            i18n: {
+                structure: 'single_file',
+                locales: ['en-US', 'ja-JP', 'ko-KR', 'zh-TW', 'zh-CN'],
+                default_locale: 'en-US'
+            },
+            collections: [
+                {
+                    name: 'tour',
+                    label: 'Tour',
+                    folder: 'src/content/tours',
+                    publish_mode: 'editorial_workflow',
+                    create: true,
+                    slug: '{{code}}',
+                    i18n: true,
+                    fields: [
+                        { label: 'Code', name: 'code', widget: 'string', i18n: 'duplicate' },
+                        { label: 'Title', name: 'title', widget: 'string', i18n: true }
+                    ]
+                },
+                {
+                    name: 'poi',
+                    label: 'POI',
+                    folder: 'src/content/pois',
+                    publish_mode: 'editorial_workflow',
+                    create: true,
+                    slug: '{{tour}}-{{number}}',
+                    i18n: true,
+                    fields: [
+                        { 
+                            label: 'Tour', 
+                            name: 'tour', 
+                            widget: 'relation', 
+                            collection: 'tour', 
+                            search_fields: ['title', 'code'], 
+                            value_field: 'code', 
+                            display_fields: ['title', 'code'],
+                            i18n: 'duplicate'
+                        },
+                        { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
+                        { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                        { label: 'Content', name: 'content', widget: 'markdown', i18n: true },
+                        { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
+                        { label: 'Audio URL', name: 'audio', widget: 'image', required: false, i18n: true },
+                        { label: 'Subtitle URL', name: 'subtitle', widget: 'image', required: false, i18n: true },
+                        {
+                            label: 'Metadata',
+                            name: 'metadata',
+                            widget: 'list',
+                            required: false,
+                            i18n: true,
+                            fields: [
+                                { label: 'Label', name: 'label', widget: 'string' },
+                                { label: 'Value', name: 'value', widget: 'string' }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+      });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Decap CMS will create its own root element -->
+</body>
+
+</html>
