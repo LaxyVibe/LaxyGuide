@@ -45,10 +45,9 @@
                 {
                     name: 'guide',
                     label: 'Guide',
-                    create: false,
-                    folder: 'src/content/guides',
                     create: true,
                     slug: '{{code}}',
+                    summary: '{{code}} - {{title}}',
                     i18n: true,
                     fields: [
                         { label: 'Code', name: 'code', widget: 'string', i18n: 'duplicate' },
@@ -62,6 +61,7 @@
                     folder: 'src/content/pois',
                     create: true,
                     slug: '{{number}}',
+                    summary: '{{number}} - {{title}}',
                     i18n: true,
                     fields: [
                         { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
