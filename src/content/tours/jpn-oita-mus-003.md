@@ -1,9 +1,14 @@
 ---
 en-US:
-  title: JPN-OITA-MUS-003
+  title: OPAM 10th Anniversary
   pois: []
-ja-JP: {}
-ko-KR: {}
-zh-TW: {}
-zh-CN: {}
+  code: JPN-OITA-MUS-003
+ja-JP:
+  code: JPN-OITA-MUS-003
+ko-KR:
+  code: JPN-OITA-MUS-003
+zh-TW:
+  code: JPN-OITA-MUS-003
+zh-CN:
+  code: JPN-OITA-MUS-003
 ---
