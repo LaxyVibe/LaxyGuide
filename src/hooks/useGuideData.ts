@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { GuideData } from '../types';
+import { loadGuideData } from '../utils/contentLoader';
 
 export const useGuideData = (guideId: string | undefined, lang: string | undefined) => {
     const [data, setData] = useState<GuideData | null>(null);
@@ -7,7 +8,7 @@ export const useGuideData = (guideId: string | undefined, lang: string | undefin
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!guideId || !lang) {
+        if (!lang) {
             setLoading(false);
             return;
         }
@@ -15,15 +16,12 @@ export const useGuideData = (guideId: string | undefined, lang: string | undefin
         const fetchData = async () => {
             try {
                 setLoading(true);
-                // Construct path to JSON file
-                // Note: In production, this should be relative to base or absolute path
-                const response = await fetch(`/${guideId}/${lang}/data.json`);
-                if (!response.ok) {
-                    throw new Error('Failed to load guide data');
-                }
-                const jsonData = await response.json();
-                setData(jsonData);
+                // We ignore guideId for loading as per requirements, 
+                // but the hook signature is kept for compatibility.
+                const guideData = await loadGuideData(lang);
+                setData(guideData);
             } catch (err) {
+                console.error(err);
                 setError(err instanceof Error ? err.message : 'Unknown error');
             } finally {
                 setLoading(false);
@@ -35,3 +33,4 @@ export const useGuideData = (guideId: string | undefined, lang: string | undefin
 
     return { data, loading, error };
 };
+

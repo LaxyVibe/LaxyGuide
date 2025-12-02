@@ -54,7 +54,6 @@
                         { label: 'Code', name: 'code', widget: 'string', i18n: 'duplicate' },
                         { label: 'Title', name: 'title', widget: 'string', i18n: true },
                         { label: 'Underlay Image', name: 'guideUnderlayImage', widget: 'image', i18n: true },
-                        { label: 'POIs', name: 'pois', widget: 'relation', collection: 'poi', search_fields: ['title', 'number'], value_field: 'number', display_fields: ['number', 'title'], multiple: true, i18n: 'duplicate' }
                     ]
                 },
                 {
@@ -66,7 +65,6 @@
                     i18n: true,
                     fields: [
                         { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
-                        { label: 'Guide', name: 'guide', widget: 'relation', collection: 'guide', search_fields: ['title', 'code'], value_field: 'code', display_fields: ['title'], required: false, i18n: 'duplicate' },
                         { label: 'Title', name: 'title', widget: 'string', i18n: true },
                         { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
                         { label: 'Audio URL', name: 'audio', widget: 'image', required: false, i18n: true },
