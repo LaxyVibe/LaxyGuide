@@ -7,6 +7,18 @@
     href="https://res.cloudinary.com/dui2mxeuh/image/upload/v1764482353/logo_invert_1_gpalmw.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OPAM 10th Anniversary Exhibition: Sparkling Japanese Art: 1300 Years of Treasures - OPAM- Laxy</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/laxy-admin/";
+          });
+        }
+      });
+    }
+  </script>
 </head>
 
 <body>
