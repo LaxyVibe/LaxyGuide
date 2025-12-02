@@ -29,6 +29,13 @@
             },
             media_folder: 'public/media',
             public_folder: '/media',
+            media_library: {
+                name: 'cloudinary',
+                config: {
+                    cloud_name: 'dui2mxeuh',
+                    api_key: '569778884527558',
+                },
+            },
             i18n: {
                 structure: 'single_file',
                 locales: ['en-US', 'ja-JP', 'ko-KR', 'zh-TW', 'zh-CN'],
@@ -57,19 +64,8 @@
                     slug: '{{number}}',
                     i18n: true,
                     fields: [
-                        { 
-                            label: 'Tour', 
-                            name: 'tour', 
-                            widget: 'relation', 
-                            collection: 'tour', 
-                            search_fields: ['title', 'code'], 
-                            value_field: 'code', 
-                            display_fields: ['title', 'code'],
-                            i18n: 'duplicate'
-                        },
                         { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
                         { label: 'Title', name: 'title', widget: 'string', i18n: true },
-                        { label: 'Content', name: 'content', widget: 'markdown', i18n: true },
                         { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
                         { label: 'Audio URL', name: 'audio', widget: 'image', required: false, i18n: true },
                         { label: 'Subtitle URL', name: 'subtitle', widget: 'image', required: false, i18n: true },
@@ -83,7 +79,8 @@
                                 { label: 'Label', name: 'label', widget: 'string' },
                                 { label: 'Value', name: 'value', widget: 'string' }
                             ]
-                        }
+                        },
+                        { label: 'Content', name: 'content', widget: 'markdown', i18n: true }
                     ]
                 }
             ]
