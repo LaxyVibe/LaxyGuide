@@ -36,25 +36,25 @@
             },
             collections: [
                 {
-                    name: 'tour',
-                    label: 'Tour',
-                    folder: 'src/content/tours',
-                    publish_mode: 'editorial_workflow',
+                    name: 'guide',
+                    label: 'Guide',
+                    create: false,
+                    folder: 'src/content/guides',
                     create: true,
                     slug: '{{code}}',
                     i18n: true,
                     fields: [
                         { label: 'Code', name: 'code', widget: 'string', i18n: 'duplicate' },
-                        { label: 'Title', name: 'title', widget: 'string', i18n: true }
+                        { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                        { label: 'Underlay Image', name: 'guideUnderlayImage', widget: 'image', i18n: true }
                     ]
                 },
                 {
                     name: 'poi',
                     label: 'POI',
                     folder: 'src/content/pois',
-                    publish_mode: 'editorial_workflow',
                     create: true,
-                    slug: '{{tour}}-{{number}}',
+                    slug: '{{number}}',
                     i18n: true,
                     fields: [
                         { 
