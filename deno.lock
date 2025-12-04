@@ -22,6 +22,7 @@
         "npm:eslint@^9.39.1",
         "npm:globals@^16.5.0",
         "npm:googleapis@166",
+        "npm:lucide-react@0.555",
         "npm:react-dom@^19.2.0",
         "npm:react-helmet-async@^2.0.5",
         "npm:react-markdown@^10.1.0",

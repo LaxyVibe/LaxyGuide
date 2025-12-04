@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, Check, Send } from 'lucide-react';
 import './SurveyDialog.css';
+import { useTranslation } from '../hooks/useTranslation';
+import type { Language } from '../types';
 
 interface SurveyDialogProps {
     isOpen: boolean;
     onClose: () => void;
+    lang: Language;
 }
 
-const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
+const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose, lang }) => {
+    const { t } = useTranslation(lang);
     // --- State ---
     const [formData, setFormData] = useState({
         q1_satisfaction: null as number | null,
@@ -35,9 +39,9 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
     // --- Effect to handle conditional Q4 visibility ---
     useEffect(() => {
         // Q3 Option 2 is "Exhibition posters and leaflets"
-        const hasPosterSelected = formData.q3_source.includes('Exhibition posters and leaflets');
+        const hasPosterSelected = formData.q3_source.includes(t('survey.q3.posters'));
         setShowQ4(hasPosterSelected);
-    }, [formData.q3_source]);
+    }, [formData.q3_source, t]);
 
     // --- Handlers ---
     const handleSingleSelect = (key: string, value: any) => {
@@ -111,15 +115,15 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
                 <div className="success-icon-circle">
                     <Check size={40} color="#D4AF37" />
                 </div>
-                <h2 className="success-title">Thank you!</h2>
+                <h2 className="success-title">{t('survey.success.title')}</h2>
                 <p className="success-message">
-                    Please approach the staff to receive your small gift.
+                    {t('survey.success.message')}
                 </p>
                 <button
                     onClick={onClose}
                     className="close-btn"
                 >
-                    Close
+                    {t('survey.success.close')}
                 </button>
             </div>
         );
@@ -134,7 +138,7 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
                 <button
                     className="icon-btn"
                     onClick={() => {
-                        if (window.confirm("Are you sure you want to leave without saving?")) {
+                        if (window.confirm(t('survey.confirmLeave'))) {
                             onClose();
                         }
                     }}
@@ -149,29 +153,29 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
                     {/* Title Section */}
                     <div className="survey-title-section">
                         <h1 className="survey-title">
-                            Exhibition Questionnaire
+                            {t('survey.title')}
                         </h1>
-                        <p className="survey-subtitle">We appreciate your cooperation.</p>
+                        <p className="survey-subtitle">{t('survey.subtitle')}</p>
                     </div>
 
                     {/* Intro Text */}
                     <div className="survey-intro">
                         <p>
-                            Thank you for visiting our museum today. We appreciate your cooperation in answering the following questionnaire.
+                            {t('survey.intro')}
                         </p>
                         <div className="gift-badge">
                             <p className="gift-text">
-                                After answering, please approach staff for a small gift!
+                                {t('survey.giftBadge')}
                             </p>
                         </div>
                     </div>
 
                     {/* Q1: Satisfaction */}
-                    <Section badge="Q1" title="Satisfaction with the exhibition">
+                    <Section badge="Q1" title={t('survey.q1.title')}>
                         <div className="rating-container">
                             <div className="rating-labels">
-                                <span>Very Dissatisfied</span>
-                                <span>Very Satisfied</span>
+                                <span>{t('survey.q1.veryDissatisfied')}</span>
+                                <span>{t('survey.q1.verySatisfied')}</span>
                             </div>
                             <div className="rating-buttons">
                                 {[1, 2, 3, 4, 5].map((num) => (
@@ -190,54 +194,54 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
                     </Section>
 
                     {/* Q2: Impressed By */}
-                    <Section badge="Q2" title="Please tell us about what impressed you about this exbibition.">
+                    <Section badge="Q2" title={t('survey.q2.title')}>
                         <div className="options-grid">
                             {[
-                                "Exhibition Theme",
-                                "Exhibits",
-                                "Special Events",
-                                "Multilingual Support",
+                                { key: 'exhibitionTheme', label: t('survey.q2.exhibitionTheme') },
+                                { key: 'exhibits', label: t('survey.q2.exhibits') },
+                                { key: 'specialEvents', label: t('survey.q2.specialEvents') },
+                                { key: 'multilingualSupport', label: t('survey.q2.multilingualSupport') },
                             ].map(opt => (
                                 <Checkbox
-                                    key={opt}
-                                    label={opt}
-                                    checked={formData.q2_impressed.includes(opt)}
-                                    onChange={() => handleMultiSelect('q2_impressed', opt)}
+                                    key={opt.key}
+                                    label={opt.label}
+                                    checked={formData.q2_impressed.includes(opt.label)}
+                                    onChange={() => handleMultiSelect('q2_impressed', opt.label)}
                                 />
                             ))}
                         </div>
                         <InputOther
                             value={formData.q2_other}
                             onChange={(e) => handleTextChange('q2_other', e.target.value)}
-                            placeholder="Other..."
+                            placeholder={t('survey.q2.other')}
                         />
                     </Section>
 
                     {/* Q3: Source */}
-                    <Section badge="Q3" title="How did you come to know about this exhibition?">
+                    <Section badge="Q3" title={t('survey.q3.title')}>
                         <div className="options-grid">
                             {[
-                                "Newspapers and Magazines",
-                                "Exhibition posters and leaflets",
-                                "SNS",
-                                "Acquaintance",
-                                "Dropped by chance",
-                                "Websites"
+                                { key: 'newspapers', label: t('survey.q3.newspapers') },
+                                { key: 'posters', label: t('survey.q3.posters') },
+                                { key: 'sns', label: t('survey.q3.sns') },
+                                { key: 'acquaintance', label: t('survey.q3.acquaintance') },
+                                { key: 'droppedBy', label: t('survey.q3.droppedBy') },
+                                { key: 'websites', label: t('survey.q3.websites') }
                             ].map(opt => (
                                 <Checkbox
-                                    key={opt}
-                                    label={opt}
-                                    checked={formData.q3_source.includes(opt)}
-                                    onChange={() => handleMultiSelect('q3_source', opt)}
+                                    key={opt.key}
+                                    label={opt.label}
+                                    checked={formData.q3_source.includes(opt.label)}
+                                    onChange={() => handleMultiSelect('q3_source', opt.label)}
                                 />
                             ))}
                         </div>
                         {/* Conditional input field for Website detail, triggered by "Websites" selection */}
-                        {formData.q3_source.includes("Websites") && (
+                        {formData.q3_source.includes(t('survey.q3.websites')) && (
                             <div className="input-other-container">
                                 <input
                                     type="text"
-                                    placeholder="Website name..."
+                                    placeholder={t('survey.q3.websiteName')}
                                     className="input-underline"
                                     value={formData.q3_website_name}
                                     onChange={(e) => handleTextChange('q3_website_name', e.target.value)}
@@ -247,142 +251,163 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
                         <InputOther
                             value={formData.q3_other}
                             onChange={(e) => handleTextChange('q3_other', e.target.value)}
-                            placeholder="Other..."
+                            placeholder={t('survey.q3.other')}
                         />
                     </Section>
 
                     {/* Q4: Leaflet Location (Conditional) */}
                     {showQ4 && (
                         <div className="animate-fade-in-up">
-                            <Section badge="Q4" title="If you selected [Exhibition poster and leafts] above, where did you see the posters and leaflets?">
+                            <Section badge="Q4" title={t('survey.q4.title')}>
                                 <div className="options-grid">
                                     {[
-                                        "Accommodation facility",
-                                        "Station",
-                                        "Tourist information center",
-                                        "Restaurant"
+                                        { key: 'accommodation', label: t('survey.q4.accommodation') },
+                                        { key: 'station', label: t('survey.q4.station') },
+                                        { key: 'touristInfo', label: t('survey.q4.touristInfo') },
+                                        { key: 'restaurant', label: t('survey.q4.restaurant') }
                                     ].map(opt => (
                                         <Checkbox
-                                            key={opt}
-                                            label={opt}
-                                            checked={formData.q4_poster_loc.includes(opt)}
-                                            onChange={() => handleMultiSelect('q4_poster_loc', opt)}
+                                            key={opt.key}
+                                            label={opt.label}
+                                            checked={formData.q4_poster_loc.includes(opt.label)}
+                                            onChange={() => handleMultiSelect('q4_poster_loc', opt.label)}
                                         />
                                     ))}
                                 </div>
                                 <InputOther
                                     value={formData.q4_other}
                                     onChange={(e) => handleTextChange('q4_other', e.target.value)}
-                                    placeholder="Other..."
+                                    placeholder={t('survey.q4.other')}
                                 />
                             </Section>
                         </div>
                     )}
 
                     {/* Q5: Multilingual Support */}
-                    <Section badge="Q5" title="What kind of multilingual support do you need more on the services?">
+                    <Section badge="Q5" title={t('survey.q5.title')}>
                         <div className="options-list">
                             {[
-                                "Information displays",
-                                "Exhibition description detailed",
-                                "Captions (list) of each exhibition",
-                                "Audio Guide"
+                                { key: 'infoDisplays', label: t('survey.q5.infoDisplays') },
+                                { key: 'exhibitionDesc', label: t('survey.q5.exhibitionDesc') },
+                                { key: 'captions', label: t('survey.q5.captions') },
+                                { key: 'audioGuide', label: t('survey.q5.audioGuide') }
                             ].map(opt => (
                                 <Checkbox
-                                    key={opt}
-                                    label={opt}
-                                    checked={formData.q5_multilingual.includes(opt)}
-                                    onChange={() => handleMultiSelect('q5_multilingual', opt)}
+                                    key={opt.key}
+                                    label={opt.label}
+                                    checked={formData.q5_multilingual.includes(opt.label)}
+                                    onChange={() => handleMultiSelect('q5_multilingual', opt.label)}
                                 />
                             ))}
                         </div>
                         <InputOther
                             value={formData.q5_other}
                             onChange={(e) => handleTextChange('q5_other', e.target.value)}
-                            placeholder="Other..."
+                            placeholder={t('survey.q5.other')}
                         />
                     </Section>
 
                     {/* Q6: Nationality */}
-                    <Section badge="Q6" title="Nationality/Region">
+                    <Section badge="Q6" title={t('survey.q6.title')}>
                         <div className="select-wrapper">
                             <select
                                 className="select-input"
                                 value={formData.q6_nationality}
                                 onChange={(e) => handleSingleSelect('q6_nationality', e.target.value)}
                             >
-                                <option value="" disabled>Select your region</option>
+                                <option value="" disabled>{t('survey.q6.selectRegion')}</option>
                                 {[
-                                    "Korea", "China", "Taiwan", "Hong Kong", "Vietnam",
-                                    "Thailand", "Singapore", "Philippines", "Indonesia", "Malaysia",
-                                    "India", "The United States of America", "Canada", "United Kingdom",
-                                    "France", "Germany", "Italy", "Spain", "Australia", "Other"
+                                    { key: 'korea', label: t('survey.q6.korea') },
+                                    { key: 'china', label: t('survey.q6.china') },
+                                    { key: 'taiwan', label: t('survey.q6.taiwan') },
+                                    { key: 'hongKong', label: t('survey.q6.hongKong') },
+                                    { key: 'vietnam', label: t('survey.q6.vietnam') },
+                                    { key: 'thailand', label: t('survey.q6.thailand') },
+                                    { key: 'singapore', label: t('survey.q6.singapore') },
+                                    { key: 'philippines', label: t('survey.q6.philippines') },
+                                    { key: 'indonesia', label: t('survey.q6.indonesia') },
+                                    { key: 'malaysia', label: t('survey.q6.malaysia') },
+                                    { key: 'india', label: t('survey.q6.india') },
+                                    { key: 'usa', label: t('survey.q6.usa') },
+                                    { key: 'canada', label: t('survey.q6.canada') },
+                                    { key: 'uk', label: t('survey.q6.uk') },
+                                    { key: 'france', label: t('survey.q6.france') },
+                                    { key: 'germany', label: t('survey.q6.germany') },
+                                    { key: 'italy', label: t('survey.q6.italy') },
+                                    { key: 'spain', label: t('survey.q6.spain') },
+                                    { key: 'australia', label: t('survey.q6.australia') },
+                                    { key: 'other', label: t('survey.q6.other') }
                                 ].map((country, idx) => (
-                                    // Using idx + 1 for display numbering (1. Korea, 2. China, etc.)
-                                    <option key={idx} value={country}>{idx + 1}. {country}</option>
+                                    <option key={country.key} value={country.label}>{idx + 1}. {country.label}</option>
                                 ))}
                             </select>
                             <div className="select-arrow">
                                 <ChevronLeft size={20} className="-rotate-90" />
                             </div>
                         </div>
-                        {formData.q6_nationality === 'Other' && (
+                        {formData.q6_nationality === t('survey.q6.other') && (
                             <InputOther
                                 value={formData.q6_other}
                                 onChange={(e) => handleTextChange('q6_other', e.target.value)}
-                                placeholder="Please specify..."
+                                placeholder={t('survey.q6.pleaseSpecify')}
                             />
                         )}
                     </Section>
 
                     {/* Q7: Length of Stay */}
-                    <Section badge="Q7" title="How long do you plan to stay in the area?">
+                    <Section badge="Q7" title={t('survey.q7.title')}>
                         <div className="options-list">
                             {[
-                                "Day trip",
-                                "1 to 2 nights",
-                                "3 to 6 nights",
-                                "1 to 2 weeks",
-                                "More than 2 weeks but less than 1 month",
-                                "1 month or more"
+                                { key: 'dayTrip', label: t('survey.q7.dayTrip') },
+                                { key: 'nights1to2', label: t('survey.q7.nights1to2') },
+                                { key: 'nights3to6', label: t('survey.q7.nights3to6') },
+                                { key: 'weeks1to2', label: t('survey.q7.weeks1to2') },
+                                { key: 'weeks2to1month', label: t('survey.q7.weeks2to1month') },
+                                { key: 'month1plus', label: t('survey.q7.month1plus') }
                             ].map(opt => (
                                 <Radio
-                                    key={opt}
-                                    label={opt}
-                                    checked={formData.q7_stay_length === opt}
-                                    onChange={() => handleSingleSelect('q7_stay_length', opt)}
+                                    key={opt.key}
+                                    label={opt.label}
+                                    checked={formData.q7_stay_length === opt.label}
+                                    onChange={() => handleSingleSelect('q7_stay_length', opt.label)}
                                 />
                             ))}
                         </div>
                     </Section>
 
                     {/* Q8: Other Places */}
-                    <Section badge="Q8" title="Where else have you visited (or plan to visit) outside the local area?">
+                    <Section badge="Q8" title={t('survey.q8.title')}>
                         <div className="options-grid">
                             {[
-                                "Tokyo", "Kyoto", "Osaka", "Hokkaido",
-                                "Okinawa", "Nara", "Hiroshima", "Fukuoka"
+                                { key: 'tokyo', label: t('survey.q8.tokyo') },
+                                { key: 'kyoto', label: t('survey.q8.kyoto') },
+                                { key: 'osaka', label: t('survey.q8.osaka') },
+                                { key: 'hokkaido', label: t('survey.q8.hokkaido') },
+                                { key: 'okinawa', label: t('survey.q8.okinawa') },
+                                { key: 'nara', label: t('survey.q8.nara') },
+                                { key: 'hiroshima', label: t('survey.q8.hiroshima') },
+                                { key: 'fukuoka', label: t('survey.q8.fukuoka') }
                             ].map(opt => (
                                 <Checkbox
-                                    key={opt}
-                                    label={opt}
-                                    checked={formData.q8_visited_places.includes(opt)}
-                                    onChange={() => handleMultiSelect('q8_visited_places', opt)}
+                                    key={opt.key}
+                                    label={opt.label}
+                                    checked={formData.q8_visited_places.includes(opt.label)}
+                                    onChange={() => handleMultiSelect('q8_visited_places', opt.label)}
                                 />
                             ))}
                         </div>
                         <InputOther
                             value={formData.q8_other}
                             onChange={(e) => handleTextChange('q8_other', e.target.value)}
-                            placeholder="Other (e.g. Beppu, Yufuin)..."
+                            placeholder={t('survey.q8.other')}
                         />
                     </Section>
 
                     {/* Q9: Opinions */}
-                    <Section badge="Q9" title="Please feel free to fill in the form below if you have any opinion or suggestion regarding our efforts to improve the satisfaction of visitors to Japan.">
+                    <Section badge="Q9" title={t('survey.q9.title')}>
                         <textarea
                             className="textarea-input"
-                            placeholder="Feel free to write here..."
+                            placeholder={t('survey.q9.placeholder')}
                             value={formData.q9_feedback}
                             onChange={(e) => handleTextChange('q9_feedback', e.target.value)}
                         ></textarea>
@@ -395,7 +420,7 @@ const SurveyDialog: React.FC<SurveyDialogProps> = ({ isOpen, onClose }) => {
                         disabled={isSubmitting}
                         className="submit-btn"
                     >
-                        <span>{isSubmitting ? 'Submitting...' : 'Submit Questionnaire'}</span>
+                        <span>{isSubmitting ? t('survey.submitting') : t('survey.submit')}</span>
                         {!isSubmitting && <Send size={20} />}
                     </button>
 

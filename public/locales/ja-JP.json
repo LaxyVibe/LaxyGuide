@@ -11,11 +11,107 @@
     },
     "survey": {
         "title": "アンケート",
-        "prompt": "ツアーはいかがでしたか？",
-        "placeholder": "ご意見をお聞かせください...",
-        "cancel": "キャンセル",
-        "submit": "送信",
-        "submitted": "送信しました！"
+        "subtitle": "ご協力ありがとうございます。",
+        "intro": "本日はご来館いただきありがとうございます。以下のアンケートにご協力をお願いいたします。",
+        "giftBadge": "アンケートにご回答いただいた後、スタッフにお声がけください。記念品をお渡しします。",
+        "q1": {
+            "title": "展覧会の満足度",
+            "veryDissatisfied": "非常に不満",
+            "verySatisfied": "非常に満足"
+        },
+        "q2": {
+            "title": "本展覧会で印象に残ったことをお聞かせください。",
+            "exhibitionTheme": "展示テーマ",
+            "exhibits": "展示作品",
+            "specialEvents": "企画イベント",
+            "multilingualSupport": "多言語対応",
+            "other": "その他…"
+        },
+        "q3": {
+            "title": "本展覧会を知ったきっかけをお聞かせください。",
+            "newspapers": "新聞・雑誌",
+            "posters": "展覧会ポスター・チラシ",
+            "sns": "SNS",
+            "acquaintance": "知人",
+            "droppedBy": "偶然通りかかった",
+            "websites": "ウェブサイト",
+            "websiteName": "ウェブサイト名…",
+            "other": "その他…"
+        },
+        "q4": {
+            "title": "上記で「展覧会ポスター・チラシ」を選択された方にお伺いします。そのポスター・チラシをどこでご覧になりましたか。",
+            "accommodation": "宿泊施設",
+            "station": "駅",
+            "touristInfo": "観光案内所",
+            "restaurant": "飲食店",
+            "other": "その他…"
+        },
+        "q5": {
+            "title": "改善を希望する言語サービス",
+            "infoDisplays": "館内案内表示",
+            "exhibitionDesc": "展示解説",
+            "captions": "作品説明（リスト）",
+            "audioGuide": "音声ガイド",
+            "other": "その他…"
+        },
+        "q6": {
+            "title": "出身地（国籍・地域）",
+            "selectRegion": "地域を選択してください",
+            "korea": "韓国",
+            "china": "中国",
+            "taiwan": "台湾",
+            "hongKong": "香港",
+            "vietnam": "ベトナム",
+            "thailand": "タイ",
+            "singapore": "シンガポール",
+            "philippines": "フィリピン",
+            "indonesia": "インドネシア",
+            "malaysia": "マレーシア",
+            "india": "インド",
+            "usa": "アメリカ合衆国",
+            "canada": "カナダ",
+            "uk": "イギリス",
+            "france": "フランス",
+            "germany": "ドイツ",
+            "italy": "イタリア",
+            "spain": "スペイン",
+            "australia": "オーストラリア",
+            "other": "その他",
+            "pleaseSpecify": "具体的にご記入ください"
+        },
+        "q7": {
+            "title": "この地域にどのくらい滞在する予定ですか",
+            "dayTrip": "日帰り",
+            "nights1to2": "1泊〜2泊",
+            "nights3to6": "3泊〜6泊",
+            "weeks1to2": "1週間〜2週間",
+            "weeks2to1month": "2週間〜1ヶ月未満",
+            "month1plus": "1ヶ月以上"
+        },
+        "q8": {
+            "title": "この地域以外に訪問した（または訪問予定の）場所をお聞かせください。",
+            "tokyo": "東京",
+            "kyoto": "京都",
+            "osaka": "大阪",
+            "hokkaido": "北海道",
+            "okinawa": "沖縄",
+            "nara": "奈良",
+            "hiroshima": "広島",
+            "fukuoka": "福岡",
+            "other": "その他（例：別府、由布院）…"
+        },
+        "q9": {
+            "title": "その他、日本を訪問される方の満足度向上のため、改善点についてのご意見やご提案がございましたらご記入ください。",
+            "placeholder": "こちらに自由にご記入ください…"
+        },
+        "submit": "アンケートを提出",
+        "submitting": "送信中...",
+        "success": {
+            "title": "ありがとうございました！",
+            "message": "スタッフにお声がけいただき、記念品をお受け取りください。",
+            "close": "閉じる"
+        },
+        "confirmLeave": "保存せずに終了してもよろしいですか？"
     },
     "languageSwitch": {
         "title": "言語設定",
