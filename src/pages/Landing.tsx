@@ -60,7 +60,7 @@ const Landing: React.FC = () => {
             <div className="landing-gradient-overlay" style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none' }} />
 
             {/* Top bar: Survey icon button (top-right) */}
-            <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 100 }}>
+            <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 40 }}>
                 <button
                     className="survey-icon-btn"
                     aria-label="Survey"
