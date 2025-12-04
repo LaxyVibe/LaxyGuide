@@ -2,11 +2,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Landing from './pages/Landing';
 import POIListing from './pages/POIListing';
 import POIDetail from './pages/POIDetail';
+import AnalyticsTracker from './components/AnalyticsTracker';
 import './App.css';
 
 function App() {
   return (
     <Router>
+      <AnalyticsTracker />
       <Routes>
         <Route path="/:guideId" element={<Landing />} />
         <Route path="/:guideId/list" element={<POIListing />} />
