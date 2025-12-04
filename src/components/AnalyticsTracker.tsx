@@ -8,7 +8,7 @@ const AnalyticsTracker = () => {
     useEffect(() => {
         // Initialize Google Analytics with a placeholder ID
         // TODO: Replace 'G-XXXXXXXXXX' with your actual Measurement ID
-        ReactGA.initialize('G-3VJKNG209W');
+        ReactGA.initialize('G-SR756R3ZKH');
     }, []);
 
     useEffect(() => {
