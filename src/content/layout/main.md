@@ -50,7 +50,7 @@ StatusUtility:
 Miscellaneous:
   BS_50: "#FFBBBF"
   BS_100: "#FF5A5F"
-  OPAM_Theme_Colour: $FF00FF
+  OPAM_Theme_Colour: "#FF00FF"
 ---
 
 # Layout Color Configuration
