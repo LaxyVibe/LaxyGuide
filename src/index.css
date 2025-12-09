@@ -190,22 +190,22 @@ textarea:focus {
 }
 
 ::view-transition-old(root) {
-    animation: slide-out-left 0.3s ease-in-out;
+    animation: fade-out 0.3s ease-in-out;
 }
 
 ::view-transition-new(root) {
-    animation: slide-in-right 0.3s ease-in-out;
+    animation: fade-in 0.3s ease-in-out;
 }
 
-@keyframes slide-out-left {
+@keyframes fade-out {
     to {
-        transform: translateX(-100%);
+        opacity: 0;
     }
 }
 
-@keyframes slide-in-right {
+@keyframes fade-in {
     from {
-        transform: translateX(100%);
+        opacity: 0;
     }
 }
 

@@ -53,19 +53,62 @@ const POIListing: React.FC = () => {
         <div className="page poi-listing">
             <div className="poi-listing-header">
                 <GlobalHeader title={t('poiListing.title')} showBack={true} />
-                <div className="header-actions">
-                    <button
-                        className="icon-button"
-                        aria-label="Grid view"
-                        onClick={() => navigate(`/${guideId}/search?${searchParams.toString()}`)}
-                    >
-                        <img src={gridIcon} alt="Grid" />
-                    </button>
-                    <button className="icon-button" aria-label="Change language" onClick={() => setShowLanguageDialog(true)}>
-                        <img src={translateIcon} alt="Translate" />
-                    </button>
-                </div>
             </div>
+
+            {/* Top Right Buttons (Grid & Language) */}
+            <div style={{
+                position: 'fixed',
+                top: 16,
+                right: 20,
+                zIndex: 30,
+                display: 'flex',
+                gap: '12px'
+            }}>
+                {/* Grid Button */}
+                <button
+                    onClick={() => navigate(`/${guideId}/search?${searchParams.toString()}`)}
+                    aria-label="Grid view"
+                    style={{
+                        width: '42px',
+                        height: '42px',
+                        background: 'rgba(245, 245, 245, 0.95)',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s'
+                    }}
+                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                    <img src={gridIcon} alt="Grid" style={{ width: 42, height: 42 }} />
+                </button>
+
+                {/* Language Button */}
+                <button
+                    onClick={() => setShowLanguageDialog(true)}
+                    aria-label="Change language"
+                    style={{
+                        width: '42px',
+                        height: '42px',
+                        background: 'rgba(245, 245, 245, 0.95)',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s'
+                    }}
+                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                    <img src={translateIcon} alt="Translate" style={{ width: 42, height: 42 }} />
+                </button>
+            </div>
+
             <div className="scroll-content">
                 <PoiList pois={data.pois} />
             </div>

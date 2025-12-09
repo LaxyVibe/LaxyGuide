@@ -300,7 +300,7 @@ const POIDetail: React.FC = () => {
             )}
 
             {/* Dialogs */}
-            <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} />
+            <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} lang={lang} />
             <LanguageSwitchDialog
                 open={isLangDialogOpen}
                 languages={languageOptions}

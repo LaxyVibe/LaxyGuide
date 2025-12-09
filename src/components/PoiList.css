@@ -13,7 +13,6 @@
     gap: 16px;
     text-decoration: none;
     color: inherit;
-    border-bottom: 1px solid var(--neutral-200);
     transition: background-color 0.2s;
 }
 
@@ -26,16 +25,16 @@
 }
 
 .poi-number {
-    font-size: 0.95rem;
-    color: var(--neutral-500);
-    font-weight: 500;
+    font-size: 18px;
+    color: var(--neutral-400);
+    font-weight: 600;
     min-width: 40px;
     flex-shrink: 0;
 }
 
 .poi-thumbnail {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border-radius: 8px;
     overflow: hidden;
     flex-shrink: 0;
@@ -50,9 +49,9 @@
 
 .poi-title {
     flex: 1;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 400;
-    color: var(--neutral-800);
+    color: var(--neutral-1000);
     line-height: 1.4;
 }
 

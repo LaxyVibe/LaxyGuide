@@ -90,7 +90,7 @@ const Landing: React.FC = () => {
             </div>
 
             {/* Survey Dialog */}
-            <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} />
+            <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} lang={lang} />
 
             {/* Footer with Powered by and SVG logo */}
             <div style={{ position: 'absolute', bottom: 48, left: 0, width: '100%', textAlign: 'center', zIndex: 2 }}>

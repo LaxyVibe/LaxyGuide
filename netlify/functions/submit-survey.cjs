@@ -32,7 +32,10 @@ exports.handler = async (event) => {
       range: 'Sheet1!A1', // change if you use different sheet name
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        values: [[new Date().toISOString(), ...Object.values(responses)]], // timestamp + answers
+        values: [[
+          new Date().toISOString(),
+          ...Object.values(responses).map(val => Array.isArray(val) ? val.join(', ') : val)
+        ]], // timestamp + answers
       },
     });
 

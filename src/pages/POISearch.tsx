@@ -59,30 +59,52 @@ const POISearch: React.FC = () => {
         <div className="page poi-search">
             <div className="poi-search-header">
                 <GlobalHeader title={t('poiSearch.title')} showBack={true} />
-                <div className="header-actions">
-                    <button
-                        className="icon-button"
-                        aria-label={t('poiSearch.languageButton')}
-                        onClick={() => {
-                            setSelectedLang(lang);
-                            setLangDialogOpen(true);
-                        }}
-                    >
-                        <img src={translateIcon} alt={t('poiSearch.languageButton')} />
-                    </button>
-                        <LanguageSwitchDialog
-                        open={langDialogOpen}
-                        languages={Object.entries(LANGUAGES).map(([code, label]) => ({ code, label }))}
-                        selectedLanguage={selectedLang}
-                            onSelect={(code: string) => setSelectedLang(code as Language)}
-                        onApply={() => {
-                            setSearchParams(setLanguageInQuery(searchParams, selectedLang), { replace: true });
-                            setLangDialogOpen(false);
-                        }}
-                        onClose={() => setLangDialogOpen(false)}
-                    />
-                </div>
             </div>
+
+            {/* Top Right Button (Language) */}
+            <div style={{
+                position: 'fixed',
+                top: 16,
+                right: 20,
+                zIndex: 30
+            }}>
+                <button
+                    onClick={() => {
+                        setSelectedLang(lang);
+                        setLangDialogOpen(true);
+                    }}
+                    aria-label={t('poiSearch.languageButton')}
+                    style={{
+                        width: '42px',
+                        height: '42px',
+                        background: 'rgba(245, 245, 245, 0.95)',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s'
+                    }}
+                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                    <img src={translateIcon} alt={t('poiSearch.languageButton')} style={{ width: 42, height: 42 }} />
+                </button>
+            </div>
+
+            <LanguageSwitchDialog
+                open={langDialogOpen}
+                languages={Object.entries(LANGUAGES).map(([code, label]) => ({ code, label }))}
+                selectedLanguage={selectedLang}
+                onSelect={(code: string) => setSelectedLang(code as Language)}
+                onApply={() => {
+                    setSearchParams(setLanguageInQuery(searchParams, selectedLang), { replace: true });
+                    setLangDialogOpen(false);
+                }}
+                onClose={() => setLangDialogOpen(false)}
+            />
+
             <div className="scroll-content">
                 <div className="search-content">
                     {/* Guide Number Display */}
@@ -105,9 +127,6 @@ const POISearch: React.FC = () => {
                             <img src={matchingPoi.hero} alt={matchingPoi.title} />
                             <div className="poi-info">
                                 <div className="poi-title">{matchingPoi.title}</div>
-                                {matchingPoi.metadata && matchingPoi.metadata.length > 0 && (
-                                    <div className="poi-subtitle">{matchingPoi.metadata[0].value}</div>
-                                )}
                             </div>
                         </div>
                     )}

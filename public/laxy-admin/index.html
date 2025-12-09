@@ -23,70 +23,70 @@
               show_in_header: true
             },
             backend: {
-                name: 'git-gateway',
-                repo: 'LaxyVibe/LaxyLiteGuidePWA',
-                branch: 'v2'
+              name: 'git-gateway',
+              repo: 'LaxyVibe/LaxyLiteGuidePWA',
+              branch: 'v2'
             },
             media_folder: 'public/media',
             public_folder: '/media',
             media_library: {
-                name: 'cloudinary',
-                config: {
-                    cloud_name: 'dui2mxeuh',
-                    api_key: '569778884527558',
-                },
+              name: 'cloudinary',
+              config: {
+                cloud_name: 'dui2mxeuh',
+                api_key: '569778884527558',
+              },
             },
             i18n: {
-                structure: 'single_file',
-                locales: ['en-US', 'ja-JP', 'ko-KR', 'zh-TW', 'zh-CN'],
-                default_locale: 'en-US'
+              structure: 'single_file',
+              locales: ['en-US', 'ja-JP', 'ko-KR', 'zh-TW', 'zh-CN'],
+              default_locale: 'en-US'
             },
             collections: [
-                {
-                    name: 'guide',
-                    label: 'Guide',
-                    folder: 'src/content/guides',
-                    create: false,
-                    slug: '{{code}}',
-                    summary: '{{code}} - {{title}}',
+              {
+                name: 'guide',
+                label: 'Guide',
+                folder: 'src/content/guides',
+                create: false,
+                slug: '{{code}}',
+                summary: '{{code}} - {{title}}',
+                i18n: true,
+                fields: [
+                  { label: 'Code', name: 'code', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                  { label: 'Underlay Image', name: 'guideUnderlayImage', widget: 'image', i18n: true },
+                ]
+              },
+              {
+                name: 'poi',
+                label: 'POI',
+                folder: 'src/content/pois',
+                create: true,
+                slug: '{{number}}',
+                summary: '{{number}} - {{title}}',
+                i18n: true,
+                fields: [
+                  { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                  { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
+                  { label: 'Audio URL', name: 'audio', widget: 'file', required: false, i18n: true },
+                  { label: 'Subtitle URL', name: 'subtitle', widget: 'file', required: false, i18n: true },
+                  {
+                    label: 'Metadata',
+                    name: 'metadata',
+                    widget: 'list',
+                    required: false,
                     i18n: true,
                     fields: [
-                        { label: 'Code', name: 'code', widget: 'string', i18n: 'duplicate' },
-                        { label: 'Title', name: 'title', widget: 'string', i18n: true },
-                        { label: 'Underlay Image', name: 'guideUnderlayImage', widget: 'image', i18n: true },
+                      { label: 'Label', name: 'label', widget: 'string' },
+                      { label: 'Value', name: 'value', widget: 'string' }
                     ]
-                },
-                {
-                    name: 'poi',
-                    label: 'POI',
-                    folder: 'src/content/pois',
-                    create: true,
-                    slug: '{{number}}',
-                    summary: '{{number}} - {{title}}',
-                    i18n: true,
-                    fields: [
-                        { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
-                        { label: 'Title', name: 'title', widget: 'string', i18n: true },
-                        { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
-                        { label: 'Audio URL', name: 'audio', widget: 'file', required: false, i18n: true },
-                        { label: 'Subtitle URL', name: 'subtitle', widget: 'file', required: false, i18n: true },
-                        {
-                            label: 'Metadata',
-                            name: 'metadata',
-                            widget: 'list',
-                            required: false,
-                            i18n: true,
-                            fields: [
-                                { label: 'Label', name: 'label', widget: 'string' },
-                                { label: 'Value', name: 'value', widget: 'string' }
-                            ]
-                        },
-                        { label: 'Content', name: 'content', widget: 'markdown', i18n: true }
-                    ]
-                }
+                  },
+                  { label: 'Content', name: 'content', widget: 'markdown', i18n: true }
+                ]
+              }
             ]
-        }
-      });
+          }
+        });
       }
     });
   </script>

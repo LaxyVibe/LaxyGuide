@@ -6,23 +6,112 @@
     "poiListing": {
         "title": "藝術品"
     },
-    "poiSearch": {
-        "title": "導覽編號",
-        "prompt": "這是您要找的嗎？",
-        "visit": "訪問",
-        "languageButton": "切換語言",
-        "delete": "刪除"
-    },
     "poiDetail": {
         "notFound": "未找到作品"
     },
     "survey": {
-        "title": "問卷調查",
-        "prompt": "您對本次導覽有何看法？",
-        "placeholder": "請留下您的意見...",
-        "cancel": "取消",
-        "submit": "提交",
-        "submitted": "已提交！"
+        "title": "調查表",
+        "subtitle": "非常感謝您今天光臨本館！",
+        "intro": "非常感謝您今天光臨本館。請協助回答以下的調查問題。",
+        "giftBadge": "問卷調查填寫完後，請告知工作人員並領取紀念品。",
+        "q1": {
+            "title": "展覽會的滿意度",
+            "veryDissatisfied": "非常不滿意",
+            "verySatisfied": "非常滿蔥"
+        },
+        "q2": {
+            "title": "請告知本次展覽會中給您留下印象的事項。",
+            "exhibitionTheme": "展示主題",
+            "exhibits": "展出作品",
+            "specialEvents": "企劃活動",
+            "multilingualSupport": "多語言支持",
+            "other": "其他…"
+        },
+        "q3": {
+            "title": "請告知您是透過什麽途徑知道本次展覽會的？",
+            "newspapers": "報紙、雜志",
+            "posters": "展覽會海報、傳單",
+            "sns": "SNS",
+            "acquaintance": "熟人",
+            "droppedBy": "偶爾經過此地",
+            "websites": "網站",
+            "websiteName": "網站名称…",
+            "other": "其他…"
+        },
+        "q4": {
+            "title": "對於在上述中選擇「展覽會海報、傳單」的受訪者提問。請問是在何處看到該海報或宣傳單的。",
+            "accommodation": "住宿設施",
+            "station": "車站",
+            "touristInfo": "觀光諮詢處",
+            "restaurant": "飲食店",
+            "other": "其他…"
+        },
+        "q5": {
+            "title": "希望增強的語言服務？",
+            "infoDisplays": "場館內導覽標識",
+            "exhibitionDesc": "展示解說",
+            "captions": "作品介紹（列表）",
+            "audioGuide": "語音導質",
+            "other": "其他…"
+        },
+        "q6": {
+            "title": "出生地（國籍/居住地區）",
+            "selectRegion": "選擇您的地區",
+            "korea": "韓國",
+            "china": "中國",
+            "taiwan": "臺灣",
+            "hongKong": "香港",
+            "vietnam": "越南",
+            "thailand": "泰國",
+            "singapore": "新加坡",
+            "philippines": "菲律賓",
+            "indonesia": "印度尼西亞",
+            "malaysia": "馬來西亞",
+            "india": "印度",
+            "usa": "美國",
+            "canada": "加拿大",
+            "uk": "英國",
+            "france": "法國",
+            "germany": "德國",
+            "italy": "義大利",
+            "spain": "西班牙",
+            "australia": "澳大利亞",
+            "other": "其他",
+            "pleaseSpecify": "請說明"
+        },
+        "q7": {
+            "title": "預計在該地區停留多久？",
+            "dayTrip": "當天往返",
+            "nights1to2": "1晚~2晚",
+            "nights3to6": "3晚~6晚",
+            "weeks1to2": "1週～2週",
+            "weeks2to1month": "2週～1個月以內",
+            "month1plus": "1個月及以上"
+        },
+        "q8": {
+            "title": "請告知除了該地區之外，去過（或者預計要去）的地方。",
+            "tokyo": "東京",
+            "kyoto": "京都",
+            "osaka": "大阪",
+            "hokkaido": "北海道",
+            "okinawa": "沖繩",
+            "nara": "奈良",
+            "hiroshima": "廣島",
+            "fukuoka": "福岡",
+            "other": "其他 (例如：別府、由布院）"
+        },
+        "q9": {
+            "title": "若您有任何能夠有助於提高來日遊客滿意度的建議或意見，請填寫在下面。",
+            "placeholder": "請在此處填寫…"
+        },
+        "submit": "提交問卷",
+        "submitting": "提交中...",
+        "success": {
+            "title": "感謝！",
+            "message": "請到工作人員領取您的小禮物。",
+            "close": "關閉"
+        },
+        "confirmLeave": "您確定要離開而不保存嗎？"
     },
     "languageSwitch": {
         "title": "語言設定",
