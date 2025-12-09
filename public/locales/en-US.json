@@ -6,6 +6,12 @@
     "poiListing": {
         "title": "Artworks"
     },
+    "poiSearch": {
+        "title": "Item Search",
+        "prompt": "Enter Item Number",
+        "confirm": "Is this correct?",
+        "visit": "View Details"
+    },
     "poiDetail": {
         "notFound": "POI not found"
     },

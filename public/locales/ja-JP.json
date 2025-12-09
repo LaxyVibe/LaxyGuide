@@ -6,6 +6,12 @@
     "poiListing": {
         "title": "作品"
     },
+    "poiSearch": {
+        "title": "アイテム検索",
+        "prompt": "番号を入力してください",
+        "confirm": "こちらでよろしいですか？",
+        "visit": "詳細を見る"
+    },
     "poiDetail": {
         "notFound": "作品が見つかりません"
     },

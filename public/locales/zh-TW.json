@@ -6,6 +6,12 @@
     "poiListing": {
         "title": "藝術品"
     },
+    "poiSearch": {
+        "title": "項目搜尋",
+        "prompt": "輸入編號",
+        "confirm": "是否正確？",
+        "visit": "查看詳情"
+    },
     "poiDetail": {
         "notFound": "未找到作品"
     },

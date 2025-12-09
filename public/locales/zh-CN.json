@@ -6,6 +6,12 @@
     "poiListing": {
         "title": "艺术品"
     },
+    "poiSearch": {
+        "title": "项目搜索",
+        "prompt": "输入编号",
+        "confirm": "是否正确？",
+        "visit": "查看详情"
+    },
     "poiDetail": {
         "notFound": "未找到作品"
     },

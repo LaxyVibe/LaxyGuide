@@ -6,6 +6,12 @@
     "poiListing": {
         "title": "작품"
     },
+    "poiSearch": {
+        "title": "항목 검색",
+        "prompt": "번호를 입력해 주세요",
+        "confirm": "이 항목이 맞나요？",
+        "visit": "상세 보기"
+    },
     "poiDetail": {
         "notFound": "작품을 찾을 수 없습니다"
     },
