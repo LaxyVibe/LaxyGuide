@@ -23,7 +23,7 @@
               show_in_header: true
             },
             backend: {
-              name: 'github',
+              name: 'git-gateway',
               repo: 'LaxyVibe/LaxyLiteGuidePWA',
               branch: 'v2'
             },
@@ -82,125 +82,6 @@
                     ]
                   },
                   { label: 'Content', name: 'content', widget: 'markdown', i18n: true }
-                ]
-              },
-              {
-                name: 'layout',
-                label: 'Layout',
-                files: [
-                  {
-                    label: 'Color Palette',
-                    name: 'colors',
-                    file: 'src/content/layout/main.md',
-                    fields: [
-                      {
-                        label: 'Primary Colors',
-                        name: 'Primary',
-                        widget: 'object',
-                        fields: [
-                          { label: '100', name: '100', widget: 'string' },
-                          { label: '200', name: '200', widget: 'string' },
-                          { label: '300', name: '300', widget: 'string' },
-                          { label: '400', name: '400', widget: 'string' },
-                          { label: '500', name: '500', widget: 'string' },
-                          { label: '600', name: '600', widget: 'string' },
-                          { label: 'Alpha', name: 'Alpha', widget: 'string' }
-                        ]
-                      },
-                      {
-                        label: 'Secondary Colors',
-                        name: 'Secondary',
-                        widget: 'object',
-                        fields: [
-                          { label: '100', name: '100', widget: 'string' },
-                          { label: '200', name: '200', widget: 'string' },
-                          { label: '300', name: '300', widget: 'string' },
-                          { label: '400', name: '400', widget: 'string' },
-                          { label: '500', name: '500', widget: 'string' },
-                          { label: '600', name: '600', widget: 'string' },
-                          { label: 'Alpha', name: 'Alpha', widget: 'string' }
-                        ]
-                      },
-                      {
-                        label: 'Third Colors',
-                        name: 'Third',
-                        widget: 'object',
-                        fields: [
-                          { label: '100', name: '100', widget: 'string' },
-                          { label: '200', name: '200', widget: 'string' },
-                          { label: '300', name: '300', widget: 'string' },
-                          { label: '400', name: '400', widget: 'string' },
-                          { label: '500', name: '500', widget: 'string' },
-                          { label: '600', name: '600', widget: 'string' },
-                          { label: 'Alpha', name: 'Alpha', widget: 'string' }
-                        ]
-                      },
-                      {
-                        label: 'Neutral Colors',
-                        name: 'Neutral',
-                        widget: 'object',
-                        fields: [
-                          { label: '100', name: '100', widget: 'string' },
-                          { label: '200', name: '200', widget: 'string' },
-                          { label: '300', name: '300', widget: 'string' },
-                          { label: '400', name: '400', widget: 'string' },
-                          { label: '500', name: '500', widget: 'string' },
-                          { label: '600', name: '600', widget: 'string' },
-                          { label: '700', name: '700', widget: 'string' },
-                          { label: '800', name: '800', widget: 'string' },
-                          { label: '900', name: '900', widget: 'string' },
-                          { label: '1000', name: '1000', widget: 'string' },
-                          { label: 'Alpha', name: 'Alpha', widget: 'string' }
-                        ]
-                      },
-                      {
-                        label: 'Status & Utility Colors',
-                        name: 'StatusUtility',
-                        widget: 'object',
-                        fields: [
-                          {
-                            label: 'Red',
-                            name: 'Red',
-                            widget: 'object',
-                            fields: [
-                              { label: '100', name: '100', widget: 'string' },
-                              { label: '200', name: '200', widget: 'string' },
-                              { label: 'Alpha', name: 'Alpha', widget: 'string' }
-                            ]
-                          },
-                          {
-                            label: 'Yellow',
-                            name: 'Yellow',
-                            widget: 'object',
-                            fields: [
-                              { label: '100', name: '100', widget: 'string' },
-                              { label: '200', name: '200', widget: 'string' },
-                              { label: 'Alpha', name: 'Alpha', widget: 'string' }
-                            ]
-                          },
-                          {
-                            label: 'Green',
-                            name: 'Green',
-                            widget: 'object',
-                            fields: [
-                              { label: '100', name: '100', widget: 'string' },
-                              { label: 'Alpha', name: 'Alpha', widget: 'string' }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        label: 'Miscellaneous Colors',
-                        name: 'Miscellaneous',
-                        widget: 'object',
-                        fields: [
-                          { label: 'BS 50', name: 'BS_50', widget: 'string' },
-                          { label: 'BS 100', name: 'BS_100', widget: 'string' },
-                          { label: 'OPAM Theme Colour', name: 'OPAM_Theme_Colour', widget: 'string' }
-                        ]
-                      }
-                    ]
-                  }
                 ]
               }
             ]
