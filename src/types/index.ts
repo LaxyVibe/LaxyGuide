@@ -12,6 +12,7 @@ export interface POI {
     content: string;
     audio?: string;
     subtitle?: string;
+    displayAudio?: boolean;
 }
 
 export interface GuideData {

@@ -49,10 +49,20 @@ const POIListing: React.FC = () => {
     if (error) return <div>{t('common.error')}: {error}</div>;
     if (!data) return <div>{t('common.noData')}</div>;
 
+    const handleBack = () => {
+        if ('startViewTransition' in document) {
+            document.startViewTransition(() => {
+                navigate(`/${guideId}?t=${lang}`);
+            });
+        } else {
+            navigate(`/${guideId}?t=${lang}`);
+        }
+    };
+
     return (
         <div className="page poi-listing">
             <div className="poi-listing-header">
-                <GlobalHeader title={t('poiListing.title')} showBack={true} />
+                <GlobalHeader title={t('poiListing.title')} showBack={true} onBack={handleBack} />
             </div>
 
             {/* Top Right Buttons (Grid & Language) */}

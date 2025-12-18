@@ -18,6 +18,7 @@ interface POIFrontmatter {
         hero?: string;
         audio?: string;
         subtitle?: string;
+        displayAudio?: boolean;
         metadata?: { label: string; value: string }[];
         content?: string;
         guide?: string;
@@ -69,11 +70,12 @@ export async function loadGuideData(lang: string): Promise<GuideData | null> {
             number: mergedPoi.number,
             title: mergedPoi.title || '',
             hero: mergedPoi.hero || '',
-            withAudio: !!mergedPoi.audio,
+            withAudio: !!mergedPoi.audio && (mergedPoi.displayAudio !== false),
             metadata: mergedPoi.metadata || [],
             content: mergedPoi.content || '',
             audio: mergedPoi.audio,
-            subtitle: mergedPoi.subtitle
+            subtitle: mergedPoi.subtitle,
+            displayAudio: mergedPoi.displayAudio !== false
         });
     }
 

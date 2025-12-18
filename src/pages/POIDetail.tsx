@@ -87,18 +87,10 @@ const POIDetail: React.FC = () => {
     const handleBack = () => {
         if ('startViewTransition' in document) {
             document.startViewTransition(() => {
-                if (data.pois.length === 1) {
-                    navigate(`/${guideId}?t=${lang}`);
-                } else {
-                    navigate(-1);
-                }
+                navigate(`/${guideId}/list?t=${lang}`);
             });
         } else {
-            if (data.pois.length === 1) {
-                navigate(`/${guideId}?t=${lang}`);
-            } else {
-                navigate(-1);
-            }
+            navigate(`/${guideId}/list?t=${lang}`);
         }
     };
 
@@ -290,7 +282,7 @@ const POIDetail: React.FC = () => {
             </div>
 
             {/* Audio Player */}
-            {poi.audio && (
+            {poi.withAudio && poi.audio && (
                 <ExpandableAudioPlayer
                     src={poi.audio}
                     subtitle={poi.subtitle}

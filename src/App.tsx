@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import POIListing from './pages/POIListing';
 import POISearch from './pages/POISearch';
 import POIDetail from './pages/POIDetail';
+import AnalyticsTracker from './components/AnalyticsTracker';
 import './App.css';
 
 const AdminRedirect = () => {
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <Router>
+      <AnalyticsTracker />
       <Routes>
         {/* Handle /admin route explicitly to bypass SPA routing and load static admin page */}
         <Route path="/laxy-admin" element={<AdminRedirect />} />

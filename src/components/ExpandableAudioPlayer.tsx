@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import { getLanguageFromQuery } from '../utils/languageUtils';
 import { useTranslation } from '../hooks/useTranslation';
 import { parseSRT, type Subtitle } from '../utils/srtParser';
@@ -37,6 +38,12 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
     const subtitleContainerRef = useRef<HTMLDivElement>(null);
     const currentSubtitleRef = useRef<HTMLSpanElement>(null);
     const manualScrollTimerRef = useRef<number | null>(null);
+    const milestonesSentRef = useRef<Set<number>>(new Set());
+
+    // Reset milestones when src changes
+    useEffect(() => {
+        milestonesSentRef.current.clear();
+    }, [src]);
 
     // Load subtitles when subtitle URL changes
     useEffect(() => {
@@ -121,11 +128,51 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
         const audio = audioRef.current;
         if (!audio) return;
 
-        const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
+        const handleTimeUpdate = () => {
+            setCurrentTime(audio.currentTime);
+            
+            // Track progress milestones
+            if (audio.duration > 0) {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                const milestones = [25, 50, 75];
+                
+                milestones.forEach(milestone => {
+                    if (progress >= milestone && !milestonesSentRef.current.has(milestone)) {
+                        milestonesSentRef.current.add(milestone);
+                        ReactGA.event({
+                            category: "Media",
+                            action: `Audio Progress ${milestone}%`,
+                            label: title
+                        });
+                    }
+                });
+            }
+        };
         const handleDurationChange = () => setDuration(audio.duration);
-        const handlePlay = () => setIsPlaying(true);
-        const handlePause = () => setIsPlaying(false);
-        const handleEnded = () => setIsPlaying(false);
+        const handlePlay = () => {
+            setIsPlaying(true);
+            ReactGA.event({
+                category: "Media",
+                action: "Play Audio",
+                label: title
+            });
+        };
+        const handlePause = () => {
+            setIsPlaying(false);
+            ReactGA.event({
+                category: "Media",
+                action: "Pause Audio",
+                label: title
+            });
+        };
+        const handleEnded = () => {
+            setIsPlaying(false);
+            ReactGA.event({
+                category: "Media",
+                action: "Finish Audio",
+                label: title
+            });
+        };
 
         audio.addEventListener('timeupdate', handleTimeUpdate);
         audio.addEventListener('durationchange', handleDurationChange);
@@ -140,7 +187,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
             audio.removeEventListener('pause', handlePause);
             audio.removeEventListener('ended', handleEnded);
         };
-    }, []);
+    }, [title]);
 
     // Media Session API
     useEffect(() => {
@@ -226,6 +273,11 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
 
     const handleSubtitleClick = (index: number) => {
         if (audioRef.current && subtitles[index]) {
+            ReactGA.event({
+                category: "Media",
+                action: "Click Subtitle",
+                label: title
+            });
             audioRef.current.currentTime = subtitles[index].startTime;
             if (!isPlaying) {
                 audioRef.current.play();
@@ -254,6 +306,24 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
+    const handleExpand = () => {
+        setIsExpanded(true);
+        ReactGA.event({
+            category: "Media",
+            action: "Expand Player",
+            label: title
+        });
+    };
+
+    const handleCollapse = () => {
+        setIsExpanded(false);
+        ReactGA.event({
+            category: "Media",
+            action: "Collapse Player",
+            label: title
+        });
+    };
+
     if (!src) return null;
 
     const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -263,12 +333,15 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
             <audio ref={audioRef} src={src} preload="metadata" />
 
             {/* Mini Player */}
-            <div className="mini-player" onClick={() => setIsExpanded(true)}>
+            <div className="mini-player" onClick={handleExpand}>
                 <p className="mini-player-subtitle">{t('audioPlayer.clickToExpand')}</p>
                 <div className="mini-player-bottom">
                     <div
                         className="mini-progress-section"
-                        onClick={() => setIsExpanded(true)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleExpand();
+                        }}
                         role="button"
                         aria-label="Open player"
                     >
@@ -297,7 +370,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                     <h2 className="player-title">{title}</h2>
                     <button
                         className="close-button"
-                        onClick={() => setIsExpanded(false)}
+                        onClick={handleCollapse}
                         aria-label="Close"
                     >
                         <img src={collapseIcon} alt="Collapse" style={{ width: 42, height: 42 }} />

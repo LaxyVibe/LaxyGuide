@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import { getLanguageFromQuery } from '../utils/languageUtils';
 import { useTranslation } from '../hooks/useTranslation';
 import './LanguageSwitchDialog.css';
@@ -39,6 +40,15 @@ const LanguageSwitchDialog: React.FC<LanguageSwitchDialogProps> = ({
         }
     }, [open]);
 
+    const handleApply = () => {
+        ReactGA.event({
+            category: "User Interaction",
+            action: "Change Language",
+            label: selectedLanguage
+        });
+        onApply();
+    };
+
     if (!isVisible) return null;
 
     return (
@@ -60,7 +70,7 @@ const LanguageSwitchDialog: React.FC<LanguageSwitchDialogProps> = ({
                         </div>
                     ))}
                     <div className="language-dialog-bottom">
-                        <button className="language-dialog-apply" onClick={onApply}>{t('languageSwitch.apply')}</button>
+                        <button className="language-dialog-apply" onClick={handleApply}>{t('languageSwitch.apply')}</button>
                     </div>
                 </div>
             </div>
