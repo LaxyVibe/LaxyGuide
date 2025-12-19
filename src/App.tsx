@@ -31,7 +31,7 @@ function App() {
       <AnalyticsTracker />
       <Routes>
         {/* Handle /admin route explicitly to bypass SPA routing and load static admin page */}
-        <Route path="/laxy-admin" element={<AdminRedirect />} />
+        {/* <Route path="/" element={<AdminRedirect />} /> */}
         <Route path="/" element={<GuideListing />} />
         <Route path="/:guideId" element={<Landing />} />
         <Route path="/:guideId/list" element={<POIListing />} />

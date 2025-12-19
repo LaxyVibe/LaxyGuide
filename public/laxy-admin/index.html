@@ -15,6 +15,101 @@
     // Initialize CMS immediately after it loads
     window.addEventListener('load', function () {
       if (window.CMS) {
+        // Custom TTML Widget
+        const TTMLControl = window.createClass({
+          getInitialState: function () {
+            return {
+              isOpen: false
+            };
+          },
+          handleChange: function (e) {
+            this.props.onChange(e.target.value);
+          },
+          openEditor: function () {
+            this.setState({ isOpen: true });
+            window.addEventListener('message', this.handleMessage);
+          },
+          closeEditor: function () {
+            this.setState({ isOpen: false });
+            window.removeEventListener('message', this.handleMessage);
+          },
+          handleMessage: function (event) {
+            if (event.data.type === 'TTML_SAVE') {
+              this.props.onChange(event.data.url);
+              this.closeEditor();
+            } else if (event.data.type === 'TTML_CLOSE') {
+              this.closeEditor();
+            }
+          },
+          render: function () {
+            const value = this.props.value || '';
+            const editorUrl = `https://laxy-ttml-editor.netlify.app/?ttml=${encodeURIComponent(value)}`;
+
+            return window.h('div', {},
+              window.h('div', { style: { display: 'flex', gap: '8px', alignItems: 'center' } },
+                window.h('input', {
+                  type: 'text',
+                  value: value,
+                  onChange: this.handleChange,
+                  style: {
+                    flex: 1,
+                    padding: '8px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px'
+                  }
+                }),
+                window.h('button', {
+                  onClick: this.openEditor,
+                  type: 'button',
+                  style: {
+                    padding: '8px 16px',
+                    backgroundColor: '#007acc',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }
+                }, 'Edit TTML')
+              ),
+              this.state.isOpen && window.h('div', {
+                style: {
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  width: '100vw',
+                  height: '100vh',
+                  zIndex: 99999,
+                  backgroundColor: 'white',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }
+              },
+                window.h('iframe', {
+                  src: editorUrl,
+                  style: {
+                    flex: 1,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }
+                })
+              )
+            );
+          }
+        });
+
+        const TTMLPreview = window.createClass({
+          render: function () {
+            return window.h('div', { style: { padding: '10px', background: '#f0f0f0', borderRadius: '4px' } },
+              window.h('strong', {}, 'TTML URL: '),
+              this.props.value || '(empty)'
+            );
+          }
+        });
+
+        window.CMS.registerWidget('ttml', TTMLControl, TTMLPreview);
+
         window.CMS.init({
           load_config_file: false,
           config: {
@@ -23,7 +118,7 @@
               show_in_header: true
             },
             backend: {
-              name: 'git-gateway',
+              name: 'github',
               repo: 'LaxyVibe/LaxyLiteGuidePWA',
               branch: 'staging'
             },
@@ -64,8 +159,10 @@
                 slug: '{{guide}}-{{number}}',
                 summary: '{{guide}}-{{number}} - {{title}}',
                 i18n: true,
+                view_groups: [
+                  { label: 'Guide', field: 'guide' }
+                ],
                 fields: [
-                  { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
                   {
                     label: 'Guide',
                     name: 'guide',
@@ -77,10 +174,10 @@
                     i18n: 'duplicate',
                     required: true
                   },
+                  { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
                   { label: 'Title', name: 'title', widget: 'string', i18n: true },
                   { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
-                  { label: 'Audio URL', name: 'audio', widget: 'file', required: false, i18n: true },
-                  { label: 'Subtitle URL', name: 'subtitle', widget: 'file', required: false, i18n: true },
+                  { label: 'TTML Editor', name: 'ttml', widget: 'ttml', required: false, i18n: 'duplicate' },
                   { label: 'Display Audio', name: 'displayAudio', widget: 'boolean', default: true, required: false, i18n: false },
                   {
                     label: 'Metadata',
