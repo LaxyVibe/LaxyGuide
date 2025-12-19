@@ -1,6 +1,6 @@
 ---
 en-US:
-  number: 028
+  number: '028'
   guide: JPN-OITA-MUS-003
   title: Long Sword
   hero: >-
@@ -38,7 +38,7 @@ en-US:
     ![Detail of Long
     Sword](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/28_03_350ppi_ralnar.jpg)
 ja-JP:
-  number: 028
+  number: '028'
   guide: JPN-OITA-MUS-003
   title: 太刀　銘源国
   hero: >-
@@ -67,7 +67,7 @@ ja-JP:
 
     ![太刀　銘源国詳細](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/28_03_350ppi_ralnar.jpg)
 ko-KR:
-  number: 028
+  number: '028'
   guide: JPN-OITA-MUS-003
   title: 타치(太刀) 명 ‘미나모토 쿠니’
   hero: >-
@@ -100,7 +100,7 @@ ko-KR:
     ![타치(太刀) 명 ‘미나모토 쿠니’
     상세](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/28_03_350ppi_ralnar.jpg)
 zh-TW:
-  number: 028
+  number: '028'
   guide: JPN-OITA-MUS-003
   title: 太刀　銘 源國
   hero: >-
@@ -130,7 +130,7 @@ zh-TW:
     ![太刀　銘
     源國細節](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/28_03_350ppi_ralnar.jpg)
 zh-CN:
-  number: 028
+  number: '028'
   guide: JPN-OITA-MUS-003
   title: 太刀　铭 源国
   hero: >-
