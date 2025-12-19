@@ -3,13 +3,7 @@
  * Parses SRT subtitle files for audio guide synchronization
  */
 
-export interface Subtitle {
-    index: number;
-    startTime: number;
-    endTime: number;
-    text: string;
-    duration: number;
-}
+import { type Subtitle } from '../types';
 
 /**
  * Parse an SRT subtitle string into an array of subtitle objects
@@ -56,11 +50,9 @@ export function parseSRT(srtContent: string): Subtitle[] {
         if (!text) continue;
 
         subtitles.push({
-            index,
             startTime,
             endTime,
-            text,
-            duration: endTime - startTime
+            text
         });
     }
 

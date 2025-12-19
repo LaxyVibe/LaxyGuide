@@ -3,6 +3,18 @@ export interface MetadataItem {
     value: string;
 }
 
+export interface Subtitle {
+    startTime: number;
+    endTime: number;
+    text: string;
+}
+
+export interface Slide {
+    startTime: number;
+    endTime: number;
+    image: string;
+}
+
 export interface POI {
     number: string;
     title: string;
@@ -12,6 +24,7 @@ export interface POI {
     content: string;
     audio?: string;
     subtitle?: string;
+    ttml?: string;
     displayAudio?: boolean;
 }
 

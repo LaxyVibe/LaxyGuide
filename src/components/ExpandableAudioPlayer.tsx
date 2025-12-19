@@ -3,7 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 import { getLanguageFromQuery } from '../utils/languageUtils';
 import { useTranslation } from '../hooks/useTranslation';
-import { parseSRT, type Subtitle } from '../utils/srtParser';
+import { type Subtitle, type Slide } from '../types';
+import { parseSRT } from '../utils/srtParser';
+import { parseTTML, type TTMLData } from '../utils/ttmlParser';
 import './ExpandableAudioPlayer.css';
 import playIcon from '../assets/icons/play.svg';
 import pauseIcon from '../assets/icons/pause.svg';
@@ -14,11 +16,12 @@ import fastForwardIcon from '../assets/icons/fast-forward.svg';
 interface ExpandableAudioPlayerProps {
     src?: string;
     subtitle?: string;
+    ttml?: string;
     title: string;
     artwork?: string;
 }
 
-const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subtitle, title, artwork }) => {
+const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subtitle, ttml, title, artwork }) => {
     const [searchParams] = useSearchParams();
     const lang = getLanguageFromQuery(searchParams);
     const { t } = useTranslation(lang);
@@ -33,6 +36,10 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
     const [isBackwardAnimating, setIsBackwardAnimating] = useState(false);
     const [isForwardAnimating, setIsForwardAnimating] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [ttmlData, setTTMLData] = useState<TTMLData | null>(null);
+    const [slides, setSlides] = useState<Slide[]>([]);
+    const [currentSlideIndex, setCurrentSlideIndex] = useState(-1);
+    const [activeAudioSrc, setActiveAudioSrc] = useState<string | undefined>(src);
 
     const audioRef = useRef<HTMLAudioElement>(null);
     const subtitleContainerRef = useRef<HTMLDivElement>(null);
@@ -45,9 +52,25 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
         milestonesSentRef.current.clear();
     }, [src]);
 
-    // Load subtitles when subtitle URL changes
+    // Load subtitles or TTML when URLs change
     useEffect(() => {
-        const loadSubtitles = async () => {
+        const loadContent = async () => {
+            if (ttml) {
+                try {
+                    setIsLoading(true);
+                    const response = await fetch(ttml);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const xml = await response.text();
+                    const parsed = parseTTML(xml);
+                    setTTMLData(parsed);
+                } catch (error) {
+                    console.error('Failed to load TTML:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+                return;
+            }
+
             if (!subtitle) {
                 setSubtitles([]);
                 return;
@@ -62,6 +85,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                 const srtContent = await response.text();
                 const parsedSubtitles = parseSRT(srtContent);
                 setSubtitles(parsedSubtitles);
+                setTTMLData(null); // Clear TTML data if using SRT
             } catch (error) {
                 console.error('Failed to load subtitles:', error);
                 setSubtitles([]);
@@ -70,8 +94,27 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
             }
         };
 
-        loadSubtitles();
-    }, [subtitle]);
+        loadContent();
+    }, [subtitle, ttml]);
+
+    // Update language-specific content when lang or ttmlData changes
+    useEffect(() => {
+        if (ttmlData) {
+            // Priority 1: Current language
+            // Priority 2: en-US
+            // Priority 3: First available
+            const availableLangs = Object.keys(ttmlData.audioSources);
+            const targetLang = availableLangs.includes(lang) ? lang : (availableLangs.includes('en-US') ? 'en-US' : availableLangs[0]);
+
+            if (targetLang) {
+                setActiveAudioSrc(ttmlData.audioSources[targetLang]);
+                setSubtitles(ttmlData.subtitles[targetLang] || []);
+                setSlides(ttmlData.slides[targetLang] || []);
+            }
+        } else {
+            setActiveAudioSrc(src);
+        }
+    }, [lang, ttmlData, src]);
 
     // Update current subtitle based on time
     useEffect(() => {
@@ -102,7 +145,19 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
         if (currentSubtitleIndex !== newIndex) {
             setCurrentSubtitleIndex(newIndex);
         }
-    }, [currentTime, subtitles]);
+
+        // Update slides
+        let newSlideIndex = -1;
+        for (let i = 0; i < slides.length; i++) {
+            const slide = slides[i];
+            if (currentTime >= slide.startTime && currentTime <= slide.endTime) {
+                newSlideIndex = i;
+            }
+        }
+        if (currentSlideIndex !== newSlideIndex) {
+            setCurrentSlideIndex(newSlideIndex);
+        }
+    }, [currentTime, subtitles, slides]);
 
     // Auto-scroll to current subtitle
     useEffect(() => {
@@ -130,12 +185,12 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
 
         const handleTimeUpdate = () => {
             setCurrentTime(audio.currentTime);
-            
+
             // Track progress milestones
             if (audio.duration > 0) {
                 const progress = (audio.currentTime / audio.duration) * 100;
                 const milestones = [25, 50, 75];
-                
+
                 milestones.forEach(milestone => {
                     if (progress >= milestone && !milestonesSentRef.current.has(milestone)) {
                         milestonesSentRef.current.add(milestone);
@@ -330,7 +385,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
 
     return (
         <div className={`expandable-audio-player ${isExpanded ? 'expanded' : 'collapsed'}`}>
-            <audio ref={audioRef} src={src} preload="metadata" />
+            <audio ref={audioRef} src={activeAudioSrc} preload="metadata" />
 
             {/* Mini Player */}
             <div className="mini-player" onClick={handleExpand}>
@@ -365,7 +420,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
             </div>
 
             {/* Expanded Player */}
-            <div className="player-container">
+            <div className={`player-container ${slides.length > 0 ? 'with-slides' : ''}`}>
                 <div className="player-header">
                     <h2 className="player-title">{title}</h2>
                     <button
@@ -375,6 +430,27 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                     >
                         <img src={collapseIcon} alt="Collapse" style={{ width: 42, height: 42 }} />
                     </button>
+                </div>
+
+                {/* Slide Viewer */}
+                <div className="slide-viewer">
+                    {slides.length > 0 ? (
+                        currentSlideIndex !== -1 ? (
+                            <img
+                                src={slides[currentSlideIndex].image}
+                                alt={`Slide ${currentSlideIndex + 1}`}
+                                className="slide-image"
+                            />
+                        ) : (
+                            <div className="slide-placeholder">
+                                <span>No slide for current time</span>
+                            </div>
+                        )
+                    ) : (
+                        <div className="slide-placeholder">
+                            <span>{artwork ? <img src={artwork} alt={title} className="slide-image" /> : 'Audio Guide'}</span>
+                        </div>
+                    )}
                 </div>
 
                 <div

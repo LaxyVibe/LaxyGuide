@@ -281,11 +281,11 @@ const POIDetail: React.FC = () => {
                 </div>
             </div>
 
-            {/* Audio Player */}
-            {poi.withAudio && poi.audio && (
+            {poi.withAudio && (poi.audio || poi.ttml) && (
                 <ExpandableAudioPlayer
                     src={poi.audio}
                     subtitle={poi.subtitle}
+                    ttml={poi.ttml}
                     title={poi.title}
                     artwork={poi.hero}
                 />
