@@ -110,6 +110,8 @@
 
         window.CMS.registerWidget('ttml', TTMLControl, TTMLPreview);
 
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
         window.CMS.init({
           load_config_file: false,
           config: {
@@ -117,11 +119,16 @@
               src: "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764660125/Group_9133_ufaz64.svg",
               show_in_header: true
             },
-            backend: {
+            backend: isLocal ? {
+              name: 'github',
+              repo: 'LaxyVibe/LaxyLiteGuidePWA',
+              branch: 'staging'
+            } : {
               name: 'git-gateway',
               repo: 'LaxyVibe/LaxyLiteGuidePWA',
               branch: 'staging'
             },
+            local_backend: isLocal,
             media_folder: 'public/media',
             public_folder: '/media',
             media_library: {
@@ -141,7 +148,7 @@
                 name: 'guide',
                 label: 'Guide',
                 folder: 'src/content/guides',
-                create: false,
+                create: true,
                 slug: '{{code}}',
                 summary: '{{code}} - {{title}}',
                 i18n: true,
@@ -171,7 +178,6 @@
                     search_fields: ['title', 'code'],
                     value_field: 'code',
                     display_fields: ['code', 'title'],
-                    i18n: 'duplicate',
                     required: false
                   },
                   { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },

@@ -28,7 +28,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        navigateFallbackDenylist: [/^\/admin/]
+        navigateFallbackDenylist: [/^\/laxy-admin/]
       }
     })
   ],
