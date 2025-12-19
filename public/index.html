@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decap CMS | Laxy Lite Guide</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    // Disable auto-init to prevent config loading issues
+    window.CMS_MANUAL_INIT = true;
+  </script>
+  <!-- Include the script that builds the page and powers Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Initialize CMS immediately after it loads
+    window.addEventListener('load', function () {
+      if (window.CMS) {
+        // Custom TTML Widget
+        const TTMLControl = window.createClass({
+          getInitialState: function () {
+            return {
+              isOpen: false
+            };
+          },
+          handleChange: function (e) {
+            this.props.onChange(e.target.value);
+          },
+          openEditor: function () {
+            this.setState({ isOpen: true });
+            window.addEventListener('message', this.handleMessage);
+          },
+          closeEditor: function () {
+            this.setState({ isOpen: false });
+            window.removeEventListener('message', this.handleMessage);
+          },
+          handleMessage: function (event) {
+            if (event.data.type === 'TTML_SAVE') {
+              this.props.onChange(event.data.url);
+              this.closeEditor();
+            } else if (event.data.type === 'TTML_CLOSE') {
+              this.closeEditor();
+            }
+          },
+          render: function () {
+            const value = this.props.value || '';
+            const editorUrl = `https://laxy-ttml-editor.netlify.app/?ttml=${encodeURIComponent(value)}`;
+
+            return window.h('div', {},
+              window.h('div', { style: { display: 'flex', gap: '8px', alignItems: 'center' } },
+                window.h('input', {
+                  type: 'text',
+                  value: value,
+                  onChange: this.handleChange,
+                  style: {
+                    flex: 1,
+                    padding: '8px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px'
+                  }
+                }),
+                window.h('button', {
+                  onClick: this.openEditor,
+                  type: 'button',
+                  style: {
+                    padding: '8px 16px',
+                    backgroundColor: '#007acc',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }
+                }, 'Edit TTML')
+              ),
+              this.state.isOpen && window.h('div', {
+                style: {
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  width: '100vw',
+                  height: '100vh',
+                  zIndex: 99999,
+                  backgroundColor: 'white',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }
+              },
+                window.h('iframe', {
+                  src: editorUrl,
+                  style: {
+                    flex: 1,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }
+                })
+              )
+            );
+          }
+        });
+
+        const TTMLPreview = window.createClass({
+          render: function () {
+            return window.h('div', { style: { padding: '10px', background: '#f0f0f0', borderRadius: '4px' } },
+              window.h('strong', {}, 'TTML URL: '),
+              this.props.value || '(empty)'
+            );
+          }
+        });
+
+        window.CMS.registerWidget('ttml', TTMLControl, TTMLPreview);
+
+        window.CMS.init({
+          load_config_file: false,
+          config: {
+            logo: {
+              src: "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764660125/Group_9133_ufaz64.svg",
+              show_in_header: true
+            },
+            backend: {
+              name: 'git-gateway',
+              repo: 'LaxyVibe/LaxyLiteGuidePWA',
+              branch: 'staging'
+            },
+            public_folder: '/media',
+            media_folder: 'public/media',
+            media_library: {
+              name: 'cloudinary',
+              config: {
+                cloud_name: 'dui2mxeuh',
+                api_key: '569778884527558',
+              },
+            },
+            i18n: {
+              structure: 'single_file',
+              locales: ['en-US', 'ja-JP', 'ko-KR', 'zh-TW', 'zh-CN'],
+              default_locale: 'en-US'
+            },
+            collections: [
+              {
+                name: 'guide',
+                label: 'Guide',
+                folder: 'src/content/guides',
+                create: false,
+                slug: '{{code}}',
+                summary: '{{code}} - {{title}}',
+                i18n: true,
+                fields: [
+                  { label: 'Code', name: 'code', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                  { label: 'Underlay Image', name: 'guideUnderlayImage', widget: 'image', i18n: true },
+                ]
+              },
+              {
+                name: 'poi',
+                label: 'POI',
+                folder: 'src/content/pois',
+                create: true,
+                slug: '{{guide}}-{{number}}',
+                summary: '{{guide}}-{{number}} - {{title}}',
+                i18n: true,
+                view_groups: [
+                  { label: 'Guide', field: 'guide' }
+                ],
+                fields: [
+                  {
+                    label: 'Guide',
+                    name: 'guide',
+                    widget: 'relation',
+                    collection: 'guide',
+                    search_fields: ['title', 'code'],
+                    value_field: 'code',
+                    display_fields: ['code', 'title'],
+                    i18n: 'duplicate',
+                    required: true
+                  },
+                  { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
+                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
+                  { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
+                  { label: 'TTML Editor', name: 'ttml', widget: 'ttml', required: false, i18n: 'duplicate' },
+                  { label: 'Display Audio', name: 'displayAudio', widget: 'boolean', default: true, required: false, i18n: false },
+                  {
+                    label: 'Metadata',
+                    name: 'metadata',
+                    widget: 'list',
+                    required: false,
+                    i18n: true,
+                    fields: [
+                      { label: 'Label', name: 'label', widget: 'string' },
+                      { label: 'Value', name: 'value', widget: 'string' }
+                    ]
+                  },
+                  { label: 'Content', name: 'content', widget: 'markdown', i18n: true }
+                ]
+              }
+            ]
+          }
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Decap CMS will create its own root element -->
+</body>
+
+</html>
