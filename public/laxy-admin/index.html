@@ -178,13 +178,14 @@
                     search_fields: ['title', 'code'],
                     value_field: 'code',
                     display_fields: ['code', 'title'],
-                    required: false
+                    required: false,
+                    i18n: 'duplicate'
                   },
                   { label: 'Number', name: 'number', widget: 'string' },
-                  { label: 'Title', name: 'title', widget: 'string', i18n: true },
-                  { label: 'Hero Image', name: 'hero', widget: 'image' },
-                  { label: 'TTML Editor', name: 'ttml', widget: 'ttml', required: false },
-                  { label: 'Display Audio', name: 'displayAudio', widget: 'boolean', default: true, required: false },
+                  { label: 'Title', name: 'title', widget: 'string', required: false, i18n: true },
+                  { label: 'Hero Image', name: 'hero', widget: 'image', required: false, i18n: 'duplicate' },
+                  { label: 'TTML Editor', name: 'ttml', widget: 'ttml', required: false, i18n: 'duplicate' },
+                  { label: 'Display Audio', name: 'displayAudio', widget: 'boolean', default: true, required: false, i18n: 'duplicate' },
                   {
                     label: 'Metadata',
                     name: 'metadata',
