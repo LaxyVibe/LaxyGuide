@@ -1,0 +1,142 @@
+{
+    "landing": {
+        "selectLanguage": "Select Language",
+        "poweredBy": "Powered by"
+    },
+    "poiListing": {
+        "title": "Artworks"
+    },
+    "poiSearch": {
+        "title": "Item Search",
+        "prompt": "Enter Item Number",
+        "confirm": "Is this correct?",
+        "visit": "View Details"
+    },
+    "poiDetail": {
+        "notFound": "POI not found"
+    },
+    "survey": {
+        "title": "Exhibition Questionnaire",
+        "subtitle": "We appreciate your cooperation.",
+        "intro": "Thank you for visiting our museum today. We appreciate your cooperation in answering the following questionnaire.",
+        "giftBadge": "After answering, please approach staff for a small gift!",
+        "q1": {
+            "title": "Satisfaction with the exhibition",
+            "veryDissatisfied": "Very Dissatisfied",
+            "verySatisfied": "Very Satisfied"
+        },
+        "q2": {
+            "title": "Please tell us about what impressed you about this exbibition.",
+            "exhibitionTheme": "Exhibition Theme",
+            "exhibits": "Exhibits",
+            "specialEvents": "Special Events",
+            "multilingualSupport": "Multilingual Support",
+            "other": "Other…"
+        },
+        "q3": {
+            "title": "How did you come to know about this exhibition?",
+            "newspapers": "Newspapers and Magazines",
+            "posters": "Exhibition posters and leaflets",
+            "sns": "SNS",
+            "acquaintance": "Acquaintance",
+            "droppedBy": "Dropped by chance",
+            "websites": "Websites",
+            "websiteName": "Website name…",
+            "other": "Other…"
+        },
+        "q4": {
+            "title": "If you selected \"Exhibition posters and leaflets\" above, where did you see the posters and leaflets?",
+            "accommodation": "Accommodation facility",
+            "station": "Station",
+            "touristInfo": "Tourist information center",
+            "restaurant": "Restaurant",
+            "other": "Other…"
+        },
+        "q5": {
+            "title": "What kind of multilingual support do you need more on the services?",
+            "infoDisplays": "Information displays",
+            "exhibitionDesc": "Exhibition description detailed",
+            "captions": "Captions (list) of each exhibition",
+            "audioGuide": "Audio Guide",
+            "other": "Other…"
+        },
+        "q6": {
+            "title": "Nationality/Region",
+            "selectRegion": "Select your region",
+            "korea": "Korea",
+            "china": "China",
+            "taiwan": "Taiwan",
+            "hongKong": "Hong Kong",
+            "vietnam": "Vietnam",
+            "thailand": "Thailand",
+            "singapore": "Singapore",
+            "philippines": "Philippines",
+            "indonesia": "Indonesia",
+            "malaysia": "Malaysia",
+            "india": "India",
+            "usa": "The United States of America",
+            "canada": "Canada",
+            "uk": "United Kingdom",
+            "france": "France",
+            "germany": "Germany",
+            "italy": "Italy",
+            "spain": "Spain",
+            "australia": "Australia",
+            "other": "Other",
+            "pleaseSpecify": "Please specify"
+        },
+        "q7": {
+            "title": "How long do you plan to stay in the area?",
+            "dayTrip": "Day trip",
+            "nights1to2": "1 to 2 nights",
+            "nights3to6": "3 to 6 nights",
+            "weeks1to2": "1 to 2 weeks",
+            "weeks2to1month": "More than 2 weeks but less than 1 month",
+            "month1plus": "1 month or more"
+        },
+        "q8": {
+            "title": "Where else have you visited (or plan to visit) outside the local area?",
+            "tokyo": "Tokyo",
+            "kyoto": "Kyoto",
+            "osaka": "Osaka",
+            "hokkaido": "Hokkaido",
+            "okinawa": "Okinawa",
+            "nara": "Nara",
+            "hiroshima": "Hiroshima",
+            "fukuoka": "Fukuoka",
+            "other": "Other (e.g. Beppu, Yufuin)…"
+        },
+        "q9": {
+            "title": "Please feel free to fill in the form below if you have any opinion or suggestion regarding our efforts to improve the satisfaction of visitors to Japan.",
+            "placeholder": "Feel free to write here…"
+        },
+        "submit": "Submit Questionnaire",
+        "submitting": "Submitting...",
+        "success": {
+            "title": "Thank you!",
+            "message": "Please approach the staff to receive your small gift.",
+            "close": "Close"
+        },
+        "confirmLeave": "Are you sure you want to leave without saving?"
+    },
+    "languageSwitch": {
+        "title": "Language Setting",
+        "apply": "Apply"
+    },
+    "startButton": {
+        "next": "Next"
+    },
+    "audioPlayer": {
+        "clickToExpand": "Click to view the guide content",
+        "loadingSubtitles": "Loading subtitles...",
+        "noSubtitles": "No subtitles available"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "noData": "No data found"
+    },
+    "meta": {
+        "title": "OPAM 10th Anniversary Exhibition: Sparkling Japanese Art: 1300 Years of Treasures - OPAM- Laxy"
+    }
+}

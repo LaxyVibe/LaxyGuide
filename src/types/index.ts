@@ -21,12 +21,13 @@ export interface GuideData {
     pois: POI[];
 }
 
-export type Language = 'en-US' | 'ja-JP' | 'ko-KR' | 'zh-TW' | 'zh-CN';
+export type Language = 'en-US' | 'ja-JP' | 'ko-KR' | 'zh-TW' | 'zh-CN' | 'fr-FR';
 
 export const LANGUAGES: { [key in Language]: string } = {
     'en-US': 'English',
     'ja-JP': '日本語',
     'ko-KR': '한국어',
     'zh-TW': '繁體中文',
-    'zh-CN': '简体中文'
+    'zh-CN': '简体中文',
+    'fr-FR': 'Français'
 };

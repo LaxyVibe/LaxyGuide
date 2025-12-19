@@ -1,6 +1,7 @@
 ---
 en-US:
   number: '027'
+  guide: JPN-OITA-MUS-003
   title: Long Sword
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_027_pjzvvo.jpg
@@ -37,6 +38,7 @@ en-US:
     Sword](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186785/27_02_350ppi_xdxii0.jpg)
 ja-JP:
   number: '027'
+  guide: JPN-OITA-MUS-003
   title: 太刀　銘国宗
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_027_pjzvvo.jpg
@@ -65,6 +67,7 @@ ja-JP:
     ![太刀　銘国宗詳細](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186785/27_02_350ppi_xdxii0.jpg)
 ko-KR:
   number: '027'
+  guide: JPN-OITA-MUS-003
   title: 타치(太刀) — 명문 ‘쿠니무네’
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_027_pjzvvo.jpg
@@ -97,6 +100,7 @@ ko-KR:
     상세](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186785/27_02_350ppi_xdxii0.jpg)
 zh-TW:
   number: '027'
+  guide: JPN-OITA-MUS-003
   title: 太刀　銘「國宗」
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_027_pjzvvo.jpg
@@ -125,6 +129,7 @@ zh-TW:
     ![太刀——銘「國宗」細節](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186785/27_02_350ppi_xdxii0.jpg)
 zh-CN:
   number: '027'
+  guide: JPN-OITA-MUS-003
   title: 太刀　铭「国宗」
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_027_pjzvvo.jpg

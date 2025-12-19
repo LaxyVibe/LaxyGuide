@@ -23,9 +23,9 @@
               show_in_header: true
             },
             backend: {
-              name: 'git-gateway',
+              name: 'github',
               repo: 'LaxyVibe/LaxyLiteGuidePWA',
-              branch: 'v2'
+              branch: 'v3'
             },
             media_folder: 'public/media',
             public_folder: '/media',
@@ -61,11 +61,22 @@
                 label: 'POI',
                 folder: 'src/content/pois',
                 create: true,
-                slug: '{{number}}',
-                summary: '{{number}} - {{title}}',
+                slug: '{{guide}}-{{number}}',
+                summary: '{{guide}}-{{number}} - {{title}}',
                 i18n: true,
                 fields: [
                   { label: 'Number', name: 'number', widget: 'string', i18n: 'duplicate' },
+                  {
+                    label: 'Guide',
+                    name: 'guide',
+                    widget: 'relation',
+                    collection: 'guide',
+                    search_fields: ['title', 'code'],
+                    value_field: 'code',
+                    display_fields: ['code', 'title'],
+                    i18n: 'duplicate',
+                    required: true
+                  },
                   { label: 'Title', name: 'title', widget: 'string', i18n: true },
                   { label: 'Hero Image', name: 'hero', widget: 'image', i18n: true },
                   { label: 'Audio URL', name: 'audio', widget: 'file', required: false, i18n: true },

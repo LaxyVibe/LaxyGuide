@@ -25,30 +25,44 @@ interface POIFrontmatter {
     } | string | undefined;
 }
 
-export async function loadGuideData(lang: string): Promise<GuideData | null> {
-    // 1. Load Guide File
-    // We use eager: true to load content synchronously at build/runtime start
-    // query: '?raw' ensures we get the file content as a string
+export async function loadGuideData(guideId: string, lang: string): Promise<GuideData | null> {
+    // 1. Load Guide Files
     const guideFiles = import.meta.glob('/src/content/guides/*.md', { eager: true, query: '?raw', import: 'default' });
-    const guidePaths = Object.keys(guideFiles);
-    
-    if (guidePaths.length === 0) {
-        console.error('No guide files found in src/content/guides');
+    let guideContent: string | null = null;
+
+    // Find the guide file that matches the guideId (case-insensitive for safety)
+    for (const path in guideFiles) {
+        const content = guideFiles[path] as string;
+        const parsed = matter(content);
+        const data = parsed.data as GuideFrontmatter;
+
+        // Check if any language version has the matching code
+        const hasMatchingCode = Object.values(data).some(langData =>
+            langData && typeof langData === 'object' && 'code' in langData &&
+            langData.code?.toLowerCase() === guideId.toLowerCase()
+        );
+
+        if (hasMatchingCode) {
+            guideContent = content;
+            break;
+        }
+    }
+
+    if (!guideContent) {
+        console.error(`No guide file found for guideId: ${guideId}`);
         return null;
     }
-    
-    // Assume single guide for now, or pick the first one found
-    const guideContent = guideFiles[guidePaths[0]] as string;
+
     const guideParsed = matter(guideContent);
     const guideData = guideParsed.data as GuideFrontmatter;
-    
+
     // Get guide details with fallback to en-US
     const guideLangData = (guideData[lang] as any) || {};
     const guideDefaultData = (guideData['en-US'] as any) || {};
 
     const guideTitle = guideLangData.title || guideDefaultData.title;
     const guideUnderlayImage = guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage;
-    
+
     // 2. Load POI Files
     const poiFiles = import.meta.glob('/src/content/pois/*.md', { eager: true, query: '?raw', import: 'default' });
     const pois: POI[] = [];
@@ -57,17 +71,24 @@ export async function loadGuideData(lang: string): Promise<GuideData | null> {
         const poiContent = poiFiles[path] as string;
         const poiParsed = matter(poiContent);
         const poiData = poiParsed.data as POIFrontmatter;
-        
+
         const poiLangData = (poiData[lang] as any) || {};
         const poiDefaultData = (poiData['en-US'] as any) || {};
 
         // Merge data: default first, then localized override
         const mergedPoi = { ...poiDefaultData, ...poiLangData };
-        
+
         if (!mergedPoi.number) continue;
 
+        // Filter by guideId
+        // If the POI doesn't have a guide field, or it matches the guideId
+        const poiGuide = mergedPoi.guide;
+        if (poiGuide && poiGuide.toLowerCase() !== guideId.toLowerCase()) {
+            continue;
+        }
+
         pois.push({
-            number: mergedPoi.number,
+            number: String(mergedPoi.number),
             title: mergedPoi.title || '',
             hero: mergedPoi.hero || '',
             withAudio: !!mergedPoi.audio && (mergedPoi.displayAudio !== false),

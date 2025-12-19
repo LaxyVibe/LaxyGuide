@@ -36,7 +36,6 @@ function App() {
         <Route path="/:guideId/search" element={<POISearch />} />
         <Route path="/:guideId/:poiId" element={<POIDetail />} />
         {/* Redirect root to a default guide or 404 */}
-        <Route path="/" element={<Navigate to="/JPN-OITA-MUS-003" replace />} />
       </Routes>
     </Router>
   );
