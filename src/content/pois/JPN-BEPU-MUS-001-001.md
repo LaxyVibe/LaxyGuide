@@ -14,7 +14,7 @@ en-US:
     for testing purposes.
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766109273/yfuhdu09qn77wndlsvl5.jpg
   guide: JPN-BEPU-MUS-001
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766110086/n9v7jx7vezhefmpnvc5q.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766113255/nn3gwpnvpfmtogtrkctp.ttml
 ja-JP:
   number: "001"
   metadata:
