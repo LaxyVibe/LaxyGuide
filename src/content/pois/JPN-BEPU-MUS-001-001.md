@@ -7,11 +7,11 @@ en-US:
     - label: Materials
       value: Mixed
   displayAudio: true
-  audio: https://res.cloudinary.com/dui2mxeuh/video/upload/v1765440529/JPOITAO327ENG_bmytic.mp3
-  subtitle: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765440531/JPOITAO327ENG_nd9ygl.srt
+  audio: ""
+  subtitle: ""
   title: Beppu Museum Treasure
   content: This is a dummy POI for the Beppu Museum. It serves as a placeholder
-    for testing purposes.
+    for testing purposes. 123
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766109273/yfuhdu09qn77wndlsvl5.jpg
   guide: JPN-BEPU-MUS-001
   ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766113255/nn3gwpnvpfmtogtrkctp.ttml
