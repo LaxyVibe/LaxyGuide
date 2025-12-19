@@ -39,7 +39,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
     const [ttmlData, setTTMLData] = useState<TTMLData | null>(null);
     const [slides, setSlides] = useState<Slide[]>([]);
     const [currentSlideIndex, setCurrentSlideIndex] = useState(-1);
-    const [activeAudioSrc, setActiveAudioSrc] = useState<string | undefined>(src);
+    const [activeAudioSrc, setActiveAudioSrc] = useState<string | undefined>(ttml ? undefined : src);
 
     const audioRef = useRef<HTMLAudioElement>(null);
     const subtitleContainerRef = useRef<HTMLDivElement>(null);
@@ -50,7 +50,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
     // Reset milestones when src changes
     useEffect(() => {
         milestonesSentRef.current.clear();
-    }, [src]);
+    }, [activeAudioSrc, src]);
 
     // Load subtitles or TTML when URLs change
     useEffect(() => {
@@ -100,21 +100,25 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
     // Update language-specific content when lang or ttmlData changes
     useEffect(() => {
         if (ttmlData) {
-            // Priority 1: Current language
-            // Priority 2: en-US
-            // Priority 3: First available
-            const availableLangs = Object.keys(ttmlData.audioSources);
-            const targetLang = availableLangs.includes(lang) ? lang : (availableLangs.includes('en-US') ? 'en-US' : availableLangs[0]);
+            // Use current language audio if it exists in TTML
+            const langAudio = ttmlData.audioSources[lang];
 
-            if (targetLang) {
-                setActiveAudioSrc(ttmlData.audioSources[targetLang]);
-                setSubtitles(ttmlData.subtitles[targetLang] || []);
-                setSlides(ttmlData.slides[targetLang] || []);
+            if (langAudio) {
+                setActiveAudioSrc(langAudio);
+                setSubtitles(ttmlData.subtitles[lang] || []);
+                setSlides(ttmlData.slides[lang] || []);
+            } else {
+                // If the specific language has no audio in TTML, hide the player
+                // (Requirement: player should not appear in that language if no audio in TTML)
+                setActiveAudioSrc(undefined);
+                setSubtitles([]);
+                setSlides([]);
             }
-        } else {
+        } else if (!ttml) {
+            // No TTML provided, fallback to the generic src prop
             setActiveAudioSrc(src);
         }
-    }, [lang, ttmlData, src]);
+    }, [lang, ttmlData, src, ttml]);
 
     // Update current subtitle based on time
     useEffect(() => {
@@ -242,7 +246,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
             audio.removeEventListener('pause', handlePause);
             audio.removeEventListener('ended', handleEnded);
         };
-    }, [title]);
+    }, [title, activeAudioSrc]);
 
     // Media Session API
     useEffect(() => {
@@ -277,7 +281,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                 }
             });
         }
-    }, [title, artwork]);
+    }, [title, artwork, activeAudioSrc]);
 
     // Cleanup manual scroll timer
     useEffect(() => {
@@ -379,7 +383,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
         });
     };
 
-    if (!src) return null;
+    if (!activeAudioSrc) return null;
 
     const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 

@@ -26,6 +26,41 @@ interface POIFrontmatter {
     } | string | undefined;
 }
 
+export interface GuideSummary {
+    id: string;
+    title: string;
+    image: string;
+}
+
+export async function loadAllGuides(lang: string): Promise<GuideSummary[]> {
+    const guideFiles = import.meta.glob('/src/content/guides/*.md', { eager: true, query: '?raw', import: 'default' });
+    const guides: GuideSummary[] = [];
+
+    for (const path in guideFiles) {
+        const content = guideFiles[path] as string;
+        const parsed = matter(content);
+        const data = parsed.data as GuideFrontmatter;
+
+        // Get guide details with fallback to en-US
+        const guideLangData = (data[lang] as any) || {};
+        const guideDefaultData = (data['en-US'] as any) || {};
+
+        const title = guideLangData.title || guideDefaultData.title;
+        const code = guideLangData.code || guideDefaultData.code;
+        const image = guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage;
+
+        if (code && title) {
+            guides.push({
+                id: code,
+                title,
+                image: image || ''
+            });
+        }
+    }
+
+    return guides;
+}
+
 export async function loadGuideData(guideId: string, lang: string): Promise<GuideData | null> {
     // 1. Load Guide Files
     const guideFiles = import.meta.glob('/src/content/guides/*.md', { eager: true, query: '?raw', import: 'default' });
@@ -92,7 +127,7 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
             number: String(mergedPoi.number),
             title: mergedPoi.title || '',
             hero: mergedPoi.hero || '',
-            withAudio: !!mergedPoi.audio && (mergedPoi.displayAudio !== false),
+            withAudio: (!!mergedPoi.audio || !!mergedPoi.ttml) && (mergedPoi.displayAudio !== false),
             metadata: mergedPoi.metadata || [],
             content: mergedPoi.content || '',
             audio: mergedPoi.audio,
