@@ -3,7 +3,7 @@ en-US:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   number: "888"
-  title: This is a test
+  title: This is a test 2
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766148233/%E6%9C%9D%E3%81%AE%E6%A2%85_iodj1m.jpg
   metadata:
     - label: test
