@@ -16,7 +16,7 @@ en-US:
 
 
     ![](https://res.cloudinary.com/dui2mxeuh/image/upload/v1766134765/6._%E3%82%B7%E3%83%A7%E3%83%83%E3%83%95%E3%82%9A_%E3%82%AB%E3%83%95%E3%82%A7_1_jwjybe.jpg)
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138241/kdpz8a2eznl8xs1papr5.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138776/gslslvjpzapnhip7jqeg.ttml
 ja-JP:
   guide: JPN-BEPU-MUS-001
   number: "01"
@@ -32,17 +32,17 @@ ja-JP:
 
 
     ![](https://res.cloudinary.com/dui2mxeuh/image/upload/v1766134765/6._%E3%82%B7%E3%83%A7%E3%83%83%E3%83%95%E3%82%9A_%E3%82%AB%E3%83%95%E3%82%A7_1_jwjybe.jpg)
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138241/kdpz8a2eznl8xs1papr5.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138776/gslslvjpzapnhip7jqeg.ttml
 ko-KR:
   guide: JPN-BEPU-MUS-001
   number: "01"
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138241/kdpz8a2eznl8xs1papr5.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138776/gslslvjpzapnhip7jqeg.ttml
 zh-TW:
   guide: JPN-BEPU-MUS-001
   number: "01"
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138241/kdpz8a2eznl8xs1papr5.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138776/gslslvjpzapnhip7jqeg.ttml
 zh-CN:
   guide: JPN-BEPU-MUS-001
   number: "01"
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138241/kdpz8a2eznl8xs1papr5.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766138776/gslslvjpzapnhip7jqeg.ttml
 ---
