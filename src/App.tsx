@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import Landing from './pages/Landing';
 import POIListing from './pages/POIListing';
 import POISearch from './pages/POISearch';
@@ -6,6 +7,13 @@ import POIDetail from './pages/POIDetail';
 import GuideListing from './pages/GuideListing';
 import AnalyticsTracker from './components/AnalyticsTracker';
 import './App.css';
+
+const AdminRedirect = () => {
+  useEffect(() => {
+    window.location.href = '/laxy-admin/index.html';
+  }, []);
+  return null;
+};
 
 function App() {
   // Check for Netlify Identity invite token to prevent redirect
@@ -22,6 +30,8 @@ function App() {
     <Router>
       <AnalyticsTracker />
       <Routes>
+        {/* Handle /admin route explicitly to bypass SPA routing and load static admin page */}
+        {/* <Route path="/" element={<AdminRedirect />} /> */}
         <Route path="/" element={<GuideListing />} />
         <Route path="/:guideId" element={<Landing />} />
         <Route path="/:guideId/list" element={<POIListing />} />
