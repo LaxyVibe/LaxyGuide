@@ -15,6 +15,7 @@ ja-JP:
 ko-KR:
   guide: JPN-BEPU-MUS-001
   number: "888"
+  title: test korean
 zh-TW:
   guide: JPN-BEPU-MUS-001
   number: "888"
