@@ -12,6 +12,11 @@ en-US:
 ja-JP:
   guide: JPN-BEPU-MUS-001
   number: "888"
+  title: This is a test 2 JP
+  metadata:
+    - label: test
+      value: test
+  content: test
 ko-KR:
   guide: JPN-BEPU-MUS-001
   number: "888"
