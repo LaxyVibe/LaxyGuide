@@ -2,7 +2,7 @@
 en-US:
   displayAudio: true
   number: "001"
-  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
+  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766148233/%E6%9C%9D%E3%81%AE%E6%A2%85_iodj1m.jpg
   guide: JPN-OITA-MUS-003
   title: 朝の梅 EN
   content: >-
@@ -19,10 +19,10 @@ en-US:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766374084/oxdnfa0wdf0pzkenxaru.ttml
 ja-JP:
   displayAudio: true
-  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
+  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766148233/%E6%9C%9D%E3%81%AE%E6%A2%85_iodj1m.jpg
   guide: JPN-OITA-MUS-003
   title: 朝の梅 JA
   content: >-
@@ -39,10 +39,10 @@ ja-JP:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766374084/oxdnfa0wdf0pzkenxaru.ttml
 ko-KR:
   displayAudio: true
-  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
+  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766148233/%E6%9C%9D%E3%81%AE%E6%A2%85_iodj1m.jpg
   guide: JPN-OITA-MUS-003
   title: 朝の梅 KR
   content: >-
@@ -53,10 +53,10 @@ ko-KR:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766374084/oxdnfa0wdf0pzkenxaru.ttml
 zh-TW:
   displayAudio: true
-  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
+  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766148233/%E6%9C%9D%E3%81%AE%E6%A2%85_iodj1m.jpg
   guide: JPN-OITA-MUS-003
   title: 朝の梅 TW
   content: >-
@@ -67,10 +67,10 @@ zh-TW:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766374084/oxdnfa0wdf0pzkenxaru.ttml
 zh-CN:
   displayAudio: true
-  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
+  hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1766148233/%E6%9C%9D%E3%81%AE%E6%A2%85_iodj1m.jpg
   guide: JPN-OITA-MUS-003
   title: 朝の梅 CN
   content: >-
@@ -81,5 +81,5 @@ zh-CN:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766374084/oxdnfa0wdf0pzkenxaru.ttml
 ---
