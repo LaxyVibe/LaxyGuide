@@ -19,7 +19,7 @@ en-US:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373448/mcfn9bcywa0od8ztf3pm.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
 ja-JP:
   displayAudio: true
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
@@ -39,7 +39,7 @@ ja-JP:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373448/mcfn9bcywa0od8ztf3pm.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
 ko-KR:
   displayAudio: true
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
@@ -53,7 +53,7 @@ ko-KR:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373448/mcfn9bcywa0od8ztf3pm.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
 zh-TW:
   displayAudio: true
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
@@ -67,7 +67,7 @@ zh-TW:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373448/mcfn9bcywa0od8ztf3pm.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
 zh-CN:
   displayAudio: true
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186800/187_JP-2000-0042_0001_p4hlcf.jpg
@@ -81,5 +81,5 @@ zh-CN:
 
 
     画面右下には「菊川英山筆」と署名があり、上部の瓢箪形の余白は和歌や狂歌を記すために設けられたと考えられる。絵と詩を響かせる構成は、当時の文雅な趣味を反映している。英山は、朝の清澄な光と梅の香り、そして女性の静謐な美しさを一つの画面に凝縮し、季節の移ろいを優雅に描き出した。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373448/mcfn9bcywa0od8ztf3pm.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1766373970/dqldv2kexb8uqqocjxlv.ttml
 ---
