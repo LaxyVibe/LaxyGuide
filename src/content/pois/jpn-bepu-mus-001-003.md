@@ -14,7 +14,7 @@ en-US:
 
 
     竹の帽子は１９５０年に海外向けの商品開発として製作されました。当時、リボンがついている方が男性用、上部に穴が開いている方が女性用として開発されました。展示品は１９９７年頃に作られたものです。ぜひ被って記念写真を撮ってください。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767271545/nskcojm5vc6dizy43lzq.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273075/au2inqw2rfeygacmzu6q.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -28,25 +28,25 @@ ja-JP:
 
 
     竹の帽子は１９５０年に海外向けの商品開発として製作されました。当時、リボンがついている方が男性用、上部に穴が開いている方が女性用として開発されました。展示品は１９９７年頃に作られたものです。ぜひ被って記念写真を撮ってください。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767271545/nskcojm5vc6dizy43lzq.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273075/au2inqw2rfeygacmzu6q.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767271545/nskcojm5vc6dizy43lzq.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273075/au2inqw2rfeygacmzu6q.ttml
 zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767271545/nskcojm5vc6dizy43lzq.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273075/au2inqw2rfeygacmzu6q.ttml
 zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767271545/nskcojm5vc6dizy43lzq.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273075/au2inqw2rfeygacmzu6q.ttml
 fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767271545/nskcojm5vc6dizy43lzq.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273075/au2inqw2rfeygacmzu6q.ttml
 ---
