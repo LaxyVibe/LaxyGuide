@@ -115,6 +115,7 @@
 .expandable-audio-player.expanded .player-container.with-slides {
     height: 100vh;
     border-radius: 0;
+    padding-top: env(safe-area-inset-top, 0px);
 }
 
 .expandable-audio-player.expanded .player-header {
