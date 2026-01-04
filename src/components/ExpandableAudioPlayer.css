@@ -172,6 +172,7 @@
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+    margin-bottom: 16px;
 }
 
 .slide-image {
