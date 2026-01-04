@@ -156,8 +156,8 @@
     /* position it over the header */
     left: 16px;
     /* place on the left side */
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 12px;
+    /* align with the title at bottom of header */
 }
 
 .expandable-audio-player.expanded .close-button:hover {
