@@ -115,11 +115,11 @@
 .expandable-audio-player.expanded .player-container.with-slides {
     height: 100vh;
     border-radius: 0;
-    padding-top: env(safe-area-inset-top, 0px);
 }
 
 .expandable-audio-player.expanded .player-header {
     padding: 16px 20px;
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
