@@ -102,8 +102,8 @@
 .expandable-audio-player.expanded .player-container {
     display: flex;
     flex-direction: column;
-    height: 60vh;
-    /* Half-height (approx) */
+    height: 80vh;
+    /* 80% height from bottom */
     background: var(--neutral-900);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -113,13 +113,12 @@
 }
 
 .expandable-audio-player.expanded .player-container.with-slides {
-    height: 100vh;
-    border-radius: 0;
+    height: 90vh;
+    border-radius: 20px 20px 0 0;
 }
 
 .expandable-audio-player.expanded .player-header {
     padding: 16px 20px;
-    padding-top: calc(16px + max(env(safe-area-inset-top, 0px), 48px));
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
@@ -156,8 +155,8 @@
     /* position it over the header */
     left: 16px;
     /* place on the left side */
-    bottom: 12px;
-    /* align with the title at bottom of header */
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .expandable-audio-player.expanded .close-button:hover {
