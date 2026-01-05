@@ -122,11 +122,11 @@
             backend: isLocal ? {
               name: 'github',
               repo: 'LaxyVibe/LaxyLiteGuidePWA',
-              branch: 'staging'
+              branch: 'develop'
             } : {
               name: 'git-gateway',
               repo: 'LaxyVibe/LaxyLiteGuidePWA',
-              branch: 'staging'
+              branch: 'develop'
             },
             local_backend: isLocal,
             media_folder: 'public/media',
@@ -203,6 +203,40 @@
             ]
           }
         });
+
+        // Add custom navigation link after CMS initialization
+        setTimeout(() => {
+          const style = document.createElement('style');
+          style.textContent = `
+            .guide-generator-link {
+              position: fixed;
+              bottom: 20px;
+              right: 20px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              padding: 12px 24px;
+              border-radius: 8px;
+              text-decoration: none;
+              font-weight: 600;
+              font-size: 14px;
+              box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+              z-index: 9999;
+              transition: transform 0.2s, box-shadow 0.2s;
+            }
+            .guide-generator-link:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            }
+          `;
+          document.head.appendChild(style);
+
+          const link = document.createElement('a');
+          link.href = '/laxy-admin/guide-generator.html';
+          link.target = '_blank';
+          link.className = 'guide-generator-link';
+          link.textContent = '🚀 Guide Generator';
+          document.body.appendChild(link);
+        }, 1000);
       }
     });
   </script>

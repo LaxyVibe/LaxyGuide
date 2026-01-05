@@ -4,6 +4,11 @@
   functions = "netlify/functions"
 
 [[redirects]]
+  from = "/laxy-admin/guide-generator"
+  to = "/laxy-admin/guide-generator.html"
+  status = 200
+
+[[redirects]]
   from = "/laxy-admin/*"
   to = "/laxy-admin/index.html"
   status = 200

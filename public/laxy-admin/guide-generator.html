@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide Generator - Laxy Admin</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .header .back-link {
+      display: inline-block;
+      margin-top: 15px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+
+    .header .back-link:hover {
+      opacity: 1;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 6px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    .language-inputs {
+      display: grid;
+      gap: 16px;
+    }
+
+    .language-input-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .language-input-group label {
+      min-width: 80px;
+      margin: 0;
+      font-weight: 500;
+      color: #666;
+    }
+
+    .language-input-group input {
+      flex: 1;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+      display: block;
+    }
+
+    .file-links {
+      margin-top: 12px;
+    }
+
+    .file-links a {
+      display: block;
+      color: #667eea;
+      text-decoration: none;
+      padding: 4px 0;
+      font-size: 13px;
+    }
+
+    .file-links a:hover {
+      text-decoration: underline;
+    }
+
+    .auth-section {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    .auth-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .auth-status.connected {
+      color: #155724;
+    }
+
+    .auth-status .indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #dc3545;
+    }
+
+    .auth-status.connected .indicator {
+      background: #28a745;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 Guide Generator</h1>
+      <p>Generate guide and POI markdown files via GitHub API</p>
+      <a href="/laxy-admin/" class="back-link">← Back to CMS</a>
+    </div>
+
+    <div class="content">
+      <div class="auth-section">
+        <div id="authStatus" class="auth-status">
+          <span class="indicator"></span>
+          <span id="authText">Checking authentication...</span>
+        </div>
+      </div>
+
+      <form id="guideForm">
+        <div class="form-group">
+          <label for="guideCode">Guide Code *</label>
+          <input 
+            type="text" 
+            id="guideCode" 
+            required 
+            placeholder="e.g., JPN-TOKYO-MUS-001"
+            pattern="[A-Z0-9\-]+"
+            style="text-transform: uppercase;"
+          >
+          <small>Format: COUNTRY-CITY-TYPE-NUMBER (uppercase, hyphens allowed)</small>
+        </div>
+
+        <div class="form-group">
+          <label for="guideImage">Guide Underlay Image URL *</label>
+          <input 
+            type="url" 
+            id="guideImage" 
+            required 
+            placeholder="https://res.cloudinary.com/..."
+          >
+          <small>Cloudinary or other image URL</small>
+        </div>
+
+        <div class="form-group">
+          <label>Guide Titles (All Languages) *</label>
+          <div class="language-inputs">
+            <div class="language-input-group">
+              <label for="titleEnUS">en-US:</label>
+              <input type="text" id="titleEnUS" required placeholder="English title">
+            </div>
+            <div class="language-input-group">
+              <label for="titleJaJP">ja-JP:</label>
+              <input type="text" id="titleJaJP" required placeholder="日本語タイトル">
+            </div>
+            <div class="language-input-group">
+              <label for="titleKoKR">ko-KR:</label>
+              <input type="text" id="titleKoKR" required placeholder="한국어 제목">
+            </div>
+            <div class="language-input-group">
+              <label for="titleZhTW">zh-TW:</label>
+              <input type="text" id="titleZhTW" required placeholder="繁體中文標題">
+            </div>
+            <div class="language-input-group">
+              <label for="titleZhCN">zh-CN:</label>
+              <input type="text" id="titleZhCN" required placeholder="简体中文标题">
+            </div>
+            <div class="language-input-group">
+              <label for="titleFrFR">fr-FR:</label>
+              <input type="text" id="titleFrFR" required placeholder="Titre français">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="poiCount">Number of POIs *</label>
+          <input 
+            type="number" 
+            id="poiCount" 
+            required 
+            min="1" 
+            max="100" 
+            value="5"
+          >
+          <small>How many Point of Interest files to generate</small>
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">
+          Generate Guide Files
+        </button>
+      </form>
+
+      <div id="status" class="status"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { Octokit } from 'https://cdn.skypack.dev/@octokit/rest';
+
+    let githubToken = null;
+
+    // Try to get GitHub token from Decap CMS session
+    async function initAuth() {
+      const authStatus = document.getElementById('authStatus');
+      const authText = document.getElementById('authText');
+      
+      try {
+        console.log('🔍 Searching for GitHub token in storage...');
+        
+        // Method 1: Check netlify-cms-user in localStorage
+        const netlifyUser = localStorage.getItem('netlify-cms-user');
+        if (netlifyUser) {
+          console.log('✓ Found netlify-cms-user');
+          try {
+            const userData = JSON.parse(netlifyUser);
+            if (userData.token) {
+              githubToken = userData.token;
+              console.log('✓ Extracted token from netlify-cms-user');
+            }
+          } catch (e) {
+            console.log('✗ Failed to parse netlify-cms-user:', e);
+          }
+        }
+
+        // Method 2: Check decap-cms-user (newer name)
+        if (!githubToken) {
+          const decapUser = localStorage.getItem('decap-cms-user');
+          if (decapUser) {
+            console.log('✓ Found decap-cms-user');
+            try {
+              const userData = JSON.parse(decapUser);
+              if (userData.token) {
+                githubToken = userData.token;
+                console.log('✓ Extracted token from decap-cms-user');
+              }
+            } catch (e) {
+              console.log('✗ Failed to parse decap-cms-user:', e);
+            }
+          }
+        }
+
+        // Method 3: Check all localStorage keys
+        if (!githubToken) {
+          console.log('🔍 Scanning all localStorage keys...');
+          const keys = Object.keys(localStorage);
+          console.log('Found keys:', keys);
+          
+          for (const key of keys) {
+            if (key.includes('github') || key.includes('token') || key.includes('netlify') || key.includes('decap')) {
+              console.log('Checking key:', key);
+              try {
+                const value = localStorage.getItem(key);
+                const data = JSON.parse(value);
+                if (data && data.token) {
+                  githubToken = data.token;
+                  console.log('✓ Found token in key:', key);
+                  break;
+                }
+                // Also check for nested token
+                if (data && data.github && data.github.token) {
+                  githubToken = data.github.token;
+                  console.log('✓ Found nested token in key:', key);
+                  break;
+                }
+              } catch (e) {
+                // Skip invalid JSON or non-JSON values
+              }
+            }
+          }
+        }
+
+        if (githubToken) {
+          console.log('✓ Testing token with GitHub API...');
+          // Test the token
+          const octokit = new Octokit({ auth: githubToken });
+          await octokit.repos.get({
+            owner: 'LaxyVibe',
+            repo: 'LaxyLiteGuidePWA',
+          });
+          
+          authStatus.classList.add('connected');
+          authText.textContent = 'Connected to GitHub via Decap CMS';
+          console.log('✅ Successfully authenticated with GitHub!');
+        } else {
+          console.log('✗ No token found in storage');
+          throw new Error('No token found');
+        }
+      } catch (error) {
+        console.error('Auth error:', error);
+        authText.textContent = 'Not authenticated - Please provide GitHub token';
+        showPromptForToken();
+      }
+    }
+
+    function showPromptForToken() {
+      const token = prompt(
+        'GitHub authentication required.\n\n' +
+        'Please enter a GitHub Personal Access Token with repo permissions:\n' +
+        '(You can create one at: https://github.com/settings/tokens)'
+      );
+      
+      if (token) {
+        githubToken = token;
+        initAuth();
+      }
+    }
+
+    function showStatus(message, type = 'info', links = []) {
+      const status = document.getElementById('status');
+      status.className = `status ${type}`;
+      
+      let html = message;
+      if (links && links.length > 0) {
+        html += '<div class="file-links">';
+        links.forEach(link => {
+          html += `<a href="${link}" target="_blank">${link}</a>`;
+        });
+        html += '</div>';
+      }
+      
+      status.innerHTML = html;
+    }
+
+    function generateGuideFrontmatter(data) {
+      const frontmatter = {
+        'en-US': {
+          title: data.titles['en-US'],
+          code: data.code,
+          guideUnderlayImage: data.guideUnderlayImage,
+        },
+        'ja-JP': {
+          title: data.titles['ja-JP'],
+          code: data.code,
+          guideUnderlayImage: data.guideUnderlayImage,
+        },
+        'ko-KR': {
+          title: data.titles['ko-KR'],
+          code: data.code,
+          guideUnderlayImage: data.guideUnderlayImage,
+        },
+        'zh-TW': {
+          title: data.titles['zh-TW'],
+          code: data.code,
+          guideUnderlayImage: data.guideUnderlayImage,
+        },
+        'zh-CN': {
+          title: data.titles['zh-CN'],
+          code: data.code,
+          guideUnderlayImage: data.guideUnderlayImage,
+        },
+        'fr-FR': {
+          title: data.titles['fr-FR'],
+          guideUnderlayImage: data.guideUnderlayImage,
+        },
+      };
+
+      return `---\n${Object.entries(frontmatter)
+        .map(([lang, langData]) => {
+          const entries = Object.entries(langData)
+            .map(([key, value]) => `  ${key}: ${value}`)
+            .join('\n');
+          return `${lang}:\n${entries}`;
+        })
+        .join('\n')}\n---\n`;
+    }
+
+    function generatePOIFrontmatter(guide, number) {
+      const languages = ['en-US', 'ja-JP', 'ko-KR', 'zh-TW', 'zh-CN', 'fr-FR'];
+      const frontmatter = {};
+      
+      languages.forEach(lang => {
+        frontmatter[lang] = {
+          displayAudio: true,
+          guide: guide,
+          number: number,
+          title: `POI ${number}`,
+          hero: '',
+          content: '',
+          ttml: '',
+        };
+      });
+
+      return `---\n${Object.entries(frontmatter)
+        .map(([lang, data]) => {
+          const entries = Object.entries(data)
+            .map(([key, value]) => {
+              if (typeof value === 'boolean') {
+                return `  ${key}: ${value}`;
+              }
+              if (key === 'content' || key === 'ttml') {
+                return `  ${key}: ${value ? `>-\n    ${value}` : value}`;
+              }
+              return `  ${key}: ${value}`;
+            })
+            .join('\n');
+          return `${lang}:\n${entries}`;
+        })
+        .join('\n')}\n---\n`;
+    }
+
+    async function createGuideFiles(data) {
+      const octokit = new Octokit({ auth: githubToken });
+      const REPO_OWNER = 'LaxyVibe';
+      const REPO_NAME = 'LaxyLiteGuidePWA';
+      const TARGET_BRANCH = 'develop';
+
+      try {
+        // Get the latest commit SHA
+        const { data: refData } = await octokit.git.getRef({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          ref: `heads/${TARGET_BRANCH}`,
+        });
+
+        const latestCommitSha = refData.object.sha;
+
+        // Get the commit tree
+        const { data: commitData } = await octokit.git.getCommit({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          commit_sha: latestCommitSha,
+        });
+
+        const baseTreeSha = commitData.tree.sha;
+
+        // Prepare files
+        const files = [];
+
+        // 1. Guide file
+        const guideFileName = `${data.code.toLowerCase()}.md`;
+        const guidePath = `src/content/guides/${guideFileName}`;
+        const guideContent = generateGuideFrontmatter(data);
+        files.push({ path: guidePath, content: guideContent });
+
+        // 2. POI files
+        for (let i = 1; i <= data.poiCount; i++) {
+          const poiNumber = String(i).padStart(3, '0');
+          const poiFileName = `${data.code.toLowerCase()}-${poiNumber}.md`;
+          const poiPath = `src/content/pois/${poiFileName}`;
+          const poiContent = generatePOIFrontmatter(data.code, poiNumber);
+          files.push({ path: poiPath, content: poiContent });
+        }
+
+        // Create tree
+        const tree = files.map(file => ({
+          path: file.path,
+          mode: '100644',
+          type: 'blob',
+          content: file.content,
+        }));
+
+        const { data: newTree } = await octokit.git.createTree({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          base_tree: baseTreeSha,
+          tree,
+        });
+
+        // Create commit
+        const { data: newCommit } = await octokit.git.createCommit({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          message: `Generate guide: ${data.code} with ${data.poiCount} POIs`,
+          tree: newTree.sha,
+          parents: [latestCommitSha],
+        });
+
+        // Update branch
+        await octokit.git.updateRef({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          ref: `heads/${TARGET_BRANCH}`,
+          sha: newCommit.sha,
+        });
+
+        const urls = files.map(
+          file => `https://github.com/${REPO_OWNER}/${REPO_NAME}/blob/${TARGET_BRANCH}/${file.path}`
+        );
+
+        return { success: true, urls };
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    }
+
+    // Form submission
+    document.getElementById('guideForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (!githubToken) {
+        showStatus('Please authenticate with GitHub first', 'error');
+        showPromptForToken();
+        return;
+      }
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner"></span>Generating...';
+
+      const data = {
+        code: document.getElementById('guideCode').value.toUpperCase(),
+        guideUnderlayImage: document.getElementById('guideImage').value,
+        titles: {
+          'en-US': document.getElementById('titleEnUS').value,
+          'ja-JP': document.getElementById('titleJaJP').value,
+          'ko-KR': document.getElementById('titleKoKR').value,
+          'zh-TW': document.getElementById('titleZhTW').value,
+          'zh-CN': document.getElementById('titleZhCN').value,
+          'fr-FR': document.getElementById('titleFrFR').value,
+        },
+        poiCount: parseInt(document.getElementById('poiCount').value),
+      };
+
+      try {
+        showStatus('Creating files on GitHub...', 'info');
+        const result = await createGuideFiles(data);
+        
+        showStatus(
+          `✅ Successfully created guide ${data.code} with ${data.poiCount} POIs!`,
+          'success',
+          result.urls
+        );
+        
+        // Reset form
+        document.getElementById('guideForm').reset();
+      } catch (error) {
+        showStatus(`❌ Error: ${error.message}`, 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Generate Guide Files';
+      }
+    });
+
+    // Initialize on load
+    initAuth();
+  </script>
+</body>
+</html>
