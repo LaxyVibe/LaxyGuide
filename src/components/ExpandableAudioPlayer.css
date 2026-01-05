@@ -113,7 +113,7 @@
 }
 
 .expandable-audio-player.expanded .player-container.with-slides {
-    height: 90vh;
+    height: 70vh;
     border-radius: 20px 20px 0 0;
 }
 
