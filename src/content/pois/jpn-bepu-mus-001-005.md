@@ -13,7 +13,7 @@ en-US:
 
 
     ぜひ靴を脱いで、お駕籠の中に入ってみてください。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273054/jwndlqa521hyacqfcfmc.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588021/rws2fu7oc1owbxnc70zm.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -27,25 +27,25 @@ ja-JP:
 
 
     ぜひ靴を脱いで、お駕籠の中に入ってみてください。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273054/jwndlqa521hyacqfcfmc.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588021/rws2fu7oc1owbxnc70zm.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273054/jwndlqa521hyacqfcfmc.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588021/rws2fu7oc1owbxnc70zm.ttml
 zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273054/jwndlqa521hyacqfcfmc.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588021/rws2fu7oc1owbxnc70zm.ttml
 zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273054/jwndlqa521hyacqfcfmc.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588021/rws2fu7oc1owbxnc70zm.ttml
 fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767273054/jwndlqa521hyacqfcfmc.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588021/rws2fu7oc1owbxnc70zm.ttml
 ---
