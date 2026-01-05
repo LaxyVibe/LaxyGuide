@@ -16,7 +16,7 @@ en-US:
 
     来館の際には、ぜひ間近でその立体感と技術の精巧さをご覧ください。
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767269245/hba2yr8xsn2w0bqw6rtf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588535/fa0iypzxtx2uoeoogbgd.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -33,25 +33,25 @@ ja-JP:
 
     来館の際には、ぜひ間近でその立体感と技術の精巧さをご覧ください。
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767269245/hba2yr8xsn2w0bqw6rtf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588535/fa0iypzxtx2uoeoogbgd.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767269245/hba2yr8xsn2w0bqw6rtf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588535/fa0iypzxtx2uoeoogbgd.ttml
 zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767269245/hba2yr8xsn2w0bqw6rtf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588535/fa0iypzxtx2uoeoogbgd.ttml
 zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767269245/hba2yr8xsn2w0bqw6rtf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588535/fa0iypzxtx2uoeoogbgd.ttml
 fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767269245/hba2yr8xsn2w0bqw6rtf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1767588535/fa0iypzxtx2uoeoogbgd.ttml
 ---
