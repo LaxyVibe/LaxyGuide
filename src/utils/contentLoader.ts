@@ -153,3 +153,29 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
         pois
     };
 }
+
+export async function getGuideAvailableLanguages(guideId: string): Promise<string[]> {
+    const guideFiles = import.meta.glob('/src/content/guides/*.md', { eager: true, query: '?raw', import: 'default' });
+
+    for (const path in guideFiles) {
+        const content = guideFiles[path] as string;
+        const parsed = matter(content);
+        const data = parsed.data as GuideFrontmatter;
+
+        // Check if any language version has the matching code
+        const hasMatchingCode = Object.values(data).some(langData =>
+            langData && typeof langData === 'object' && 'code' in langData &&
+            langData.code?.toLowerCase() === guideId.toLowerCase()
+        );
+
+        if (hasMatchingCode) {
+            // Return all language keys that have content (are objects with title)
+            return Object.keys(data).filter(key => {
+                const langData = data[key];
+                return langData && typeof langData === 'object' && 'title' in langData;
+            });
+        }
+    }
+
+    return ['en-US']; // Default fallback
+}

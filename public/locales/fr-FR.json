@@ -1,101 +1,101 @@
 {
     "landing": {
-        "selectLanguage": "Select Language",
-        "poweredBy": "Powered by"
+        "selectLanguage": "Choisir la langue",
+        "poweredBy": "Propulsé par"
     },
     "poiListing": {
-        "title": "Artworks"
+        "title": "Œuvres d'art"
     },
     "poiSearch": {
-        "title": "Item Search",
-        "prompt": "Enter Item Number",
-        "confirm": "Is this correct?",
-        "visit": "View Details"
+        "title": "Recherche d'article",
+        "prompt": "Entrez le numéro de l'article",
+        "confirm": "Est-ce correct ?",
+        "visit": "Voir les détails"
     },
     "poiDetail": {
-        "notFound": "POI not found"
+        "notFound": "Point d'intérêt non trouvé"
     },
     "survey": {
-        "title": "Exhibition Questionnaire",
-        "subtitle": "We appreciate your cooperation.",
-        "intro": "Thank you for visiting our museum today. We appreciate your cooperation in answering the following questionnaire.",
-        "giftBadge": "After answering, please approach staff for a small gift!",
+        "title": "Questionnaire de l'exposition",
+        "subtitle": "Nous vous remercions de votre coopération.",
+        "intro": "Merci de votre visite au musée aujourd'hui. Nous vous remercions de bien vouloir répondre au questionnaire suivant.",
+        "giftBadge": "Après avoir répondu, approchez le personnel pour recevoir un petit cadeau !",
         "q1": {
-            "title": "Satisfaction with the exhibition",
-            "veryDissatisfied": "Very Dissatisfied",
-            "verySatisfied": "Very Satisfied"
+            "title": "Satisfaction concernant l'exposition",
+            "veryDissatisfied": "Très insatisfait",
+            "verySatisfied": "Très satisfait"
         },
         "q2": {
-            "title": "Please tell us about what impressed you about this exbibition.",
-            "exhibitionTheme": "Exhibition Theme",
-            "exhibits": "Exhibits",
-            "specialEvents": "Special Events",
-            "multilingualSupport": "Multilingual Support",
-            "other": "Other…"
+            "title": "Qu'est-ce qui vous a impressionné dans cette exposition ?",
+            "exhibitionTheme": "Thème de l'exposition",
+            "exhibits": "Les œuvres exposées",
+            "specialEvents": "Événements spéciaux",
+            "multilingualSupport": "Support multilingue",
+            "other": "Autre…"
         },
         "q3": {
-            "title": "How did you come to know about this exhibition?",
-            "newspapers": "Newspapers and Magazines",
-            "posters": "Exhibition posters and leaflets",
-            "sns": "SNS",
-            "acquaintance": "Acquaintance",
-            "droppedBy": "Dropped by chance",
-            "websites": "Websites",
-            "websiteName": "Website name…",
-            "other": "Other…"
+            "title": "Comment avez-vous connu cette exposition ?",
+            "newspapers": "Journaux et magazines",
+            "posters": "Affiches et dépliants de l'exposition",
+            "sns": "Réseaux sociaux",
+            "acquaintance": "Par une connaissance",
+            "droppedBy": "De passage par hasard",
+            "websites": "Sites web",
+            "websiteName": "Nom du site web…",
+            "other": "Autre…"
         },
         "q4": {
-            "title": "If you selected \"Exhibition posters and leaflets\" above, where did you see the posters and leaflets?",
-            "accommodation": "Accommodation facility",
-            "station": "Station",
-            "touristInfo": "Tourist information center",
+            "title": "Si vous avez sélectionné « Affiches et dépliants de l'exposition » ci-dessus, où les avez-vous vus ?",
+            "accommodation": "Hébergement",
+            "station": "Gare",
+            "touristInfo": "Office de tourisme",
             "restaurant": "Restaurant",
-            "other": "Other…"
+            "other": "Autre…"
         },
         "q5": {
-            "title": "What kind of multilingual support do you need more on the services?",
-            "infoDisplays": "Information displays",
-            "exhibitionDesc": "Exhibition description detailed",
-            "captions": "Captions (list) of each exhibition",
-            "audioGuide": "Audio Guide",
-            "other": "Other…"
+            "title": "De quel type de support multilingue avez-vous besoin pour améliorer les services ?",
+            "infoDisplays": "Affichages d'information",
+            "exhibitionDesc": "Description détaillée de l'exposition",
+            "captions": "Légendes (liste) de chaque exposition",
+            "audioGuide": "Audioguide",
+            "other": "Autre…"
         },
         "q6": {
-            "title": "Nationality/Region",
-            "selectRegion": "Select your region",
-            "korea": "Korea",
-            "china": "China",
-            "taiwan": "Taiwan",
+            "title": "Nationalité/Région",
+            "selectRegion": "Sélectionnez votre région",
+            "korea": "Corée",
+            "china": "Chine",
+            "taiwan": "Taïwan",
             "hongKong": "Hong Kong",
             "vietnam": "Vietnam",
-            "thailand": "Thailand",
-            "singapore": "Singapore",
+            "thailand": "Thaïlande",
+            "singapore": "Singapour",
             "philippines": "Philippines",
-            "indonesia": "Indonesia",
-            "malaysia": "Malaysia",
-            "india": "India",
-            "usa": "The United States of America",
+            "indonesia": "Indonésie",
+            "malaysia": "Malaisie",
+            "india": "Inde",
+            "usa": "États-Unis d'Amérique",
             "canada": "Canada",
-            "uk": "United Kingdom",
+            "uk": "Royaume-Uni",
             "france": "France",
-            "germany": "Germany",
-            "italy": "Italy",
-            "spain": "Spain",
-            "australia": "Australia",
-            "other": "Other",
-            "pleaseSpecify": "Please specify"
+            "germany": "Allemagne",
+            "italy": "Italie",
+            "spain": "Espagne",
+            "australia": "Australie",
+            "other": "Autre",
+            "pleaseSpecify": "Veuillez préciser"
         },
         "q7": {
-            "title": "How long do you plan to stay in the area?",
-            "dayTrip": "Day trip",
-            "nights1to2": "1 to 2 nights",
-            "nights3to6": "3 to 6 nights",
-            "weeks1to2": "1 to 2 weeks",
-            "weeks2to1month": "More than 2 weeks but less than 1 month",
-            "month1plus": "1 month or more"
+            "title": "Combien de temps prévoyez-vous de rester dans la région ?",
+            "dayTrip": "Excursion d'une journée",
+            "nights1to2": "1 à 2 nuits",
+            "nights3to6": "3 à 6 nuits",
+            "weeks1to2": "1 à 2 semaines",
+            "weeks2to1month": "Plus de 2 semaines mais moins d'un mois",
+            "month1plus": "1 mois ou plus"
         },
         "q8": {
-            "title": "Where else have you visited (or plan to visit) outside the local area?",
+            "title": "Quels autres endroits avez-vous visités (ou prévoyez-vous de visiter) en dehors de la région ?",
             "tokyo": "Tokyo",
             "kyoto": "Kyoto",
             "osaka": "Osaka",
@@ -104,39 +104,39 @@
             "nara": "Nara",
             "hiroshima": "Hiroshima",
             "fukuoka": "Fukuoka",
-            "other": "Other (e.g. Beppu, Yufuin)…"
+            "other": "Autre (ex. Beppu, Yufuin)…"
         },
         "q9": {
-            "title": "Please feel free to fill in the form below if you have any opinion or suggestion regarding our efforts to improve the satisfaction of visitors to Japan.",
-            "placeholder": "Feel free to write here…"
+            "title": "N'hésitez pas à remplir le formulaire ci-dessous si vous avez des commentaires ou suggestions concernant nos efforts pour améliorer la satisfaction des visiteurs au Japon.",
+            "placeholder": "N'hésitez pas à écrire ici…"
         },
-        "submit": "Submit Questionnaire",
-        "submitting": "Submitting...",
+        "submit": "Soumettre le questionnaire",
+        "submitting": "Envoi en cours...",
         "success": {
-            "title": "Thank you!",
-            "message": "Please approach the staff to receive your small gift.",
-            "close": "Close"
+            "title": "Merci !",
+            "message": "Veuillez vous approcher du personnel pour recevoir votre petit cadeau.",
+            "close": "Fermer"
         },
-        "confirmLeave": "Are you sure you want to leave without saving?"
+        "confirmLeave": "Êtes-vous sûr de vouloir quitter sans sauvegarder ?"
     },
     "languageSwitch": {
-        "title": "Language Setting",
-        "apply": "Apply"
+        "title": "Paramètres de langue",
+        "apply": "Appliquer"
     },
     "startButton": {
-        "next": "Next"
+        "next": "Suivant"
     },
     "audioPlayer": {
-        "clickToExpand": "Click to view the guide content",
-        "loadingSubtitles": "Loading subtitles...",
-        "noSubtitles": "No subtitles available"
+        "clickToExpand": "Cliquez pour voir le contenu du guide",
+        "loadingSubtitles": "Chargement des sous-titres...",
+        "noSubtitles": "Aucun sous-titre disponible"
     },
     "common": {
-        "loading": "Loading...",
-        "error": "Error",
-        "noData": "No data found"
+        "loading": "Chargement...",
+        "error": "Erreur",
+        "noData": "Aucune donnée trouvée"
     },
     "meta": {
-        "title": "OPAM 10th Anniversary Exhibition: Sparkling Japanese Art: 1300 Years of Treasures - OPAM- Laxy"
+        "title": "Centre de l'Artisanat du Bambou de Beppu - Laxy"
     }
 }

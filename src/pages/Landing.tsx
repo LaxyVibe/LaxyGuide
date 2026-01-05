@@ -6,8 +6,10 @@ import surveyIcon from '../assets/icons/survey.svg';
 import backIcon from '../assets/icons/back.svg';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { Language } from '../types';
+import { LANGUAGES } from '../types';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
+import { getGuideAvailableLanguages } from '../utils/contentLoader';
 import LanguageSwitchDialog from '../components/LanguageSwitchDialog';
 import type { LanguageOption } from '../components/LanguageSwitchDialog';
 import StartButton from '../components/StartButton';
@@ -34,15 +36,24 @@ const Landing: React.FC = () => {
     const [isSurveyOpen, setIsSurveyOpen] = useState(false);
     const [isLangDialogOpen, setIsLangDialogOpen] = useState(false);
     const [pendingLang, setPendingLang] = useState<Language>(lang);
+    const [availableLanguages, setAvailableLanguages] = useState<LanguageOption[]>([]);
 
-    // Language options (can be moved to a shared file if needed)
-    const languageOptions: LanguageOption[] = [
-        { code: 'en-US', label: 'English' },
-        { code: 'ja-JP', label: '日本語' },
-        { code: 'ko-KR', label: '한국어' },
-        { code: 'zh-TW', label: '繁體中文' },
-        { code: 'zh-CN', label: '简体中文' },
-    ];
+    // Fetch available languages for this guide
+    useEffect(() => {
+        const fetchLanguages = async () => {
+            if (guideId) {
+                const langs = await getGuideAvailableLanguages(guideId);
+                const options: LanguageOption[] = langs
+                    .filter((code): code is Language => code in LANGUAGES)
+                    .map(code => ({
+                        code,
+                        label: LANGUAGES[code]
+                    }));
+                setAvailableLanguages(options);
+            }
+        };
+        fetchLanguages();
+    }, [guideId]);
 
     if (loading || transLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
@@ -93,7 +104,7 @@ const Landing: React.FC = () => {
                         style={{ height: 53, borderRadius: 24, border: 'none', background: 'rgba(245,245,245,0.95)', color: 'var(--neutral-800)', fontWeight: 'bold', fontSize: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', cursor: 'pointer', width: '100%' }}
                         onClick={() => setIsLangDialogOpen(true)}
                     >
-                        <span>{languageOptions.find(l => l.code === lang)?.label || 'Select Language'}</span>
+                        <span>{availableLanguages.find(l => l.code === lang)?.label || LANGUAGES[lang] || 'Select Language'}</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--misc-opam)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
                     </button>
                 </div>
@@ -114,7 +125,7 @@ const Landing: React.FC = () => {
             {/* Language Switch Dialog */}
             <LanguageSwitchDialog
                 open={isLangDialogOpen}
-                languages={languageOptions}
+                languages={availableLanguages}
                 selectedLanguage={pendingLang}
                 onSelect={(code: string) => setPendingLang(code as Language)}
                 onApply={() => {
