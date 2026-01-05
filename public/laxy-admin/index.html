@@ -119,14 +119,13 @@
               src: "https://res.cloudinary.com/dui2mxeuh/image/upload/v1764660125/Group_9133_ufaz64.svg",
               show_in_header: true
             },
-            backend: isLocal ? {
+            backend: {
               name: 'github',
               repo: 'LaxyVibe/LaxyLiteGuidePWA',
-              branch: 'develop'
-            } : {
-              name: 'git-gateway',
-              repo: 'LaxyVibe/LaxyLiteGuidePWA',
-              branch: 'develop'
+              branch: 'develop',
+              base_url: window.location.hostname === 'localhost' 
+                ? 'http://127.0.0.1:5001/laxy-guide-dev/us-central1/auth'
+                : 'https://auth-kwy6rt2iqq-uc.a.run.app'
             },
             local_backend: isLocal,
             media_folder: 'public/media',

@@ -1,53 +1,108 @@
-# React + TypeScript + Vite
+# Laxy Lite Guide PWA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Progressive Web App for multilingual tour guides with AI-powered content generation.
 
-Currently, two official plugins are available:
+## 🚀 Live Deployment
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Production**: https://laxy-guide-dev.web.app
+- **CMS**: https://laxy-guide-dev.web.app/laxy-admin/
+- **Guide Generator**: https://laxy-guide-dev.web.app/laxy-admin/guide-generator.html
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19 + TypeScript + Vite
+- **Hosting**: Firebase Hosting
+- **Backend**: Firebase Functions (Cloud Run)
+- **AI**: Google Vertex AI (Gemini 2.0 Flash)
+- **CMS**: Decap CMS with GitHub backend
+- **Media**: Cloudinary
 
-## Expanding the ESLint configuration
+## 📋 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- ✨ AI-powered guide generation from PDF documents
+- 🌍 6-language support (EN, JA, KO, ZH-TW, ZH-CN, FR)
+- 📱 Progressive Web App with offline support
+- 🎨 Responsive design with dark mode
+- 🔊 Audio guide support with TTML subtitles
+- 📝 Content management via Decap CMS
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🏃 Quick Start
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+```bash
+npm install
+firebase login
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
+```bash
+# Terminal 1: Firebase emulator
+firebase emulators:start
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
+# Terminal 2: Dev server
+npm run dev
+```
+
+Access at http://localhost:5173
+
+### Deployment
+```bash
+npm run build
+firebase deploy
+```
+
+## 📖 Documentation
+
+- **[Deployment Guide](./DEPLOYMENT.md)** - Complete deployment instructions
+- **[Quick Start](./QUICK_START.md)** - Getting started guide
+- **[Vertex AI Setup](./VERTEX_AI_SETUP.md)** - AI configuration
+
+## 🎯 AI Guide Generator
+
+Upload a PDF and generate complete multilingual tour guides:
+1. Go to `/laxy-admin/guide-generator.html`
+2. Upload your PDF (museum guide, tour brochure, etc.)
+3. Set number of POIs to generate
+4. AI creates structured content in 6 languages
+5. Generate files directly to GitHub
+
+## 📁 Project Structure
+
+```
+├── functions/              # Firebase Functions
+│   └── src/index.ts       # PDF processing & auth
+├── public/                # Static assets
+│   └── laxy-admin/        # CMS interface
+├── src/                   # React app
+│   ├── components/        # React components
+│   ├── content/           # Markdown guides
+│   ├── pages/             # Route pages
+│   └── utils/             # Utilities
+└── firebase.json          # Firebase config
+```
+
+## 🔑 Environment Setup
+
+Create `functions/.env`:
+```bash
+VERTEX_AI_PROJECT_ID=laxy-guide
+VERTEX_AI_LOCATION=us-central1
+GITHUB_CLIENT_ID=your_github_oauth_client_id
+GITHUB_CLIENT_SECRET=your_github_oauth_client_secret
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📄 License
+
+MIT License - see LICENSE file for details
+
 import reactDom from 'eslint-plugin-react-dom'
 
 export default defineConfig([

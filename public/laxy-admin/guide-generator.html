@@ -776,10 +776,16 @@
         // Convert PDF to base64
         const base64Pdf = await fileToBase64(pdfFile);
         
-        showAiStatus('🤖 Sending to Vertex AI for analysis... This may take 30-60 seconds...', 'info');
+        showAiStatus('🤖 Sending to Vertex AI for analysis... This may take 60-120 seconds...', 'info');
         
-        // Call Netlify function
-        const response = await fetch('/.netlify/functions/process-pdf-vertex', {
+        // Determine API endpoint (use Firebase Functions or local emulator)
+        const isDev = window.location.hostname === 'localhost';
+        const apiEndpoint = isDev 
+          ? 'http://127.0.0.1:5001/laxy-guide-dev/us-central1/processPdfVertex'
+          : 'https://processpdfvertex-kwy6rt2iqq-uc.a.run.app';
+        
+        // Call Firebase function
+        const response = await fetch(apiEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
