@@ -5,8 +5,9 @@ import { useGuideData } from '../hooks/useGuideData';
 import GlobalHeader from '../components/GlobalHeader';
 import { getLanguageFromQuery, ensureLanguageParam, setLanguageInQuery } from '../utils/languageUtils';
 import Loading from '../components/Loading';
-import LanguageSwitchDialog from '../components/LanguageSwitchDialog';
+import LanguageSwitchDialog, { type LanguageOption } from '../components/LanguageSwitchDialog';
 import { LANGUAGES, type Language } from '../types';
+import { getGuideAvailableLanguages } from '../utils/contentLoader';
 import translateIcon from '../assets/icons/language-black.svg';
 import './POISearch.css';
 
@@ -28,6 +29,24 @@ const POISearch: React.FC = () => {
     const { t, loading: transLoading } = useTranslation(lang);
     const [langDialogOpen, setLangDialogOpen] = useState(false);
     const [selectedLang, setSelectedLang] = useState<Language>(lang);
+    const [availableLanguages, setAvailableLanguages] = useState<LanguageOption[]>([]);
+
+    // Fetch available languages for this guide
+    useEffect(() => {
+        const fetchLanguages = async () => {
+            if (guideId) {
+                const langs = await getGuideAvailableLanguages(guideId);
+                const options: LanguageOption[] = langs
+                    .filter((code): code is Language => code in LANGUAGES)
+                    .map(code => ({
+                        code,
+                        label: LANGUAGES[code]
+                    }));
+                setAvailableLanguages(options);
+            }
+        };
+        fetchLanguages();
+    }, [guideId]);
 
     const handleNumberClick = (num: string) => {
         if (guideNumber.length < 3) {
@@ -95,7 +114,7 @@ const POISearch: React.FC = () => {
 
             <LanguageSwitchDialog
                 open={langDialogOpen}
-                languages={Object.entries(LANGUAGES).map(([code, label]) => ({ code, label }))}
+                languages={availableLanguages}
                 selectedLanguage={selectedLang}
                 onSelect={(code: string) => setSelectedLang(code as Language)}
                 onApply={() => {
