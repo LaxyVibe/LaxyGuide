@@ -18,10 +18,15 @@ export const processPdfVertex = onRequest(
       }
 
       try {
-        const {pdfBase64, guideCode, numberOfPois} = req.body;
+        const {pdfBase64, customPrompt} = req.body;
 
         if (!pdfBase64) {
           res.status(400).json({error: "PDF data is required"});
+          return;
+        }
+
+        if (!customPrompt) {
+          res.status(400).json({error: "Custom prompt is required"});
           return;
         }
 
@@ -47,60 +52,8 @@ export const processPdfVertex = onRequest(
           },
         });
 
-        // Prepare prompt for Vertex AI
-        const prompt = `You are a professional tour guide content generator. Analyze the provided PDF document and generate structured multilingual content for a digital tour guide.
-
-Guide Code: ${guideCode}
-Number of Points of Interest (POIs) to generate: ${numberOfPois}
-
-Based on the PDF content, generate a JSON response with this EXACT structure:
-
-{
-  "guide": {
-    "titles": {
-      "en-US": "English title for the guide",
-      "ja-JP": "日本語のガイドタイトル",
-      "ko-KR": "가이드 제목 (한국어)",
-      "zh-TW": "導覽標題 (繁體中文)",
-      "zh-CN": "导览标题 (简体中文)",
-      "fr-FR": "Titre du guide en français"
-    }
-  },
-  "pois": [
-    {
-      "number": "001",
-      "title": {
-        "en-US": "POI title in English",
-        "ja-JP": "POIタイトル（日本語）",
-        "ko-KR": "POI 제목 (한국어)",
-        "zh-TW": "POI標題 (繁體中文)",
-        "zh-CN": "POI标题 (简体中文)",
-        "fr-FR": "Titre POI en français"
-      },
-      "content": {
-        "en-US": "Detailed description in English (2-3 paragraphs)",
-        "ja-JP": "日本語での詳細説明（2〜3段落）",
-        "ko-KR": "한국어로 된 상세 설명 (2-3 단락)",
-        "zh-TW": "繁體中文詳細說明（2-3段）",
-        "zh-CN": "简体中文详细说明（2-3段）",
-        "fr-FR": "Description détaillée en français (2-3 paragraphes)"
-      },
-      "hero": "",
-      "displayAudio": true,
-      "ttml": ""
-    }
-  ]
-}
-
-Important guidelines:
-1. Extract ${numberOfPois} most significant points of interest from the PDF
-2. Number POIs sequentially: "001", "002", "003", etc.
-3. Generate authentic, culturally appropriate content for each language
-4. Keep content informative yet engaging (2-3 paragraphs per POI)
-5. Return ONLY valid JSON, no markdown formatting
-6. If the PDF is in a specific language, use that as the primary source and translate to others
-
-Return ONLY the JSON structure, nothing else.`;
+        // Prepare prompt for Vertex AI - Japanese-focused extraction
+        const prompt = customPrompt
 
         const result = await model.generateContent({
           contents: [
@@ -222,3 +175,266 @@ export const auth = onRequest(
       }
     }
 );
+
+// AI Copilot for text processing
+export const aiCopilot = onRequest(
+    {
+      timeoutSeconds: 60,
+      memory: "1GiB",
+      cors: true,
+    },
+    async (req, res) => {
+      // Set CORS headers manually
+      res.set("Access-Control-Allow-Origin", "*");
+      res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+      res.set("Access-Control-Allow-Headers", "Content-Type");
+      // Handle CORS preflight
+      if (req.method === "OPTIONS") {
+        res.status(204).send("");
+        return;
+      }
+
+      if (req.method !== "POST") {
+        res.status(405).json({error: "Method not allowed"});
+        return;
+      }
+
+      try {
+        const {prompt, text, language} = req.body;
+
+        if (!prompt || !text) {
+          res.status(400).json({error: "Prompt and text are required"});
+          return;
+        }
+
+        logger.info("Processing AI Copilot request...");
+
+        // Initialize Vertex AI
+        const projectId = process.env.VERTEX_AI_PROJECT_ID || "laxy-guide";
+        const location = process.env.VERTEX_AI_LOCATION || "us-central1";
+
+        const vertexAI = new VertexAI({
+          project: projectId,
+          location: location,
+        });
+
+        const model = vertexAI.getGenerativeModel({
+          model: "gemini-2.0-flash-exp",
+          generationConfig: {
+            temperature: 0.7,
+            topP: 0.9,
+            topK: 40,
+            maxOutputTokens: 2048,
+          },
+        });
+
+        const languageNames: Record<string, string> = {
+          "en-US": "English (US)",
+          "ja-JP": "Japanese",
+          "ko-KR": "Korean",
+          "zh-TW": "Traditional Chinese",
+          "zh-CN": "Simplified Chinese",
+          "fr-FR": "French",
+        };
+
+        const fullPrompt = `You are a professional content editor for tourism materials.
+
+Language: ${languageNames[language] || language}
+Task: ${prompt}
+
+Original Text:
+${text}
+
+Instructions:
+1. Perform the requested task on the text
+2. Maintain the same language (${languageNames[language] || language})
+3. Keep the content appropriate for tourists
+4. Return ONLY the processed text, no explanations or markdown formatting
+5. Do not add quotes or extra formatting around your response
+
+Processed Text:`;
+
+        const result = await model.generateContent({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: fullPrompt,
+                },
+              ],
+            },
+          ],
+        });
+
+        const response = result.response;
+        let processedText = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+        // Clean the response
+        processedText = processedText.trim();
+        
+        // Remove markdown code blocks if present
+        if (processedText.startsWith("```")) {
+          processedText = processedText.replace(/^```[a-z]*\s*/, "").replace(/```\s*$/, "");
+        }
+
+        // Remove surrounding quotes if present
+        if ((processedText.startsWith('"') && processedText.endsWith('"')) ||
+            (processedText.startsWith("'") && processedText.endsWith("'"))) {
+          processedText = processedText.slice(1, -1);
+        }
+
+        logger.info("AI Copilot processing complete");
+
+        res.json({
+          success: true,
+          data: {
+            processedText: processedText,
+          },
+        });
+      } catch (error: unknown) {
+        logger.error("AI Copilot error:", error);
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        res.status(500).json({
+          success: false,
+          error: errorMessage,
+        });
+      }
+    }
+);
+
+// Translation function using Vertex AI
+export const translateContent = onRequest(
+    {
+      timeoutSeconds: 540,
+      memory: "2GiB",
+      cors: true,
+    },
+    async (req, res) => {
+      if (req.method !== "POST") {
+        res.status(405).json({error: "Method not allowed"});
+        return;
+      }
+
+      try {
+        const {guideTitle, pois, sourceLanguage, targetLanguage, customPrompt} = req.body;
+
+        if (!guideTitle || !pois || !sourceLanguage || !targetLanguage) {
+          res.status(400).json({error: "Missing required fields"});
+          return;
+        }
+
+        logger.info(`Translating from ${sourceLanguage} to ${targetLanguage}...`);
+
+        // Initialize Vertex AI
+        const projectId = process.env.VERTEX_AI_PROJECT_ID || "laxy-guide";
+        const location = process.env.VERTEX_AI_LOCATION || "us-central1";
+
+        const vertexAI = new VertexAI({
+          project: projectId,
+          location: location,
+        });
+
+        const model = vertexAI.getGenerativeModel({
+          model: "gemini-2.0-flash-exp",
+          generationConfig: {
+            temperature: 0.3,
+            topP: 0.9,
+            topK: 40,
+            maxOutputTokens: 8192,
+          },
+        });
+
+        // Create translation prompt
+        const languageNames: Record<string, string> = {
+          "en-US": "English (US)",
+          "ja-JP": "Japanese",
+          "ko-KR": "Korean",
+          "zh-TW": "Traditional Chinese",
+          "zh-CN": "Simplified Chinese",
+          "fr-FR": "French",
+        };
+
+        // Use custom prompt if provided, otherwise use default
+        const defaultPrompt = `You are a professional translator specializing in tourism and cultural content. Translate the following guide content from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}.
+
+Guide Title: "${guideTitle}"
+
+POIs (Points of Interest):
+${pois.map((poi: {number: string; title: string; content: string; script?: string}) => `
+POI ${poi.number}:
+Title: ${poi.title}
+Content: ${poi.content}
+${poi.script ? `Script: ${poi.script}` : ''}
+`).join("\n")}
+
+Return a JSON response with this EXACT structure:
+
+{
+  "guideTitle": "Translated guide title in ${languageNames[targetLanguage]}",
+  "pois": [
+    {
+      "number": "001",
+      "title": "Translated POI title in ${languageNames[targetLanguage]}",
+      "content": "Translated POI content in ${languageNames[targetLanguage]}",
+      "script": "Translated POI script in ${languageNames[targetLanguage]}"
+    }
+  ]
+}
+
+Translation guidelines:
+1. Maintain the original meaning and cultural context
+2. Use natural, fluent language appropriate for tourists
+3. Keep the same tone and style as the original
+4. Preserve any specific terms, names, or dates accurately
+5. Ensure content length is similar to the original
+6. For script field: translate narration script if present, maintaining conversational tone
+7. Return ONLY valid JSON, no markdown formatting
+
+Return ONLY the JSON structure, nothing else.`;
+
+        const prompt = customPrompt || defaultPrompt;
+
+        const result = await model.generateContent({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: prompt,
+                },
+              ],
+            },
+          ],
+        });
+
+        const response = result.response;
+        const text = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+        logger.info("Translation received, parsing...");
+
+        // Clean the response text
+        let cleanedText = text.trim();
+        if (cleanedText.startsWith("```json")) {
+          cleanedText = cleanedText.replace(/^```json\s*/, "").replace(/```\s*$/, "");
+        } else if (cleanedText.startsWith("```")) {
+          cleanedText = cleanedText.replace(/^```\s*/, "").replace(/```\s*$/, "");
+        }
+
+        const parsedData = JSON.parse(cleanedText);
+
+        res.json({
+          success: true,
+          data: parsedData,
+        });
+      } catch (error: unknown) {
+        logger.error("Translation error:", error);
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        res.status(500).json({
+          success: false,
+          error: errorMessage,
+        });
+      }
+    }
+);
+

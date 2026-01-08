@@ -17,7 +17,7 @@
         "function": "processPdfVertex"
       },
       {
-        "source": "**",
+        "source": "!(laxy-admin){,/**}",
         "destination": "/index.html"
       }
     ]

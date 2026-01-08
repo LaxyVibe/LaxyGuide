@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step 3: Translate & Publish - Guide Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      color: #cbd5e0;
+    }
+
+    .step.active {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .step.completed {
+      color: #48bb78;
+    }
+
+    .step-number {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid currentColor;
+      margin-right: 0.5rem;
+    }
+
+    .step-line {
+      width: 4rem;
+      height: 2px;
+      background: #e2e8f0;
+      margin: 0 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    .language-card {
+      transition: all 0.3s;
+    }
+
+    .language-card.completed {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    .language-card.translating {
+      background: #dbeafe;
+      border-color: #93c5fd;
+    }
+
+    .progress-bar {
+      transition: width 0.3s ease;
+    }
+
+    .language-checkbox {
+      cursor: pointer;
+    }
+
+    .language-checkbox input:checked ~ .checkmark {
+      background: #667eea;
+      border-color: #667eea;
+    }
+
+    .tab-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .sub-tab-btn.active {
+      border-bottom: 3px solid #667eea;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    textarea {
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    #reviewSection {
+      display: none;
+    }
+
+    #reviewSection.active {
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="gradient-bg text-white py-6 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1 class="text-2xl font-bold mb-1">🚀 AI Guide Generator</h1>
+      <p class="text-white/90 text-sm">Step 3: Translate & Publish to GitHub</p>
+      <a href="./guide-generator-step2.html" class="inline-block mt-3 text-sm text-white/90 hover:text-white transition">← Back to Step 2</a>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Step Indicator -->
+    <div class="step-indicator mb-8">
+      <div class="step completed">
+        <div class="step-number">✓</div>
+        <span>Upload PDF</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step completed">
+        <div class="step-number">✓</div>
+        <span>Review & Edit</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step active">
+        <div class="step-number">3</div>
+        <span>Translate</span>
+      </div>
+    </div>
+
+    <!-- Alert if no data -->
+    <div id="noDataAlert" class="hidden bg-yellow-100 border-2 border-yellow-300 text-yellow-800 p-4 rounded-lg mb-6">
+      <p class="font-semibold">⚠️ No data found</p>
+      <p class="text-sm mt-1">Please complete Steps 1 and 2 first.</p>
+      <a href="./guide-generator-step1.html" class="inline-block mt-2 text-sm font-medium underline">Go to Step 1</a>
+    </div>
+
+    <div id="mainContent" class="hidden">
+      <!-- Summary Card -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">📊 Summary</h2>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="text-center p-4 bg-purple-50 rounded-lg">
+            <p class="text-3xl font-bold text-purple-600" id="guideCodeDisplay"></p>
+            <p class="text-sm text-gray-600 mt-1">Guide Code</p>
+          </div>
+          <div class="text-center p-4 bg-blue-50 rounded-lg">
+            <p class="text-3xl font-bold text-blue-600" id="poiCountDisplay"></p>
+            <p class="text-sm text-gray-600 mt-1">POIs</p>
+          </div>
+          <div class="text-center p-4 bg-green-50 rounded-lg">
+            <p class="text-3xl font-bold text-green-600">6</p>
+            <p class="text-sm text-gray-600 mt-1">Languages</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Translation Progress -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🌐 Select Languages to Translate</h2>
+        
+        <div class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p class="text-sm text-blue-800">💡 Select which languages you want to translate to. You can review and edit translations before publishing.</p>
+        </div>
+
+        <!-- Custom Translation Prompt -->
+        <div class="mb-6">
+          <label for="translationPrompt" class="block text-sm font-semibold text-gray-700 mb-2">
+            AI Translation Prompt Instructions <span class="text-gray-400 font-normal">(Optional - Leave blank for default)</span>
+          </label>
+          <textarea 
+            id="translationPrompt" 
+            rows="6"
+            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none font-mono text-sm"
+            placeholder="Enter custom translation instructions... (leave blank to use default prompt)"
+          ></textarea>
+          <p class="mt-2 text-xs text-gray-500">Customize how AI translates your content. If left blank, a default professional translation prompt will be used.</p>
+        </div>
+
+        <!-- Language Selection -->
+        <div class="grid grid-cols-2 gap-4 mb-6" id="languageCards">
+          <!-- Language cards will be rendered here -->
+        </div>
+
+        <!-- Overall Progress Bar (hidden initially) -->
+        <div id="progressSection" class="hidden mb-6">
+          <div class="flex justify-between text-sm text-gray-600 mb-2">
+            <span>Translation Progress</span>
+            <span id="overallProgress">0%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-3">
+            <div id="overallProgressBar" class="progress-bar gradient-bg h-3 rounded-full" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-4">
+        <button 
+          type="button" 
+          id="translateBtn"
+          class="w-full gradient-bg text-white py-4 px-6 rounded-lg font-semibold text-lg hover:shadow-lg transition transform hover:-translate-y-0.5"
+        >
+          🤖 Translate Selected Languages
+        </button>
+
+        <button 
+          type="button" 
+          id="reviewBtn"
+          class="hidden w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition"
+          onclick="window.location.href='./guide-generator-step2.html'"
+        >
+          ← Back to Step 2: Edit Translations
+        </button>
+
+        <div id="githubSection" class="hidden space-y-4">
+          <!-- GitHub Auth Status -->
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div id="authStatus" class="flex items-center gap-2">
+              <span id="authIndicator" class="w-3 h-3 rounded-full bg-red-500"></span>
+              <span id="authText" class="text-sm text-gray-600">Checking GitHub authentication...</span>
+            </div>
+          </div>
+
+          <button 
+            type="button" 
+            id="publishBtn"
+            disabled
+            class="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            📤 Publish to GitHub
+          </button>
+        </div>
+
+        <button 
+          type="button" 
+          id="startOverBtn"
+          class="w-full bg-gray-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-700 transition"
+        >
+          🔄 Start Over
+        </button>
+      </div>
+
+      <!-- Status Messages -->
+      <div id="statusContainer" class="mt-6 space-y-3"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { Octokit } from 'https://cdn.skypack.dev/@octokit/rest';
+    import { 
+      CONFIG, 
+      STORAGE_KEYS, 
+      saveToSession, 
+      loadFromSession,
+      clearSession,
+      getGithubToken,
+      promptForGithubToken,
+      generateGuideFrontmatter,
+      generatePOIFrontmatter,
+      showToast 
+    } from './guide-generator-shared.js';
+
+    let guideData = null;
+    let githubToken = null;
+    const targetLanguages = ['en-US', 'ko-KR', 'zh-TW', 'zh-CN', 'fr-FR'];
+    const languageStatus = {};
+    const selectedLanguages = new Set();
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      setupEventListeners();
+      initAuth();
+    });
+
+    function loadData() {
+      guideData = loadFromSession(STORAGE_KEYS.GUIDE_DATA);
+      
+      if (!guideData || !guideData.pois) {
+        document.getElementById('noDataAlert').classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('mainContent').classList.remove('hidden');
+      
+      // Display summary
+      document.getElementById('guideCodeDisplay').textContent = guideData.code;
+      document.getElementById('poiCountDisplay').textContent = guideData.pois.length;
+
+      // Initialize language status
+      targetLanguages.forEach(lang => {
+        languageStatus[lang] = 'pending';
+      });
+
+      renderLanguageCards();
+      updateProgress();
+    }
+
+    function setupEventListeners() {
+      document.getElementById('translateBtn')?.addEventListener('click', startTranslation);
+      document.getElementById('publishBtn')?.addEventListener('click', publishToGitHub);
+      document.getElementById('startOverBtn')?.addEventListener('click', startOver);
+    }
+
+    async function initAuth() {
+      const authIndicator = document.getElementById('authIndicator');
+      const authText = document.getElementById('authText');
+      
+      try {
+        githubToken = await getGithubToken();
+        
+        if (githubToken) {
+          const octokit = new Octokit({ auth: githubToken });
+          await octokit.repos.get({ 
+            owner: CONFIG.GITHUB.REPO_OWNER, 
+            repo: CONFIG.GITHUB.REPO_NAME 
+          });
+          
+          authIndicator.className = 'w-3 h-3 rounded-full bg-green-500';
+          authText.textContent = 'Connected to GitHub';
+          authText.className = 'text-sm text-green-700 font-medium';
+          
+          // Enable publish button
+          const publishBtn = document.getElementById('publishBtn');
+          if (publishBtn) publishBtn.disabled = false;
+        } else {
+          throw new Error('No token found');
+        }
+      } catch (error) {
+        authIndicator.className = 'w-3 h-3 rounded-full bg-red-500';
+        authText.textContent = 'Not authenticated - Click to authenticate';
+        authText.className = 'text-sm text-red-600 cursor-pointer hover:underline';
+        authText.onclick = async () => {
+          githubToken = await promptForGithubToken();
+          if (githubToken) initAuth();
+        };
+      }
+    }
+
+    function renderLanguageCards() {
+      const container = document.getElementById('languageCards');
+      container.innerHTML = '';
+
+      targetLanguages.forEach(lang => {
+        const isCompleted = languageStatus[lang] === 'completed';
+        const card = document.createElement('div');
+        card.className = `language-card border-2 border-gray-200 rounded-lg p-4 ${isCompleted ? 'completed' : ''}`;
+        card.id = `lang-card-${lang}`;
+
+        card.innerHTML = `
+          <label class="language-checkbox flex items-center gap-3 cursor-pointer">
+            <input 
+              type="checkbox" 
+              class="hidden" 
+              id="checkbox-${lang}"
+              ${selectedLanguages.has(lang) ? 'checked' : ''}
+              onchange="toggleLanguageSelection('${lang}')"
+            >
+            <div class="checkmark w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition">
+              <svg class="w-3 h-3 text-white hidden" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-2xl">${getLanguageFlag(lang)}</span>
+                <span class="font-semibold text-gray-800">${CONFIG.LANGUAGE_NAMES[lang]}</span>
+              </div>
+              <div class="text-xs text-gray-500" id="info-${lang}">
+                ${isCompleted ? '✓ Translated' : 'Not translated yet'}
+              </div>
+            </div>
+            <span id="status-${lang}" class="text-xs px-2 py-1 rounded ${isCompleted ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">
+              ${isCompleted ? '✓ Done' : 'Pending'}
+            </span>
+          </label>
+        `;
+
+        container.appendChild(card);
+      });
+
+      // Show checkbox checkmark for selected items
+      document.querySelectorAll('.language-checkbox input:checked ~ .checkmark svg').forEach(svg => {
+        svg.classList.remove('hidden');
+      });
+    }
+
+    window.toggleLanguageSelection = function(lang) {
+      if (selectedLanguages.has(lang)) {
+        selectedLanguages.delete(lang);
+      } else {
+        selectedLanguages.add(lang);
+      }
+      renderLanguageCards();
+    };
+
+    function getLanguageFlag(lang) {
+      const flags = {
+        'en-US': '🇺🇸',
+        'ko-KR': '🇰🇷',
+        'zh-TW': '🇹🇼',
+        'zh-CN': '🇨🇳',
+        'fr-FR': '🇫🇷'
+      };
+      return flags[lang] || '🌐';
+    }
+
+    function updateLanguageCard(lang, status, info) {
+      const card = document.getElementById(`lang-card-${lang}`);
+      const statusEl = document.getElementById(`status-${lang}`);
+      const infoEl = document.getElementById(`info-${lang}`);
+
+      languageStatus[lang] = status;
+
+      if (status === 'translating') {
+        card.classList.add('translating');
+        statusEl.className = 'text-sm px-2 py-1 bg-blue-100 text-blue-700 rounded font-medium';
+        statusEl.innerHTML = '<span class="inline-block spinner">⚙️</span> Translating...';
+      } else if (status === 'completed') {
+        card.classList.remove('translating');
+        card.classList.add('completed');
+        statusEl.className = 'text-sm px-2 py-1 bg-green-100 text-green-700 rounded font-medium';
+        statusEl.textContent = '✓ Completed';
+      } else if (status === 'error') {
+        card.classList.remove('translating');
+        statusEl.className = 'text-sm px-2 py-1 bg-red-100 text-red-700 rounded font-medium';
+        statusEl.textContent = '✗ Error';
+      }
+
+      if (info) {
+        infoEl.textContent = info;
+      }
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const selectedLangs = Array.from(selectedLanguages);
+      if (selectedLangs.length === 0) return;
+
+      const completed = selectedLangs.filter(lang => languageStatus[lang] === 'completed').length;
+      const total = selectedLangs.length;
+      const percentage = Math.round((completed / total) * 100);
+
+      document.getElementById('overallProgress').textContent = `${completed}/${total} (${percentage}%)`;
+      document.getElementById('overallProgressBar').style.width = `${percentage}%`;
+
+      // Show review button if at least one translation is complete
+      if (completed > 0) {
+        document.getElementById('reviewBtn').classList.remove('hidden');
+      }
+
+      // Show GitHub section if all selected translations are complete
+      if (completed === total && total > 0) {
+        const githubSection = document.getElementById('githubSection');
+        if (githubSection) githubSection.classList.remove('hidden');
+        showToast('All selected translations complete! Ready to review or publish.', 'success');
+      }
+    }
+
+    async function startTranslation() {
+      if (selectedLanguages.size === 0) {
+        showToast('Please select at least one language to translate', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('translateBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="inline-block spinner">⚙️</span> Translating...';
+
+      // Show progress section
+      document.getElementById('progressSection').classList.remove('hidden');
+
+      try {
+        showStatus(`🤖 Starting AI translation to ${selectedLanguages.size} language(s)...`, 'info');
+
+        // Translate each selected language sequentially
+        for (const lang of Array.from(selectedLanguages)) {
+          await translateToLanguage(lang);
+        }
+
+        showStatus('✅ All selected translations completed successfully!', 'success');
+        btn.textContent = '✓ Translation Complete';
+        btn.disabled = false;
+
+      } catch (error) {
+        console.error('Translation error:', error);
+        showStatus(`❌ Translation error: ${error.message}`, 'error');
+        showToast(error.message, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '🤖 Translate Selected Languages';
+      }
+    }
+
+    async function translateToLanguage(targetLang) {
+      updateLanguageCard(targetLang, 'translating', `Translating guide and ${guideData.pois.length} POIs...`);
+
+      try {
+        const customPrompt = document.getElementById('translationPrompt')?.value.trim() || '';
+
+        const response = await fetch(CONFIG.API_ENDPOINTS.TRANSLATE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            guideTitle: guideData.titles['ja-JP'],
+            pois: guideData.pois.map(poi => ({
+              number: poi.number,
+              title: poi.title['ja-JP'],
+              content: poi.content['ja-JP'],
+              script: poi.script?.['ja-JP'] || ''
+            })),
+            sourceLanguage: 'ja-JP',
+            targetLanguage: targetLang,
+            customPrompt: customPrompt || undefined
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`Translation failed for ${targetLang}`);
+        }
+
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Translation failed');
+        }
+
+        // Update guide data with translations
+        guideData.titles[targetLang] = result.data.guideTitle;
+        
+        result.data.pois.forEach((translatedPoi, index) => {
+          guideData.pois[index].title[targetLang] = translatedPoi.title;
+          guideData.pois[index].content[targetLang] = translatedPoi.content;
+          if (translatedPoi.script) {
+            if (!guideData.pois[index].script) guideData.pois[index].script = {};
+            guideData.pois[index].script[targetLang] = translatedPoi.script;
+          }
+        });
+
+        saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+
+        updateLanguageCard(
+          targetLang, 
+          'completed', 
+          `Guide + ${guideData.pois.length} POIs translated`
+        );
+
+      } catch (error) {
+        updateLanguageCard(targetLang, 'error', error.message);
+        throw error;
+      }
+    }
+
+    async function publishToGitHub() {
+      if (!githubToken) {
+        showToast('Please authenticate with GitHub first', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('publishBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="inline-block spinner">⚙️</span> Publishing to GitHub...';
+
+      try {
+        showStatus('📤 Creating files on GitHub...', 'info');
+
+        const octokit = new Octokit({ auth: githubToken });
+
+        // Get latest commit
+        const { data: refData } = await octokit.git.getRef({
+          owner: CONFIG.GITHUB.REPO_OWNER,
+          repo: CONFIG.GITHUB.REPO_NAME,
+          ref: `heads/${CONFIG.GITHUB.TARGET_BRANCH}`
+        });
+
+        const { data: commitData } = await octokit.git.getCommit({
+          owner: CONFIG.GITHUB.REPO_OWNER,
+          repo: CONFIG.GITHUB.REPO_NAME,
+          commit_sha: refData.object.sha
+        });
+
+        // Prepare files
+        const files = [];
+
+        // Guide file
+        files.push({
+          path: `src/content/guides/${guideData.code.toLowerCase()}.md`,
+          content: generateGuideFrontmatter(guideData)
+        });
+
+        // POI files
+        guideData.pois.forEach(poi => {
+          files.push({
+            path: `src/content/pois/${guideData.code.toLowerCase()}-${poi.number}.md`,
+            content: generatePOIFrontmatter(guideData.code, poi)
+          });
+        });
+
+        // Create tree
+        const tree = files.map(file => ({
+          path: file.path,
+          mode: '100644',
+          type: 'blob',
+          content: file.content
+        }));
+
+        const { data: newTree } = await octokit.git.createTree({
+          owner: CONFIG.GITHUB.REPO_OWNER,
+          repo: CONFIG.GITHUB.REPO_NAME,
+          base_tree: commitData.tree.sha,
+          tree
+        });
+
+        // Create commit
+        const { data: newCommit } = await octokit.git.createCommit({
+          owner: CONFIG.GITHUB.REPO_OWNER,
+          repo: CONFIG.GITHUB.REPO_NAME,
+          message: `Add guide: ${guideData.code} with ${guideData.pois.length} POIs (AI-generated)`,
+          tree: newTree.sha,
+          parents: [refData.object.sha]
+        });
+
+        // Update ref
+        await octokit.git.updateRef({
+          owner: CONFIG.GITHUB.REPO_OWNER,
+          repo: CONFIG.GITHUB.REPO_NAME,
+          ref: `heads/${CONFIG.GITHUB.TARGET_BRANCH}`,
+          sha: newCommit.sha
+        });
+
+        showStatus(
+          `✅ Successfully published ${files.length} files to GitHub!`,
+          'success'
+        );
+        showToast('Guide published successfully!', 'success');
+
+        btn.textContent = '✓ Published Successfully';
+        btn.classList.add('bg-green-700');
+
+        // Clear session after successful publish
+        setTimeout(() => {
+          if (confirm('Guide published! Start creating another guide?')) {
+            startOver();
+          }
+        }, 2000);
+
+      } catch (error) {
+        console.error('Publish error:', error);
+        showStatus(`❌ Publish error: ${error.message}`, 'error');
+        showToast(error.message, 'error');
+        btn.disabled = false;
+        btn.textContent = '📤 Retry Publish';
+      }
+    }
+
+    function startOver() {
+      if (confirm('This will clear all data and start over. Continue?')) {
+        clearSession();
+        window.location.href = './guide-generator-step1.html';
+      }
+    }
+
+    function showStatus(message, type) {
+      const container = document.getElementById('statusContainer');
+      const statusDiv = document.createElement('div');
+      
+      const colors = {
+        info: 'bg-blue-100 border-blue-300 text-blue-800',
+        success: 'bg-green-100 border-green-300 text-green-800',
+        error: 'bg-red-100 border-red-300 text-red-800'
+      };
+      
+      statusDiv.className = `p-4 rounded-lg border-2 ${colors[type]}`;
+      statusDiv.textContent = message;
+      
+      container.appendChild(statusDiv);
+      
+      // Auto-remove old messages
+      if (container.children.length > 3) {
+        container.removeChild(container.firstChild);
+      }
+    }
+  </script>
+</body>
+</html>

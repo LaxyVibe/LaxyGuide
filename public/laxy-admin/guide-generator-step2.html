@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step 2: Review & Edit - Guide Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://media-library.cloudinary.com/global/all.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      color: #cbd5e0;
+    }
+
+    .step.active {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .step.completed {
+      color: #48bb78;
+    }
+
+    .step-number {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid currentColor;
+      margin-right: 0.5rem;
+    }
+
+    .step-line {
+      width: 4rem;
+      height: 2px;
+      background: #e2e8f0;
+      margin: 0 1rem;
+    }
+
+    .poi-card {
+      transition: all 0.3s;
+    }
+
+    .tab-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .sub-tab-btn.active {
+      border-bottom: 3px solid #667eea;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    textarea {
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="gradient-bg text-white py-6 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1 class="text-2xl font-bold mb-1">🚀 AI Guide Generator</h1>
+      <p class="text-white/90 text-sm">Step 2: Review & Edit Content (All Languages)</p>
+      <div class="flex gap-4 mt-3">
+        <a href="./guide-generator-step1.html" class="text-sm text-white/90 hover:text-white transition">← Back to Step 1</a>
+        <a href="./guide-generator-step3.html" class="text-sm text-white/90 hover:text-white transition">Go to Step 3: Translate →</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Step Indicator -->
+    <div class="step-indicator mb-8">
+      <div class="step completed">
+        <div class="step-number">✓</div>
+        <span>Upload PDF</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step active">
+        <div class="step-number">2</div>
+        <span>Review & Edit</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <span>Translate</span>
+      </div>
+    </div>
+
+    <!-- Alert if no data -->
+    <div id="noDataAlert" class="hidden bg-yellow-100 border-2 border-yellow-300 text-yellow-800 p-4 rounded-lg mb-6">
+      <p class="font-semibold">⚠️ No data found</p>
+      <p class="text-sm mt-1">Please start from Step 1 to upload and process a PDF.</p>
+      <a href="./guide-generator-step1.html" class="inline-block mt-2 text-sm font-medium underline">Go to Step 1</a>
+    </div>
+
+    <div id="mainContent" class="hidden">
+      <!-- Language Selector -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold text-gray-800">🌐 Select Language to Edit</h2>
+          <span id="guideCodeDisplay" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-mono font-bold"></span>
+        </div>
+        
+        <div class="flex flex-wrap gap-2" id="languageSelector">
+          <!-- Language buttons will be rendered here -->
+        </div>
+        
+        <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+          💡 <strong>Tip:</strong> Edit Japanese (ja-JP) first, then translate in Step 3. You can return here anytime to edit translations.
+        </div>
+      </div>
+
+      <!-- Guide Info Card -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">📝 Guide Information</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <label for="guideTitle" class="block text-sm font-semibold text-gray-700 mb-2">
+              <span id="guideTitleLabel">Guide Title</span> *
+            </label>
+            <input 
+              type="text" 
+              id="guideTitle" 
+              class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-lg"
+            >
+          </div>
+
+          <div>
+            <label for="guideImage" class="block text-sm font-semibold text-gray-700 mb-2">
+              Guide Image URL
+            </label>
+            <input 
+              type="url" 
+              id="guideImage" 
+              readonly
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg bg-gray-50 text-gray-600"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- POIs Section -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-gray-800">📍 Points of Interest</h2>
+          <div class="flex gap-3">
+            <button 
+              type="button" 
+              id="addPoiBtn"
+              class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
+            >
+              + Add POI
+            </button>
+          </div>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div id="tabsContainer" class="flex flex-wrap gap-2 mb-6 border-b pb-4">
+          <!-- Tabs will be rendered here -->
+        </div>
+
+        <div id="poisContainer">
+          <!-- Active POI content will be rendered here -->
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4">
+        <button 
+          type="button" 
+          id="saveBtn"
+          class="flex-1 bg-gray-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-gray-700 transition"
+        >
+          💾 Save Progress
+        </button>
+        <button 
+          type="button" 
+          id="proceedBtn"
+          class="flex-1 gradient-bg text-white py-4 px-6 rounded-lg font-semibold text-lg hover:shadow-lg transition transform hover:-translate-y-0.5"
+        >
+          Next: Translate to Other Languages →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { 
+      CONFIG, 
+      STORAGE_KEYS, 
+      saveToSession, 
+      loadFromSession, 
+      formatPoiNumber,
+      showToast,
+      showAICopilotModal
+    } from './guide-generator-shared.js';
+
+    let guideData = null;
+    let activePoiIndex = 0;
+    let activeSubTab = 'text'; // 'text' or 'media'
+    let activeLanguage = 'ja-JP'; // Current editing language
+
+    const CLOUDINARY_CONFIG = {
+      cloudName: 'dui2mxeuh',
+      apiKey: '569778884527558',
+      uploadPreset: 'ml_default'
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      setupEventListeners();
+    });
+
+    function loadData() {
+      guideData = loadFromSession(STORAGE_KEYS.GUIDE_DATA);
+      
+      if (!guideData || !guideData.pois) {
+        document.getElementById('noDataAlert').classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('mainContent').classList.remove('hidden');
+      
+      // Initialize language selector
+      renderLanguageSelector();
+      
+      // Populate guide info
+      document.getElementById('guideCodeDisplay').textContent = guideData.code;
+      document.getElementById('guideTitle').value = guideData.titles[activeLanguage] || '';
+      document.getElementById('guideImage').value = guideData.guideUnderlayImage || '';
+
+      // Set initial active POI if any
+      if (guideData.pois.length > 0) {
+        activePoiIndex = 0;
+      }
+
+      // Render POIs
+      renderPOIs();
+    }
+
+    function renderLanguageSelector() {
+      const container = document.getElementById('languageSelector');
+      container.innerHTML = '';
+
+      CONFIG.LANGUAGES.forEach(lang => {
+        const hasContent = guideData.titles[lang] || 
+          guideData.pois.some(poi => poi.title[lang] || poi.content[lang]);
+        
+        const button = document.createElement('button');
+        button.className = `px-4 py-2 rounded-lg border-2 font-medium transition ${
+          activeLanguage === lang 
+            ? 'bg-purple-600 text-white border-purple-600' 
+            : hasContent
+              ? 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100'
+              : 'bg-gray-50 text-gray-600 border-gray-300 hover:bg-gray-100'
+        }`;
+        
+        button.innerHTML = `
+          ${getLanguageFlag(lang)} ${CONFIG.LANGUAGE_NAMES[lang]}
+          ${hasContent && lang !== 'ja-JP' ? '<span class="ml-1">✓</span>' : ''}
+        `;
+        
+        button.onclick = () => switchLanguage(lang);
+        container.appendChild(button);
+      });
+    }
+
+    function getLanguageFlag(lang) {
+      const flags = {
+        'en-US': '🇺🇸',
+        'ja-JP': '🇯🇵',
+        'ko-KR': '🇰🇷',
+        'zh-TW': '🇹🇼',
+        'zh-CN': '🇨🇳',
+        'fr-FR': '🇫🇷'
+      };
+      return flags[lang] || '🌐';
+    }
+
+    function switchLanguage(lang) {
+      // Save current language data first
+      saveCurrentLanguageData();
+      
+      // Switch to new language
+      activeLanguage = lang;
+      
+      // Update UI
+      renderLanguageSelector();
+      document.getElementById('guideTitle').value = guideData.titles[activeLanguage] || '';
+      
+      // Update label
+      const label = document.getElementById('guideTitleLabel');
+      label.textContent = `Guide Title (${CONFIG.LANGUAGE_NAMES[activeLanguage]})`;
+      
+      // Re-render POIs for new language
+      renderPOIs();
+      
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+    }
+
+    function saveCurrentLanguageData() {
+      // Save guide title
+      const titleInput = document.getElementById('guideTitle');
+      if (titleInput) {
+        guideData.titles[activeLanguage] = titleInput.value;
+      }
+    }
+      document.getElementById('guideImage').value = guideData.guideUnderlayImage || '';
+
+      // Set initial active POI if any
+      if (guideData.pois.length > 0) {
+        activePoiIndex = 0;
+      }
+
+      // Render POIs
+      renderPOIs();
+    }
+
+    function setupEventListeners() {
+      document.getElementById('guideTitle')?.addEventListener('input', updateGuideTitle);
+      document.getElementById('addPoiBtn')?.addEventListener('click', addNewPOI);
+      document.getElementById('saveBtn')?.addEventListener('click', saveProgress);
+      document.getElementById('proceedBtn')?.addEventListener('click', proceedToTranslation);
+    }
+
+    function renderPOIs() {
+      const tabsContainer = document.getElementById('tabsContainer');
+      const contentContainer = document.getElementById('poisContainer');
+      
+      if (!guideData.pois || guideData.pois.length === 0) {
+        tabsContainer.innerHTML = '';
+        contentContainer.innerHTML = '<p class="text-gray-500 italic text-center py-8">No POIs added yet.</p>';
+        return;
+      }
+
+      // Render Tabs
+      tabsContainer.innerHTML = '';
+      guideData.pois.forEach((poi, index) => {
+        const tab = document.createElement('button');
+        tab.className = `tab-btn px-4 py-2 rounded-lg border-2 font-medium transition ${activePoiIndex === index ? 'active' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'}`;
+        tab.textContent = `POI ${poi.number}`;
+        tab.onclick = () => {
+          activePoiIndex = index;
+          renderPOIs();
+        };
+        tabsContainer.appendChild(tab);
+      });
+
+      // Render Active POI Content
+      const poi = guideData.pois[activePoiIndex];
+      
+      // Ensure fields exist for current language
+      if (!poi.script) poi.script = {};
+      if (!poi.script[activeLanguage]) poi.script[activeLanguage] = '';
+      if (!poi.title) poi.title = {};
+      if (!poi.title[activeLanguage]) poi.title[activeLanguage] = '';
+      if (!poi.content) poi.content = {};
+      if (!poi.content[activeLanguage]) poi.content[activeLanguage] = '';
+
+      contentContainer.innerHTML = `
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-gray-800">
+              Editing POI ${poi.number} (${CONFIG.LANGUAGE_NAMES[activeLanguage]})
+            </h3>
+            <button 
+              type="button" 
+              onclick="removePOI(${activePoiIndex})"
+              class="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition font-medium text-sm"
+            >
+              🗑️ Remove This POI
+            </button>
+          </div>
+
+          <!-- Sub-tabs Navigation -->
+          <div class="flex gap-8 border-b">
+            <button 
+              onclick="switchSubTab('text')"
+              class="sub-tab-btn pb-2 text-sm transition ${activeSubTab === 'text' ? 'active' : 'text-gray-500 hover:text-gray-700'}"
+            >
+              📝 Text Content
+            </button>
+            <button 
+              onclick="switchSubTab('media')"
+              class="sub-tab-btn pb-2 text-sm transition ${activeSubTab === 'media' ? 'active' : 'text-gray-500 hover:text-gray-700'}"
+            >
+              🖼️ Media & Settings
+            </button>
+          </div>
+
+          <div class="mt-4">
+            ${activeSubTab === 'text' ? `
+              <!-- Text Tab Content -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <label class="block text-sm font-semibold text-gray-700">
+                        POI Title (${CONFIG.LANGUAGE_NAMES[activeLanguage]}) *
+                      </label>
+                      <button
+                        type="button"
+                        onclick="openAICopilotForField(${activePoiIndex}, 'title')"
+                        class="px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition font-medium"
+                      >
+                        🤖 AI
+                      </button>
+                    </div>
+                    <input 
+                      type="text" 
+                      id="titleInput"
+                      value="${poi.title[activeLanguage] || ''}"
+                      class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none font-bold"
+                      onchange="updatePOIField(${activePoiIndex}, 'title', this.value)"
+                    >
+                  </div>
+                  
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <label class="block text-sm font-semibold text-gray-700">
+                        Script Narration (${CONFIG.LANGUAGE_NAMES[activeLanguage]})
+                      </label>
+                      <button
+                        type="button"
+                        onclick="openAICopilotForField(${activePoiIndex}, 'script')"
+                        class="px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition font-medium"
+                      >
+                        🤖 AI
+                      </button>
+                    </div>
+                    <textarea 
+                      id="scriptInput"
+                      rows="6"
+                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none bg-blue-50/30"
+                      placeholder="Enter script for narration..."
+                      oninput="updatePOIField(${activePoiIndex}, 'script', this.value)"
+                    >${poi.script[activeLanguage] || ''}</textarea>
+                    <p class="mt-1 text-xs text-blue-600">This field will be used for AI Voice generation later.</p>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                      Content (Markdown - ${CONFIG.LANGUAGE_NAMES[activeLanguage]}) *
+                    </label>
+                    <button
+                      type="button"
+                      onclick="openAICopilotForField(${activePoiIndex}, 'content')"
+                      class="px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition font-medium"
+                    >
+                      🤖 AI
+                    </button>
+                  </div>
+                  <textarea 
+                    id="contentInput"
+                    rows="12"
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none"
+                    oninput="updatePOIField(${activePoiIndex}, 'content', this.value)"
+                  >${poi.content[activeLanguage] || ''}</textarea>
+                  <div class="flex justify-between mt-2">
+                    <p class="text-xs text-gray-500">Use Markdown for formatting.</p>
+                    <p class="text-xs font-medium text-gray-500">
+                      Characters: <span id="charCount">${(poi.content[activeLanguage] || '').length}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ` : `
+              <!-- Media Tab Content -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                      Hero Image URL
+                    </label>
+                    <div class="flex gap-2">
+                      <input 
+                        type="url" 
+                        id="heroImageInput"
+                        value="${poi.hero || ''}"
+                        placeholder="https://..."
+                        class="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm"
+                        onchange="updatePOIField(${activePoiIndex}, 'hero', this.value)"
+                      >
+                      <button
+                        type="button"
+                        onclick="openCloudinaryForPoi(${activePoiIndex})"
+                        class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
+                      >
+                        🖼️ Cloudinary
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="p-4 border-2 border-gray-100 rounded-lg bg-gray-50 space-y-4">
+                    <div class="flex items-center gap-2">
+                      <input 
+                        type="checkbox" 
+                        id="displayAudio"
+                        ${poi.displayAudio !== false ? 'checked' : ''}
+                        class="w-4 h-4 text-purple-600 rounded"
+                        onchange="updatePOIField(${activePoiIndex}, 'displayAudio', this.checked)"
+                      >
+                      <label for="displayAudio" class="text-sm font-semibold text-gray-700">
+                        Display Audio Player
+                      </label>
+                    </div>
+
+                    <div>
+                      <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        TTML Subtitle URL (Optional)
+                      </label>
+                      <input 
+                        type="url" 
+                        value="${poi.ttml || ''}"
+                        placeholder="https://..."
+                        class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm bg-white"
+                        onchange="updatePOIField(${activePoiIndex}, 'ttml', this.value)"
+                      >
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 min-h-[200px]">
+                  ${poi.hero ? 
+                    `<img src="${poi.hero}" class="max-h-64 rounded-lg shadow-sm">` : 
+                    '<p class="text-gray-400">Image Preview</p>'
+                  }
+                </div>
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    window.switchSubTab = function(tab) {
+      activeSubTab = tab;
+      renderPOIs();
+    };
+
+    window.openAICopilotForField = function(poiIndex, fieldType) {
+      const poi = guideData.pois[poiIndex];
+      const currentText = fieldType === 'title' || fieldType === 'content' || fieldType === 'script'
+        ? (poi[fieldType]?.[activeLanguage] || '')
+        : '';
+
+      showAICopilotModal(fieldType, currentText, activeLanguage, (newText) => {
+        updatePOIField(poiIndex, fieldType, newText);
+        
+        // Update the input field in the UI
+        if (fieldType === 'title') {
+          const titleInput = document.getElementById('titleInput');
+          if (titleInput) titleInput.value = newText;
+        } else if (fieldType === 'content') {
+          const contentInput = document.getElementById('contentInput');
+          if (contentInput) contentInput.value = newText;
+          const charCount = document.getElementById('charCount');
+          if (charCount) charCount.textContent = newText.length;
+        } else if (fieldType === 'script') {
+          const scriptInput = document.getElementById('scriptInput');
+          if (scriptInput) scriptInput.value = newText;
+        }
+        
+        renderLanguageSelector(); // Update to show content indicator
+      });
+    };
+
+    window.openCloudinaryForPoi = function(index) {
+      window.cloudinary.openMediaLibrary({
+        cloud_name: CLOUDINARY_CONFIG.cloudName,
+        api_key: CLOUDINARY_CONFIG.apiKey,
+        multiple: false,
+        max_files: 1,
+        insert_caption: 'Select',
+      }, {
+        insertHandler: (data) => {
+          if (data.assets && data.assets.length > 0) {
+            const imageUrl = data.assets[0].secure_url || data.assets[0].url;
+            guideData.pois[index].hero = imageUrl;
+            document.getElementById('heroImageInput').value = imageUrl;
+            saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+            showToast('POI Image selected!', 'success');
+          }
+        }
+      });
+    };
+
+    function updateGuideTitle() {
+      const title = document.getElementById('guideTitle').value;
+      guideData.titles[activeLanguage] = title;
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+      renderLanguageSelector(); // Update to show content indicator
+    }
+
+    window.updatePOIField = function(index, field, value) {
+      if (field === 'title' || field === 'content' || field === 'script') {
+        if (!guideData.pois[index][field]) guideData.pois[index][field] = {};
+        guideData.pois[index][field][activeLanguage] = value;
+        
+        if (field === 'content') {
+          const charCount = document.getElementById('charCount');
+          if (charCount) charCount.textContent = value.length;
+        }
+      } else {
+        guideData.pois[index][field] = value;
+      }
+      
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+      renderLanguageSelector(); // Update to show content indicator
+    };
+
+    window.removePOI = function(index) {
+      if (!confirm(`Remove POI ${guideData.pois[index].number}?`)) return;
+      
+      guideData.pois.splice(index, 1);
+      
+      if (activePoiIndex >= guideData.pois.length) {
+        activePoiIndex = Math.max(0, guideData.pois.length - 1);
+      }
+      
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+      renderPOIs();
+      showToast('POI removed', 'success');
+    };
+
+    function addNewPOI() {
+      const newNumber = formatPoiNumber(guideData.pois.length + 1);
+      
+      const newPOI = {
+        number: newNumber,
+        title: { 'ja-JP': '' },
+        hero: '',
+        displayAudio: true,
+        script: { 'ja-JP': '' },
+        content: { 'ja-JP': '' },
+        ttml: ''
+      };
+
+      guideData.pois.push(newPOI);
+      activePoiIndex = guideData.pois.length - 1;
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+      renderPOIs();
+      showToast('New POI added', 'success');
+    }
+
+    function saveProgress() {
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+      showToast('Progress saved!', 'success');
+    }
+
+    function proceedToTranslation() {
+      // Validate data
+      if (!guideData.titles['ja-JP']) {
+        showToast('Please enter a guide title', 'error');
+        return;
+      }
+
+      const invalidPOIs = guideData.pois.filter(poi => 
+        !poi.title['ja-JP'] || !poi.content['ja-JP']
+      );
+
+      if (invalidPOIs.length > 0) {
+        showToast(`Please fill title and content for all POIs (${invalidPOIs.length} incomplete)`, 'error');
+        return;
+      }
+
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+      saveToSession(STORAGE_KEYS.CURRENT_STEP, 3);
+      window.location.href = './guide-generator-step3.html';
+    }
+  </script>
+</body>
+</html>
