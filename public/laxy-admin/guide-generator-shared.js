@@ -23,7 +23,7 @@ export const CONFIG = {
   },
   GITHUB: {
     REPO_OWNER: 'LaxyVibe',
-    REPO_NAME: 'LaxyLiteGuidePWA',
+    REPO_NAME: 'LaxyGuide',
     TARGET_BRANCH: 'develop'
   }
 };

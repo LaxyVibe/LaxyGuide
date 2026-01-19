@@ -1,4 +1,4 @@
-# Laxy Lite Guide PWA
+# LaxyGuide
 
 A Progressive Web App for multilingual tour guides with AI-powered content generation.
 

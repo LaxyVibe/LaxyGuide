@@ -1,7 +1,7 @@
 import { Octokit } from '@octokit/rest';
 
 const REPO_OWNER = 'LaxyVibe';
-const REPO_NAME = 'LaxyLiteGuidePWA';
+const REPO_NAME = 'LaxyGuide';
 const TARGET_BRANCH = 'develop';
 
 export interface GuideGeneratorInput {

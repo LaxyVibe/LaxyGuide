@@ -192,4 +192,4 @@ firebase hosting:channel:delete cache
 
 - Firebase Console: https://console.firebase.google.com/project/laxy-guide-dev
 - Cloud Console: https://console.cloud.google.com/home/dashboard?project=laxy-guide-dev
-- Repository: https://github.com/LaxyVibe/LaxyLiteGuidePWA
+- Repository: https://github.com/LaxyVibe/LaxyGuide
