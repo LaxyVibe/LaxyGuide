@@ -2,6 +2,7 @@ import {setGlobalOptions} from "firebase-functions";
 import {onRequest} from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import {VertexAI} from "@google-cloud/vertexai";
+import {SchemaType} from "@google-cloud/vertexai/build/src/types/common";
 
 setGlobalOptions({maxInstances: 10});
 
@@ -41,19 +42,66 @@ export const processPdfVertex = onRequest(
           location: location,
         });
 
-        // Get the Gemini model
+        // Get the Gemini model with JSON response schema
+        const responseSchema = {
+          type: SchemaType.OBJECT,
+          properties: {
+            guide: {
+              type: SchemaType.OBJECT,
+              properties: {
+                titles: {
+                  type: SchemaType.OBJECT,
+                  properties: {
+                    "ja-JP": {type: SchemaType.STRING},
+                  },
+                  required: ["ja-JP"],
+                },
+              },
+              required: ["titles"],
+            },
+            pois: {
+              type: SchemaType.ARRAY,
+              items: {
+                type: SchemaType.OBJECT,
+                properties: {
+                  number: {type: SchemaType.STRING},
+                  titles: {
+                    type: SchemaType.OBJECT,
+                    properties: {
+                      "ja-JP": {type: SchemaType.STRING},
+                    },
+                    required: ["ja-JP"],
+                  },
+                  content: {
+                    type: SchemaType.OBJECT,
+                    properties: {
+                      "ja-JP": {type: SchemaType.STRING},
+                    },
+                    required: ["ja-JP"],
+                  },
+                },
+                required: ["number", "titles", "content"],
+              },
+            },
+          },
+          required: ["guide", "pois"],
+        };
+
         const model = vertexAI.getGenerativeModel({
           model: "gemini-2.0-flash-exp",
           generationConfig: {
-            temperature: 0.7,
+            temperature: 0.4, // Lower temperature for more consistent JSON output
             topP: 0.9,
             topK: 40,
             maxOutputTokens: 8192,
+            responseMimeType: "application/json", // Force JSON output
+            responseSchema: responseSchema,
           },
         });
 
-        // Prepare prompt for Vertex AI - Japanese-focused extraction
-        const prompt = customPrompt
+        // Use the custom prompt directly from the frontend
+        // This allows users to tune the prompt via the UI
+        logger.info("Using custom prompt from frontend");
 
         const result = await model.generateContent({
           contents: [
@@ -67,7 +115,7 @@ export const processPdfVertex = onRequest(
                   },
                 },
                 {
-                  text: prompt,
+                  text: customPrompt,
                 },
               ],
             },
@@ -78,14 +126,27 @@ export const processPdfVertex = onRequest(
         const text = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
         logger.info("AI Response received, parsing...");
+        logger.info("Raw AI response:", text.substring(0, 200)); // Log first 200 chars for debugging
 
         // Clean the response text
         let cleanedText = text.trim();
+        
+        // Remove markdown code blocks
         if (cleanedText.startsWith("```json")) {
           cleanedText = cleanedText.replace(/^```json\s*/, "").replace(/```\s*$/, "");
         } else if (cleanedText.startsWith("```")) {
           cleanedText = cleanedText.replace(/^```\s*/, "").replace(/```\s*$/, "");
         }
+        
+        // Remove any leading text before the JSON
+        const jsonStart = cleanedText.indexOf("{");
+        const jsonEnd = cleanedText.lastIndexOf("}");
+        
+        if (jsonStart === -1 || jsonEnd === -1) {
+          throw new Error("No valid JSON object found in AI response. Response started with: " + cleanedText.substring(0, 100));
+        }
+        
+        cleanedText = cleanedText.substring(jsonStart, jsonEnd + 1);
 
         const parsedData = JSON.parse(cleanedText);
 
@@ -319,12 +380,28 @@ export const translateContent = onRequest(
       try {
         const {guideTitle, pois, sourceLanguage, targetLanguage, customPrompt} = req.body;
 
-        if (!guideTitle || !pois || !sourceLanguage || !targetLanguage) {
-          res.status(400).json({error: "Missing required fields"});
+        // Validate input
+        if (!guideTitle || !pois || !sourceLanguage || !targetLanguage || !customPrompt) {
+          res.status(400).json({
+            success: false,
+            error: "Missing required fields: guideTitle, pois, sourceLanguage, targetLanguage, customPrompt",
+          });
           return;
         }
 
-        logger.info(`Translating from ${sourceLanguage} to ${targetLanguage}...`);
+        if (!Array.isArray(pois) || pois.length === 0) {
+          res.status(400).json({
+            success: false,
+            error: "pois must be a non-empty array",
+          });
+          return;
+        }
+
+        logger.info("=== Translation Request ===");
+        logger.info(`Source: ${sourceLanguage} (${sourceLanguageName}) → Target: ${targetLanguage} (${targetLanguageName})`);
+        logger.info(`Guide Title: ${guideTitle}`);
+        logger.info(`Number of POIs: ${pois.length}`);
+        logger.info(`⚠️ TRANSLATING TO: ${targetLanguageName.toUpperCase()} ⚠️`);
 
         // Initialize Vertex AI
         const projectId = process.env.VERTEX_AI_PROJECT_ID || "laxy-guide";
@@ -335,19 +412,60 @@ export const translateContent = onRequest(
           location: location,
         });
 
+        // Strict JSON schema for translation output
+        const translationSchema = {
+          type: SchemaType.OBJECT,
+          properties: {
+            guideTitle: {
+              type: SchemaType.STRING,
+              description: "Translated guide title",
+            },
+            pois: {
+              type: SchemaType.ARRAY,
+              description: "Array of translated POIs",
+              items: {
+                type: SchemaType.OBJECT,
+                properties: {
+                  number: {
+                    type: SchemaType.STRING,
+                    description: "POI number (unchanged from source)",
+                  },
+                  title: {
+                    type: SchemaType.STRING,
+                    description: "Translated POI title",
+                  },
+                  content: {
+                    type: SchemaType.STRING,
+                    description: "Translated POI content",
+                  },
+                  script: {
+                    type: SchemaType.STRING,
+                    description: "Translated POI narration script",
+                  },
+                },
+                required: ["number", "title", "content", "script"],
+              },
+            },
+          },
+          required: ["guideTitle", "pois"],
+        };
+
+        // Initialize model with strict JSON mode
         const model = vertexAI.getGenerativeModel({
           model: "gemini-2.0-flash-exp",
           generationConfig: {
-            temperature: 0.3,
-            topP: 0.9,
+            temperature: 0.2,
+            topP: 0.8,
             topK: 40,
             maxOutputTokens: 8192,
+            responseMimeType: "application/json",
+            responseSchema: translationSchema,
           },
         });
 
-        // Create translation prompt
+        // Build structured prompt
         const languageNames: Record<string, string> = {
-          "en-US": "English (US)",
+          "en-US": "English",
           "ja-JP": "Japanese",
           "ko-KR": "Korean",
           "zh-TW": "Traditional Chinese",
@@ -355,81 +473,175 @@ export const translateContent = onRequest(
           "fr-FR": "French",
         };
 
-        // Use custom prompt if provided, otherwise use default
-        const defaultPrompt = `You are a professional translator specializing in tourism and cultural content. Translate the following guide content from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}.
+        const sourceLanguageName = languageNames[sourceLanguage] || sourceLanguage;
+        const targetLanguageName = languageNames[targetLanguage] || targetLanguage;
 
-Guide Title: "${guideTitle}"
+        // Format POIs for prompt
+        const poisFormatted = pois.map((poi: {number: string; title: string; content: string; script?: string}) => {
+          return `POI ${poi.number}:
+- Title: ${poi.title}
+- Content: ${poi.content}
+- Script: ${poi.script || "(empty)"}`;
+        }).join("\n\n");
 
-POIs (Points of Interest):
-${pois.map((poi: {number: string; title: string; content: string; script?: string}) => `
-POI ${poi.number}:
-Title: ${poi.title}
-Content: ${poi.content}
-${poi.script ? `Script: ${poi.script}` : ''}
-`).join("\n")}
+        // Build the complete prompt with clear language specification
+        const fullPrompt = `${customPrompt}
 
-Return a JSON response with this EXACT structure:
+==========================================================
+TRANSLATION SPECIFICATION:
+==========================================================
+SOURCE LANGUAGE: ${sourceLanguageName} (${sourceLanguage})
+TARGET LANGUAGE: ${targetLanguageName} (${targetLanguage})
 
+YOU MUST TRANSLATE ALL TEXT BELOW TO ${targetLanguageName.toUpperCase()}.
+==========================================================
+
+GUIDE TITLE TO TRANSLATE:
+${guideTitle}
+
+POIs TO TRANSLATE:
+${poisFormatted}
+
+==========================================================
+REMINDER: Translate everything to ${targetLanguageName} (${targetLanguage}).
+Return JSON with this structure:
 {
-  "guideTitle": "Translated guide title in ${languageNames[targetLanguage]}",
+  "guideTitle": "translated to ${targetLanguageName}",
   "pois": [
     {
-      "number": "001",
-      "title": "Translated POI title in ${languageNames[targetLanguage]}",
-      "content": "Translated POI content in ${languageNames[targetLanguage]}",
-      "script": "Translated POI script in ${languageNames[targetLanguage]}"
+      "number": "unchanged",
+      "title": "translated to ${targetLanguageName}",
+      "content": "translated to ${targetLanguageName}",
+      "script": "translated to ${targetLanguageName}"
     }
   ]
 }
+==========================================================`;
 
-Translation guidelines:
-1. Maintain the original meaning and cultural context
-2. Use natural, fluent language appropriate for tourists
-3. Keep the same tone and style as the original
-4. Preserve any specific terms, names, or dates accurately
-5. Ensure content length is similar to the original
-6. For script field: translate narration script if present, maintaining conversational tone
-7. Return ONLY valid JSON, no markdown formatting
-
-Return ONLY the JSON structure, nothing else.`;
-
-        const prompt = customPrompt || defaultPrompt;
+        logger.info("Sending translation request to Vertex AI...");
 
         const result = await model.generateContent({
-          contents: [
-            {
-              role: "user",
-              parts: [
-                {
-                  text: prompt,
-                },
-              ],
-            },
-          ],
+          contents: [{
+            role: "user",
+            parts: [{text: fullPrompt}],
+          }],
         });
 
-        const response = result.response;
-        const text = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
-
-        logger.info("Translation received, parsing...");
-
-        // Clean the response text
-        let cleanedText = text.trim();
-        if (cleanedText.startsWith("```json")) {
-          cleanedText = cleanedText.replace(/^```json\s*/, "").replace(/```\s*$/, "");
-        } else if (cleanedText.startsWith("```")) {
-          cleanedText = cleanedText.replace(/^```\s*/, "").replace(/```\s*$/, "");
+        const candidate = result.response.candidates?.[0];
+        if (!candidate) {
+          throw new Error("No response candidate returned from AI");
         }
 
-        const parsedData = JSON.parse(cleanedText);
+        const rawText = candidate.content?.parts?.[0]?.text || "";
+        
+        logger.info("=== AI Response ===");
+        logger.info(`Response length: ${rawText.length} chars`);
+        logger.info(`First 200 chars: ${rawText.substring(0, 200)}`);
+        logger.info("=== COMPLETE RAW AI RESPONSE ===");
+        logger.info(rawText);
+        logger.info("=== END COMPLETE RESPONSE ===");
+
+        if (!rawText) {
+          throw new Error("Empty response from AI");
+        }
+
+        // AGGRESSIVE JSON EXTRACTION
+        // Despite responseMimeType: "application/json", Gemini sometimes adds text before the JSON
+        // We need to extract ONLY the JSON object
+        
+        let jsonText = rawText.trim();
+        let parsedData;
+
+        // First, always try to find JSON boundaries regardless of whether initial parse succeeds
+        const firstBrace = jsonText.indexOf("{");
+        const lastBrace = jsonText.lastIndexOf("}");
+        
+        if (firstBrace === -1 || lastBrace === -1) {
+          logger.error("No JSON object found in response");
+          logger.error("=== FULL RAW RESPONSE ===");
+          logger.error(rawText);
+          logger.error("=== END FULL RESPONSE ===");
+          throw new Error(`AI did not return a valid JSON object. Response was: ${rawText.substring(0, 500)}`);
+        }
+
+        // If there's text before the JSON, log it and remove it
+        if (firstBrace > 0) {
+          const prefixText = jsonText.substring(0, firstBrace);
+          logger.warn(`Found and removing ${firstBrace} chars before JSON`);
+          logger.warn("=== PROBLEMATIC PREFIX TEXT ===");
+          logger.warn(prefixText);
+          logger.warn("=== END PREFIX ===");
+        }
+
+        // Extract only the JSON portion
+        jsonText = jsonText.substring(firstBrace, lastBrace + 1);
+        
+        logger.info("Extracted JSON (first 300 chars):", jsonText.substring(0, 300));
+
+        // Now try to parse the extracted JSON
+        try {
+          parsedData = JSON.parse(jsonText);
+          logger.info("JSON parsed successfully");
+        } catch (parseError) {
+          logger.error("JSON parse failed even after extraction");
+          logger.error("Parse error:", parseError);
+          logger.error("=== JSON TEXT THAT FAILED TO PARSE ===");
+          logger.error(jsonText);
+          logger.error("=== END FAILED JSON ===");
+          
+          const errorMsg = parseError instanceof Error ? parseError.message : "Unknown parse error";
+          throw new Error(`Failed to parse extracted JSON. Error: ${errorMsg}. Extracted text: ${jsonText.substring(0, 500)}`);
+        }
+
+        logger.info("JSON parsed successfully");
+
+        // Validate structure
+        if (!parsedData || typeof parsedData !== "object") {
+          throw new Error("Parsed data is not an object");
+        }
+
+        if (!parsedData.guideTitle || typeof parsedData.guideTitle !== "string") {
+          throw new Error("Missing or invalid guideTitle in response");
+        }
+
+        if (!Array.isArray(parsedData.pois)) {
+          throw new Error("Missing or invalid pois array in response");
+        }
+
+        if (parsedData.pois.length !== pois.length) {
+          logger.warn(`POI count mismatch: expected ${pois.length}, got ${parsedData.pois.length}`);
+        }
+
+        // Validate each POI
+        for (let i = 0; i < parsedData.pois.length; i++) {
+          const poi = parsedData.pois[i];
+          if (!poi.number || !poi.title || !poi.content) {
+            logger.error(`POI at index ${i} missing required fields:`, JSON.stringify(poi));
+            throw new Error(`POI ${i} is missing required fields (number, title, or content)`);
+          }
+          // Ensure script exists (can be empty string)
+          if (!poi.script) {
+            poi.script = "";
+          }
+        }
+
+        logger.info("=== Translation Success ===");
+        logger.info(`Translated guide title: ${parsedData.guideTitle.substring(0, 50)}...`);
+        logger.info(`Translated ${parsedData.pois.length} POIs`);
 
         res.json({
           success: true,
-          data: parsedData,
+          data: {
+            guideTitle: parsedData.guideTitle,
+            pois: parsedData.pois,
+          },
         });
       } catch (error: unknown) {
-        logger.error("Translation error:", error);
-        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        logger.error("=== Translation Error ===");
+        logger.error(error);
+        
+        const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+        
         res.status(500).json({
           success: false,
           error: errorMessage,

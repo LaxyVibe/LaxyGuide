@@ -81,9 +81,29 @@
   <!-- Header -->
   <header class="gradient-bg text-white py-6 shadow-lg">
     <div class="max-w-7xl mx-auto px-4">
-      <h1 class="text-2xl font-bold mb-1">🚀 AI Guide Generator</h1>
-      <p class="text-white/90 text-sm">Step 2: Review & Edit Content (All Languages)</p>
-      <div class="flex gap-4 mt-3">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h1 class="text-2xl font-bold mb-1">🚀 AI Guide Generator</h1>
+          <p class="text-white/90 text-sm">Step 2: Review & Edit Content (All Languages)</p>
+        </div>
+        <div class="flex gap-2">
+          <button 
+            type="button" 
+            id="headerSaveBtn"
+            class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-medium transition text-sm"
+          >
+            💾 Save
+          </button>
+          <button 
+            type="button" 
+            id="headerStartOverBtn"
+            class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-medium transition text-sm"
+          >
+            🔄 Start Over
+          </button>
+        </div>
+      </div>
+      <div class="flex gap-4">
         <a href="./guide-generator-step1.html" class="text-sm text-white/90 hover:text-white transition">← Back to Step 1</a>
         <a href="./guide-generator-step3.html" class="text-sm text-white/90 hover:text-white transition">Go to Step 3: Translate →</a>
       </div>
@@ -188,19 +208,12 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
-      <div class="flex gap-4">
-        <button 
-          type="button" 
-          id="saveBtn"
-          class="flex-1 bg-gray-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-gray-700 transition"
-        >
-          💾 Save Progress
-        </button>
+      <!-- Action Button -->
+      <div>
         <button 
           type="button" 
           id="proceedBtn"
-          class="flex-1 gradient-bg text-white py-4 px-6 rounded-lg font-semibold text-lg hover:shadow-lg transition transform hover:-translate-y-0.5"
+          class="w-full gradient-bg text-white py-4 px-6 rounded-lg font-semibold text-lg hover:shadow-lg transition transform hover:-translate-y-0.5"
         >
           Next: Translate to Other Languages →
         </button>
@@ -244,6 +257,42 @@
         return;
       }
 
+      // Initialize titles object if it doesn't exist
+      if (!guideData.titles) {
+        guideData.titles = {};
+      }
+
+      // Ensure all POIs have proper language-keyed structure
+      guideData.pois.forEach(poi => {
+        // Handle both 'title' and 'titles' from API response
+        if (poi.titles && !poi.title) {
+          poi.title = poi.titles;
+          delete poi.titles;
+        }
+        if (!poi.title || typeof poi.title === 'string') {
+          poi.title = { 'ja-JP': poi.title || '' };
+        }
+        
+        if (!poi.content || typeof poi.content === 'string') {
+          poi.content = { 'ja-JP': poi.content || '' };
+        }
+        
+        if (!poi.script) {
+          poi.script = { 'ja-JP': '' };
+        } else if (typeof poi.script === 'string') {
+          poi.script = { 'ja-JP': poi.script };
+        }
+        
+        // Ensure other fields exist
+        if (poi.hero === undefined) poi.hero = '';
+        if (poi.displayAudio === undefined) poi.displayAudio = true;
+        if (poi.ttml === undefined) poi.ttml = '';
+        if (!poi.number) poi.number = formatPoiNumber(guideData.pois.indexOf(poi) + 1);
+      });
+
+      // Save normalized structure
+      saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
+
       document.getElementById('mainContent').classList.remove('hidden');
       
       // Initialize language selector
@@ -269,7 +318,10 @@
 
       CONFIG.LANGUAGES.forEach(lang => {
         const hasContent = guideData.titles[lang] || 
-          guideData.pois.some(poi => poi.title[lang] || poi.content[lang]);
+          guideData.pois.some(poi => 
+            (poi.title && poi.title[lang]) || 
+            (poi.content && poi.content[lang])
+          );
         
         const button = document.createElement('button');
         button.className = `px-4 py-2 rounded-lg border-2 font-medium transition ${
@@ -330,21 +382,12 @@
         guideData.titles[activeLanguage] = titleInput.value;
       }
     }
-      document.getElementById('guideImage').value = guideData.guideUnderlayImage || '';
-
-      // Set initial active POI if any
-      if (guideData.pois.length > 0) {
-        activePoiIndex = 0;
-      }
-
-      // Render POIs
-      renderPOIs();
-    }
 
     function setupEventListeners() {
       document.getElementById('guideTitle')?.addEventListener('input', updateGuideTitle);
       document.getElementById('addPoiBtn')?.addEventListener('click', addNewPOI);
-      document.getElementById('saveBtn')?.addEventListener('click', saveProgress);
+      document.getElementById('headerSaveBtn')?.addEventListener('click', saveProgress);
+      document.getElementById('headerStartOverBtn')?.addEventListener('click', startOver);
       document.getElementById('proceedBtn')?.addEventListener('click', proceedToTranslation);
     }
 
@@ -673,6 +716,13 @@
     function saveProgress() {
       saveToSession(STORAGE_KEYS.GUIDE_DATA, guideData);
       showToast('Progress saved!', 'success');
+    }
+
+    function startOver() {
+      if (confirm('This will clear all data and start over. Continue?')) {
+        sessionStorage.clear();
+        window.location.href = './guide-generator-step1.html';
+      }
     }
 
     function proceedToTranslation() {

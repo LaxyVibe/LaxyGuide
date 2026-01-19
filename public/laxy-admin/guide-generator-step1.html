@@ -160,11 +160,18 @@
           </label>
           <textarea 
             id="aiPrompt" 
-            rows="8"
+            rows="20"
             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none font-mono text-sm"
             placeholder="Enter instructions for AI..."
           ></textarea>
-          <p class="mt-2 text-xs text-gray-500">Edit the prompt to customize how AI extracts content. You can specify the number of POIs, what to focus on, etc.</p>
+          <p class="mt-2 text-xs text-gray-500">
+            <strong>⚠️ Important:</strong> This is the complete prompt sent to AI. You can customize:
+            <br>• Number of POIs to extract
+            <br>• Content focus areas
+            <br>• Character length requirements
+            <br>• JSON structure (must be valid!)
+            <br>The JSON format section is required for proper parsing.
+          </p>
         </div>
       </div>
 
@@ -249,19 +256,62 @@
     });
 
     function initializePrompt() {
-      const defaultPrompt = `Extract the most significant points of interest from this PDF document.
+      const defaultPrompt = `You are an expert content curator for tourism and cultural heritage sites. Extract the most significant points of interest from this PDF document.
 
-Generate approximately 5-10 POIs that cover:
-- Key exhibits, artifacts, or attractions
-- Historical and cultural significance
-- Unique features or highlights
-- Important context for visitors
+Content Extraction Guidelines:
+- Generate all POIs covering key exhibits, artifacts, attractions
+- Focus on historical and cultural significance
+- Highlight unique features and important visitor context
+- Extract guide title from the PDF document
 
 For each POI:
-- Create an engaging title
+- Create an engaging title in Japanese
 - Write 2-3 informative paragraphs (200-400 characters in Japanese)
 - Include historical background, cultural context, and interesting details
-- Maintain the authentic voice and cultural nuances from the source material`;
+- Maintain the authentic voice and cultural nuances from the source material
+- Use natural, engaging language appropriate for tourists
+
+Number Format:
+- Use zero-padded 3-digit format: "001", "002", "003", etc.
+
+CRITICAL OUTPUT FORMAT:
+You MUST return ONLY valid JSON in this EXACT structure with no additional text, no markdown formatting, no explanations, no conversational preamble:
+
+{
+  "guide": {
+    "titles": {
+      "ja-JP": "Guide title in Japanese extracted from the PDF"
+    }
+  },
+  "pois": [
+    {
+      "number": "001",
+      "titles": {
+        "ja-JP": "POI title in Japanese"
+      },
+      "content": {
+        "ja-JP": "Detailed description in Japanese (200-400 characters)"
+      }
+    },
+    {
+      "number": "002",
+      "titles": {
+        "ja-JP": "Second POI title in Japanese"
+      },
+      "content": {
+        "ja-JP": "Second POI description in Japanese (200-400 characters)"
+      }
+    }
+  ]
+}
+
+IMPORTANT RULES:
+- Return ONLY the JSON object above, nothing else
+- Do not start with "Here is", "はい", or any explanatory text
+- Do not wrap in markdown code blocks
+- Ensure all text is in Japanese (ja-JP)
+- Each POI must have sequential numbers starting from "001"
+- Content should be informative and engaging for tourists`;
       
       document.getElementById('aiPrompt').value = defaultPrompt;
     }
