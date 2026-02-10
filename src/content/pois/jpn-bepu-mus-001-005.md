@@ -18,7 +18,7 @@ en-US:
 
 
     We invite you to take off your shoes and step inside the palanquin to experience it for yourself.
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735769/dmek5ojaj9bexnmdjbqa.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737517/juzoosdwqdsuszmyp3px.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -32,12 +32,12 @@ ja-JP:
 
 
     ぜひ靴を脱いで、お駕籠の中に入ってみてください。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735769/dmek5ojaj9bexnmdjbqa.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737517/juzoosdwqdsuszmyp3px.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735769/dmek5ojaj9bexnmdjbqa.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737517/juzoosdwqdsuszmyp3px.ttml
   content: >-
     이 '오카고(가마)'는 실제로 사용되었던 가마보다 크게 제작된 전시용 작품입니다. 실생활에서 쓰였던 가마는 이 전시물의 절반 정도 크기에
     높이도 더 낮았으며, 주로 나무로 만들어졌습니다. 반면, 이 전시물은 대부분 대나무로 제작되었으며 가마를 메는 봉 부분도 대나무를 겹쳐서
@@ -53,7 +53,7 @@ zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735769/dmek5ojaj9bexnmdjbqa.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737517/juzoosdwqdsuszmyp3px.ttml
   title: 轎子
   content: >-
     這座「駕籠（Okago，轎子）」是比實際使用過的轎子體積更為巨大的展示作品。實際用於生活的轎子大小僅約為此展示品的一半，高度也較低，且主要材料為木材。相比之下，本展示品絕大部分由竹子製成，連抬轎用的橫桿也是由竹片貼合加工而成。
@@ -67,7 +67,7 @@ zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735769/dmek5ojaj9bexnmdjbqa.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737517/juzoosdwqdsuszmyp3px.ttml
   title: 轿子
   content: >-
     这座“驾笼（Okago，轿子）”是比实际使用过的轿子体积更为巨大的展示作品。实际用于生活的轿子大小仅约为此展示品的一半，高度也较低，且主要材料为木材。相比之下，本展示品绝大部分由竹子制成，连抬轿用的横杆也是由竹片贴合加工而成。
@@ -81,7 +81,7 @@ fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/5.%E3%81%8A%E9%A7%95%E7%B1%A0_1_w8tqzi.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735769/dmek5ojaj9bexnmdjbqa.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737517/juzoosdwqdsuszmyp3px.ttml
   title: Palanquin
   content: >-
     Cet « Okago » (palanquin) est une pièce d'exposition conçue à une échelle
