@@ -18,7 +18,7 @@ en-US:
 
     When you visit, please take the opportunity to observe its three-dimensional depth and technical precision up close.
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735188/rwywsthttuiyxtpcrsxt.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737036/nihpgqpkpgfwnyodj8pb.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -35,12 +35,12 @@ ja-JP:
 
     来館の際には、ぜひ間近でその立体感と技術の精巧さをご覧ください。
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735188/rwywsthttuiyxtpcrsxt.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737036/nihpgqpkpgfwnyodj8pb.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735188/rwywsthttuiyxtpcrsxt.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737036/nihpgqpkpgfwnyodj8pb.ttml
   title: 운룡 (구름 용)
   content: >-
     회관 입구에 들어서면 방문객을 압도하는 직경 약 2미터의 거대한 장식 바구니, 「운룡(Unryu)」이 여러분을 맞이합니다.
@@ -57,7 +57,7 @@ zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735188/rwywsthttuiyxtpcrsxt.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737036/nihpgqpkpgfwnyodj8pb.ttml
   content: >-
     在會館入口處震撼來訪者的，是直徑約2公尺的巨大裝飾籠「雲龍（Unryu Cloud and Dragon）」。
 
@@ -74,7 +74,7 @@ zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735188/rwywsthttuiyxtpcrsxt.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737036/nihpgqpkpgfwnyodj8pb.ttml
   title: 云龙
   content: >-
     在会馆入口处令访客感到震撼的，是直径约2米的巨大装饰篮“云龙（Unryu Cloud and Dragon）”。
@@ -91,7 +91,7 @@ fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%92%E9%9B%B2%E9%BE%8D_1_mobwvm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770735188/rwywsthttuiyxtpcrsxt.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737036/nihpgqpkpgfwnyodj8pb.ttml
   title: Unryu (Dragon des nuages)
   content: >-
     Dès l'entrée du hall, les visiteurs sont saisis par une œuvre
