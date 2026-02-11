@@ -13,6 +13,10 @@ const GuideListing: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        window.location.href = "https://laxy.travel";
+    }, []);
+
+    useEffect(() => {
         const fetchGuides = async () => {
             try {
                 // Default to en-US for the listing initial load

@@ -1,4 +1,4 @@
-/ / https://laxy.travel 301!
+/ https://laxy.travel 301!
 /admin/* /admin/index.html 200
 /laxy-admin/* /laxy-admin/index.html 200
 /* /index.html 200

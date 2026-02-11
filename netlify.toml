@@ -4,6 +4,17 @@
   functions = "netlify/functions"
 
 [[redirects]]
+  from = "/"
+  to = "https://laxy.travel"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
   from = "/laxy-admin/*"
   to = "/laxy-admin/index.html"
   status = 200
