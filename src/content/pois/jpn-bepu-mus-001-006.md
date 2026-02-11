@@ -14,7 +14,7 @@ en-US:
 
 
     At the counter seats, you can enjoy a drink while looking out at the bamboo grove. In addition to coffee, tea, and matcha, we offer unique items made with our original bamboo charcoal, such as cookies, shaved ice, and soda.
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737817/gs0ut7ggotdyvhargmi6.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770820618/efqqkwnnshkin0vekd5f.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -28,12 +28,12 @@ ja-JP:
 
 
     カウンター席では竹林を眺めながらお飲み物を楽しんでいただけます。コーヒーや紅茶、抹茶だけではなく、当館オリジナルの竹炭をつかったクッキーやかき氷、ソーダもあります。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737817/gs0ut7ggotdyvhargmi6.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770820618/efqqkwnnshkin0vekd5f.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/6._%E3%82%B7%E3%83%A7%E3%83%83%E3%83%95%E3%82%9A_%E3%82%AB%E3%83%95%E3%82%A7_1_uwem5g.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737817/gs0ut7ggotdyvhargmi6.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770820618/efqqkwnnshkin0vekd5f.ttml
   title: 숍 & 카페
   content: >-
     이곳에서는 오이타현산 대나무 제품을 판매하고 있습니다. 젓가락이나 숟가락 같은 커틀러리부터 커다란 꽃바구니까지 폭넓게 취급하고 있습니다.
@@ -45,7 +45,7 @@ zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/6._%E3%82%B7%E3%83%A7%E3%83%83%E3%83%95%E3%82%9A_%E3%82%AB%E3%83%95%E3%82%A7_1_uwem5g.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737817/gs0ut7ggotdyvhargmi6.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770820618/efqqkwnnshkin0vekd5f.ttml
   title: 商店與咖啡廳
   content: >-
     此處販售大分縣產的竹製品。從筷子、湯匙等餐具到大型花籠，商品種類琳瑯滿目。輕巧可愛的飾品也深受好評。此外，在博物館商店內也可以購買到定居於大分縣內的工藝作家的作品。
@@ -56,7 +56,7 @@ zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/6._%E3%82%B7%E3%83%A7%E3%83%83%E3%83%95%E3%82%9A_%E3%82%AB%E3%83%95%E3%82%A7_1_uwem5g.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737817/gs0ut7ggotdyvhargmi6.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770820618/efqqkwnnshkin0vekd5f.ttml
   title: 商店与咖啡厅
   content: >-
     此处销售大分县产的竹制品。从筷子、勺子等餐具到大型花篮，商品种类繁多。轻巧可爱的饰品也深受好评。此外，在博物馆商店内还可以购买到定居于大分县内的工艺作家的作品。
@@ -67,7 +67,7 @@ fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261775/6._%E3%82%B7%E3%83%A7%E3%83%83%E3%83%95%E3%82%9A_%E3%82%AB%E3%83%95%E3%82%A7_1_uwem5g.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737817/gs0ut7ggotdyvhargmi6.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770820618/efqqkwnnshkin0vekd5f.ttml
   title: Boutique et Café
   content: >-
     Nous vendons ici des produits en bambou de la préfecture d'Oita. Notre
