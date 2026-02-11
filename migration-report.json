@@ -1,0 +1,131 @@
+{
+  "guides": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0,
+    "results": [
+      {
+        "fileName": "JPN-OITA-MUS-003.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/JPN-OITA-MUS-003.md"
+      },
+      {
+        "fileName": "JPN-OITA-POI-001.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/JPN-OITA-POI-001.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-001.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/jpn-bepu-mus-001.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-002.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/jpn-bepu-mus-002.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-004.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/jpn-bepu-mus-004.md"
+      }
+    ]
+  },
+  "pois": {
+    "total": 18,
+    "successful": 18,
+    "failed": 0,
+    "results": [
+      {
+        "fileName": "JPN-OITA-MUS-003-028.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/JPN-OITA-MUS-003-028.md"
+      },
+      {
+        "fileName": "JPN-OITA-POI-001-001.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/JPN-OITA-POI-001-001.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-001-001.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-001-001.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-001-002.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-001-002.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-001-003.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-001-003.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-001-004.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-001-004.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-001-005.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-001-005.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-001-006.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-001-006.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-002-001.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-002-001.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-004-001.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-004-001.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-004-002.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-004-002.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-004-003.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-004-003.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-004-004.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-004-004.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-004-005.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-004-005.md"
+      },
+      {
+        "fileName": "jpn-bepu-mus-004-006.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-004-006.md"
+      },
+      {
+        "fileName": "jpn-oita-mus-003-001.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-oita-mus-003-001.md"
+      },
+      {
+        "fileName": "jpn-oita-mus-003-123.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-oita-mus-003-123.md"
+      },
+      {
+        "fileName": "jpn-oita-poi-001-007.md",
+        "success": true,
+        "downloadUrl": "https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-oita-poi-001-007.md"
+      }
+    ]
+  }
+}
