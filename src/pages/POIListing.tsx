@@ -7,7 +7,8 @@ import PoiList from '../components/PoiList';
 import LanguageSwitchDialog from '../components/LanguageSwitchDialog';
 import type { LanguageOption } from '../components/LanguageSwitchDialog';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
-import type { Language } from '../types';
+import { LANGUAGES, type Language } from '../types';
+import { getGuideAvailableLanguages } from '../utils/contentLoader';
 import Loading from '../components/Loading';
 import gridIcon from '../assets/icons/grid.svg';
 import translateIcon from '../assets/icons/language-black.svg';
@@ -19,6 +20,7 @@ const POIListing: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [showLanguageDialog, setShowLanguageDialog] = useState(false);
     const [pendingLang, setPendingLang] = useState<Language>('en-US');
+    const [availableLanguages, setAvailableLanguages] = useState<LanguageOption[]>([]);
 
     useEffect(() => {
         const defaultLang = ensureLanguageParam(searchParams);
@@ -31,14 +33,22 @@ const POIListing: React.FC = () => {
     const { data, loading, error } = useGuideData(guideId, lang);
     const { t, loading: transLoading } = useTranslation(lang);
 
-    // Language options
-    const languageOptions: LanguageOption[] = [
-        { code: 'en-US', label: 'English' },
-        { code: 'ja-JP', label: '日本語' },
-        { code: 'ko-KR', label: '한국어' },
-        { code: 'zh-TW', label: '繁體中文' },
-        { code: 'zh-CN', label: '简体中文' },
-    ];
+    // Fetch available languages for this guide
+    useEffect(() => {
+        const fetchLanguages = async () => {
+            if (guideId) {
+                const langs = await getGuideAvailableLanguages(guideId);
+                const options: LanguageOption[] = langs
+                    .filter((code): code is Language => code in LANGUAGES)
+                    .map(code => ({
+                        code,
+                        label: LANGUAGES[code]
+                    }));
+                setAvailableLanguages(options);
+            }
+        };
+        fetchLanguages();
+    }, [guideId]);
 
     // Update pendingLang when lang changes
     useEffect(() => {
@@ -124,7 +134,7 @@ const POIListing: React.FC = () => {
             </div>
             <LanguageSwitchDialog
                 open={showLanguageDialog}
-                languages={languageOptions}
+                languages={availableLanguages}
                 selectedLanguage={pendingLang}
                 onSelect={(code: string) => setPendingLang(code as Language)}
                 onApply={() => {

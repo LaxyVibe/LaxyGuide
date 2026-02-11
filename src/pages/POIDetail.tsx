@@ -13,7 +13,8 @@ import languageIcon from '../assets/icons/language.svg';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import SurveyDialog from '../components/SurveyDialog';
 import LanguageSwitchDialog, { type LanguageOption } from '../components/LanguageSwitchDialog';
-import type { Language } from '../types';
+import { LANGUAGES, type Language } from '../types';
+import { getGuideAvailableLanguages } from '../utils/contentLoader';
 import Loading from '../components/Loading';
 
 const POIDetail: React.FC = () => {
@@ -30,15 +31,24 @@ const POIDetail: React.FC = () => {
     const [isLangDialogOpen, setIsLangDialogOpen] = useState(false);
     const lang = getLanguageFromQuery(searchParams);
     const [pendingLang, setPendingLang] = useState<Language>(lang);
+    const [availableLanguages, setAvailableLanguages] = useState<LanguageOption[]>([]);
 
-    // Language options
-    const languageOptions: LanguageOption[] = [
-        { code: 'en-US', label: 'English' },
-        { code: 'ja-JP', label: '日本語' },
-        { code: 'ko-KR', label: '한국어' },
-        { code: 'zh-TW', label: '繁體中文' },
-        { code: 'zh-CN', label: '简体中文' },
-    ];
+    // Fetch available languages for this guide
+    useEffect(() => {
+        const fetchLanguages = async () => {
+            if (guideId) {
+                const langs = await getGuideAvailableLanguages(guideId);
+                const options: LanguageOption[] = langs
+                    .filter((code): code is Language => code in LANGUAGES)
+                    .map(code => ({
+                        code,
+                        label: LANGUAGES[code]
+                    }));
+                setAvailableLanguages(options);
+            }
+        };
+        fetchLanguages();
+    }, [guideId]);
 
     useEffect(() => {
         const defaultLang = ensureLanguageParam(searchParams);
@@ -281,11 +291,11 @@ const POIDetail: React.FC = () => {
                 </div>
             </div>
 
-            {/* Audio Player */}
-            {poi.withAudio && poi.audio && (
+            {poi.withAudio && (poi.audio || poi.ttml) && (
                 <ExpandableAudioPlayer
                     src={poi.audio}
                     subtitle={poi.subtitle}
+                    ttml={poi.ttml}
                     title={poi.title}
                     artwork={poi.hero}
                 />
@@ -295,7 +305,7 @@ const POIDetail: React.FC = () => {
             <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} lang={lang} />
             <LanguageSwitchDialog
                 open={isLangDialogOpen}
-                languages={languageOptions}
+                languages={availableLanguages}
                 selectedLanguage={pendingLang}
                 onSelect={(code: string) => setPendingLang(code as Language)}
                 onApply={() => {

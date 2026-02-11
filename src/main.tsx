@@ -14,7 +14,7 @@ function setVh() {
   document.documentElement.style.setProperty('--vh', `${vh}px`)
 }
 
-ReactGA.initialize("G-Z16JEM2EY8");
+ReactGA.initialize("G-XXXXXXXXXX");
 
 setVh()
 window.addEventListener('resize', setVh, { passive: true })

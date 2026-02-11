@@ -102,13 +102,19 @@
 .expandable-audio-player.expanded .player-container {
     display: flex;
     flex-direction: column;
-    height: 60vh;
-    /* Half-height (approx) */
+    height: 80vh;
+    /* 80% height from bottom */
     background: var(--neutral-900);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
     overflow: hidden;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expandable-audio-player.expanded .player-container.with-slides {
+    height: 70vh;
+    border-radius: 20px 20px 0 0;
 }
 
 .expandable-audio-player.expanded .player-header {
@@ -155,6 +161,34 @@
 
 .expandable-audio-player.expanded .close-button:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+/* Slide Viewer */
+.slide-viewer {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
 }
 
 /* Subtitle Container */

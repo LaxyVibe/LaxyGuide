@@ -16,9 +16,12 @@ export const useGuideData = (guideId: string | undefined, lang: string | undefin
         const fetchData = async () => {
             try {
                 setLoading(true);
-                // We ignore guideId for loading as per requirements, 
-                // but the hook signature is kept for compatibility.
-                const guideData = await loadGuideData(lang);
+                if (!guideId) {
+                    setError('No guide ID provided');
+                    setLoading(false);
+                    return;
+                }
+                const guideData = await loadGuideData(guideId, lang);
                 setData(guideData);
             } catch (err) {
                 console.error(err);
