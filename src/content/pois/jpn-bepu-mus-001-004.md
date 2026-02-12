@@ -22,7 +22,7 @@ en-US:
 
     Eventually, they were replaced by the invention of tungsten (metal) filaments. Please remember to press the button again to turn off the light when you are finished.
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261772/4.%E7%AB%B9%E3%81%AE%E9%9B%BB%E7%90%83_1_r6np1i.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737263/fzmsezrdyymile5o9kbj.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770910583/nvzrwwax6qmxpxcmzesc.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -39,12 +39,12 @@ ja-JP:
 
     しかし、タングステン（金属）のフィラメントが発明されたため、その後は置き換わっていきます。ボタンを押して消灯するのを忘れないようお願いします。
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261772/4.%E7%AB%B9%E3%81%AE%E9%9B%BB%E7%90%83_1_r6np1i.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737263/fzmsezrdyymile5o9kbj.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770910583/nvzrwwax6qmxpxcmzesc.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261772/4.%E7%AB%B9%E3%81%AE%E9%9B%BB%E7%90%83_1_r6np1i.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737263/fzmsezrdyymile5o9kbj.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770910583/nvzrwwax6qmxpxcmzesc.ttml
   title: 대나무 모자
   content: >-
     발명왕 토머스 에디슨이 개발한 '대나무 필라멘트'입니다. 전시된 제품은 일본인 엔지니어가 재현하여 만든 것입니다. 초록색 버튼을 눌러
@@ -63,7 +63,7 @@ zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261772/4.%E7%AB%B9%E3%81%AE%E9%9B%BB%E7%90%83_1_r6np1i.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737263/fzmsezrdyymile5o9kbj.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770910583/nvzrwwax6qmxpxcmzesc.ttml
   title: 竹製燈泡
   content: >-
     這是由發明大王湯瑪斯·愛迪生所研發的「竹燈絲」。本展示品是由日本工程師重現製作的複製品。請試著按下綠色按鈕，中央發光的部分即為竹燈絲。其粗細僅約0.3毫米，相當於一根粗壯的頭髮；製作過程是將竹篾放入電爐中，為了不讓其燒盡，將溫度從100°C逐漸升高至1200°C使其「炭化」而成。
@@ -80,7 +80,7 @@ zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261772/4.%E7%AB%B9%E3%81%AE%E9%9B%BB%E7%90%83_1_r6np1i.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737263/fzmsezrdyymile5o9kbj.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770910583/nvzrwwax6qmxpxcmzesc.ttml
   title: 竹制灯泡
   content: >-
     这是由发明大王托马斯·爱迪生所研发的“竹灯丝”。本展示品是由日本工程师重现制作的复制品。请试着按下绿色按钮，中央发光的部分即为竹灯丝。其粗细仅约0.3毫米，相当于一根粗壮的头发；制作过程是将竹篾放入电炉中，为了不让其烧尽，将温度从100°C逐渐升高至1200°C使其“炭化”而成。
@@ -97,7 +97,7 @@ fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261772/4.%E7%AB%B9%E3%81%AE%E9%9B%BB%E7%90%83_1_r6np1i.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770737263/fzmsezrdyymile5o9kbj.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1770910583/nvzrwwax6qmxpxcmzesc.ttml
   title: Ampoule en bambou
   content: >-
     Voici le « filament de bambou » développé par l'inventeur Thomas Edison.
