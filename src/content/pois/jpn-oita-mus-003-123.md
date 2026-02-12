@@ -3,7 +3,7 @@ en-US:
   displayAudio: true
   guide: JPN-OITA-MUS-003
   number: "001"
-  title: "123"
+  title: "12345"
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186797/183_35%E8%B1%8A%E6%98%A5_sbiv17.jpg
   content: "1212"
 ja-JP:
@@ -30,4 +30,6 @@ zh-CN:
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186797/183_35%E8%B1%8A%E6%98%A5_sbiv17.jpg
   content: "1212"
   title: qwqw
+fr-FR:
+  guide: JPN-OITA-MUS-003
 ---
