@@ -16,6 +16,8 @@ const GuideListing: React.FC = () => {
         window.location.href = "https://laxy.travel";
     }, []);
 
+    if (true) return null; // Prevent rendering anything before or during redirect
+
     useEffect(() => {
         const fetchGuides = async () => {
             try {
