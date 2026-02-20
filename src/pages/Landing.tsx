@@ -59,13 +59,15 @@ const Landing: React.FC = () => {
     if (error) return <div>{t('common.error')}: {error}</div>;
     if (!data) return <div>{t('common.noData')}</div>;
 
+    const pageTitle = data.guideTitle || t('meta.title');
+
     return (
         <div className="page landing" style={{ backgroundImage: `url(${data.guideUnderlayImage})` }}>
             <Helmet>
-                <title>{t('meta.title')}</title>
-                <meta name="description" content={t('meta.title')} />
-                <meta property="og:title" content={t('meta.title')} />
-                <meta property="og:description" content={t('meta.title')} />
+                <title>{pageTitle}</title>
+                <meta name="description" content={pageTitle} />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={pageTitle} />
                 <meta property="og:image" content={data.guideUnderlayImage} />
                 <meta property="og:type" content="website" />
             </Helmet>
