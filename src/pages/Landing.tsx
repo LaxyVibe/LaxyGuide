@@ -59,6 +59,7 @@ const Landing: React.FC = () => {
     if (error) return <div>{t('common.error')}: {error}</div>;
     if (!data) return <div>{t('common.noData')}</div>;
 
+    const shouldShowSurvey = guideId?.toUpperCase() !== 'JPN-BEPU-MUS-001';
     const pageTitle = data.guideTitle || t('meta.title');
 
     return (
@@ -86,16 +87,18 @@ const Landing: React.FC = () => {
                 </button>
             </div>
 
-            <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 100 }}>
-                <button
-                    className="survey-icon-btn"
-                    aria-label="Survey"
-                    style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(0, 0, 0, 0.3)', border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
-                    onClick={() => setIsSurveyOpen(true)}
-                >
-                    <img src={surveyIcon} alt="Survey" style={{ width: 28, height: 28, filter: 'brightness(0) invert(1)' }} />
-                </button>
-            </div>
+            {shouldShowSurvey && (
+                <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 100 }}>
+                    <button
+                        className="survey-icon-btn"
+                        aria-label="Survey"
+                        style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(0, 0, 0, 0.3)', border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+                        onClick={() => setIsSurveyOpen(true)}
+                    >
+                        <img src={surveyIcon} alt="Survey" style={{ width: 28, height: 28, filter: 'brightness(0) invert(1)' }} />
+                    </button>
+                </div>
+            )}
 
             <div className="landing-content scroll-content" style={{ zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', width: '100%', padding: '20px 20px 80px 20px' }}>
                 {/* Language Switcher Section */}
@@ -116,7 +119,9 @@ const Landing: React.FC = () => {
             </div>
 
             {/* Survey Dialog */}
-            <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} lang={lang} />
+            {shouldShowSurvey && (
+                <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} lang={lang} />
+            )}
 
             {/* Footer with Powered by and SVG logo */}
             <div style={{ position: 'absolute', bottom: 48, left: 0, width: '100%', textAlign: 'center', zIndex: 2 }}>

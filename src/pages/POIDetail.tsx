@@ -91,6 +91,7 @@ const POIDetail: React.FC = () => {
     if (!data) return <div className="error-container"><p>{t('common.noData')}</p></div>;
 
     const poi = data.pois.find((p) => p.number === poiId);
+    const shouldShowSurvey = guideId?.toUpperCase() !== 'JPN-BEPU-MUS-001';
 
     if (!poi) return <div className="error-container"><p>{t('poiDetail.notFound')}</p></div>;
 
@@ -162,30 +163,31 @@ const POIDetail: React.FC = () => {
                 display: 'flex',
                 gap: '12px'
             }}>
-                {/* Survey Button */}
-                <button
-                    onClick={() => setIsSurveyOpen(true)}
-                    style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        background: 'rgba(33, 36, 39, 0.5)',
-                        border: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        backdropFilter: 'blur(4px)',
-                        WebkitBackdropFilter: 'blur(4px)',
-                        color: 'white',
-                        transition: 'transform 0.2s'
-                    }}
-                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                    <img src={surveyIcon} alt="Survey" style={{ width: 28, height: 28 }} />
-                </button>
+                {shouldShowSurvey && (
+                    <button
+                        onClick={() => setIsSurveyOpen(true)}
+                        style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            background: 'rgba(33, 36, 39, 0.5)',
+                            border: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            backdropFilter: 'blur(4px)',
+                            WebkitBackdropFilter: 'blur(4px)',
+                            color: 'white',
+                            transition: 'transform 0.2s'
+                        }}
+                        onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                        onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                        <img src={surveyIcon} alt="Survey" style={{ width: 28, height: 28 }} />
+                    </button>
+                )}
 
                 {/* Language Button */}
                 <button
@@ -302,7 +304,9 @@ const POIDetail: React.FC = () => {
             )}
 
             {/* Dialogs */}
-            <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} lang={lang} />
+            {shouldShowSurvey && (
+                <SurveyDialog isOpen={isSurveyOpen} onClose={() => setIsSurveyOpen(false)} lang={lang} />
+            )}
             <LanguageSwitchDialog
                 open={isLangDialogOpen}
                 languages={availableLanguages}
