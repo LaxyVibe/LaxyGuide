@@ -1,0 +1,158 @@
+---
+en-US:
+  number: '182'
+  guide: JPN-OITA-MUS-003
+  title: Plum Blossom Viewers
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186660/hero_182_kqv4jq.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791868/JPOITAO3182ENG_bykivx.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791869/JPOITAO3182ENG_a3iegy.srt
+  displayAudio: true
+  metadata:
+    - label: Artist
+      value: Utagawa Toyoharu
+    - label: Period
+      value: 'Mid-Edo period, 18th century'
+    - label: Materials
+      value: Color on silk
+    - label: Quantity
+      value: Hanging scroll
+    - label: Dimensions
+      value: 55.0×114.0 cm
+    - label: Collection
+      value: Oita Prefectural Art Museum
+  content: >-
+    This painting depicts a variety of people who have come outdoors in early
+    spring to enjoy viewing plum blossoms. Against the backdrop of an old plum
+    tree with magnificent, flower-laden branches, nine figures are shown. The
+    colorful depiction of the people is harmoniously balanced with Toyoharu’s
+    refined sense of color—never becoming gaudy or diminishing its elegance. The
+    graceful gestures and delicate hues together create a scene filled with a
+    subtle, fragrant atmosphere.
+
+
+    ![Detail of Plum Blossom
+    Viewers](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186795/182_JP-1982-0002_0001_gijaum.jpg)
+ja-JP:
+  number: '182'
+  guide: JPN-OITA-MUS-003
+  title: 観梅図
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186660/hero_182_kqv4jq.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791870/JPOITAO3182JPN_woxikh.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791871/JPOITAO3182JPN_imrofn.srt
+  displayAudio: true
+  metadata:
+    - label: 作者
+      value: 歌川豊春
+    - label: 時代
+      value: 江戸時代中期　18世紀
+    - label: 材質・技法
+      value: 絹本着色
+    - label: 員数
+      value: 一幅
+    - label: 寸法
+      value: 55.0×114.0cm
+    - label: 所蔵
+      value: 大分県立美術館
+  content: >-
+    春先の屋外で、観梅にでも興じようと行楽に出てきた多様な人々を描いている。花を咲かせる立派な枝ぶりの老梅樹を背景に、9人の人物が描かれている。色とりどりの人物表現は、決して華美に流れて品格を落とすことなく、色感にすぐれた豊春ならではの感覚で絶妙にまとめられ、嫋やかな仕草と優美な色彩が相まって、香気に満ちた画面を作っている。
+
+
+    ![観梅図詳細](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186795/182_JP-1982-0002_0001_gijaum.jpg)
+ko-KR:
+  number: '182'
+  guide: JPN-OITA-MUS-003
+  title: 관매도
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186660/hero_182_kqv4jq.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791871/JPOITAO3182KOR_nlm6k2.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791875/JPOITAO3182KOR_k4svzh.srt
+  displayAudio: true
+  metadata:
+    - label: 작가
+      value: 우타가와 도요하루
+    - label: 시대
+      value: 에도 시대 중기 18세기
+    - label: 재료 · 기법
+      value: 견본 채색
+    - label: 수량
+      value: 일폭
+    - label: 크기
+      value: 55.0×114.0 cm
+    - label: 소장처
+      value: 오이타 현립 미술관
+  content: >-
+    이 작품은 이른 봄, 매화를 감상하며 나들이를 즐기기 위해 야외로 나온 다양한 사람들을 그린 것이다. 꽃이 만발한 늙은 매화나무를
+    배경으로 아홉 명의 인물이 배치되어 있다. 인물들의 다채로운 색채 표현은 결코 화려함에 치우쳐 품격을 잃지 않으며, 도요하루 특유의
+    뛰어난 색감으로 절묘하게 어우러진다. 우아한 몸짓과 아름다운 색채가 어우러져 은은한 향기가 감도는 듯한 화면을 만들어낸다.
+
+
+    ![관매도
+    상세](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186795/182_JP-1982-0002_0001_gijaum.jpg)
+zh-TW:
+  number: '182'
+  guide: JPN-OITA-MUS-003
+  title: 觀梅圖
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186660/hero_182_kqv4jq.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791866/JPOITAO3182CMN_olakfh.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791866/JPOITAO3182CMN_ft9lh2.srt
+  displayAudio: true
+  metadata:
+    - label: 作者
+      value: 歌川豐春
+    - label: 年代
+      value: 江戶時代中期 18世紀
+    - label: 材質·技法
+      value: 絹本設色
+    - label: 數量
+      value: 一幅
+    - label: 尺寸
+      value: 55.0×114.0 cm
+    - label: 收藏
+      value: 大分縣立美術館
+  content: >-
+    本作描繪了早春戶外前來賞梅、踏青遊樂的各色人物。以枝姿雄健、繁花盛開的老梅樹為背景，共描繪九人。人物色彩斑斕卻不流於華麗，不失其品格，並以豐春優異的色感巧妙調和。嫋嫋姿態與優雅色彩相映成趣，形成一幅充滿幽香氣息的畫面。
+
+
+    ![觀梅圖細節](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186795/182_JP-1982-0002_0001_gijaum.jpg)
+zh-CN:
+  number: '182'
+  guide: JPN-OITA-MUS-003
+  title: 观梅图
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186660/hero_182_kqv4jq.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791866/JPOITAO3182CMN_olakfh.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791867/JPOITAO3182CMNs_vfmkkc.srt
+  displayAudio: true
+  metadata:
+    - label: 作者
+      value: 歌川丰春
+    - label: 年代
+      value: 江户时代中期 18世纪
+    - label: 材质·技法
+      value: 绢本设色
+    - label: 数量
+      value: 一幅
+    - label: 尺寸
+      value: 55.0×114.0 cm
+    - label: 收藏
+      value: 大分县立美术馆
+  content: >-
+    此画描绘了早春户外前来赏梅、游玩的各色人物。以枝姿壮美、繁花盛开的老梅树为背景，共绘有九人。人物的多彩表现并不流于华丽，丝毫不失品格，而是以丰春独到的色感巧妙融合。柔雅的姿态与优美的色彩相互辉映，营造出一幅满溢清香气息的画面。
+
+
+    ![观梅图细节](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186795/182_JP-1982-0002_0001_gijaum.jpg)
+---
+

@@ -1,0 +1,174 @@
+---
+en-US:
+  number: '118'
+  guide: JPN-OITA-MUS-003
+  title: Three Friends of Winter and Pair of Cranes
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186657/hero_118_lpskj8.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791822/JPOITAO3118ENG_xbu9yf.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791821/JPOITAO3118ENG_nbw9y6.srt
+  displayAudio: true
+  metadata:
+    - label: Artist
+      value: Tanomura Chikuden
+    - label: Period
+      value: 'Edo period, 1831'
+    - label: Materials
+      value: Color on silk
+    - label: Quantity
+      value: Hanging scroll
+    - label: Dimensions
+      value: 148.1 × 56.5 cm
+    - label: Culture property designation
+      value: Important Cultural Property
+    - label: Collection
+      value: Private Collection
+  content: >-
+    This is one of Chikuden’s representative works of richly colored
+    bird-and-flower painting. “The Three Friends of Winter” refers to the pine,
+    bamboo, and plum—three plants that endure the cold from winter into early
+    spring. In this work, Chikuden replaces the pine with a red camellia. After
+    completing the painting, he immediately sent it to his son Taichi, who was
+    studying medicine in Kyoto. Through Taichi, Chikuden asked his close friend
+    Rai Sanyō to write an inscription. Sanyō added a seven-character quatrain in
+    the upper right, likening the pair of cranes to Chikuden and his wife, who
+    longed for their son’s graduation and return from his studies. The heartfelt
+    poem by Rai Sanyō and the vibrant Nambin-style bird-and-flower imagery blend
+    together to create a refined and elegant artistic atmosphere.
+
+
+    ![Detail of Three Friends of Winter and Pair of
+    Cranes](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186792/118_JP-1995-5002_0001_bzpvdo.jpg)
+ja-JP:
+  number: '118'
+  guide: JPN-OITA-MUS-003
+  title: 歳寒三友双鶴図
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186657/hero_118_lpskj8.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765855016/JPOITAO3118JPN_revised_efrjkm.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765855014/JPOITAO3118JPN_dsiz5w.srt
+  displayAudio: true
+  metadata:
+    - label: 作者
+      value: 田能村竹田
+    - label: 時代
+      value: 天保2年（1831）
+    - label: 材質・技法
+      value: 絹本着色
+    - label: 員数
+      value: 一幅
+    - label: 寸法
+      value: 148.1×56.5cm
+    - label: 文化財指定
+      value: 重要文化財
+    - label: 所蔵
+      value: 個人蔵
+  content: >-
+    竹田の濃彩花鳥画の代表作。「歳寒三友」とは、冬から春先の寒さに耐える三つの植物「松・竹・梅」のことをいう。竹田は、松の代わりに赤い椿を添えている。本作品は、描かれた後、すぐに京都で医術修行をしている息子・太一に送られた。竹田は太一を介して、親友・頼山陽に賛を依頼。画面右上に七言絶句を書いた。それは二羽の鶴を、留学中の息子・太一の卒業と帰国を待ちわびる竹田夫妻に見立てた内容の詩となっている。頼山陽の懇切な心遣いによる詩と、華やかな南蘋風の花鳥が渾然一体となって、香高い高雅な画趣を生み出している。
+
+
+    ![歳寒三友双鶴図詳細](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186792/118_JP-1995-5002_0001_bzpvdo.jpg)
+ko-KR:
+  number: '118'
+  guide: JPN-OITA-MUS-003
+  title: 세한삼우쌍학도
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186657/hero_118_lpskj8.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791826/JPOITAO3118KOR_dwi6lb.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791825/JPOITAO3118KOR_rm35sc.srt
+  displayAudio: true
+  metadata:
+    - label: 작가
+      value: 다노무라 치쿠덴
+    - label: 시대
+      value: 덴포 2년(1831)
+    - label: 재료 · 기법
+      value: 견본 채색
+    - label: 수량
+      value: 1폭
+    - label: 크기
+      value: 148.1 × 56.5 cm
+    - label: 문화재 지정
+      value: 중요문화재
+    - label: 소장처
+      value: 개인 소장
+  content: >-
+    이 작품은 치쿠덴의 짙은 채색 화조화 대표작이다. ‘세한삼우’는 겨울에서 초봄까지 추위를 견디는 소나무·대나무·매화를 가리킨다. 이
+    작품에서 치쿠덴은 소나무 대신 붉은 동백을 배치하였다. 완성 후 그는 곧바로 교토에서 의술을 배우던 아들 타이치에게 작품을 보냈고,
+    타이치를 통해 벗 라이 산요에게 찬문을 부탁했다. 산요는 화면 오른쪽 위에 칠언절구를 써넣어, 두 마리 학을 유학 중인 아들 타이치의
+    졸업과 귀국을 기다리며 간절한 마음을 품은 치쿠덴 부부에 비유하였다. 라이 산요의 정성이 담긴 시문과 화려한 남빈풍 화조화가 조화를
+    이루어, 향기롭고 우아한 예술적 분위기를 자아낸다.
+
+
+    ![세한삼우쌍학도
+    상세](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186792/118_JP-1995-5002_0001_bzpvdo.jpg)
+zh-TW:
+  number: '118'
+  guide: JPN-OITA-MUS-003
+  title: 歲寒三友雙鶴圖
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186657/hero_118_lpskj8.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791824/JPOITAO3118CMN_kuq66l.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791819/JPOITAO3118CMN_xy0oia.srt
+  displayAudio: true
+  metadata:
+    - label: 作者
+      value: 田能村竹田
+    - label: 年代
+      value: 天保2年（1831）
+    - label: 材質·技法
+      value: 絹本著色
+    - label: 數量
+      value: 一幅
+    - label: 尺寸
+      value: 148.1 × 56.5 cm
+    - label: 文化財產認定
+      value: 重要文化財
+    - label: 收藏
+      value: 私人收藏
+  content: >-
+    此作為竹田濃彩花鳥畫的代表作。「歲寒三友」指能在冬季至早春忍寒而生的三種植物——松、竹、梅。本作中竹田以紅山茶代替松。作品完成後，他立即寄給在京都習醫的兒子太一，並請太一轉求摯友賴山陽題賛。賴山陽於畫面右上題寫七言絕句，以雙鶴比喻竹田夫婦迫切盼望留學中的兒子太一學成返家的心情。賴山陽情意懇至的詩句與華麗的南蘋風花鳥相得益彰，交織成香逸高雅的藝術趣味。
+
+
+    ![歲寒三友雙鶴圖細節](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186792/118_JP-1995-5002_0001_bzpvdo.jpg)
+zh-CN:
+  number: '118'
+  guide: JPN-OITA-MUS-003
+  title: 岁寒三友双鹤图
+  hero: >-
+    https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186657/hero_118_lpskj8.jpg
+  audio: >-
+    https://res.cloudinary.com/dui2mxeuh/video/upload/v1765791824/JPOITAO3118CMN_kuq66l.mp3
+  subtitle: >-
+    https://res.cloudinary.com/dui2mxeuh/raw/upload/v1765791819/JPOITAO3118CMNs_nbzmwb.srt
+  displayAudio: true
+  metadata:
+    - label: 作者
+      value: 田能村竹田
+    - label: 年代
+      value: 天保2年（1831）
+    - label: 材质·技法
+      value: 绢本设色
+    - label: 数量
+      value: 一幅
+    - label: 尺寸
+      value: 148.1 × 56.5 cm
+    - label: 文化财产认定
+      value: 重要文化财
+    - label: 收藏
+      value: 私人收藏
+  content: >-
+    此作是竹田浓彩花鸟画的代表作。“岁寒三友”指能从冬至早春耐寒的三种植物——松、竹、梅。本作中，竹田以红山茶代替松。作品完成后，他立即将其寄给正在京都学习医术的儿子太一，并托太一向挚友赖山阳求题。赖山阳在画面右上题写七言绝句，以两只仙鹤比喻竹田夫妇殷切盼望留学中的儿子太一学成归国的心情。赖山阳情意恳切的题诗与华美的南蘋风花鸟画相映成趣，交融成高雅清芬的艺术境界。
+
+
+    ![岁寒三友双鹤图细节](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186792/118_JP-1995-5002_0001_bzpvdo.jpg)
+---
+
