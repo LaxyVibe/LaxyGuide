@@ -1,6 +1,7 @@
 ---
 en-US:
   number: '045'
+  guide: JPN-OITA-MUS-003
   title: Portrait of Huike Cutting Off His Arm
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_045_xvuwpa.jpg
@@ -37,6 +38,7 @@ en-US:
     Arm](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/45_076A2540_kdislh.jpg)
 ja-JP:
   number: '045'
+  guide: JPN-OITA-MUS-003
   title: 慧可断臂図
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_045_xvuwpa.jpg
@@ -65,6 +67,7 @@ ja-JP:
     ![慧可断臂図詳細](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/45_076A2540_kdislh.jpg)
 ko-KR:
   number: '045'
+  guide: JPN-OITA-MUS-003
   title: 혜가 단비도(慧可斷臂圖)
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_045_xvuwpa.jpg
@@ -97,6 +100,7 @@ ko-KR:
     상세](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/45_076A2540_kdislh.jpg)
 zh-TW:
   number: '045'
+  guide: JPN-OITA-MUS-003
   title: 慧可斷臂圖
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_045_xvuwpa.jpg
@@ -125,6 +129,7 @@ zh-TW:
     ![慧可斷臂圖細節](https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186786/45_076A2540_kdislh.jpg)
 zh-CN:
   number: '045'
+  guide: JPN-OITA-MUS-003
   title: 慧可断臂图
   hero: >-
     https://res.cloudinary.com/dui2mxeuh/image/upload/v1765186653/hero_045_xvuwpa.jpg

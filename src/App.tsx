@@ -19,17 +19,19 @@ function App() {
   }
 
   return (
-    <Router>
-      <AnalyticsTracker />
-      <Routes>
-        <Route path="/" element={<GuideListing />} />
-        <Route path="/:guideId" element={<Landing />} />
-        <Route path="/:guideId/list" element={<POIListing />} />
-        <Route path="/:guideId/search" element={<POISearch />} />
-        <Route path="/:guideId/:poiId" element={<POIDetail />} />
-        {/* Redirect root to a default guide or 404 */}
-      </Routes>
-    </Router>
+    <div className="phone-shell">
+      <Router>
+        <AnalyticsTracker />
+        <Routes>
+          <Route path="/" element={<GuideListing />} />
+          <Route path="/:guideId" element={<Landing />} />
+          <Route path="/:guideId/list" element={<POIListing />} />
+          <Route path="/:guideId/search" element={<POISearch />} />
+          <Route path="/:guideId/:poiId" element={<POIDetail />} />
+          {/* Redirect root to a default guide or 404 */}
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
