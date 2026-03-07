@@ -269,6 +269,9 @@ textarea:focus {
         overflow: hidden;
         position: relative;
         flex-shrink: 0;
+        /* Creates a containing block for position:fixed descendants,
+           so they anchor to this frame instead of the viewport */
+        transform: translateZ(0);
 
         /* Phone bezel layers */
         box-shadow:
