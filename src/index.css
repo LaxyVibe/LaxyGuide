@@ -269,6 +269,7 @@ textarea:focus {
         overflow: hidden;
         position: relative;
         flex-shrink: 0;
+        z-index: 1;
         /* Creates a containing block for position:fixed descendants,
            so they anchor to this frame instead of the viewport */
         transform: translateZ(0);
@@ -320,5 +321,60 @@ textarea:focus {
     /* Override dvh-based page height to fit within the phone frame */
     .page {
         height: 100%;
+    }
+}
+
+/* ============================================================
+   Desktop Ripple Effect (audio playing)
+   Rings rendered via portal into body, outside #root
+   Only visible on desktop — hidden on mobile
+   ============================================================ */
+.desktop-ripples {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .desktop-ripples {
+        display: block;
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        /* behind #root (transform stacking context puts root above z:auto) */
+    }
+
+    .ripple {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        border-radius: 50%;
+        opacity: 0;
+        border: 1.5px solid var(--primary-300);
+        /* Start just slightly larger than the phone frame + bezel (393 + 26px bezel = ~420px) */
+        width: 440px;
+        height: 440px;
+        transition: none;
+    }
+
+    /* Rings only animate when audio is playing */
+    .desktop-ripples.active .ripple {
+        animation: desktopRipple 3.2s ease-out infinite;
+    }
+
+    .desktop-ripples.active .ripple-1 { animation-delay: 0s;    border-color: var(--primary-300); }
+    .desktop-ripples.active .ripple-2 { animation-delay: 0.8s;  border-color: var(--primary-200); }
+    .desktop-ripples.active .ripple-3 { animation-delay: 1.6s;  border-color: var(--primary-100); }
+    .desktop-ripples.active .ripple-4 { animation-delay: 2.4s;  border-color: rgba(163, 217, 221, 0.4); }
+
+    @keyframes desktopRipple {
+        0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.7;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(2.8);
+            opacity: 0;
+        }
     }
 }

@@ -1,4 +1,8 @@
 /* POIListing.css */
+.poi-listing {
+    background: var(--neutral-100);
+}
+
 .poi-listing-header {
     flex-shrink: 0;
     z-index: 10;

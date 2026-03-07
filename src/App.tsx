@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
 import POIListing from './pages/POIListing';
@@ -8,6 +10,18 @@ import AnalyticsTracker from './components/AnalyticsTracker';
 import './App.css';
 
 function App() {
+  const [audioPlaying, setAudioPlaying] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const playing = (e as CustomEvent<{ isPlaying: boolean }>).detail.isPlaying;
+      setAudioPlaying(playing);
+      document.body.classList.toggle('audio-playing', playing);
+    };
+    document.addEventListener('audioPlayStateChange', handler);
+    return () => document.removeEventListener('audioPlayStateChange', handler);
+  }, []);
+
   // Check for Netlify Identity invite token to prevent redirect
   if (window.location.hash.includes('invite_token')) {
     return (
@@ -19,19 +33,29 @@ function App() {
   }
 
   return (
-    <div className="phone-shell">
-      <Router>
-        <AnalyticsTracker />
-        <Routes>
-          <Route path="/" element={<GuideListing />} />
-          <Route path="/:guideId" element={<Landing />} />
-          <Route path="/:guideId/list" element={<POIListing />} />
-          <Route path="/:guideId/search" element={<POISearch />} />
-          <Route path="/:guideId/:poiId" element={<POIDetail />} />
-          {/* Redirect root to a default guide or 404 */}
-        </Routes>
-      </Router>
-    </div>
+    <>
+      <div className="phone-shell">
+        <Router>
+          <AnalyticsTracker />
+          <Routes>
+            <Route path="/" element={<GuideListing />} />
+            <Route path="/:guideId" element={<Landing />} />
+            <Route path="/:guideId/list" element={<POIListing />} />
+            <Route path="/:guideId/search" element={<POISearch />} />
+            <Route path="/:guideId/:poiId" element={<POIDetail />} />
+          </Routes>
+        </Router>
+      </div>
+      {createPortal(
+        <div className={`desktop-ripples${audioPlaying ? ' active' : ''}`} aria-hidden="true">
+          <span className="ripple ripple-1" />
+          <span className="ripple ripple-2" />
+          <span className="ripple ripple-3" />
+          <span className="ripple ripple-4" />
+        </div>,
+        document.body
+      )}
+    </>
   );
 }
 

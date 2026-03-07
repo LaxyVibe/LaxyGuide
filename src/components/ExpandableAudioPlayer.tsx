@@ -52,6 +52,15 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
         milestonesSentRef.current.clear();
     }, [activeAudioSrc, src]);
 
+    // Broadcast play state to desktop background ripple effect
+    useEffect(() => {
+        document.dispatchEvent(new CustomEvent('audioPlayStateChange', { detail: { isPlaying } }));
+        return () => {
+            // Ensure ripple stops when component unmounts
+            document.dispatchEvent(new CustomEvent('audioPlayStateChange', { detail: { isPlaying: false } }));
+        };
+    }, [isPlaying]);
+
     // Load subtitles or TTML when URLs change
     useEffect(() => {
         const loadContent = async () => {
