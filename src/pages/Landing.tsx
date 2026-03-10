@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import '../Landing.css';
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import surveyIcon from '../assets/icons/survey.svg';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { Language } from '../types';
@@ -18,7 +18,6 @@ import Loading from '../components/Loading';
 const Landing: React.FC = () => {
     const { guideId } = useParams<{ guideId: string }>();
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
 
     // Ensure language param exists
     useEffect(() => {
