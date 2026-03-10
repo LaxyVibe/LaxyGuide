@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import '../Landing.css';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import surveyIcon from '../assets/icons/survey.svg';
-import backIcon from '../assets/icons/back.svg';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { Language } from '../types';
 import { LANGUAGES } from '../types';
@@ -75,18 +74,7 @@ const Landing: React.FC = () => {
             {/* Gradient overlay */}
             <div className="landing-gradient-overlay" style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none' }} />
 
-            {/* Top bar: Back button (top-left) and Survey icon button (top-right) */}
-            <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 100 }}>
-                <button
-                    className="back-icon-btn"
-                    aria-label="Back to Guides"
-                    style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(0, 0, 0, 0.3)', border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
-                    onClick={() => navigate('/')}
-                >
-                    <img src={backIcon} alt="Back" style={{ width: 24, height: 24, filter: 'brightness(0) invert(1)' }} />
-                </button>
-            </div>
-
+            {/* Top-right survey icon only */}
             {shouldShowSurvey && (
                 <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 100 }}>
                     <button
