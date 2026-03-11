@@ -262,14 +262,16 @@ textarea:focus {
     }
 
     #root {
-        /* iPhone 14 Pro proportions */
+        /* iPhone 14 Pro proportions — fixed size, scaled via zoom */
         width: 393px;
-        height: min(852px, 92vh);
+        height: 852px;
         border-radius: 50px;
         overflow: hidden;
         position: relative;
         flex-shrink: 0;
         z-index: 1;
+        /* Uniform zoom keeps frame + content in sync at any browser zoom */
+        zoom: var(--phone-scale, 1);
         /* Creates a containing block for position:fixed descendants,
            so they anchor to this frame instead of the viewport */
         transform: translateZ(0);
@@ -321,6 +323,44 @@ textarea:focus {
     /* Override dvh-based page height to fit within the phone frame */
     .page {
         height: 100%;
+    }
+
+    /* ---- vh → % overrides ----
+       Inside the phone frame, viewport-height units reference the
+       browser viewport instead of the 852 px container.
+       Replace them with percentage-based values so the content
+       always matches the phone frame regardless of browser zoom. */
+    .poi-search {
+        height: 100%;
+    }
+
+    .guide-listing-page {
+        min-height: 100%;
+    }
+
+    .expandable-audio-player.expanded {
+        height: 100%;
+    }
+
+    .expandable-audio-player.expanded .player-container {
+        height: 80%;
+    }
+
+    .expandable-audio-player.expanded .player-container.with-slides {
+        height: 70%;
+    }
+
+    .success-screen {
+        min-height: 100%;
+    }
+
+    .language-dialog {
+        max-height: calc(var(--vh, 1vh) * 80);
+    }
+
+    .loading-container,
+    .error-container {
+        min-height: 50%;
     }
 }
 
