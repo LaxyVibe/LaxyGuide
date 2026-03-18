@@ -15,7 +15,7 @@ en-US:
 
 
     Additionally, as a hands-on learning experience to engage with bamboo culture, two types of programs are offered: "Bamboo Bell Making" and "Shikainami Flower Basket Making" (priority given to reservations). The on-site shop and cafe offer a variety of bamboo products from Oita Prefecture and provide a space to enjoy coffee and other beverages at the counter seats.
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840126/gfmoraayawa7luqmiogf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840928/hb5fnsck73agcos98mrx.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -26,12 +26,12 @@ ja-JP:
 
 
     また、竹文化にふれる体験学習として、「竹鈴製作」と「四海波花籠製作」の2種類のプログラムを実施しています（予約優先）。併設のショップ＆カフェでは、大分県産の竹製品を取りそろえ、カウンター席でコーヒーなどの飲料もお楽しみいただけます。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840126/gfmoraayawa7luqmiogf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840928/hb5fnsck73agcos98mrx.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/1.%E5%88%A5%E5%BA%9C%E5%B8%82%E7%AB%B9%E7%B4%B0%E5%B7%A5%E4%BC%9D%E7%B5%B1%E7%94%A3%E6%A5%AD%E4%BC%9A%E9%A4%A8%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6_1_tt2mdp.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840126/gfmoraayawa7luqmiogf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840928/hb5fnsck73agcos98mrx.ttml
   content: >-
     벳푸시 죽세공 전통산업회관은 국가 전통공예품으로 지정된 오이타현의 대표 공예품 ‘벳푸 죽세공(대나무 공예)’을 소개하는 시설입니다.
     관내에서는 벳푸 죽세공이 발전해 온 배경과 소재, 계승되어 온 기법을 배우며, 생활 도구부터 조형미 넘치는 예술 작품까지 폭넓은 대나무
@@ -44,7 +44,7 @@ zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/1.%E5%88%A5%E5%BA%9C%E5%B8%82%E7%AB%B9%E7%B4%B0%E5%B7%A5%E4%BC%9D%E7%B5%B1%E7%94%A3%E6%A5%AD%E4%BC%9A%E9%A4%A8%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6_1_tt2mdp.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840126/gfmoraayawa7luqmiogf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840928/hb5fnsck73agcos98mrx.ttml
   title: 關於別府市竹製品傳統產業會館
   content: >-
     別府市竹細工傳統產業會館是介紹大分縣最具代表性，且獲國家指定的傳統工藝品「別府竹細工」的設施。館內不僅展示了別府竹細工的發展背景、素材及傳承至今的技法，還能欣賞到從日常生活用品到極具藝術美感的各類竹工藝作品。
@@ -55,7 +55,7 @@ zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/1.%E5%88%A5%E5%BA%9C%E5%B8%82%E7%AB%B9%E7%B4%B0%E5%B7%A5%E4%BC%9D%E7%B5%B1%E7%94%A3%E6%A5%AD%E4%BC%9A%E9%A4%A8%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6_1_tt2mdp.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840126/gfmoraayawa7luqmiogf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840928/hb5fnsck73agcos98mrx.ttml
   content: >-
     别府市竹细工传统产业会馆是专门介绍大分县最具代表性且荣获国家指定的传统工艺品,
     “别府竹细工”的设施。在馆内，您可以了解别府竹细工的发展背景、原材料及传承至今的技法，同时欣赏从日常生活用品到极具艺术美感的各类竹工艺作品。
@@ -67,7 +67,7 @@ fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/1.%E5%88%A5%E5%BA%9C%E5%B8%82%E7%AB%B9%E7%B4%B0%E5%B7%A5%E4%BC%9D%E7%B5%B1%E7%94%A3%E6%A5%AD%E4%BC%9A%E9%A4%A8%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6_1_tt2mdp.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840126/gfmoraayawa7luqmiogf.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773840928/hb5fnsck73agcos98mrx.ttml
   title: À propos du Musée de l'artisanat traditionnel du bambou de Beppu
   content: >-
     Cet établissement présente le « Beppu Takezaiku » (vannerie de bambou), un
