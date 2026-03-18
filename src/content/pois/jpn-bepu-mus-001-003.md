@@ -16,7 +16,7 @@ en-US:
 
 
     These bamboo hats were originally created in 1950 as a product developed for overseas markets. At the time, the version with a ribbon was designed for men, while the one with a hole at the top was designed for women. The specific items on display were made around 1997. Please enjoy wearing them and taking a commemorative photo.
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773823497/ltmx4uks3f5ytv4murf4.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773841257/utj6dxgh2qa88jayijgg.ttml
 ja-JP:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
@@ -30,12 +30,12 @@ ja-JP:
 
 
     竹の帽子は１９５０年に海外向けの商品開発として製作されました。当時、リボンがついている方が男性用、上部に穴が開いている方が女性用として開発されました。展示品は１９９７年頃に作られたものです。ぜひ被って記念写真を撮ってください。
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773823497/ltmx4uks3f5ytv4murf4.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773841257/utj6dxgh2qa88jayijgg.ttml
 ko-KR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773823497/ltmx4uks3f5ytv4murf4.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773841257/utj6dxgh2qa88jayijgg.ttml
   title: 대나무 모자
   content: >-
     이 대나무 모자는 '밤부 햇(Bamboo Hat)'이라 불리는 전시물입니다. 쇼와 25년(1950년)에 현의 산업공예시험소에서 상품으로
@@ -50,7 +50,7 @@ zh-TW:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773823497/ltmx4uks3f5ytv4murf4.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773841257/utj6dxgh2qa88jayijgg.ttml
   title: 竹編帽子
   content: >-
     這款竹編帽子是名為「Bamboo
@@ -65,7 +65,7 @@ zh-CN:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773823497/ltmx4uks3f5ytv4murf4.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773841257/utj6dxgh2qa88jayijgg.ttml
   title: 竹编帽子
   content: >-
     这款竹编帽子是名为“Bamboo
@@ -80,7 +80,7 @@ fr-FR:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   hero: https://res.cloudinary.com/dui2mxeuh/image/upload/v1767261771/%EF%BC%93.%E7%AB%B9%E3%81%AE%E5%B8%BD%E5%AD%90_1_ru1lgm.jpg
-  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773823497/ltmx4uks3f5ytv4murf4.ttml
+  ttml: https://res.cloudinary.com/dui2mxeuh/raw/upload/v1773841257/utj6dxgh2qa88jayijgg.ttml
   title: Chapeau en bambou
   content: >-
     Ce chapeau en bambou est une pièce d'exposition appelée « Bamboo Hat ». Il
