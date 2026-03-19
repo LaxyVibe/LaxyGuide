@@ -3,7 +3,7 @@ en-US:
   displayAudio: true
   guide: JPN-BEPU-MUS-001
   number: "002"
-  title: Unryu (Cloud Dragon)
+  title: Unryu (Cloud and Dragon)
   content: >-
     Greeting visitors at the entrance of the center is the overwhelming "Unryu"
     (Cloud and Dragon), a giant decorative basket measuring approximately 2
