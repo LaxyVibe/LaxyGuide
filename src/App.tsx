@@ -5,6 +5,8 @@ import Landing from './pages/Landing';
 import POIListing from './pages/POIListing';
 import POISearch from './pages/POISearch';
 import POIDetail from './pages/POIDetail';
+import GuideMap from './pages/GuideMap';
+import GuideMapCapture from './pages/GuideMapCapture';
 import GuideListing from './pages/GuideListing';
 import AnalyticsTracker from './components/AnalyticsTracker';
 import './App.css';
@@ -42,6 +44,8 @@ function App() {
             <Route path="/:guideId" element={<Landing />} />
             <Route path="/:guideId/list" element={<POIListing />} />
             <Route path="/:guideId/search" element={<POISearch />} />
+            <Route path="/:guideId/map/capture" element={<GuideMapCapture />} />
+            <Route path="/:guideId/map" element={<GuideMap />} />
             <Route path="/:guideId/:poiId" element={<POIDetail />} />
           </Routes>
         </Router>

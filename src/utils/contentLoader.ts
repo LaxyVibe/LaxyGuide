@@ -7,6 +7,8 @@ interface GuideFrontmatter {
         title?: string;
         code?: string;
         guideUnderlayImage?: string;
+        mapImage?: string;
+        mapPinsUrl?: string;
         pois?: string[];
     } | string | undefined;
 }
@@ -98,6 +100,8 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
 
     const guideTitle = guideLangData.title || guideDefaultData.title;
     const guideUnderlayImage = guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage;
+    const mapImage = guideLangData.mapImage || guideDefaultData.mapImage;
+    const mapPinsUrl = guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl;
 
     // 2. Load POI Files
     const poiFiles = import.meta.glob('/src/content/pois/*.md', { eager: true, query: '?raw', import: 'default' });
@@ -150,6 +154,8 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
     return {
         guideTitle: guideTitle || '',
         guideUnderlayImage: guideUnderlayImage || '',
+        mapImage,
+        mapPinsUrl,
         pois
     };
 }
