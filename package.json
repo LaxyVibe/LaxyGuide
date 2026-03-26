@@ -13,6 +13,7 @@
     "@geoman-io/leaflet-geoman-free": "^2.19.2",
     "@hugeicons/react": "^1.1.1",
     "buffer": "^6.0.3",
+    "cloudinary": "^2.9.0",
     "googleapis": "^166.0.0",
     "gray-matter": "^4.0.3",
     "jszip": "^3.10.1",

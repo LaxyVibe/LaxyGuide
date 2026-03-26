@@ -8,21 +8,10 @@ function json(statusCode, body) {
   };
 }
 
+const { v2: cloudinary } = require('cloudinary');
+
 function toBase64(buffer) {
   return Buffer.from(buffer).toString('base64');
-}
-
-function sha1Hex(input) {
-  const crypto = require('crypto');
-  return crypto.createHash('sha1').update(input).digest('hex');
-}
-
-function signParams(params, apiSecret) {
-  const payload = Object.keys(params)
-    .sort()
-    .map((key) => `${key}=${params[key]}`)
-    .join('&');
-  return sha1Hex(`${payload}${apiSecret}`);
 }
 
 function sanitizeBundleFormat(raw) {
@@ -67,51 +56,92 @@ function parsePublicIdAndFormat(rawUrl, cloudName) {
   }
 }
 
-function buildSignedDownloadUrl(cloudName, apiKey, apiSecret, publicId, format) {
-  const timestamp = Math.floor(Date.now() / 1000);
-  const params = { public_id: publicId, timestamp };
-  if (format) params.format = format;
-  const signature = signParams(params, apiSecret);
-  const query = new URLSearchParams({
-    ...params,
-    api_key: apiKey,
-    signature
-  });
-  return `https://api.cloudinary.com/v1_1/${cloudName}/raw/download?${query.toString()}`;
-}
-
-function buildSignedDownloadCandidates({ cloudName, apiKey, apiSecret, publicId, format }) {
+function buildPublicIdCandidates(publicId, format) {
   const candidates = [];
+
   const push = (label, id, fmt) => {
     if (!id) return;
     const key = `${id}::${fmt || ''}`;
     if (candidates.some((c) => c.key === key)) return;
-    candidates.push({
-      key,
-      label,
-      url: buildSignedDownloadUrl(cloudName, apiKey, apiSecret, id, fmt)
-    });
+    candidates.push({ key, label, publicId: id, format: fmt || undefined });
   };
 
   const normalizedFormat = sanitizeBundleFormat(format);
   const cleanId = String(publicId || '').trim();
 
-  // 1) Exact values from caller/list API.
-  push('signed:raw/download:exact', cleanId, normalizedFormat || undefined);
-  push('signed:raw/download:exact-no-format', cleanId, undefined);
+  push('id:exact', cleanId, normalizedFormat || undefined);
+  push('id:exact-no-format', cleanId, undefined);
 
   const extMatch = cleanId.match(/\.([a-zA-Z0-9]+)$/);
   if (extMatch) {
     const ext = sanitizeBundleFormat(extMatch[1]);
     const withoutExt = cleanId.slice(0, -(extMatch[0].length));
-    push('signed:raw/download:strip-ext', withoutExt, ext || normalizedFormat || undefined);
-    push('signed:raw/download:strip-ext-no-format', withoutExt, undefined);
+    push('id:strip-ext', withoutExt, ext || normalizedFormat || undefined);
+    push('id:strip-ext-no-format', withoutExt, undefined);
   } else if (normalizedFormat) {
-    // Some older resources were stored with extension in public_id.
-    push('signed:raw/download:add-ext-to-id', `${cleanId}.${normalizedFormat}`, undefined);
+    push('id:add-ext', `${cleanId}.${normalizedFormat}`, undefined);
   }
 
   return candidates;
+}
+
+function buildSignedDownloadUrl(publicId, format, type) {
+  return cloudinary.utils.private_download_url(publicId, format || 'zip', {
+    resource_type: 'raw',
+    type,
+    attachment: true
+  });
+}
+
+async function resolveResourceByAdminApi(publicIdCandidates) {
+  const deliveryTypes = ['upload', 'private', 'authenticated'];
+  for (const candidate of publicIdCandidates) {
+    for (const type of deliveryTypes) {
+      try {
+        const resource = await cloudinary.api.resource(candidate.publicId, {
+          resource_type: 'raw',
+          type
+        });
+        return {
+          publicId: candidate.publicId,
+          format: candidate.format || sanitizeBundleFormat(resource?.format) || 'zip',
+          type
+        };
+      } catch (err) {
+        const code = Number(err?.http_code || err?.error?.http_code || 0);
+        if (code !== 404) {
+          // For transient/admin errors, continue with other permutations.
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function buildSignedDownloadAttempts(meta, publicIdCandidates) {
+  const types = ['upload', 'private', 'authenticated'];
+  const out = [];
+  const seen = new Set();
+
+  const push = (label, publicId, format, type) => {
+    const key = `${publicId}::${format || ''}::${type}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push({ label, url: buildSignedDownloadUrl(publicId, format, type) });
+  };
+
+  if (meta) {
+    push('signed:admin-resolved', meta.publicId, meta.format, meta.type);
+  }
+
+  for (const candidate of publicIdCandidates) {
+    for (const type of types) {
+      push(`signed:${candidate.label}:${type}`, candidate.publicId, candidate.format || 'zip', type);
+      push(`signed:${candidate.label}:${type}:no-format`, candidate.publicId, undefined, type);
+    }
+  }
+
+  return out;
 }
 
 function tryBuildCandidateUrls(rawUrl, cloudName) {
@@ -161,6 +191,12 @@ exports.handler = async (event) => {
       return json(500, { error: 'Cloudinary environment variables are not configured' });
     }
 
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret
+    });
+
     const rawUrl = String(event.queryStringParameters?.url || '').trim();
     if (!rawUrl) {
       return json(400, { error: 'url is required' });
@@ -182,13 +218,10 @@ exports.handler = async (event) => {
     const effectivePublicId = inputPublicId || parsed.publicId;
     const effectiveFormat = inputFormat || parsed.format;
 
-    const signedCandidates = buildSignedDownloadCandidates({
-      cloudName,
-      apiKey,
-      apiSecret,
-      publicId: effectivePublicId,
-      format: effectiveFormat
-    });
+    const publicIdCandidates = buildPublicIdCandidates(effectivePublicId, effectiveFormat);
+
+    const adminResolved = await resolveResourceByAdminApi(publicIdCandidates);
+    const signedCandidates = buildSignedDownloadAttempts(adminResolved, publicIdCandidates);
 
     const attempts = [];
 
