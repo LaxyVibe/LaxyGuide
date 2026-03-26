@@ -45,6 +45,7 @@ const GuideMapCapture: React.FC = () => {
     const [listingBundles, setListingBundles] = useState(false);
     const [exportingCloud, setExportingCloud] = useState(false);
     const [importingCloud, setImportingCloud] = useState(false);
+    const gpsPermissionPromptedRef = React.useRef(false);
 
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -177,6 +178,41 @@ const GuideMapCapture: React.FC = () => {
         } catch {
             // ignore
         }
+    };
+
+    const requestGpsPermissionOnFirstMenuClick = () => {
+        if (gpsPermissionPromptedRef.current) return;
+        gpsPermissionPromptedRef.current = true;
+
+        const promptedKey = 'mapCapture:gpsPermissionPrompted';
+        try {
+            if (localStorage.getItem(promptedKey) === '1') return;
+        } catch {
+            // ignore storage errors and still attempt prompt once for this page load
+        }
+
+        const ua = navigator.userAgent || '';
+        const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+        if (!isMobile) return;
+        if (!('geolocation' in navigator)) return;
+
+        navigator.geolocation.getCurrentPosition(
+            () => {
+                try {
+                    localStorage.setItem(promptedKey, '1');
+                } catch {
+                    // ignore storage errors
+                }
+            },
+            () => {
+                try {
+                    localStorage.setItem(promptedKey, '1');
+                } catch {
+                    // ignore storage errors
+                }
+            },
+            { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 }
+        );
     };
 
     const handleSelectPin = (nextId: string) => {
@@ -532,7 +568,10 @@ const GuideMapCapture: React.FC = () => {
                 rightSlot={
                     <button
                         className="back-button"
-                        onClick={() => setFabOpen(o => !o)}
+                        onClick={() => {
+                            requestGpsPermissionOnFirstMenuClick();
+                            setFabOpen(o => !o);
+                        }}
                         aria-label={t('map.tools')}
                         aria-pressed={fabOpen}
                     >
