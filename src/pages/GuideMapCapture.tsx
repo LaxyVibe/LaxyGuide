@@ -15,7 +15,7 @@ import { getNextLetterId } from '../utils/pinIdUtils';
 import { downloadCloudBundle, listCloudBundles, requestCloudinarySignedUpload, type CloudBundleItem, uploadCloudBundle } from '../utils/cloudinaryCapture';
 import { buildCaptureBundle, imageSourceToBlob, parseCaptureBundle } from '../utils/mapCaptureBundle';
 
-const FILE_VERSION = 2;
+const FILE_VERSION = 1;
 
 const GuideMapCapture: React.FC = () => {
     const { guideId } = useParams<{ guideId: string }>();
