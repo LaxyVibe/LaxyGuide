@@ -3,11 +3,13 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import GlobalHeader from '../components/GlobalHeader';
 import Loading from '../components/Loading';
 import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
+import PinPolygonEditor from '../components/PinPolygonEditor';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { MapPin, MapPinsFile } from '../types';
 import { downloadJson, loadPinsFromLocalStorage, savePinsToLocalStorage, upsertPin } from '../utils/mapPins';
+import { convexHullLatLng } from '../utils/convexHull';
 
 const FILE_VERSION = 2;
 
@@ -32,6 +34,7 @@ const GuideMapCapture: React.FC = () => {
     const [status, setStatus] = useState<string>('');
     const [fabOpen, setFabOpen] = useState(false);
     const [didAutoCenter, setDidAutoCenter] = useState(false);
+    const [captureView, setCaptureView] = useState<'image' | 'polygon'>('image');
 
     const mapRef = React.useRef<MapViewerHandle | null>(null);
 
@@ -159,14 +162,66 @@ const GuideMapCapture: React.FC = () => {
         });
     };
 
+    const handleUpdateSelectedPolygon = (nextPolygon: MapPin['polygon']) => {
+        if (!guideId) return;
+        if (!activeId) return;
+
+        setPinsFile((prev) => {
+            if (!prev) return prev;
+            const current = prev.pins.find(p => p.id === activeId);
+            if (!current) return prev;
+
+            const updated: MapPin = { ...current, polygon: nextPolygon };
+            const next: MapPinsFile = {
+                ...prev,
+                version: FILE_VERSION,
+                guideId,
+                pins: upsertPin(prev.pins, updated)
+            };
+            savePinsToLocalStorage(guideId, next);
+            return next;
+        });
+    };
+
     useEffect(() => {
         if (didAutoCenter) return;
         if (!activeId) return;
+        if (captureView !== 'image') return;
         const p = pins.find(pin => pin.id === activeId);
         if (!p) return;
         mapRef.current?.centerOnPoint({ x: p.x, y: p.y });
         setDidAutoCenter(true);
-    }, [didAutoCenter, activeId, pins]);
+    }, [didAutoCenter, activeId, pins, captureView]);
+
+    useEffect(() => {
+        if (captureView !== 'polygon') return;
+        if (!guideId) return;
+        if (!activeId) return;
+
+        setPinsFile((prev) => {
+            if (!prev) return prev;
+            const current = prev.pins.find(p => p.id === activeId);
+            if (!current) return prev;
+
+            const gps = (current.latLngs || []).map(p => ({ lat: p.lat, lng: p.lng }));
+            const hasEnough = gps.length >= 3;
+            const hasPolygon = Array.isArray(current.polygon) && current.polygon.length >= 3;
+            if (!hasEnough || hasPolygon) return prev;
+
+            const hull = convexHullLatLng(gps);
+            if (hull.length < 3) return prev;
+
+            const updated: MapPin = { ...current, polygon: hull };
+            const next: MapPinsFile = {
+                ...prev,
+                version: FILE_VERSION,
+                guideId,
+                pins: upsertPin(prev.pins, updated)
+            };
+            savePinsToLocalStorage(guideId, next);
+            return next;
+        });
+    }, [captureView, guideId, activeId]);
 
     const handleAssignGps = (targetPinId?: string) => {
         if (!guideId) return;
@@ -292,7 +347,15 @@ const GuideMapCapture: React.FC = () => {
             <GlobalHeader title={t('map.captureTitle')} showBack={true} onBack={handleBack} />
 
             <div className="scroll-content" style={{ position: 'relative' }}>
-                {!mapImage ? (
+                {captureView === 'polygon' ? (
+                    activeId && selectedPin ? (
+                        <PinPolygonEditor pin={selectedPin} onPolygonChange={handleUpdateSelectedPolygon} />
+                    ) : (
+                        <div style={{ padding: 24, textAlign: 'center', color: 'var(--neutral-600)', fontWeight: 700 }}>
+                            {t('map.noActivePin')}
+                        </div>
+                    )
+                ) : !mapImage ? (
                     <div style={{ padding: 24, textAlign: 'center', color: 'var(--neutral-600)', fontWeight: 700 }}>
                         {t('map.noImage')}
                     </div>
@@ -323,6 +386,45 @@ const GuideMapCapture: React.FC = () => {
                             color: 'var(--neutral-800)'
                         }}
                     >
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
+                            <button
+                                onClick={() => {
+                                    setCaptureView('image');
+                                    setDidAutoCenter(false);
+                                }}
+                                aria-pressed={captureView === 'image'}
+                                style={{
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: '0 12px',
+                                    background: captureView === 'image' ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.1)',
+                                    color: captureView === 'image' ? 'white' : 'var(--neutral-800)',
+                                    fontWeight: 900,
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {t('map.viewImage')}
+                            </button>
+
+                            <button
+                                onClick={() => setCaptureView('polygon')}
+                                aria-pressed={captureView === 'polygon'}
+                                style={{
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: '0 12px',
+                                    background: captureView === 'polygon' ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.1)',
+                                    color: captureView === 'polygon' ? 'white' : 'var(--neutral-800)',
+                                    fontWeight: 900,
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {t('map.viewPolygon')}
+                            </button>
+                        </div>
+
                         <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10 }}>
                             <select
                                 value={activeId}
@@ -460,6 +562,12 @@ const GuideMapCapture: React.FC = () => {
                                 <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)', marginBottom: 8 }}>
                                     {t('map.gpsPoints')}: {selectedLatLngs.length}
                                 </div>
+
+                                {captureView === 'polygon' && selectedLatLngs.length > 0 && selectedLatLngs.length < 3 && (
+                                    <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--neutral-600)', marginBottom: 8 }}>
+                                        {t('map.polygonNeed3Points')}
+                                    </div>
+                                )}
 
                                 {selectedLatLngs.length === 0 ? (
                                     <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--neutral-600)' }}>{t('map.noGpsPoints')}</div>

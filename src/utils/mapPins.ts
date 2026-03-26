@@ -44,6 +44,12 @@ export function normalizePinsFile(file: MapPinsFile, fallbackGuideId?: string): 
             ? pin.latLngs.filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lng))
             : [];
 
+        const polygonRaw = Array.isArray((pin as MapPin).polygon) ? (pin as MapPin).polygon : undefined;
+        const polygonFiltered = polygonRaw
+            ? polygonRaw.filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lng))
+            : undefined;
+        const polygon = polygonFiltered && polygonFiltered.length >= 3 ? polygonFiltered : undefined;
+
         // v1 migration: if legacy lat/lng exist, convert to a single clustered point.
         if (latLngs.length === 0 && Number.isFinite(pin.lat) && Number.isFinite(pin.lng)) {
             latLngs.push({
@@ -56,7 +62,8 @@ export function normalizePinsFile(file: MapPinsFile, fallbackGuideId?: string): 
         return {
             ...pin,
             label,
-            latLngs
+            latLngs,
+            polygon
         };
     });
 

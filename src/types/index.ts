@@ -47,6 +47,9 @@ export interface MapPin {
     /** Clustered GPS points captured for this pin */
     latLngs?: Array<{ lat: number; lng: number; capturedAt?: string }>;
 
+    /** Polygon vertices captured/edited on a real-world basemap. */
+    polygon?: Array<{ lat: number; lng: number }>;
+
     /** Legacy single-point fields (v1). Kept optional for migration only. */
     lat?: number;
     lng?: number;
