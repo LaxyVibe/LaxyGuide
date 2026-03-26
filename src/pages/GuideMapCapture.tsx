@@ -524,8 +524,15 @@ const GuideMapCapture: React.FC = () => {
             setCaptureView('image');
             setDidAutoCenter(false);
             setStatus(t('map.cloudImported'));
-        } catch {
-            setStatus(t('map.cloudImportFailed'));
+        } catch (err) {
+            const message = err instanceof Error ? err.message : '';
+            console.error('[map-capture] cloud import failed', {
+                guideId,
+                selectedBundle,
+                message,
+                err
+            });
+            setStatus(message ? `${t('map.cloudImportFailed')}: ${message}` : t('map.cloudImportFailed'));
         } finally {
             setImportingCloud(false);
         }

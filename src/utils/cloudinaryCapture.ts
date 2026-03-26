@@ -86,9 +86,18 @@ export async function downloadCloudBundle(
         const detail = text ? `: ${text}` : '';
         throw new Error(`Failed to download bundle (${resp.status})${detail}`);
     }
-    const blob = await resp.blob();
-    if (!blob || blob.size === 0) {
+
+    const bytes = await resp.arrayBuffer();
+    if (!bytes || bytes.byteLength === 0) {
         throw new Error('Downloaded bundle is empty');
     }
-    return blob;
+
+    const header = new Uint8Array(bytes, 0, Math.min(4, bytes.byteLength));
+    const isZip = header.length >= 2 && header[0] === 0x50 && header[1] === 0x4b;
+    if (!isZip) {
+        throw new Error('Downloaded bundle is not a valid ZIP');
+    }
+
+    const contentType = resp.headers.get('content-type') || 'application/zip';
+    return new Blob([bytes], { type: contentType });
 }
