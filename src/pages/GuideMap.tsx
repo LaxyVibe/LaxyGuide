@@ -122,7 +122,7 @@ const GuideMap: React.FC = () => {
     return (
         <div className="page">
             <GlobalHeader
-                title={t('map.title')}
+                title="Map Viewer"
                 showBack={false}
                 versionOverride="0326-01"
                 leftSlot={

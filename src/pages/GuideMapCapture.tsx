@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { MapPin as MapPinIcon, Trash2 } from 'lucide-react';
 import GlobalHeader from '../components/GlobalHeader';
 import Loading from '../components/Loading';
 import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
@@ -594,8 +595,9 @@ const GuideMapCapture: React.FC = () => {
     return (
         <div className="page">
             <GlobalHeader
-                title={t('map.captureTitle')}
+                title="Map Capturer"
                 showBack={false}
+                versionOverride="0326-01"
                 leftSlot={
                     <button
                         className="back-button"
@@ -774,7 +776,7 @@ const GuideMapCapture: React.FC = () => {
                                     cursor: 'pointer'
                                 }}
                             >
-                                +
+                                <MapPinIcon size={18} strokeWidth={2.4} />
                             </button>
 
                             <button
@@ -796,7 +798,7 @@ const GuideMapCapture: React.FC = () => {
                                     opacity: activeId ? 1 : 0.6
                                 }}
                             >
-                                −
+                                <Trash2 size={18} strokeWidth={2.4} />
                             </button>
 
                             <button
@@ -854,18 +856,24 @@ const GuideMapCapture: React.FC = () => {
                                                 </div>
                                                 <button
                                                     onClick={() => handleRemoveGpsPoint(idx)}
+                                                    aria-label={t('map.removeGps')}
+                                                    title={t('map.removeGps')}
                                                     style={{
                                                         height: 32,
+                                                        width: 32,
                                                         borderRadius: 10,
                                                         border: '1px solid var(--neutral-300)',
-                                                        padding: '0 10px',
+                                                        padding: 0,
                                                         background: 'rgba(33, 36, 39, 0.1)',
                                                         color: 'var(--neutral-800)',
                                                         fontWeight: 900,
-                                                        cursor: 'pointer'
+                                                        cursor: 'pointer',
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center'
                                                     }}
                                                 >
-                                                    {t('map.removeGps')}
+                                                    <Trash2 size={15} strokeWidth={2.4} />
                                                 </button>
                                             </div>
                                         ))}
