@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import GlobalHeader from '../components/GlobalHeader';
 import Loading from '../components/Loading';
 import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
+import MapIOPanelDialog from '../components/MapIOPanelDialog';
 import PinPolygonEditor from '../components/PinPolygonEditor';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
@@ -36,6 +37,7 @@ const GuideMapCapture: React.FC = () => {
     const [pinsFile, setPinsFile] = useState<MapPinsFile | null>(null);
     const [status, setStatus] = useState<string>('');
     const [fabOpen, setFabOpen] = useState(false);
+    const [ioDialogOpen, setIoDialogOpen] = useState(false);
     const [didAutoCenter, setDidAutoCenter] = useState(false);
     const [captureView, setCaptureView] = useState<'image' | 'polygon'>('image');
     const [mapImageOverride, setMapImageOverride] = useState<string | null>(null);
@@ -107,9 +109,14 @@ const GuideMapCapture: React.FC = () => {
     };
 
     useEffect(() => {
-        if (!fabOpen || !guideId) return;
+        if (!ioDialogOpen || !guideId) return;
         void handleListBundles();
-    }, [fabOpen, guideId]);
+    }, [ioDialogOpen, guideId]);
+
+    useEffect(() => {
+        if (fabOpen) return;
+        setIoDialogOpen(false);
+    }, [fabOpen]);
 
     const handleSwapToView = () => {
         const to = guideId ? `/${guideId}/map?${searchParams.toString()}` : `/?${searchParams.toString()}`;
@@ -837,104 +844,6 @@ const GuideMapCapture: React.FC = () => {
                             <div style={{ marginTop: 10, fontSize: 12, fontWeight: 800, color: 'var(--neutral-600)' }}>{status}</div>
                         )}
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 12 }}>
-                            <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)' }}>
-                                {t('map.cloudSaveName')}
-                            </div>
-                            <input
-                                value={saveName}
-                                onChange={(e) => setSaveName(e.target.value)}
-                                placeholder={t('map.cloudSaveNamePlaceholder')}
-                                style={{
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: '1px solid rgba(0,0,0,0.08)',
-                                    padding: '0 12px',
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
-                                    fontWeight: 900
-                                }}
-                            />
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 12 }}>
-                            <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)' }}>
-                                {t('map.cloudImportLabel')}
-                            </div>
-                            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                                <select
-                                    value={selectedBundlePublicId}
-                                    onChange={(e) => setSelectedBundlePublicId(e.target.value)}
-                                    disabled={bundles.length === 0 || listingBundles}
-                                    aria-label={t('map.cloudImportLabel')}
-                                    style={{
-                                        flex: 1,
-                                        height: 40,
-                                        borderRadius: 10,
-                                        border: '1px solid rgba(0,0,0,0.08)',
-                                        padding: '0 12px',
-                                        background: 'rgba(245, 245, 245, 0.95)',
-                                        color: 'var(--neutral-800)',
-                                        fontWeight: 900,
-                                        cursor: bundles.length === 0 || listingBundles ? 'not-allowed' : 'pointer',
-                                        opacity: bundles.length === 0 || listingBundles ? 0.6 : 1
-                                    }}
-                                >
-                                    {bundles.length === 0 ? (
-                                        <option value="">{t('map.cloudNoBundles')}</option>
-                                    ) : (
-                                        bundles.map((bundle) => (
-                                            <option key={bundle.publicId} value={bundle.publicId}>
-                                                {`${bundle.saveName} / ${bundle.createdAt}`}
-                                            </option>
-                                        ))
-                                    )}
-                                </select>
-
-                                <button
-                                    onClick={() => void handleListBundles()}
-                                    disabled={listingBundles}
-                                    aria-label={t('map.cloudRefresh')}
-                                    title={t('map.cloudRefresh')}
-                                    style={{
-                                        width: 64,
-                                        height: 40,
-                                        borderRadius: 10,
-                                        border: 'none',
-                                        padding: 0,
-                                        background: 'rgba(245, 245, 245, 0.95)',
-                                        color: 'var(--neutral-800)',
-                                        fontWeight: 900,
-                                        cursor: listingBundles ? 'not-allowed' : 'pointer',
-                                        opacity: listingBundles ? 0.6 : 1
-                                    }}
-                                >
-                                    {t('map.cloudRefreshShort')}
-                                </button>
-
-                                <button
-                                    onClick={() => void handleImport()}
-                                    disabled={!canImport}
-                                    aria-label={t('map.cloudImport')}
-                                    title={t('map.cloudImport')}
-                                    style={{
-                                        width: 64,
-                                        height: 40,
-                                        borderRadius: 10,
-                                        border: 'none',
-                                        padding: 0,
-                                        background: 'rgba(245, 245, 245, 0.95)',
-                                        color: 'var(--neutral-800)',
-                                        fontWeight: 900,
-                                        cursor: canImport ? 'pointer' : 'not-allowed',
-                                        opacity: canImport ? 1 : 0.6
-                                    }}
-                                >
-                                    {importingCloud ? t('map.cloudImportingShort') : t('map.cloudImportShort')}
-                                </button>
-                            </div>
-                        </div>
-
                         <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', marginTop: 12 }}>
                             <button
                                 onClick={handleClearAll}
@@ -958,10 +867,9 @@ const GuideMapCapture: React.FC = () => {
                             </button>
 
                             <button
-                                onClick={() => void handleExport()}
-                                disabled={!canExport}
-                                aria-label={t('map.cloudExport')}
-                                title={t('map.cloudExport')}
+                                onClick={() => setIoDialogOpen(true)}
+                                aria-label={t('map.ioButton')}
+                                title={t('map.ioButton')}
                                 style={{
                                     flex: 1,
                                     height: 40,
@@ -971,11 +879,10 @@ const GuideMapCapture: React.FC = () => {
                                     background: 'rgba(245, 245, 245, 0.95)',
                                     color: 'var(--neutral-800)',
                                     fontWeight: 900,
-                                    cursor: canExport ? 'pointer' : 'not-allowed',
-                                    opacity: canExport ? 1 : 0.6
+                                    cursor: 'pointer'
                                 }}
                             >
-                                {exportingCloud ? t('map.cloudExportingShort') : t('map.cloudExportShort')}
+                                {t('map.ioButton')}
                             </button>
 
                             <button
@@ -999,6 +906,26 @@ const GuideMapCapture: React.FC = () => {
                         </div>
                     </div>
                 )}
+
+                <MapIOPanelDialog
+                    open={ioDialogOpen}
+                    onClose={() => setIoDialogOpen(false)}
+                    status={status}
+                    saveName={saveName}
+                    onSaveNameChange={setSaveName}
+                    canExport={canExport}
+                    exportingCloud={exportingCloud}
+                    onExport={() => void handleExport()}
+                    bundles={bundles}
+                    selectedBundlePublicId={selectedBundlePublicId}
+                    onSelectBundle={setSelectedBundlePublicId}
+                    listingBundles={listingBundles}
+                    importingCloud={importingCloud}
+                    canImport={canImport}
+                    onRefreshBundles={() => void handleListBundles()}
+                    onImport={() => void handleImport()}
+                    t={t}
+                />
             </div>
         </div>
     );
