@@ -44,7 +44,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
     const audioRef = useRef<HTMLAudioElement>(null);
     const subtitleContainerRef = useRef<HTMLDivElement>(null);
     const currentSubtitleRef = useRef<HTMLSpanElement>(null);
-    const manualScrollTimerRef = useRef<number | null>(null);
+    const manualScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const milestonesSentRef = useRef<Set<number>>(new Set());
 
     // Reset milestones when src changes

@@ -8,10 +8,11 @@ import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { MapPin, MapPinsFile } from '../types';
-import { downloadJson, getPinsStorageKey, loadPinsFromLocalStorage, savePinsToLocalStorage, upsertPin } from '../utils/mapPins';
+import { getPinsStorageKey, loadPinsFromLocalStorage, savePinsToLocalStorage, upsertPin } from '../utils/mapPins';
 import { convexHullLatLng } from '../utils/convexHull';
 import { getNextLetterId } from '../utils/pinIdUtils';
-import gridIcon from '../assets/icons/grid.svg';
+import { downloadCloudBundle, listCloudBundles, requestCloudinarySignedUpload, type CloudBundleItem, uploadCloudBundle } from '../utils/cloudinaryCapture';
+import { buildCaptureBundle, imageSourceToBlob, parseCaptureBundle } from '../utils/mapCaptureBundle';
 
 const FILE_VERSION = 2;
 
@@ -38,6 +39,12 @@ const GuideMapCapture: React.FC = () => {
     const [didAutoCenter, setDidAutoCenter] = useState(false);
     const [captureView, setCaptureView] = useState<'image' | 'polygon'>('image');
     const [mapImageOverride, setMapImageOverride] = useState<string | null>(null);
+    const [saveName, setSaveName] = useState('');
+    const [bundles, setBundles] = useState<CloudBundleItem[]>([]);
+    const [selectedBundlePublicId, setSelectedBundlePublicId] = useState('');
+    const [listingBundles, setListingBundles] = useState(false);
+    const [exportingCloud, setExportingCloud] = useState(false);
+    const [importingCloud, setImportingCloud] = useState(false);
 
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -68,13 +75,40 @@ const GuideMapCapture: React.FC = () => {
             setPinsFile({ version: FILE_VERSION, guideId, pins: [] });
         }
         setDidAutoCenter(false);
+        setSaveName('');
+        setBundles([]);
+        setSelectedBundlePublicId('');
     }, [guideId]);
 
     const pins = pinsFile?.pins ?? [];
     const selectedPin = useMemo(() => pins.find(p => p.id === activeId), [pins, activeId]);
     const selectedLatLngs = selectedPin?.latLngs || [];
+    const mapImage = mapImageOverride || data?.mapImage;
 
-    const canExport = Boolean(guideId) && Boolean(pinsFile);
+    const canExport = Boolean(guideId) && Boolean(pinsFile) && Boolean(mapImage) && Boolean(saveName.trim()) && !exportingCloud;
+    const canImport = Boolean(guideId) && Boolean(selectedBundlePublicId) && !importingCloud;
+
+    const handleListBundles = async () => {
+        if (!guideId) return;
+        setListingBundles(true);
+        try {
+            const next = await listCloudBundles(guideId);
+            setBundles(next);
+            setSelectedBundlePublicId((prev) => {
+                if (prev && next.some((item) => item.publicId === prev)) return prev;
+                return next[0]?.publicId || '';
+            });
+        } catch {
+            setStatus(t('map.cloudListFailed'));
+        } finally {
+            setListingBundles(false);
+        }
+    };
+
+    useEffect(() => {
+        if (!fabOpen || !guideId) return;
+        void handleListBundles();
+    }, [fabOpen, guideId]);
 
     const handleSwapToView = () => {
         const to = guideId ? `/${guideId}/map?${searchParams.toString()}` : `/?${searchParams.toString()}`;
@@ -336,6 +370,9 @@ const GuideMapCapture: React.FC = () => {
             return;
         }
 
+        const ok = window.confirm(t('map.removePinConfirm'));
+        if (!ok) return;
+
         setPinsFile((prev) => {
             if (!prev) return prev;
             const nextPins = prev.pins.filter(p => p.id !== activeId);
@@ -351,10 +388,76 @@ const GuideMapCapture: React.FC = () => {
         setStatus('');
     };
 
-    const handleExport = () => {
-        if (!guideId || !pinsFile) return;
-        downloadJson(`${guideId}-map-pins.json`, pinsFile);
-        setStatus(t('map.exported'));
+    const handleExport = async () => {
+        if (!guideId || !pinsFile || !mapImage) return;
+
+        const trimmedSaveName = saveName.trim();
+        if (!trimmedSaveName) {
+            setStatus(t('map.cloudSaveNameRequired'));
+            return;
+        }
+
+        setExportingCloud(true);
+        setStatus(t('map.cloudExporting'));
+
+        try {
+            const imageBlob = await imageSourceToBlob(mapImage);
+            const bundleBlob = await buildCaptureBundle({
+                guideId,
+                saveName: trimmedSaveName,
+                pinsFile,
+                imageBlob
+            });
+
+            const signed = await requestCloudinarySignedUpload(guideId, trimmedSaveName);
+            await uploadCloudBundle(bundleBlob, signed);
+            await handleListBundles();
+            setStatus(t('map.cloudExported'));
+        } catch {
+            setStatus(t('map.cloudExportFailed'));
+        } finally {
+            setExportingCloud(false);
+        }
+    };
+
+    const handleImport = async () => {
+        if (!guideId || !selectedBundlePublicId) return;
+
+        const selectedBundle = bundles.find((b) => b.publicId === selectedBundlePublicId);
+        if (!selectedBundle) {
+            setStatus(t('map.cloudNoBundleSelected'));
+            return;
+        }
+
+        const ok = window.confirm(t('map.cloudImportConfirm'));
+        if (!ok) return;
+
+        setImportingCloud(true);
+        setStatus(t('map.cloudImporting'));
+
+        try {
+            const bundleBlob = await downloadCloudBundle(selectedBundle.secureUrl);
+            const parsed = await parseCaptureBundle(bundleBlob, guideId);
+
+            setPinsFile(parsed.pinsFile);
+            setActiveId(parsed.pinsFile.pins[parsed.pinsFile.pins.length - 1]?.id || '');
+            savePinsToLocalStorage(guideId, parsed.pinsFile);
+
+            setMapImageOverride(parsed.imageDataUrl);
+            try {
+                localStorage.setItem(`mapImageOverride:${guideId}`, parsed.imageDataUrl);
+            } catch {
+                // Keep in-memory image even if localStorage quota is exceeded.
+            }
+
+            setCaptureView('image');
+            setDidAutoCenter(false);
+            setStatus(t('map.cloudImported'));
+        } catch {
+            setStatus(t('map.cloudImportFailed'));
+        } finally {
+            setImportingCloud(false);
+        }
     };
 
     const handleClearAll = () => {
@@ -377,8 +480,6 @@ const GuideMapCapture: React.FC = () => {
 
     if (transLoading || guideLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
-
-    const mapImage = mapImageOverride || data?.mapImage;
 
     const handleChooseMapImage = () => {
         fileInputRef.current?.click();
@@ -435,7 +536,9 @@ const GuideMapCapture: React.FC = () => {
                         aria-label={t('map.tools')}
                         aria-pressed={fabOpen}
                     >
-                        <img src={gridIcon} alt="Tools" style={{ width: 22, height: 22 }} />
+                        <span aria-hidden="true" style={{ fontSize: 20, fontWeight: 900, lineHeight: 1 }}>
+                            ☰
+                        </span>
                     </button>
                 }
             />
@@ -562,158 +665,80 @@ const GuideMapCapture: React.FC = () => {
                                     {t('map.selectPin')}
                                 </option>
                                 {pins.map((p) => {
-                                    const gpsCount = p.latLngs?.length || 0;
                                     return (
                                         <option key={p.id} value={p.id}>
-                                            {(p.label || p.id)}{gpsCount > 0 ? ` (${gpsCount})` : ''}
+                                            {(p.label || p.id)}
                                         </option>
                                     );
                                 })}
                             </select>
 
-                            <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--neutral-600)', whiteSpace: 'nowrap' }}>
-                                {t('map.pinCountLabel')}: {pins.length}
-                            </div>
-                        </div>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                             <button
                                 onClick={handleAddPin}
+                                aria-label={t('map.addPin')}
+                                title={t('map.addPin')}
                                 style={{
+                                    width: 40,
                                     height: 40,
                                     borderRadius: 10,
                                     border: 'none',
-                                    padding: '0 14px',
+                                    padding: 0,
                                     background: 'rgba(245, 245, 245, 0.95)',
                                     color: 'var(--neutral-800)',
                                     fontWeight: 900,
+                                    fontSize: 18,
                                     cursor: 'pointer'
                                 }}
                             >
-                                {t('map.addPin')}
+                                +
                             </button>
 
                             <button
                                 onClick={handleRemovePin}
                                 disabled={!activeId}
+                                aria-label={t('map.removePin')}
+                                title={t('map.removePin')}
                                 style={{
+                                    width: 40,
                                     height: 40,
                                     borderRadius: 10,
                                     border: 'none',
-                                    padding: '0 14px',
+                                    padding: 0,
                                     background: 'rgba(245, 245, 245, 0.95)',
                                     color: 'var(--neutral-800)',
                                     fontWeight: 900,
+                                    fontSize: 18,
                                     cursor: activeId ? 'pointer' : 'not-allowed',
                                     opacity: activeId ? 1 : 0.6
                                 }}
                             >
-                                {t('map.removePin')}
-                            </button>
-
-                            <button
-                                onClick={() => handleAssignGps()}
-                                disabled={!activeId}
-                                style={{
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: '0 14px',
-                                    background: 'var(--misc-opam)',
-                                    color: 'white',
-                                    fontWeight: 900,
-                                    cursor: activeId ? 'pointer' : 'not-allowed',
-                                    opacity: activeId ? 1 : 0.6
-                                }}
-                            >
-                                {t('map.assignGps')}
-                            </button>
-
-                            <button
-                                onClick={handleExport}
-                                disabled={!canExport}
-                                style={{
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: '0 14px',
-                                    background: 'var(--misc-opam)',
-                                    color: 'white',
-                                    fontWeight: 900,
-                                    cursor: canExport ? 'pointer' : 'not-allowed',
-                                    opacity: canExport ? 1 : 0.6
-                                }}
-                            >
-                                {t('map.exportJson')}
+                                −
                             </button>
                         </div>
 
-                        <button
-                            onClick={handleChooseMapImage}
-                            style={{
-                                marginTop: 10,
-                                height: 40,
-                                width: '100%',
-                                borderRadius: 10,
-                                border: 'none',
-                                padding: '0 14px',
-                                background: 'rgba(245, 245, 245, 0.95)',
-                                color: 'var(--neutral-800)',
-                                fontWeight: 900,
-                                cursor: 'pointer'
-                            }}
-                        >
-                            {t('map.replaceMapImage')}
-                        </button>
-
-                        <button
-                            onClick={handleClearAll}
-                            disabled={!guideId || pins.length === 0}
-                            style={{
-                                marginTop: 10,
-                                height: 40,
-                                width: '100%',
-                                borderRadius: 10,
-                                border: 'none',
-                                padding: '0 14px',
-                                background: 'var(--status-red-alpha)',
-                                color: 'white',
-                                fontWeight: 900,
-                                cursor: !guideId || pins.length === 0 ? 'not-allowed' : 'pointer',
-                                opacity: !guideId || pins.length === 0 ? 0.6 : 1
-                            }}
-                        >
-                            {t('map.clearAll')}
-                        </button>
-
-                        {status && (
-                            <div style={{ marginTop: 10, fontSize: 12, fontWeight: 800, color: 'var(--neutral-600)' }}>{status}</div>
+                        {activeId && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
+                                <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)' }}>
+                                    {t('map.pinLabel')}
+                                </div>
+                                <input
+                                    value={selectedPin?.label ?? ''}
+                                    onChange={(e) => handleUpdateSelectedLabel(e.target.value)}
+                                    style={{
+                                        height: 40,
+                                        borderRadius: 10,
+                                        border: '1px solid rgba(0,0,0,0.08)',
+                                        padding: '0 12px',
+                                        background: 'rgba(245, 245, 245, 0.95)',
+                                        color: 'var(--neutral-800)',
+                                        fontWeight: 900
+                                    }}
+                                />
+                            </div>
                         )}
 
                         {activeId && (
-                            <div style={{ marginTop: 12 }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
-                                    <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)' }}>
-                                        {t('map.pinLabel')}
-                                    </div>
-                                    <input
-                                        value={selectedPin?.label ?? ''}
-                                        onChange={(e) => handleUpdateSelectedLabel(e.target.value)}
-                                        style={{
-                                            height: 40,
-                                            borderRadius: 10,
-                                            border: '1px solid rgba(0,0,0,0.08)',
-                                            padding: '0 12px',
-                                            background: 'rgba(245, 245, 245, 0.95)',
-                                            color: 'var(--neutral-800)',
-                                            fontWeight: 900
-                                        }}
-                                    />
-                                </div>
-
-                                <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)', marginBottom: 8 }}>
-                                    {t('map.gpsPoints')}: {selectedLatLngs.length}
-                                </div>
+                            <div style={{ marginTop: 0 }}>
 
                                 {captureView === 'polygon' && selectedLatLngs.length > 0 && selectedLatLngs.length < 3 && (
                                     <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--neutral-600)', marginBottom: 8 }}>
@@ -763,6 +788,171 @@ const GuideMapCapture: React.FC = () => {
                                 )}
                             </div>
                         )}
+
+                        {status && (
+                            <div style={{ marginTop: 10, fontSize: 12, fontWeight: 800, color: 'var(--neutral-600)' }}>{status}</div>
+                        )}
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 12 }}>
+                            <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)' }}>
+                                {t('map.cloudSaveName')}
+                            </div>
+                            <input
+                                value={saveName}
+                                onChange={(e) => setSaveName(e.target.value)}
+                                placeholder={t('map.cloudSaveNamePlaceholder')}
+                                style={{
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: '1px solid rgba(0,0,0,0.08)',
+                                    padding: '0 12px',
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-800)',
+                                    fontWeight: 900
+                                }}
+                            />
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 12 }}>
+                            <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)' }}>
+                                {t('map.cloudImportLabel')}
+                            </div>
+                            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                                <select
+                                    value={selectedBundlePublicId}
+                                    onChange={(e) => setSelectedBundlePublicId(e.target.value)}
+                                    disabled={bundles.length === 0 || listingBundles}
+                                    aria-label={t('map.cloudImportLabel')}
+                                    style={{
+                                        flex: 1,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        border: '1px solid rgba(0,0,0,0.08)',
+                                        padding: '0 12px',
+                                        background: 'rgba(245, 245, 245, 0.95)',
+                                        color: 'var(--neutral-800)',
+                                        fontWeight: 900,
+                                        cursor: bundles.length === 0 || listingBundles ? 'not-allowed' : 'pointer',
+                                        opacity: bundles.length === 0 || listingBundles ? 0.6 : 1
+                                    }}
+                                >
+                                    {bundles.length === 0 ? (
+                                        <option value="">{t('map.cloudNoBundles')}</option>
+                                    ) : (
+                                        bundles.map((bundle) => (
+                                            <option key={bundle.publicId} value={bundle.publicId}>
+                                                {`${bundle.saveName} / ${bundle.createdAt}`}
+                                            </option>
+                                        ))
+                                    )}
+                                </select>
+
+                                <button
+                                    onClick={() => void handleListBundles()}
+                                    disabled={listingBundles}
+                                    aria-label={t('map.cloudRefresh')}
+                                    title={t('map.cloudRefresh')}
+                                    style={{
+                                        width: 64,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        border: 'none',
+                                        padding: 0,
+                                        background: 'rgba(245, 245, 245, 0.95)',
+                                        color: 'var(--neutral-800)',
+                                        fontWeight: 900,
+                                        cursor: listingBundles ? 'not-allowed' : 'pointer',
+                                        opacity: listingBundles ? 0.6 : 1
+                                    }}
+                                >
+                                    {t('map.cloudRefreshShort')}
+                                </button>
+
+                                <button
+                                    onClick={() => void handleImport()}
+                                    disabled={!canImport}
+                                    aria-label={t('map.cloudImport')}
+                                    title={t('map.cloudImport')}
+                                    style={{
+                                        width: 64,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        border: 'none',
+                                        padding: 0,
+                                        background: 'rgba(245, 245, 245, 0.95)',
+                                        color: 'var(--neutral-800)',
+                                        fontWeight: 900,
+                                        cursor: canImport ? 'pointer' : 'not-allowed',
+                                        opacity: canImport ? 1 : 0.6
+                                    }}
+                                >
+                                    {importingCloud ? t('map.cloudImportingShort') : t('map.cloudImportShort')}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', marginTop: 12 }}>
+                            <button
+                                onClick={handleClearAll}
+                                disabled={!guideId || pins.length === 0}
+                                aria-label={t('map.clearAll')}
+                                title={t('map.clearAll')}
+                                style={{
+                                    flex: 1,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: 0,
+                                    background: 'var(--status-red-alpha)',
+                                    color: 'white',
+                                    fontWeight: 900,
+                                    cursor: !guideId || pins.length === 0 ? 'not-allowed' : 'pointer',
+                                    opacity: !guideId || pins.length === 0 ? 0.6 : 1
+                                }}
+                            >
+                                CLR
+                            </button>
+
+                            <button
+                                onClick={() => void handleExport()}
+                                disabled={!canExport}
+                                aria-label={t('map.cloudExport')}
+                                title={t('map.cloudExport')}
+                                style={{
+                                    flex: 1,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: 0,
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-800)',
+                                    fontWeight: 900,
+                                    cursor: canExport ? 'pointer' : 'not-allowed',
+                                    opacity: canExport ? 1 : 0.6
+                                }}
+                            >
+                                {exportingCloud ? t('map.cloudExportingShort') : t('map.cloudExportShort')}
+                            </button>
+
+                            <button
+                                onClick={handleChooseMapImage}
+                                aria-label={t('map.replaceMapImage')}
+                                title={t('map.replaceMapImage')}
+                                style={{
+                                    flex: 1,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: 0,
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-800)',
+                                    fontWeight: 900,
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                IMG
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>

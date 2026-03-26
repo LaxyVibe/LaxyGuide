@@ -36,7 +36,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             pinLongPressMs = 2000,
             initialScale = 1,
             maxScale = 6,
-            edgeMarginPx = 24
+            edgeMarginPx = 48
         },
         ref
     ) => {
@@ -204,6 +204,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                             <button
                                 onClick={() => zpp.resetTransform()}
                                 aria-label="Reset zoom"
+                                title="Reset zoom"
                                 style={{
                                     width: 44,
                                     height: 44,
@@ -212,11 +213,11 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                     background: 'rgba(245, 245, 245, 0.95)',
                                     color: 'var(--neutral-800)',
                                     fontWeight: 700,
-                                    fontSize: 14,
+                                    fontSize: 20,
                                     cursor: 'pointer'
                                 }}
                             >
-                                Reset
+                                ⟲
                             </button>
                         </div>
 
@@ -294,6 +295,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         transform: 'translate(-50%, -50%)',
                                                         width: size,
                                                         height: size,
+                                                        overflow: 'visible',
                                                         borderRadius: 999,
                                                         background: isHighlighted ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.65)',
                                                         border: isHighlighted ? '2px solid rgba(245, 245, 245, 0.95)' : '2px solid rgba(245, 245, 245, 0.75)',
@@ -309,6 +311,26 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                     }}
                                                 >
                                                     {gpsCount}
+
+                                                    <div
+                                                        aria-hidden="true"
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: '50%',
+                                                            top: 'calc(100% + 4px)',
+                                                            transform: 'translateX(-50%)',
+                                                            padding: '2px 6px',
+                                                            borderRadius: 10,
+                                                            background: 'rgba(245, 245, 245, 0.95)',
+                                                            color: 'var(--neutral-800)',
+                                                            fontWeight: 900,
+                                                            fontSize: 10,
+                                                            whiteSpace: 'nowrap',
+                                                            pointerEvents: 'none'
+                                                        }}
+                                                    >
+                                                        {pin.label || pin.id}
+                                                    </div>
 
                                                     {isPressing && (
                                                         <svg
