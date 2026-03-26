@@ -67,7 +67,11 @@ export async function listCloudBundles(guideId: string): Promise<CloudBundleItem
 }
 
 export async function downloadCloudBundle(url: string): Promise<Blob> {
-    const resp = await fetch(url, { cache: 'no-store' });
+    const query = new URLSearchParams({ url });
+    const resp = await fetch(`/.netlify/functions/cloudinary-download-bundle?${query.toString()}`, {
+        method: 'GET',
+        cache: 'no-store'
+    });
     if (!resp.ok) {
         throw new Error(`Failed to download bundle (${resp.status})`);
     }

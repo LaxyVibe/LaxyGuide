@@ -52,6 +52,29 @@
     padding: 12px 14px 14px;
 }
 
+.map-io-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.map-io-tab {
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid var(--neutral-200);
+    background: rgba(245, 245, 245, 0.95);
+    color: var(--neutral-700);
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.map-io-tab.is-active {
+    background: var(--misc-opam);
+    color: #fff;
+    border-color: transparent;
+}
+
 .map-io-section {
     display: flex;
     flex-direction: column;
@@ -98,5 +121,9 @@
     .map-io-dialog-content {
         gap: 10px;
         padding: 10px;
+    }
+
+    .map-io-tab {
+        font-size: 12px;
     }
 }

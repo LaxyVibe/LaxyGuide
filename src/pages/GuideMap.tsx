@@ -139,6 +139,7 @@ const GuideMap: React.FC = () => {
                             pins={pins}
                             highlightedPinId={nearest?.pin.id}
                             showPinGpsCount={false}
+                            initialScale={6}
                         />
 
                         {nearest && (
