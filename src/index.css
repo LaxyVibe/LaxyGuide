@@ -201,6 +201,8 @@ textarea:focus {
     gap: 16px;
     background: var(--neutral-100);
     /* Match page background */
+    position: relative;
+    z-index: 2000;
 }
 
 .global-header h1 {

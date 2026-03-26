@@ -402,7 +402,7 @@ const GuideMapCapture: React.FC = () => {
                             position: 'fixed',
                             right: 16,
                             top: 'calc(env(safe-area-inset-top) + 72px)',
-                            zIndex: 50,
+                            zIndex: 3000,
                             width: 'min(340px, calc(100% - 32px))',
                             background: 'rgba(245, 245, 245, 0.95)',
                             border: '1px solid var(--neutral-200)',
