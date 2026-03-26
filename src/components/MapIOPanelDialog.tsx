@@ -76,7 +76,7 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                 <div className="map-io-dialog-content">
                     <section className="map-io-section">
                         <div className="map-io-section-title">{t('map.ioImportSection')}</div>
-                        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                             <select
                                 value={selectedBundlePublicId}
                                 onChange={(e) => onSelectBundle(e.target.value)}
@@ -85,6 +85,7 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 style={{
                                     ...fieldBaseStyle,
                                     flex: 1,
+                                    minWidth: 220,
                                     cursor: bundles.length === 0 || listingBundles ? 'not-allowed' : 'pointer',
                                     opacity: bundles.length === 0 || listingBundles ? 0.6 : 1
                                 }}
@@ -107,12 +108,12 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 title={t('map.cloudRefresh')}
                                 style={{
                                     ...actionButtonStyle,
-                                    width: 64,
+                                    minWidth: 108,
                                     cursor: listingBundles ? 'not-allowed' : 'pointer',
                                     opacity: listingBundles ? 0.6 : 1
                                 }}
                             >
-                                {t('map.cloudRefreshShort')}
+                                {t('map.cloudRefresh')}
                             </button>
 
                             <button
@@ -122,12 +123,12 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 title={t('map.cloudImport')}
                                 style={{
                                     ...actionButtonStyle,
-                                    width: 64,
+                                    minWidth: 108,
                                     cursor: canImport ? 'pointer' : 'not-allowed',
                                     opacity: canImport ? 1 : 0.6
                                 }}
                             >
-                                {importingCloud ? t('map.cloudImportingShort') : t('map.cloudImportShort')}
+                                {importingCloud ? t('map.cloudImporting') : t('map.cloudImport')}
                             </button>
                         </div>
                     </section>
@@ -150,12 +151,12 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 title={t('map.cloudExport')}
                                 style={{
                                     ...actionButtonStyle,
-                                    minWidth: 92,
+                                    minWidth: 128,
                                     cursor: canExport ? 'pointer' : 'not-allowed',
                                     opacity: canExport ? 1 : 0.6
                                 }}
                             >
-                                {exportingCloud ? t('map.cloudExportingShort') : t('map.cloudExportShort')}
+                                {exportingCloud ? t('map.cloudExporting') : t('map.cloudExport')}
                             </button>
                         </div>
                     </section>

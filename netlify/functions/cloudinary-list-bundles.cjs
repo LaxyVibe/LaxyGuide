@@ -23,7 +23,9 @@ function sanitizePathSegment(raw) {
 function parseBundle(resource) {
   const publicId = String(resource.public_id || '');
   const parts = publicId.split('/');
-  if (parts.length < 6) return null;
+  // Expected format:
+  // capture-bundles/<guideId>/<saveName>/<isoTimestamp>/bundle.zip
+  if (parts.length < 5) return null;
 
   const saveName = parts[2] || '';
   const createdAt = parts[3] || '';
