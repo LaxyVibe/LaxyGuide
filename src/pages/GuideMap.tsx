@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import GlobalHeader from '../components/GlobalHeader';
 import Loading from '../components/Loading';
-import MapViewer from '../components/MapViewer';
+import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
@@ -28,6 +28,7 @@ const GuideMap: React.FC = () => {
     const [pins, setPins] = useState<MapPin[]>([]);
     const [pinsError, setPinsError] = useState<string | null>(null);
     const [here, setHere] = useState<{ lat: number; lng: number } | null>(null);
+    const mapRef = React.useRef<MapViewerHandle | null>(null);
 
     useEffect(() => {
         let cancelled = false;
@@ -35,12 +36,10 @@ const GuideMap: React.FC = () => {
             setPinsError(null);
             if (!guideId) return;
 
-            if (import.meta.env.DEV) {
-                const local = loadPinsFromLocalStorage(guideId);
-                if (local && local.pins.length > 0) {
-                    setPins(local.pins);
-                    return;
-                }
+            const local = loadPinsFromLocalStorage(guideId);
+            if (local && local.pins.length > 0) {
+                setPins(local.pins);
+                return;
             }
 
             const url = data?.mapPinsUrl;
@@ -84,6 +83,11 @@ const GuideMap: React.FC = () => {
         if (!here || pins.length === 0) return null;
         return findNearestPin(pins, here);
     }, [here, pins]);
+
+    useEffect(() => {
+        if (!nearest) return;
+        mapRef.current?.centerOnPoint({ x: nearest.pin.x, y: nearest.pin.y });
+    }, [nearest?.pin.id, nearest?.pointIndex]);
 
     if (transLoading || guideLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
@@ -130,6 +134,7 @@ const GuideMap: React.FC = () => {
                 ) : (
                     <>
                         <MapViewer
+                            ref={mapRef}
                             imageUrl={data.mapImage}
                             pins={pins}
                             highlightedPinId={nearest?.pin.id}
