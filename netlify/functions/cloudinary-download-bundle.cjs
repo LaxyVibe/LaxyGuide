@@ -103,9 +103,9 @@ async function resolveResourceByAdminApi(publicIdCandidates) {
           type
         });
         return {
-          publicId: candidate.publicId,
+          publicId: String(resource?.public_id || candidate.publicId),
           format: candidate.format || sanitizeBundleFormat(resource?.format) || 'zip',
-          type
+          type: String(resource?.type || type)
         };
       } catch (err) {
         const code = Number(err?.http_code || err?.error?.http_code || 0);
@@ -177,6 +177,30 @@ async function fetchCandidate(url) {
   return fetch(url, { method: 'GET', cache: 'no-store' });
 }
 
+async function readDownloadBytes(resp, fetchFn, depth = 0) {
+  if (!resp.ok) return null;
+
+  const contentType = String(resp.headers.get('content-type') || '').toLowerCase();
+
+  // Cloudinary download endpoints can respond with JSON metadata containing a URL.
+  if (contentType.includes('application/json')) {
+    if (depth >= 2) return null;
+    const payload = await resp.json().catch(() => null);
+    const redirectUrl =
+      String(payload?.url || payload?.secure_url || payload?.download_url || '').trim();
+    if (!redirectUrl) return null;
+    const next = await fetchFn(redirectUrl);
+    return readDownloadBytes(next, fetchFn, depth + 1);
+  }
+
+  const ab = await resp.arrayBuffer();
+  if (!ab || ab.byteLength === 0) return null;
+  return {
+    bytes: ab,
+    contentType: contentType || 'application/octet-stream'
+  };
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'GET') {
     return json(405, { error: 'Method Not Allowed' });
@@ -228,20 +252,18 @@ exports.handler = async (event) => {
     for (const candidate of signedCandidates) {
       const signedResp = await fetchCandidate(candidate.url);
       attempts.push({ url: candidate.label, status: signedResp.status });
-      if (!signedResp.ok) continue;
-
-      const ab = await signedResp.arrayBuffer();
-      const contentType = signedResp.headers.get('content-type') || 'application/octet-stream';
+      const downloaded = await readDownloadBytes(signedResp, fetchCandidate);
+      if (!downloaded) continue;
 
       return {
         statusCode: 200,
         isBase64Encoded: true,
         headers: {
-          'Content-Type': contentType,
+          'Content-Type': downloaded.contentType,
           'Content-Disposition': 'attachment; filename="bundle.zip"',
           'Cache-Control': 'no-store'
         },
-        body: toBase64(ab)
+        body: toBase64(downloaded.bytes)
       };
     }
 
@@ -249,20 +271,18 @@ exports.handler = async (event) => {
     for (const candidate of candidateUrls) {
       const resp = await fetchCandidate(candidate);
       attempts.push({ url: candidate, status: resp.status });
-      if (!resp.ok) continue;
-
-      const ab = await resp.arrayBuffer();
-      const contentType = resp.headers.get('content-type') || 'application/octet-stream';
+      const downloaded = await readDownloadBytes(resp, fetchCandidate);
+      if (!downloaded) continue;
 
       return {
         statusCode: 200,
         isBase64Encoded: true,
         headers: {
-          'Content-Type': contentType,
+          'Content-Type': downloaded.contentType,
           'Content-Disposition': 'attachment; filename="bundle.zip"',
           'Cache-Control': 'no-store'
         },
-        body: toBase64(ab)
+        body: toBase64(downloaded.bytes)
       };
     }
 
