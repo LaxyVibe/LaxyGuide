@@ -15,7 +15,7 @@ import { getNextLetterId } from '../utils/pinIdUtils';
 import { downloadCloudBundle, listCloudBundles, requestCloudinarySignedUpload, type CloudBundleItem, uploadCloudBundle } from '../utils/cloudinaryCapture';
 import { buildCaptureBundle, imageSourceToBlob, parseCaptureBundle } from '../utils/mapCaptureBundle';
 
-const FILE_VERSION = 1;
+const FILE_VERSION = 2;
 
 const GuideMapCapture: React.FC = () => {
     const { guideId } = useParams<{ guideId: string }>();
@@ -102,7 +102,8 @@ const GuideMapCapture: React.FC = () => {
                 return next[0]?.publicId || '';
             });
         } catch {
-            setStatus(t('map.cloudListFailed'));
+            // Keep menu clean: listing failures should not surface as a persistent status line.
+            setStatus((prev) => (prev === t('map.cloudListFailed') ? '' : prev));
         } finally {
             setListingBundles(false);
         }
@@ -266,6 +267,14 @@ const GuideMapCapture: React.FC = () => {
             savePinsToLocalStorage(guideId, next);
             return next;
         });
+    };
+
+    const handleRenameActivePin = () => {
+        if (!activeId) return;
+        const currentLabel = selectedPin?.label ?? activeId;
+        const next = window.prompt(t('map.pinLabel'), currentLabel);
+        if (next === null) return;
+        handleUpdateSelectedLabel(next.trim() || activeId);
     };
 
     const handleUpdateSelectedPolygon = (nextPolygon: MapPin['polygon']) => {
@@ -779,28 +788,29 @@ const GuideMapCapture: React.FC = () => {
                             >
                                 −
                             </button>
-                        </div>
 
-                        {activeId && (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
-                                <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--neutral-600)' }}>
-                                    {t('map.pinLabel')}
-                                </div>
-                                <input
-                                    value={selectedPin?.label ?? ''}
-                                    onChange={(e) => handleUpdateSelectedLabel(e.target.value)}
-                                    style={{
-                                        height: 40,
-                                        borderRadius: 10,
-                                        border: '1px solid rgba(0,0,0,0.08)',
-                                        padding: '0 12px',
-                                        background: 'rgba(245, 245, 245, 0.95)',
-                                        color: 'var(--neutral-800)',
-                                        fontWeight: 900
-                                    }}
-                                />
-                            </div>
-                        )}
+                            <button
+                                onClick={handleRenameActivePin}
+                                disabled={!activeId}
+                                aria-label={t('map.pinLabel')}
+                                title={t('map.pinLabel')}
+                                style={{
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: 0,
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-800)',
+                                    fontWeight: 900,
+                                    fontSize: 18,
+                                    cursor: activeId ? 'pointer' : 'not-allowed',
+                                    opacity: activeId ? 1 : 0.6
+                                }}
+                            >
+                                ✎
+                            </button>
+                        </div>
 
                         {activeId && (
                             <div style={{ marginTop: 0 }}>

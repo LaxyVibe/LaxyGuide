@@ -1,5 +1,4 @@
 import React from 'react';
-import { RefreshCw } from 'lucide-react';
 import type { CloudBundleItem } from '../utils/cloudinaryCapture';
 import './MapIOPanelDialog.css';
 
@@ -36,20 +35,6 @@ const fieldBaseStyle: React.CSSProperties = {
     fontWeight: 900
 };
 
-const actionButtonStyle: React.CSSProperties = {
-    height: 40,
-    width: 40,
-    borderRadius: 10,
-    border: 'none',
-    padding: 0,
-    background: 'rgba(245, 245, 245, 0.95)',
-    color: 'var(--neutral-800)',
-    fontWeight: 900,
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-};
-
 const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
     open,
     onClose,
@@ -72,6 +57,14 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
     onImport,
     t
 }) => {
+    const [activeTab, setActiveTab] = React.useState<'local' | 'load' | 'save'>('local');
+
+    React.useEffect(() => {
+        if (open) {
+            setActiveTab('local');
+        }
+    }, [open]);
+
     if (!open) return null;
 
     return (
@@ -85,54 +78,62 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                 </div>
 
                 <div className="map-io-dialog-content">
-                    <section className="map-io-section">
-                        <div style={{ display: 'flex', gap: 8 }}>
-                            <button
-                                onClick={onClearAll}
-                                disabled={!canClearAll}
-                                aria-label={t('map.clearAllOnLocal')}
-                                title={t('map.clearAllOnLocal')}
-                                style={{
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: '0 12px',
-                                    background: 'var(--status-red-alpha)',
-                                    color: 'white',
-                                    fontWeight: 900,
-                                    cursor: canClearAll ? 'pointer' : 'not-allowed',
-                                    opacity: canClearAll ? 1 : 0.6,
-                                    flex: 1
-                                }}
-                            >
-                                {t('map.clearAllOnLocal')}
-                            </button>
+                    <div className="map-io-tabs" role="tablist" aria-label={t('map.ioDialogTitle')}>
+                        <button
+                            className={`map-io-tab ${activeTab === 'local' ? 'is-active' : ''}`}
+                            role="tab"
+                            aria-selected={activeTab === 'local'}
+                            onClick={() => setActiveTab('local')}
+                        >
+                            Local
+                        </button>
+                        <button
+                            className={`map-io-tab ${activeTab === 'load' ? 'is-active' : ''}`}
+                            role="tab"
+                            aria-selected={activeTab === 'load'}
+                            onClick={() => setActiveTab('load')}
+                        >
+                            {t('map.ioImportSection')}
+                        </button>
+                        <button
+                            className={`map-io-tab ${activeTab === 'save' ? 'is-active' : ''}`}
+                            role="tab"
+                            aria-selected={activeTab === 'save'}
+                            onClick={() => setActiveTab('save')}
+                        >
+                            {t('map.ioExportSection')}
+                        </button>
+                    </div>
 
-                            <button
-                                onClick={onChooseMapImage}
-                                aria-label={t('map.replaceImageMap')}
-                                title={t('map.replaceImageMap')}
-                                style={{
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: '0 12px',
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
-                                    fontWeight: 900,
-                                    cursor: 'pointer',
-                                    flex: 1
-                                }}
-                            >
-                                {t('map.replaceImageMap')}
-                            </button>
-                        </div>
-                    </section>
+                    {activeTab === 'local' && (
+                        <section className="map-io-section" role="tabpanel">
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                <button
+                                    className="map-io-block-button is-danger"
+                                    onClick={onClearAll}
+                                    disabled={!canClearAll}
+                                    aria-label={t('map.clearAllOnLocal')}
+                                    title={t('map.clearAllOnLocal')}
+                                >
+                                    Clear All
+                                </button>
 
-                    <section className="map-io-section">
-                        <div className="map-io-section-title">{t('map.ioImportSection')}</div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                                <button
+                                    className="map-io-block-button"
+                                    onClick={onChooseMapImage}
+                                    aria-label={t('map.replaceImageMap')}
+                                    title={t('map.replaceImageMap')}
+                                >
+                                    Replace Base Image
+                                </button>
+                            </div>
+                        </section>
+                    )}
+
+                    {activeTab === 'load' && (
+                        <section role="tabpanel">
+                            <div className="map-io-section-title">{t('map.ioImportSection')}</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
                                 <select
                                     value={selectedBundlePublicId}
                                     onChange={(e) => onSelectBundle(e.target.value)}
@@ -140,8 +141,7 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                     aria-label={t('map.cloudImportLabel')}
                                     style={{
                                         ...fieldBaseStyle,
-                                        flex: 1,
-                                        minWidth: 220,
+                                        width: '100%',
                                         cursor: bundles.length === 0 || listingBundles ? 'not-allowed' : 'pointer',
                                         opacity: bundles.length === 0 || listingBundles ? 0.6 : 1
                                     }}
@@ -158,75 +158,51 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 </select>
 
                                 <button
+                                    className="map-io-block-button"
+                                    onClick={onImport}
+                                    disabled={!canImport}
+                                    aria-label={t('map.cloudImport')}
+                                    title={t('map.cloudImport')}
+                                >
+                                    {importingCloud ? `${t('common.loading')}...` : 'Load'}
+                                </button>
+
+                                <button
+                                    className="map-io-text-link"
                                     onClick={onRefreshBundles}
                                     disabled={listingBundles}
                                     aria-label={t('map.cloudRefresh')}
                                     title={t('map.cloudRefresh')}
-                                    style={{
-                                        ...actionButtonStyle,
-                                        cursor: listingBundles ? 'not-allowed' : 'pointer',
-                                        opacity: listingBundles ? 0.6 : 1
-                                    }}
                                 >
-                                    <RefreshCw size={18} strokeWidth={2.4} />
+                                    {listingBundles ? `${t('common.loading')}...` : t('map.cloudRefresh')}
                                 </button>
                             </div>
+                        </section>
+                    )}
 
-                            <button
-                                onClick={onImport}
-                                disabled={!canImport}
-                                aria-label={t('map.cloudImport')}
-                                title={t('map.cloudImport')}
-                                style={{
-                                    width: '100%',
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: '0 12px',
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
-                                    fontWeight: 900,
-                                    cursor: canImport ? 'pointer' : 'not-allowed',
-                                    opacity: canImport ? 1 : 0.6
-                                }}
-                            >
-                                {importingCloud ? t('map.cloudImportingShort') : t('map.cloudImport')}
-                            </button>
-                        </div>
-                    </section>
-
-                    <section className="map-io-section">
-                        <div className="map-io-section-title">{t('map.ioExportSection')}</div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                            <input
-                                value={saveName}
-                                onChange={(e) => onSaveNameChange(e.target.value)}
-                                placeholder={t('map.cloudSaveNamePlaceholder')}
-                                aria-label={t('map.cloudSaveName')}
-                                style={{ ...fieldBaseStyle, width: '100%' }}
-                            />
-                            <button
-                                onClick={onExport}
-                                disabled={!canExport}
-                                aria-label={t('map.cloudExport')}
-                                title={t('map.cloudExport')}
-                                style={{
-                                    width: '100%',
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: '0 12px',
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
-                                    fontWeight: 900,
-                                    cursor: canExport ? 'pointer' : 'not-allowed',
-                                    opacity: canExport ? 1 : 0.6
-                                }}
-                            >
-                                {exportingCloud ? t('map.cloudExportingShort') : t('map.cloudExport')}
-                            </button>
-                        </div>
-                    </section>
+                    {activeTab === 'save' && (
+                        <section role="tabpanel">
+                            <div className="map-io-section-title">{t('map.ioExportSection')}</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'stretch' }}>
+                                <input
+                                    value={saveName}
+                                    onChange={(e) => onSaveNameChange(e.target.value)}
+                                    placeholder={t('map.cloudSaveNamePlaceholder')}
+                                    aria-label={t('map.cloudSaveName')}
+                                    style={{ ...fieldBaseStyle, width: '100%' }}
+                                />
+                                <button
+                                    className="map-io-block-button"
+                                    onClick={onExport}
+                                    disabled={!canExport}
+                                    aria-label={t('map.cloudExport')}
+                                    title={t('map.cloudExport')}
+                                >
+                                    {exportingCloud ? `${t('common.loading')}...` : 'Save'}
+                                </button>
+                            </div>
+                        </section>
+                    )}
 
                     {status ? <div className="map-io-status">{status}</div> : null}
                 </div>

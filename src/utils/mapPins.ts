@@ -2,7 +2,7 @@ import type { MapPin, MapPinsFile } from '../types';
 import { maybeMigrateNumericIdToLetters } from './pinIdUtils';
 
 const STORAGE_PREFIX = 'mapPins:';
-const LATEST_VERSION = 1;
+const LATEST_VERSION = 2;
 
 export function getPinsStorageKey(guideId: string) {
     return `${STORAGE_PREFIX}${guideId}`;
