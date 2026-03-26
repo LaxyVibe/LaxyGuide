@@ -8,7 +8,7 @@ import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { MapPin, MapPinsFile } from '../types';
-import { downloadJson, loadPinsFromLocalStorage, savePinsToLocalStorage, upsertPin } from '../utils/mapPins';
+import { downloadJson, getPinsStorageKey, loadPinsFromLocalStorage, savePinsToLocalStorage, upsertPin } from '../utils/mapPins';
 import { convexHullLatLng } from '../utils/convexHull';
 import { getNextLetterId } from '../utils/pinIdUtils';
 import gridIcon from '../assets/icons/grid.svg';
@@ -37,11 +37,27 @@ const GuideMapCapture: React.FC = () => {
     const [fabOpen, setFabOpen] = useState(false);
     const [didAutoCenter, setDidAutoCenter] = useState(false);
     const [captureView, setCaptureView] = useState<'image' | 'polygon'>('image');
+    const [mapImageOverride, setMapImageOverride] = useState<string | null>(null);
+
+    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
     const mapRef = React.useRef<MapViewerHandle | null>(null);
 
     useEffect(() => {
         if (!guideId) return;
+
+        // Load any locally chosen map image override (capture-only).
+        try {
+            const raw = localStorage.getItem(`mapImageOverride:${guideId}`);
+            if (raw && raw.startsWith('data:image/')) {
+                setMapImageOverride(raw);
+            } else {
+                setMapImageOverride(null);
+            }
+        } catch {
+            setMapImageOverride(null);
+        }
+
         const local = loadPinsFromLocalStorage(guideId);
         if (local) {
             setPinsFile(local);
@@ -341,10 +357,59 @@ const GuideMapCapture: React.FC = () => {
         setStatus(t('map.exported'));
     };
 
+    const handleClearAll = () => {
+        if (!guideId) return;
+        const ok = window.confirm(t('map.clearAllConfirm'));
+        if (!ok) return;
+
+        try {
+            localStorage.removeItem(getPinsStorageKey(guideId));
+        } catch {
+            // ignore
+        }
+
+        setPinsFile({ version: FILE_VERSION, guideId, pins: [] });
+        setActiveId('');
+        setDidAutoCenter(false);
+        setStatus(t('map.clearedAll'));
+        setFabOpen(false);
+    };
+
     if (transLoading || guideLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
 
-    const mapImage = data?.mapImage;
+    const mapImage = mapImageOverride || data?.mapImage;
+
+    const handleChooseMapImage = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleMapImageFile = async (file: File | null) => {
+        if (!guideId || !file) return;
+        try {
+            const dataUrl = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('read_failed'));
+                reader.onload = () => resolve(String(reader.result || ''));
+                reader.readAsDataURL(file);
+            });
+
+            if (!dataUrl.startsWith('data:image/')) throw new Error('not_image');
+
+            setMapImageOverride(dataUrl);
+            try {
+                localStorage.setItem(`mapImageOverride:${guideId}`, dataUrl);
+            } catch {
+                // If storage is full (large image), still keep it in-memory for this session.
+            }
+            setStatus(t('map.mapImageReplaced'));
+            setCaptureView('image');
+            setDidAutoCenter(false);
+            setFabOpen(false);
+        } catch {
+            setStatus(t('map.mapImageReplaceFailed'));
+        }
+    };
 
     return (
         <div className="page">
@@ -372,6 +437,19 @@ const GuideMapCapture: React.FC = () => {
                     touchAction: captureView === 'polygon' ? 'none' : undefined
                 }}
             >
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                        const f = e.target.files?.[0] ?? null;
+                        // Allow re-selecting the same file.
+                        e.currentTarget.value = '';
+                        void handleMapImageFile(f);
+                    }}
+                />
+
                 {captureView === 'polygon' ? (
                     activeId && selectedPin ? (
                         <PinPolygonEditor pin={selectedPin} onPolygonChange={handleUpdateSelectedPolygon} />
@@ -559,6 +637,44 @@ const GuideMapCapture: React.FC = () => {
                             </button>
                         </div>
 
+                        <button
+                            onClick={handleChooseMapImage}
+                            style={{
+                                marginTop: 10,
+                                height: 40,
+                                width: '100%',
+                                borderRadius: 10,
+                                border: 'none',
+                                padding: '0 14px',
+                                background: 'rgba(245, 245, 245, 0.95)',
+                                color: 'var(--neutral-800)',
+                                fontWeight: 900,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            {t('map.replaceMapImage')}
+                        </button>
+
+                        <button
+                            onClick={handleClearAll}
+                            disabled={!guideId || pins.length === 0}
+                            style={{
+                                marginTop: 10,
+                                height: 40,
+                                width: '100%',
+                                borderRadius: 10,
+                                border: 'none',
+                                padding: '0 14px',
+                                background: 'var(--status-red-alpha)',
+                                color: 'white',
+                                fontWeight: 900,
+                                cursor: !guideId || pins.length === 0 ? 'not-allowed' : 'pointer',
+                                opacity: !guideId || pins.length === 0 ? 0.6 : 1
+                            }}
+                        >
+                            {t('map.clearAll')}
+                        </button>
+
                         {status && (
                             <div style={{ marginTop: 10, fontSize: 12, fontWeight: 800, color: 'var(--neutral-600)' }}>{status}</div>
                         )}
@@ -638,28 +754,6 @@ const GuideMapCapture: React.FC = () => {
                         )}
                     </div>
                 )}
-
-                <button
-                    onClick={() => setFabOpen(o => !o)}
-                    aria-label={t('map.tools')}
-                    style={{
-                        position: 'absolute',
-                        left: 16,
-                        bottom: 16,
-                        zIndex: 11,
-                        width: 56,
-                        height: 56,
-                        borderRadius: 999,
-                        border: 'none',
-                        background: 'var(--misc-opam)',
-                        color: 'white',
-                        fontWeight: 900,
-                        fontSize: 22,
-                        cursor: 'pointer'
-                    }}
-                >
-                    {fabOpen ? '×' : '≡'}
-                </button>
             </div>
         </div>
     );
