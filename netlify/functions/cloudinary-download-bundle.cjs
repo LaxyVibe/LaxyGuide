@@ -12,7 +12,74 @@ function toBase64(buffer) {
   return Buffer.from(buffer).toString('base64');
 }
 
-function tryBuildCandidateUrls(rawUrl, cloudName) {
+function sha1Hex(input) {
+  return require('crypto').createHash('sha1').update(input).digest('hex');
+}
+
+function signParams(params, apiSecret) {
+  const payload = Object.keys(params)
+    .sort()
+    .map((k) => `${k}=${params[k]}`)
+    .join('&');
+  return sha1Hex(`${payload}${apiSecret}`);
+}
+
+function extractPublicIdFromDeliveryUrl(rawUrl, cloudName) {
+  const parsed = new URL(rawUrl);
+  if (parsed.hostname !== 'res.cloudinary.com') return null;
+
+  const prefix = `/${cloudName}/raw/upload/`;
+  if (!parsed.pathname.startsWith(prefix)) return null;
+
+  let tail = parsed.pathname.slice(prefix.length);
+  // Remove optional version segment: v<digits>/...
+  tail = tail.replace(/^v\d+\//, '');
+  if (!tail) return null;
+
+  return tail;
+}
+
+function buildSignedDownloadUrls(rawUrl, cloudName, apiKey, apiSecret) {
+  let publicId = null;
+  try {
+    publicId = extractPublicIdFromDeliveryUrl(rawUrl, cloudName);
+  } catch {
+    publicId = null;
+  }
+  if (!publicId) return [];
+
+  const now = Math.floor(Date.now() / 1000);
+  const base = `https://api.cloudinary.com/v1_1/${cloudName}/raw/download`;
+
+  const variants = [];
+
+  // Variant 1: public_id exactly as delivered path tail (legacy may include .zip)
+  variants.push({ public_id: publicId, timestamp: now, attachment: true });
+
+  // Variant 2: if .zip suffix exists, split into public_id + format
+  if (publicId.endsWith('.zip')) {
+    variants.push({
+      public_id: publicId.slice(0, -4),
+      format: 'zip',
+      timestamp: now,
+      attachment: true
+    });
+  }
+
+  return variants.map((params) => {
+    const signature = signParams(params, apiSecret);
+    const query = new URLSearchParams({
+      ...Object.fromEntries(
+        Object.entries(params).map(([k, v]) => [k, String(v)])
+      ),
+      api_key: apiKey,
+      signature
+    });
+    return `${base}?${query.toString()}`;
+  });
+}
+
+function tryBuildCandidateUrls(rawUrl, cloudName, apiKey, apiSecret) {
   const list = [];
   list.push(rawUrl);
 
@@ -30,7 +97,7 @@ function tryBuildCandidateUrls(rawUrl, cloudName) {
 
   // Ensure unique and constrained to the expected cloud hostname/path.
   const unique = Array.from(new Set(list));
-  return unique.filter((u) => {
+  const filtered = unique.filter((u) => {
     try {
       const parsed = new URL(u);
       if (parsed.hostname !== 'res.cloudinary.com') return false;
@@ -39,6 +106,10 @@ function tryBuildCandidateUrls(rawUrl, cloudName) {
       return false;
     }
   });
+
+  // Add signed Cloudinary download API URLs as authenticated fallbacks.
+  const signed = buildSignedDownloadUrls(rawUrl, cloudName, apiKey, apiSecret);
+  return [...filtered, ...signed];
 }
 
 async function fetchWithOptionalAuth(url, basicAuth) {
@@ -75,7 +146,7 @@ exports.handler = async (event) => {
       return json(400, { error: 'url is required' });
     }
 
-    const candidateUrls = tryBuildCandidateUrls(rawUrl, cloudName);
+    const candidateUrls = tryBuildCandidateUrls(rawUrl, cloudName, apiKey, apiSecret);
     if (candidateUrls.length === 0) {
       return json(400, { error: 'Invalid Cloudinary bundle URL' });
     }
