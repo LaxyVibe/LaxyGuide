@@ -78,6 +78,15 @@ async function blobToDataUrl(blob: Blob): Promise<string> {
     });
 }
 
+function inferImageMimeType(fileName: string): string | null {
+    const lower = fileName.toLowerCase();
+    if (lower.endsWith('.png')) return 'image/png';
+    if (lower.endsWith('.webp')) return 'image/webp';
+    if (lower.endsWith('.gif')) return 'image/gif';
+    if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
+    return null;
+}
+
 function findImageEntry(zip: JSZip, preferredName?: string): string | null {
     if (preferredName && zip.file(preferredName)) return preferredName;
 
@@ -116,7 +125,14 @@ export async function parseCaptureBundle(bundleBlob: Blob, expectedGuideId: stri
         throw new Error('Failed to extract map image from bundle');
     }
 
-    const imageDataUrl = await blobToDataUrl(imageBlob);
+    // Some ZIP extraction paths produce a generic blob type (e.g. application/octet-stream).
+    // Restore an image mime type from filename so data URL validation works reliably.
+    const inferredType = inferImageMimeType(imageEntry);
+    const normalizedImageBlob = inferredType && !imageBlob.type.startsWith('image/')
+        ? new Blob([imageBlob], { type: inferredType })
+        : imageBlob;
+
+    const imageDataUrl = await blobToDataUrl(normalizedImageBlob);
     if (!imageDataUrl.startsWith('data:image/')) {
         throw new Error('Invalid image in bundle');
     }
