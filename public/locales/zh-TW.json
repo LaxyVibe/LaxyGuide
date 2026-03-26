@@ -63,6 +63,8 @@
             "veryDissatisfied": "非常不滿意",
             "verySatisfied": "非常滿蔥"
         },
+            "swapToView": "檢視模式",
+            "swapToCapture": "擷取模式",
         "q2": {
             "title": "請告知本次展覽會中給您留下印象的事項。",
             "exhibitionTheme": "展示主題",

@@ -88,8 +88,8 @@ const GuideMap: React.FC = () => {
     if (transLoading || guideLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
 
-    const handleBack = () => {
-        const to = guideId ? `/${guideId}?t=${lang}` : `/?t=${lang}`;
+    const handleSwapToCapture = () => {
+        const to = guideId ? `/${guideId}/map/capture?${searchParams.toString()}` : `/?${searchParams.toString()}`;
         if ('startViewTransition' in document) {
             document.startViewTransition(() => {
                 navigate(to);
@@ -101,7 +101,22 @@ const GuideMap: React.FC = () => {
 
     return (
         <div className="page">
-            <GlobalHeader title={t('map.title')} showBack={true} onBack={handleBack} />
+            <GlobalHeader
+                title={t('map.title')}
+                showBack={false}
+                leftSlot={
+                    <button
+                        className="back-button"
+                        onClick={handleSwapToCapture}
+                        aria-label={t('map.swapToCapture')}
+                        title={t('map.swapToCapture')}
+                    >
+                        <span aria-hidden="true" style={{ fontSize: 18, fontWeight: 900, lineHeight: 1 }}>
+                            ⇄
+                        </span>
+                    </button>
+                }
+            />
             <div
                 className="scroll-content"
                 style={{

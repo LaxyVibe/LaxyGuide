@@ -63,6 +63,8 @@
             "veryDissatisfied": "非常不满意",
             "verySatisfied": "非常满意"
         },
+            "swapToView": "查看模式",
+            "swapToCapture": "采集模式",
         "q2": {
             "title": "请告知本次展览会中给您留下印象的事项。",
             "exhibitionTheme": "展示主题",

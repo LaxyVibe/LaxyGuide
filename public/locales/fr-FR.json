@@ -63,6 +63,8 @@
             "veryDissatisfied": "Très insatisfait",
             "verySatisfied": "Très satisfait"
         },
+            "swapToView": "Mode vue",
+            "swapToCapture": "Mode capture",
         "q2": {
             "title": "Qu'est-ce qui vous a impressionné dans cette exposition ?",
             "exhibitionTheme": "Thème de l'exposition",

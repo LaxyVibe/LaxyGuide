@@ -76,7 +76,7 @@ const GuideMapCapture: React.FC = () => {
 
     const canExport = Boolean(guideId) && Boolean(pinsFile);
 
-    const handleBack = () => {
+    const handleSwapToView = () => {
         const to = guideId ? `/${guideId}/map?${searchParams.toString()}` : `/?${searchParams.toString()}`;
         if ('startViewTransition' in document) {
             document.startViewTransition(() => navigate(to));
@@ -415,8 +415,19 @@ const GuideMapCapture: React.FC = () => {
         <div className="page">
             <GlobalHeader
                 title={t('map.captureTitle')}
-                showBack={true}
-                onBack={handleBack}
+                showBack={false}
+                leftSlot={
+                    <button
+                        className="back-button"
+                        onClick={handleSwapToView}
+                        aria-label={t('map.swapToView')}
+                        title={t('map.swapToView')}
+                    >
+                        <span aria-hidden="true" style={{ fontSize: 18, fontWeight: 900, lineHeight: 1 }}>
+                            ⇄
+                        </span>
+                    </button>
+                }
                 rightSlot={
                     <button
                         className="back-button"

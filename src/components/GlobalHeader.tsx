@@ -6,16 +6,19 @@ interface GlobalHeaderProps {
     title?: string;
     showBack?: boolean;
     onBack?: () => void;
+    leftSlot?: React.ReactNode;
     rightSlot?: React.ReactNode;
     style?: React.CSSProperties;
 }
 
-const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, rightSlot, style }) => {
+const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, leftSlot, rightSlot, style }) => {
     const navigate = useNavigate();
 
     return (
         <header className="global-header" style={style}>
-            {showBack && (
+            {leftSlot ? (
+                leftSlot
+            ) : showBack ? (
                 <button className="back-button" onClick={onBack ? onBack : () => {
                     if ('startViewTransition' in document) {
                         document.startViewTransition(() => {
@@ -27,7 +30,7 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onB
                 }}>
                     <img src={backIcon} alt="Back" style={{ width: 28, height: 28 }} />
                 </button>
-            )}
+            ) : null}
             <h1>{title}</h1>
             {rightSlot ? <div style={{ display: 'flex', alignItems: 'center' }}>{rightSlot}</div> : null}
         </header>

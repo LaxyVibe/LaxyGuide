@@ -12,6 +12,7 @@ export interface MapViewerProps {
     onMapClick?: (point: { x: number; y: number }) => void;
     onPinClick?: (pinId: string) => void;
     onPinLongPress?: (pinId: string) => void;
+    onPinLongPressPrime?: (pinId: string) => void;
     pinLongPressMs?: number;
 }
 
@@ -31,6 +32,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             onMapClick,
             onPinClick,
             onPinLongPress,
+            onPinLongPressPrime,
             pinLongPressMs = 2000,
             initialScale = 1,
             maxScale = 6,
@@ -265,6 +267,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         onPinLongPress
                                                             ? (e) => {
                                                                 e.stopPropagation();
+                                                                onPinLongPressPrime?.(pin.id);
                                                                 startLongPress(pin.id);
                                                             }
                                                             : undefined

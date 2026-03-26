@@ -8,6 +8,8 @@
         "comingSoon": "Coming soon",
         "noImage": "No map image configured",
         "captureTitle": "Map Capture",
+        "swapToView": "View mode",
+        "swapToCapture": "Capture mode",
         "viewImage": "Image",
         "viewPolygon": "Polygon",
         "tools": "Tools",

@@ -63,6 +63,8 @@
             "veryDissatisfied": "매우 불만",
             "verySatisfied": "매우 불만족"
         },
+            "swapToView": "보기 모드",
+            "swapToCapture": "캡처 모드",
         "q2": {
             "title": "본 전람회에서 인상적이었던 부분을 골라주세요.",
             "exhibitionTheme": "전시 테마",

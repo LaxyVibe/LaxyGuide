@@ -63,6 +63,8 @@
             "veryDissatisfied": "非常に不満",
             "verySatisfied": "非常に満足"
         },
+            "swapToView": "表示モード",
+            "swapToCapture": "キャプチャモード",
         "q2": {
             "title": "本展覧会で印象に残ったことをお聞かせください。",
             "exhibitionTheme": "展示テーマ",
