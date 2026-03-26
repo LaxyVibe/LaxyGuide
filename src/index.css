@@ -89,8 +89,13 @@ body {
 
 /* Leaflet needs full control of touch gestures (panning/zooming).
    Our global `touch-action: pan-y` blocks horizontal panning on mobile. */
-.leaflet-container {
+.leaflet-container,
+.leaflet-container * {
     touch-action: none;
+}
+
+.leaflet-container {
+    overscroll-behavior: contain;
 }
 
 #root {

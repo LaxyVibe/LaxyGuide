@@ -346,7 +346,14 @@ const GuideMapCapture: React.FC = () => {
         <div className="page">
             <GlobalHeader title={t('map.captureTitle')} showBack={true} onBack={handleBack} />
 
-            <div className="scroll-content" style={{ position: 'relative' }}>
+            <div
+                className="scroll-content"
+                style={{
+                    position: 'relative',
+                    overflowY: captureView === 'polygon' ? 'hidden' : undefined,
+                    touchAction: captureView === 'polygon' ? 'none' : undefined
+                }}
+            >
                 {captureView === 'polygon' ? (
                     activeId && selectedPin ? (
                         <PinPolygonEditor pin={selectedPin} onPolygonChange={handleUpdateSelectedPolygon} />
