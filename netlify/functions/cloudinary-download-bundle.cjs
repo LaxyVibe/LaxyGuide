@@ -14,6 +14,13 @@ function toBase64(buffer) {
   return Buffer.from(buffer).toString('base64');
 }
 
+function isZipArrayBuffer(ab) {
+  if (!ab || ab.byteLength < 4) return false;
+  const view = new Uint8Array(ab, 0, 4);
+  // ZIP signatures: PK\x03\x04 (local), PK\x05\x06 (empty archive), PK\x07\x08 (spanned)
+  return view[0] === 0x50 && view[1] === 0x4b;
+}
+
 function sanitizeBundleFormat(raw) {
   const value = String(raw || '').trim().toLowerCase();
   return value.replace(/[^a-z0-9]/g, '') || '';
@@ -181,6 +188,13 @@ async function readDownloadBytes(resp, fetchFn, depth = 0) {
   if (!resp.ok) return null;
 
   const contentType = String(resp.headers.get('content-type') || '').toLowerCase();
+  const contentLength = String(resp.headers.get('content-length') || '').trim();
+  console.log('[cloudinary-download] readDownloadBytes', {
+    depth,
+    status: resp.status,
+    contentType,
+    contentLength
+  });
 
   // Cloudinary download endpoints can respond with JSON metadata containing a URL.
   if (contentType.includes('application/json')) {
@@ -195,6 +209,12 @@ async function readDownloadBytes(resp, fetchFn, depth = 0) {
 
   const ab = await resp.arrayBuffer();
   if (!ab || ab.byteLength === 0) return null;
+
+  if (!isZipArrayBuffer(ab)) {
+    // Avoid returning successful non-zip payloads (HTML, JSON, etc.) as bundle bytes.
+    return null;
+  }
+
   return {
     bytes: ab,
     contentType: contentType || 'application/octet-stream'
@@ -222,9 +242,17 @@ exports.handler = async (event) => {
     });
 
     const rawUrl = String(event.queryStringParameters?.url || '').trim();
+    const debug = String(event.queryStringParameters?.debug || '').trim() === '1';
     if (!rawUrl) {
       return json(400, { error: 'url is required' });
     }
+
+    console.log('[cloudinary-download] request', {
+      rawUrl,
+      inputPublicId: String(event.queryStringParameters?.publicId || ''),
+      inputFormat: String(event.queryStringParameters?.format || ''),
+      debug
+    });
 
     const candidateUrls = tryBuildCandidateUrls(rawUrl, cloudName);
     if (candidateUrls.length === 0) {
@@ -243,9 +271,17 @@ exports.handler = async (event) => {
     const effectiveFormat = inputFormat || parsed.format;
 
     const publicIdCandidates = buildPublicIdCandidates(effectivePublicId, effectiveFormat);
+    console.log('[cloudinary-download] candidates', {
+      parsed,
+      effectivePublicId,
+      effectiveFormat,
+      publicIdCandidateCount: publicIdCandidates.length
+    });
 
     const adminResolved = await resolveResourceByAdminApi(publicIdCandidates);
+    console.log('[cloudinary-download] adminResolved', adminResolved || null);
     const signedCandidates = buildSignedDownloadAttempts(adminResolved, publicIdCandidates);
+    console.log('[cloudinary-download] signedCandidateCount', signedCandidates.length);
 
     const attempts = [];
 
@@ -254,6 +290,12 @@ exports.handler = async (event) => {
       attempts.push({ url: candidate.label, status: signedResp.status });
       const downloaded = await readDownloadBytes(signedResp, fetchCandidate);
       if (!downloaded) continue;
+
+      console.log('[cloudinary-download] success:signed', {
+        candidate: candidate.label,
+        bytes: downloaded.bytes.byteLength,
+        contentType: downloaded.contentType
+      });
 
       return {
         statusCode: 200,
@@ -274,6 +316,12 @@ exports.handler = async (event) => {
       const downloaded = await readDownloadBytes(resp, fetchCandidate);
       if (!downloaded) continue;
 
+      console.log('[cloudinary-download] success:fallback', {
+        candidate,
+        bytes: downloaded.bytes.byteLength,
+        contentType: downloaded.contentType
+      });
+
       return {
         statusCode: 200,
         isBase64Encoded: true,
@@ -286,11 +334,27 @@ exports.handler = async (event) => {
       };
     }
 
-    return json(502, {
+    const payload = {
       error: 'Failed to download bundle from Cloudinary',
       attempts
-    });
+    };
+    if (debug) {
+      payload.debug = {
+        parsed,
+        effectivePublicId,
+        effectiveFormat,
+        adminResolved,
+        candidateUrls,
+        signedCandidateCount: signedCandidates.length
+      };
+    }
+    console.log('[cloudinary-download] failed', payload);
+    return json(502, payload);
   } catch (error) {
+    console.error('[cloudinary-download] exception', {
+      message: error?.message,
+      stack: error?.stack
+    });
     return json(500, { error: error.message || 'Failed to proxy bundle download' });
   }
 };

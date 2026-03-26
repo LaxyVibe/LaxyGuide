@@ -70,7 +70,7 @@ export async function downloadCloudBundle(
     url: string,
     options?: { publicId?: string; format?: string }
 ): Promise<Blob> {
-    const query = new URLSearchParams({ url });
+    const query = new URLSearchParams({ url, debug: '1' });
     if (options?.publicId) {
         query.set('publicId', options.publicId);
     }
@@ -82,7 +82,13 @@ export async function downloadCloudBundle(
         cache: 'no-store'
     });
     if (!resp.ok) {
-        throw new Error(`Failed to download bundle (${resp.status})`);
+        const text = await resp.text().catch(() => '');
+        const detail = text ? `: ${text}` : '';
+        throw new Error(`Failed to download bundle (${resp.status})${detail}`);
     }
-    return resp.blob();
+    const blob = await resp.blob();
+    if (!blob || blob.size === 0) {
+        throw new Error('Downloaded bundle is empty');
+    }
+    return blob;
 }
