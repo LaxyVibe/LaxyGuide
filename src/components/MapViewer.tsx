@@ -6,6 +6,7 @@ export interface MapViewerProps {
     imageUrl: string;
     pins: MapPin[];
     highlightedPinId?: string;
+    showCenterCursor?: boolean;
     showPinGpsCount?: boolean;
     initialScale?: number;
     maxScale?: number;
@@ -30,6 +31,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             imageUrl,
             pins,
             highlightedPinId,
+            showCenterCursor = false,
             showPinGpsCount = true,
             onMapClick,
             onPinClick,
@@ -395,6 +397,60 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                     }}
                 >
                     Loading…
+                </div>
+            )}
+
+            {showCenterCursor && (
+                <div
+                    aria-hidden="true"
+                    style={{
+                        position: 'absolute',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 34,
+                        height: 34,
+                        zIndex: 5,
+                        pointerEvents: 'none'
+                    }}
+                >
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '50%',
+                            top: 0,
+                            transform: 'translateX(-50%)',
+                            width: 2,
+                            height: '100%',
+                            background: 'rgba(245, 245, 245, 0.9)',
+                            boxShadow: '0 0 0 1px rgba(33, 36, 39, 0.55)'
+                        }}
+                    />
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: 0,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            width: '100%',
+                            height: 2,
+                            background: 'rgba(245, 245, 245, 0.9)',
+                            boxShadow: '0 0 0 1px rgba(33, 36, 39, 0.55)'
+                        }}
+                    />
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 8,
+                            height: 8,
+                            borderRadius: 999,
+                            background: 'var(--misc-opam)',
+                            border: '1px solid rgba(245, 245, 245, 0.95)'
+                        }}
+                    />
                 </div>
             )}
         </div>

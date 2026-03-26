@@ -76,6 +76,20 @@
     font-weight: 800;
 }
 
+.map-io-spin {
+    animation: map-io-spin 0.9s linear infinite;
+}
+
+@keyframes map-io-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @media (max-width: 640px) {
     .map-io-dialog {
         width: calc(100% - 8px);

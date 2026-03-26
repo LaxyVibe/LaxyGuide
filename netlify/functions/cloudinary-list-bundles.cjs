@@ -83,7 +83,11 @@ exports.handler = async (event) => {
     const resources = Array.isArray(data.resources) ? data.resources : [];
 
     const bundles = resources
-      .filter((r) => typeof r?.public_id === 'string' && r.public_id.endsWith('/bundle.zip'))
+      .filter(
+        (r) =>
+          typeof r?.public_id === 'string' &&
+          (r.public_id.endsWith('/bundle.zip') || r.public_id.endsWith('/bundle'))
+      )
       .map(parseBundle)
       .filter(Boolean)
       .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));

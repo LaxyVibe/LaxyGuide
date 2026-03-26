@@ -187,6 +187,16 @@ const GuideMapCapture: React.FC = () => {
         }
     };
 
+    const vibrateOnAssignSuccess = () => {
+        try {
+            if (typeof navigator.vibrate === 'function') {
+                navigator.vibrate(120);
+            }
+        } catch {
+            // ignore
+        }
+    };
+
     const requestGpsPermissionOnFirstMenuClick = () => {
         if (gpsPermissionPromptedRef.current) return;
         gpsPermissionPromptedRef.current = true;
@@ -373,6 +383,7 @@ const GuideMapCapture: React.FC = () => {
 
                 setStatus(t('map.assignedGps'));
                 playAssignSound();
+                vibrateOnAssignSuccess();
             },
             () => {
                 setStatus(t('map.locationDenied'));
@@ -530,6 +541,7 @@ const GuideMapCapture: React.FC = () => {
     if (error) return <div>{t('common.error')}: {error}</div>;
 
     const handleChooseMapImage = () => {
+        setIoDialogOpen(false);
         fileInputRef.current?.click();
     };
 
@@ -633,8 +645,10 @@ const GuideMapCapture: React.FC = () => {
                         imageUrl={mapImage}
                         pins={pins}
                         highlightedPinId={highlightedPinId}
+                        showCenterCursor={true}
                         onPinClick={handleSelectPin}
                         onPinLongPress={(pinId) => handleAssignGps(pinId)}
+                        pinLongPressMs={1200}
                         initialScale={6}
                     />
                 )}
@@ -846,32 +860,11 @@ const GuideMapCapture: React.FC = () => {
 
                         <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', marginTop: 12 }}>
                             <button
-                                onClick={handleClearAll}
-                                disabled={!guideId || pins.length === 0}
-                                aria-label={t('map.clearAll')}
-                                title={t('map.clearAll')}
-                                style={{
-                                    flex: 1,
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: 0,
-                                    background: 'var(--status-red-alpha)',
-                                    color: 'white',
-                                    fontWeight: 900,
-                                    cursor: !guideId || pins.length === 0 ? 'not-allowed' : 'pointer',
-                                    opacity: !guideId || pins.length === 0 ? 0.6 : 1
-                                }}
-                            >
-                                CLR
-                            </button>
-
-                            <button
                                 onClick={() => setIoDialogOpen(true)}
                                 aria-label={t('map.ioButton')}
                                 title={t('map.ioButton')}
                                 style={{
-                                    flex: 1,
+                                    width: '100%',
                                     height: 40,
                                     borderRadius: 10,
                                     border: 'none',
@@ -884,25 +877,6 @@ const GuideMapCapture: React.FC = () => {
                             >
                                 {t('map.ioButton')}
                             </button>
-
-                            <button
-                                onClick={handleChooseMapImage}
-                                aria-label={t('map.replaceMapImage')}
-                                title={t('map.replaceMapImage')}
-                                style={{
-                                    flex: 1,
-                                    height: 40,
-                                    borderRadius: 10,
-                                    border: 'none',
-                                    padding: 0,
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
-                                    fontWeight: 900,
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                IMG
-                            </button>
                         </div>
                     </div>
                 )}
@@ -911,6 +885,9 @@ const GuideMapCapture: React.FC = () => {
                     open={ioDialogOpen}
                     onClose={() => setIoDialogOpen(false)}
                     status={status}
+                    canClearAll={Boolean(guideId) && pins.length > 0}
+                    onClearAll={handleClearAll}
+                    onChooseMapImage={handleChooseMapImage}
                     saveName={saveName}
                     onSaveNameChange={setSaveName}
                     canExport={canExport}

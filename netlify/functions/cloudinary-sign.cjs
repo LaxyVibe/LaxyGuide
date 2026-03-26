@@ -58,7 +58,9 @@ exports.handler = async (event) => {
 
     const timestamp = Math.floor(Date.now() / 1000);
     const isoNow = new Date().toISOString().replace(/[:.]/g, '-');
-    const publicId = `${BASE_FOLDER}/${guideId}/${saveName}/${isoNow}/bundle.zip`;
+    // Use extensionless public_id for raw delivery. Some Cloudinary setups
+    // restrict direct ZIP delivery by URL and can return 401 for *.zip paths.
+    const publicId = `${BASE_FOLDER}/${guideId}/${saveName}/${isoNow}/bundle`;
 
     const paramsToSign = {
       public_id: publicId,

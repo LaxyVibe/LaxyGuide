@@ -1,4 +1,5 @@
 import React from 'react';
+import { FolderOpen, RefreshCw, Save } from 'lucide-react';
 import type { CloudBundleItem } from '../utils/cloudinaryCapture';
 import './MapIOPanelDialog.css';
 
@@ -6,6 +7,9 @@ interface MapIOPanelDialogProps {
     open: boolean;
     onClose: () => void;
     status?: string;
+    canClearAll: boolean;
+    onClearAll: () => void;
+    onChooseMapImage: () => void;
     saveName: string;
     onSaveNameChange: (value: string) => void;
     canExport: boolean;
@@ -34,18 +38,25 @@ const fieldBaseStyle: React.CSSProperties = {
 
 const actionButtonStyle: React.CSSProperties = {
     height: 40,
+    width: 40,
     borderRadius: 10,
     border: 'none',
-    padding: '0 12px',
+    padding: 0,
     background: 'rgba(245, 245, 245, 0.95)',
     color: 'var(--neutral-800)',
-    fontWeight: 900
+    fontWeight: 900,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center'
 };
 
 const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
     open,
     onClose,
     status,
+    canClearAll,
+    onClearAll,
+    onChooseMapImage,
     saveName,
     onSaveNameChange,
     canExport,
@@ -74,6 +85,50 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                 </div>
 
                 <div className="map-io-dialog-content">
+                    <section className="map-io-section">
+                        <div style={{ display: 'flex', gap: 8 }}>
+                            <button
+                                onClick={onClearAll}
+                                disabled={!canClearAll}
+                                aria-label={t('map.clearAllOnLocal')}
+                                title={t('map.clearAllOnLocal')}
+                                style={{
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: '0 12px',
+                                    background: 'var(--status-red-alpha)',
+                                    color: 'white',
+                                    fontWeight: 900,
+                                    cursor: canClearAll ? 'pointer' : 'not-allowed',
+                                    opacity: canClearAll ? 1 : 0.6,
+                                    flex: 1
+                                }}
+                            >
+                                {t('map.clearAllOnLocal')}
+                            </button>
+
+                            <button
+                                onClick={onChooseMapImage}
+                                aria-label={t('map.replaceImageMap')}
+                                title={t('map.replaceImageMap')}
+                                style={{
+                                    height: 40,
+                                    borderRadius: 10,
+                                    border: 'none',
+                                    padding: '0 12px',
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-800)',
+                                    fontWeight: 900,
+                                    cursor: 'pointer',
+                                    flex: 1
+                                }}
+                            >
+                                {t('map.replaceImageMap')}
+                            </button>
+                        </div>
+                    </section>
+
                     <section className="map-io-section">
                         <div className="map-io-section-title">{t('map.ioImportSection')}</div>
                         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -108,12 +163,11 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 title={t('map.cloudRefresh')}
                                 style={{
                                     ...actionButtonStyle,
-                                    minWidth: 108,
                                     cursor: listingBundles ? 'not-allowed' : 'pointer',
                                     opacity: listingBundles ? 0.6 : 1
                                 }}
                             >
-                                {t('map.cloudRefresh')}
+                                <RefreshCw size={18} strokeWidth={2.4} />
                             </button>
 
                             <button
@@ -123,27 +177,25 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 title={t('map.cloudImport')}
                                 style={{
                                     ...actionButtonStyle,
-                                    minWidth: 108,
                                     cursor: canImport ? 'pointer' : 'not-allowed',
                                     opacity: canImport ? 1 : 0.6
                                 }}
                             >
-                                {importingCloud ? t('map.cloudImporting') : t('map.cloudImport')}
+                                {importingCloud ? <RefreshCw size={18} strokeWidth={2.4} className="map-io-spin" /> : <FolderOpen size={18} strokeWidth={2.4} />}
                             </button>
                         </div>
                     </section>
 
                     <section className="map-io-section">
                         <div className="map-io-section-title">{t('map.ioExportSection')}</div>
-                        <input
-                            value={saveName}
-                            onChange={(e) => onSaveNameChange(e.target.value)}
-                            placeholder={t('map.cloudSaveNamePlaceholder')}
-                            aria-label={t('map.cloudSaveName')}
-                            style={{ ...fieldBaseStyle, width: '100%' }}
-                        />
-
-                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                            <input
+                                value={saveName}
+                                onChange={(e) => onSaveNameChange(e.target.value)}
+                                placeholder={t('map.cloudSaveNamePlaceholder')}
+                                aria-label={t('map.cloudSaveName')}
+                                style={{ ...fieldBaseStyle, width: '100%', flex: 1 }}
+                            />
                             <button
                                 onClick={onExport}
                                 disabled={!canExport}
@@ -151,12 +203,11 @@ const MapIOPanelDialog: React.FC<MapIOPanelDialogProps> = ({
                                 title={t('map.cloudExport')}
                                 style={{
                                     ...actionButtonStyle,
-                                    minWidth: 128,
                                     cursor: canExport ? 'pointer' : 'not-allowed',
                                     opacity: canExport ? 1 : 0.6
                                 }}
                             >
-                                {exportingCloud ? t('map.cloudExporting') : t('map.cloudExport')}
+                                {exportingCloud ? <RefreshCw size={18} strokeWidth={2.4} className="map-io-spin" /> : <Save size={18} strokeWidth={2.4} />}
                             </button>
                         </div>
                     </section>
