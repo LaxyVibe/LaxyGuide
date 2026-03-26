@@ -191,27 +191,32 @@ const GuideMapCapture: React.FC = () => {
             // ignore storage errors and still attempt prompt once for this page load
         }
 
-        const ua = navigator.userAgent || '';
-        const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
-        if (!isMobile) return;
         if (!('geolocation' in navigator)) return;
+
+        const persistPrompted = () => {
+            try {
+                localStorage.setItem(promptedKey, '1');
+            } catch {
+                // ignore storage errors
+            }
+        };
 
         navigator.geolocation.getCurrentPosition(
             () => {
-                try {
-                    localStorage.setItem(promptedKey, '1');
-                } catch {
-                    // ignore storage errors
-                }
+                persistPrompted();
             },
-            () => {
-                try {
-                    localStorage.setItem(promptedKey, '1');
-                } catch {
-                    // ignore storage errors
+            (err) => {
+                // iOS Safari can return transient errors before a stable fix.
+                // Only persist when the user actually denied permission.
+                if (err && err.code === 1) {
+                    persistPrompted();
+                    return;
                 }
+
+                // Allow retry on subsequent menu clicks for transient failures.
+                gpsPermissionPromptedRef.current = false;
             },
-            { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 }
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 0 }
         );
     };
 
