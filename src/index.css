@@ -212,6 +212,28 @@ textarea:focus {
     color: var(--neutral-800);
 }
 
+.global-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-version {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    border: 1px solid var(--neutral-300);
+    background: var(--neutral-50);
+    color: var(--neutral-600);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
 /* View Transitions */
 @view-transition {
     navigation: auto;

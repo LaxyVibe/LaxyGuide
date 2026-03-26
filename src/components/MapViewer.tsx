@@ -6,6 +6,7 @@ export interface MapViewerProps {
     imageUrl: string;
     pins: MapPin[];
     highlightedPinId?: string;
+    showPinGpsCount?: boolean;
     initialScale?: number;
     maxScale?: number;
     edgeMarginPx?: number;
@@ -29,6 +30,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             imageUrl,
             pins,
             highlightedPinId,
+            showPinGpsCount = true,
             onMapClick,
             onPinClick,
             onPinLongPress,
@@ -310,7 +312,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         lineHeight: 1
                                                     }}
                                                 >
-                                                    {gpsCount}
+                                                    {showPinGpsCount ? gpsCount : null}
 
                                                     <div
                                                         aria-hidden="true"

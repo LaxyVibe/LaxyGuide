@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import backIcon from '../assets/icons/back.svg';
+import { APP_VERSION } from '../constants/appVersion';
 
 interface GlobalHeaderProps {
     title?: string;
@@ -32,7 +33,10 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onB
                 </button>
             ) : null}
             <h1>{title}</h1>
-            {rightSlot ? <div style={{ display: 'flex', alignItems: 'center' }}>{rightSlot}</div> : null}
+            <div className="global-header-right">
+                <span className="app-version" aria-label="App version">{APP_VERSION}</span>
+                {rightSlot ? <div style={{ display: 'flex', alignItems: 'center' }}>{rightSlot}</div> : null}
+            </div>
         </header>
     );
 };

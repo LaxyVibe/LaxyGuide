@@ -138,6 +138,7 @@ const GuideMap: React.FC = () => {
                             imageUrl={data.mapImage}
                             pins={pins}
                             highlightedPinId={nearest?.pin.id}
+                            showPinGpsCount={false}
                         />
 
                         {nearest && (
