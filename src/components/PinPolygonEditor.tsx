@@ -63,9 +63,9 @@ function applyPolygonToFeatureGroup(featureGroup: L.FeatureGroup, polygon: LatLn
     featureGroup.clearLayers();
     if (!polygon || polygon.length < 3) return;
     const layer = L.polygon(toPositions(polygon) as any, {
-        color: 'var(--misc-opam)',
+        color: 'var(--primary-300)',
         weight: 2,
-        fillColor: 'var(--misc-opam)',
+        fillColor: 'var(--primary-300)',
         fillOpacity: 0.2
     });
     featureGroup.addLayer(layer);
@@ -227,6 +227,10 @@ const PinPolygonEditor: React.FC<PinPolygonEditorProps> = ({ pin, onPolygonChang
                     zoom={17}
                     style={{ width: '100%', height: '100%' }}
                     scrollWheelZoom={true}
+                    dragging={true}
+                    touchZoom={true}
+                    doubleClickZoom={true}
+                    boxZoom={false}
                 >
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -241,8 +245,8 @@ const PinPolygonEditor: React.FC<PinPolygonEditorProps> = ({ pin, onPolygonChang
                             center={[p.lat, p.lng]}
                             radius={5}
                             pathOptions={{
-                                color: 'var(--misc-opam)',
-                                fillColor: 'var(--misc-opam)',
+                                color: 'var(--primary-300)',
+                                fillColor: 'var(--primary-300)',
                                 fillOpacity: 0.65,
                                 weight: 2
                             }}

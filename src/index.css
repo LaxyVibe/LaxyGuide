@@ -87,6 +87,12 @@ body {
     /* Allow vertical scrolling and pull-to-refresh */
 }
 
+/* Leaflet needs full control of touch gestures (panning/zooming).
+   Our global `touch-action: pan-y` blocks horizontal panning on mobile. */
+.leaflet-container {
+    touch-action: none;
+}
+
 #root {
     height: 100%;
     /* overflow: hidden; - Removed to enable pull-to-refresh */
