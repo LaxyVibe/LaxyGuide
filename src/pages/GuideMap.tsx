@@ -28,7 +28,26 @@ const GuideMap: React.FC = () => {
     const [pins, setPins] = useState<MapPin[]>([]);
     const [pinsError, setPinsError] = useState<string | null>(null);
     const [here, setHere] = useState<{ lat: number; lng: number } | null>(null);
+    const [mapImageOverride, setMapImageOverride] = useState<string | null>(null);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
+
+    useEffect(() => {
+        if (!guideId) {
+            setMapImageOverride(null);
+            return;
+        }
+
+        try {
+            const raw = localStorage.getItem(`mapImageOverride:${guideId}`);
+            if (raw && raw.startsWith('data:image/')) {
+                setMapImageOverride(raw);
+            } else {
+                setMapImageOverride(null);
+            }
+        } catch {
+            setMapImageOverride(null);
+        }
+    }, [guideId]);
 
     useEffect(() => {
         let cancelled = false;
@@ -84,10 +103,7 @@ const GuideMap: React.FC = () => {
         return findNearestPin(pins, here);
     }, [here, pins]);
 
-    useEffect(() => {
-        if (!nearest) return;
-        mapRef.current?.centerOnPoint({ x: nearest.pin.x, y: nearest.pin.y });
-    }, [nearest?.pin.id, nearest?.pointIndex]);
+    const mapImage = mapImageOverride || data?.mapImage;
 
     if (transLoading || guideLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
@@ -108,6 +124,7 @@ const GuideMap: React.FC = () => {
             <GlobalHeader
                 title={t('map.title')}
                 showBack={false}
+                versionOverride="0326-01"
                 leftSlot={
                     <button
                         className="back-button"
@@ -127,7 +144,7 @@ const GuideMap: React.FC = () => {
                     position: 'relative'
                 }}
             >
-                {!data?.mapImage ? (
+                {!mapImage ? (
                     <div style={{ padding: 24, textAlign: 'center', color: 'var(--neutral-600)', fontWeight: 700 }}>
                         {t('map.noImage')}
                     </div>
@@ -135,7 +152,7 @@ const GuideMap: React.FC = () => {
                     <>
                         <MapViewer
                             ref={mapRef}
-                            imageUrl={data.mapImage}
+                            imageUrl={mapImage}
                             pins={pins}
                             highlightedPinId={nearest?.pin.id}
                             showPinGpsCount={false}

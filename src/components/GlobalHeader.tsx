@@ -9,10 +9,11 @@ interface GlobalHeaderProps {
     onBack?: () => void;
     leftSlot?: React.ReactNode;
     rightSlot?: React.ReactNode;
+    versionOverride?: string;
     style?: React.CSSProperties;
 }
 
-const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, leftSlot, rightSlot, style }) => {
+const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, leftSlot, rightSlot, versionOverride, style }) => {
     const navigate = useNavigate();
 
     return (
@@ -34,7 +35,7 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onB
             ) : null}
             <h1>{title}</h1>
             <div className="global-header-right">
-                <span className="app-version" aria-label="App version">{APP_VERSION}</span>
+                <span className="app-version" aria-label="App version">{versionOverride || APP_VERSION}</span>
                 {rightSlot ? <div style={{ display: 'flex', alignItems: 'center' }}>{rightSlot}</div> : null}
             </div>
         </header>
