@@ -66,8 +66,17 @@ export async function listCloudBundles(guideId: string): Promise<CloudBundleItem
     return Array.isArray(data.bundles) ? data.bundles : [];
 }
 
-export async function downloadCloudBundle(url: string): Promise<Blob> {
+export async function downloadCloudBundle(
+    url: string,
+    options?: { publicId?: string; format?: string }
+): Promise<Blob> {
     const query = new URLSearchParams({ url });
+    if (options?.publicId) {
+        query.set('publicId', options.publicId);
+    }
+    if (options?.format) {
+        query.set('format', options.format);
+    }
     const resp = await fetch(`/.netlify/functions/cloudinary-download-bundle?${query.toString()}`, {
         method: 'GET',
         cache: 'no-store'

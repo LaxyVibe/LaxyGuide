@@ -504,7 +504,10 @@ const GuideMapCapture: React.FC = () => {
         setStatus(t('map.cloudImporting'));
 
         try {
-            const bundleBlob = await downloadCloudBundle(selectedBundle.secureUrl);
+            const bundleBlob = await downloadCloudBundle(selectedBundle.secureUrl, {
+                publicId: selectedBundle.publicId,
+                format: selectedBundle.format
+            });
             const parsed = await parseCaptureBundle(bundleBlob, guideId);
 
             setPinsFile(parsed.pinsFile);

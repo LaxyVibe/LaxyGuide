@@ -25,6 +25,11 @@ function signParams(params, apiSecret) {
   return sha1Hex(`${payload}${apiSecret}`);
 }
 
+function sanitizeBundleFormat(raw) {
+  const value = String(raw || '').trim().toLowerCase();
+  return value.replace(/[^a-z0-9]/g, '') || '';
+}
+
 function parsePublicIdAndFormat(rawUrl, cloudName) {
   try {
     const parsed = new URL(rawUrl);
@@ -64,11 +69,8 @@ function parsePublicIdAndFormat(rawUrl, cloudName) {
 
 function buildSignedDownloadUrl(cloudName, apiKey, apiSecret, publicId, format) {
   const timestamp = Math.floor(Date.now() / 1000);
-  const params = {
-    format,
-    public_id: publicId,
-    timestamp
-  };
+  const params = { public_id: publicId, timestamp };
+  if (format) params.format = format;
   const signature = signParams(params, apiSecret);
   const query = new URLSearchParams({
     ...params,
@@ -76,6 +78,40 @@ function buildSignedDownloadUrl(cloudName, apiKey, apiSecret, publicId, format) 
     signature
   });
   return `https://api.cloudinary.com/v1_1/${cloudName}/raw/download?${query.toString()}`;
+}
+
+function buildSignedDownloadCandidates({ cloudName, apiKey, apiSecret, publicId, format }) {
+  const candidates = [];
+  const push = (label, id, fmt) => {
+    if (!id) return;
+    const key = `${id}::${fmt || ''}`;
+    if (candidates.some((c) => c.key === key)) return;
+    candidates.push({
+      key,
+      label,
+      url: buildSignedDownloadUrl(cloudName, apiKey, apiSecret, id, fmt)
+    });
+  };
+
+  const normalizedFormat = sanitizeBundleFormat(format);
+  const cleanId = String(publicId || '').trim();
+
+  // 1) Exact values from caller/list API.
+  push('signed:raw/download:exact', cleanId, normalizedFormat || undefined);
+  push('signed:raw/download:exact-no-format', cleanId, undefined);
+
+  const extMatch = cleanId.match(/\.([a-zA-Z0-9]+)$/);
+  if (extMatch) {
+    const ext = sanitizeBundleFormat(extMatch[1]);
+    const withoutExt = cleanId.slice(0, -(extMatch[0].length));
+    push('signed:raw/download:strip-ext', withoutExt, ext || normalizedFormat || undefined);
+    push('signed:raw/download:strip-ext-no-format', withoutExt, undefined);
+  } else if (normalizedFormat) {
+    // Some older resources were stored with extension in public_id.
+    push('signed:raw/download:add-ext-to-id', `${cleanId}.${normalizedFormat}`, undefined);
+  }
+
+  return candidates;
 }
 
 function tryBuildCandidateUrls(rawUrl, cloudName) {
@@ -140,19 +176,27 @@ exports.handler = async (event) => {
       return json(400, { error: 'Could not parse bundle public_id from URL' });
     }
 
-    const signedDownloadUrl = buildSignedDownloadUrl(
+    const inputPublicId = String(event.queryStringParameters?.publicId || '').trim();
+    const inputFormat = String(event.queryStringParameters?.format || '').trim();
+
+    const effectivePublicId = inputPublicId || parsed.publicId;
+    const effectiveFormat = inputFormat || parsed.format;
+
+    const signedCandidates = buildSignedDownloadCandidates({
       cloudName,
       apiKey,
       apiSecret,
-      parsed.publicId,
-      parsed.format
-    );
+      publicId: effectivePublicId,
+      format: effectiveFormat
+    });
 
     const attempts = [];
 
-    const signedResp = await fetchCandidate(signedDownloadUrl);
-    attempts.push({ url: 'signed:raw/download', status: signedResp.status });
-    if (signedResp.ok) {
+    for (const candidate of signedCandidates) {
+      const signedResp = await fetchCandidate(candidate.url);
+      attempts.push({ url: candidate.label, status: signedResp.status });
+      if (!signedResp.ok) continue;
+
       const ab = await signedResp.arrayBuffer();
       const contentType = signedResp.headers.get('content-type') || 'application/octet-stream';
 
