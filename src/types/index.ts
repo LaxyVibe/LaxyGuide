@@ -45,7 +45,7 @@ export interface MapPin {
     /** Normalized Y coordinate on the map image (0..1) */
     y: number;
     /** Clustered GPS points captured for this pin */
-    latLngs?: Array<{ lat: number; lng: number; capturedAt?: string }>;
+    latLngs?: Array<{ lat: number; lng: number; capturedAt?: string; seq?: number }>;
 
     /** Polygon vertices captured/edited on a real-world basemap. */
     polygon?: Array<{ lat: number; lng: number }>;

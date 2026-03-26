@@ -1,4 +1,5 @@
 import type { MapPin, MapPinsFile } from '../types';
+import { maybeMigrateNumericIdToLetters } from './pinIdUtils';
 
 const STORAGE_PREFIX = 'mapPins:';
 const LATEST_VERSION = 2;
@@ -38,11 +39,51 @@ export async function fetchPinsFile(url: string): Promise<MapPinsFile> {
 export function normalizePinsFile(file: MapPinsFile, fallbackGuideId?: string): MapPinsFile {
     const guideId = file.guideId || fallbackGuideId || '';
 
+    const usedIds = new Set<string>();
+    for (const p of file.pins || []) {
+        if (p && typeof (p as any).id === 'string') usedIds.add(String((p as any).id).trim());
+    }
+
     const pins: MapPin[] = (file.pins || []).map((pin) => {
-        const label = typeof pin.label === 'string' && pin.label.trim().length > 0 ? pin.label : pin.id;
-        const latLngs = Array.isArray(pin.latLngs)
+        // Migrate legacy numeric IDs ("1", "2", ...) into letters ("A", "B", ...)
+        // so GPS points can be shown as A1, A2, ...
+        const migratedId = maybeMigrateNumericIdToLetters((pin as any).id, usedIds);
+
+        // If we migrated, remove the old ID from the used set and replace it.
+        // (This keeps the set accurate for any subsequent migrations.)
+        if (migratedId) {
+            usedIds.delete(String((pin as any).id).trim());
+        }
+
+        const prevId = typeof (pin as any).id === 'string' ? String((pin as any).id).trim() : '';
+        const nextId = migratedId ?? pin.id;
+
+        const hasCustomLabel = typeof pin.label === 'string' && pin.label.trim().length > 0 && pin.label.trim() !== prevId;
+        const label = hasCustomLabel ? (pin.label as string) : nextId;
+        const latLngsRaw = Array.isArray(pin.latLngs)
             ? pin.latLngs.filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lng))
             : [];
+
+        // Ensure each captured point has a stable numeric sequence (1..n).
+        const usedSeq = new Set<number>();
+        for (const p of latLngsRaw) {
+            const s = Number((p as any).seq);
+            if (Number.isFinite(s) && s > 0) usedSeq.add(Math.floor(s));
+        }
+        let nextSeq = 1;
+        const latLngs = latLngsRaw.map((p) => {
+            const s0 = Number((p as any).seq);
+            if (Number.isFinite(s0) && s0 > 0) {
+                const s = Math.floor(s0);
+                usedSeq.add(s);
+                return { ...p, seq: s };
+            }
+            while (usedSeq.has(nextSeq)) nextSeq++;
+            const assigned = nextSeq;
+            usedSeq.add(assigned);
+            nextSeq++;
+            return { ...p, seq: assigned };
+        });
 
         const polygonRaw = Array.isArray((pin as MapPin).polygon) ? (pin as MapPin).polygon : undefined;
         const polygonFiltered = polygonRaw
@@ -55,12 +96,14 @@ export function normalizePinsFile(file: MapPinsFile, fallbackGuideId?: string): 
             latLngs.push({
                 lat: pin.lat as number,
                 lng: pin.lng as number,
-                capturedAt: pin.createdAt
+                capturedAt: pin.createdAt,
+                seq: 1
             });
         }
 
         return {
             ...pin,
+            id: nextId,
             label,
             latLngs,
             polygon

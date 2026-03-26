@@ -10,6 +10,8 @@ import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '.
 import type { MapPin, MapPinsFile } from '../types';
 import { downloadJson, loadPinsFromLocalStorage, savePinsToLocalStorage, upsertPin } from '../utils/mapPins';
 import { convexHullLatLng } from '../utils/convexHull';
+import { getNextLetterId } from '../utils/pinIdUtils';
+import gridIcon from '../assets/icons/grid.svg';
 
 const FILE_VERSION = 2;
 
@@ -73,11 +75,7 @@ const GuideMapCapture: React.FC = () => {
     }, [activeId, pins]);
 
     const getNextPinId = () => {
-        const numeric = pins
-            .map(p => Number.parseInt(p.id, 10))
-            .filter(n => Number.isFinite(n));
-        const next = numeric.length > 0 ? Math.max(...numeric) + 1 : 1;
-        return String(next);
+        return getNextLetterId(pins.map(p => p.id));
     };
 
     const handleAddPin = () => {
@@ -243,16 +241,22 @@ const GuideMapCapture: React.FC = () => {
 
         navigator.geolocation.getCurrentPosition(
             (pos) => {
-                const point = {
-                    lat: pos.coords.latitude,
-                    lng: pos.coords.longitude,
-                    capturedAt: new Date().toISOString()
-                };
-
                 setPinsFile((prev) => {
                     if (!prev) return prev;
                     const current = prev.pins.find(p => p.id === pinId);
                     if (!current) return prev;
+
+                    const maxSeq = Math.max(
+                        0,
+                        ...(current.latLngs || []).map(p => (typeof p.seq === 'number' && Number.isFinite(p.seq) ? p.seq : 0))
+                    );
+
+                    const point = {
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude,
+                        capturedAt: new Date().toISOString(),
+                        seq: Math.floor(maxSeq) + 1
+                    };
 
                     const updated: MapPin = {
                         ...current,
@@ -344,7 +348,21 @@ const GuideMapCapture: React.FC = () => {
 
     return (
         <div className="page">
-            <GlobalHeader title={t('map.captureTitle')} showBack={true} onBack={handleBack} />
+            <GlobalHeader
+                title={t('map.captureTitle')}
+                showBack={true}
+                onBack={handleBack}
+                rightSlot={
+                    <button
+                        className="back-button"
+                        onClick={() => setFabOpen(o => !o)}
+                        aria-label={t('map.tools')}
+                        aria-pressed={fabOpen}
+                    >
+                        <img src={gridIcon} alt="Tools" style={{ width: 22, height: 22 }} />
+                    </button>
+                }
+            />
 
             <div
                 className="scroll-content"
@@ -381,10 +399,10 @@ const GuideMapCapture: React.FC = () => {
                 {fabOpen && (
                     <div
                         style={{
-                            position: 'absolute',
-                            left: 16,
-                            bottom: 86,
-                            zIndex: 10,
+                            position: 'fixed',
+                            right: 16,
+                            top: 'calc(env(safe-area-inset-top) + 72px)',
+                            zIndex: 50,
                             width: 'min(340px, calc(100% - 32px))',
                             background: 'rgba(245, 245, 245, 0.95)',
                             border: '1px solid var(--neutral-200)',
@@ -595,7 +613,7 @@ const GuideMapCapture: React.FC = () => {
                                                 }}
                                             >
                                                 <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--neutral-800)' }}>
-                                                    #{idx + 1} — {p.lat.toFixed(6)}, {p.lng.toFixed(6)}
+                                                    {activeId}{p.seq ?? (idx + 1)} — {p.lat.toFixed(6)}, {p.lng.toFixed(6)}
                                                 </div>
                                                 <button
                                                     onClick={() => handleRemoveGpsPoint(idx)}

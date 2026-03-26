@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { CircleMarker, FeatureGroup, MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { CircleMarker, FeatureGroup, MapContainer, TileLayer, Tooltip, useMap } from 'react-leaflet';
 import * as L from 'leaflet';
 import type { MapPin } from '../types';
 import { ensureLeafletGeomanLoaded } from '../utils/ensureLeafletGeoman';
@@ -63,9 +63,9 @@ function applyPolygonToFeatureGroup(featureGroup: L.FeatureGroup, polygon: LatLn
     featureGroup.clearLayers();
     if (!polygon || polygon.length < 3) return;
     const layer = L.polygon(toPositions(polygon) as any, {
-        color: 'var(--primary-300)',
+        color: 'var(--primary-400)',
         weight: 2,
-        fillColor: 'var(--primary-300)',
+        fillColor: 'var(--primary-400)',
         fillOpacity: 0.2
     });
     featureGroup.addLayer(layer);
@@ -191,7 +191,7 @@ const PinPolygonEditor: React.FC<PinPolygonEditorProps> = ({ pin, onPolygonChang
     }, []);
 
     const gpsPoints = useMemo(
-        () => (pin.latLngs || []).map(p => ({ lat: p.lat, lng: p.lng })),
+        () => (pin.latLngs || []).map(p => ({ lat: p.lat, lng: p.lng, seq: p.seq })),
         [pin.latLngs]
     );
 
@@ -245,12 +245,23 @@ const PinPolygonEditor: React.FC<PinPolygonEditorProps> = ({ pin, onPolygonChang
                             center={[p.lat, p.lng]}
                             radius={5}
                             pathOptions={{
-                                color: 'var(--primary-300)',
-                                fillColor: 'var(--primary-300)',
+                                color: 'var(--primary-400)',
+                                fillColor: 'var(--primary-400)',
                                 fillOpacity: 0.65,
                                 weight: 2
                             }}
-                        />
+                        >
+                            <Tooltip
+                                permanent
+                                direction="right"
+                                offset={[8, 0]}
+                                opacity={0.95}
+                                interactive={false}
+                                className="gps-point-tooltip"
+                            >
+                                {pin.id}{p.seq ?? (idx + 1)}
+                            </Tooltip>
+                        </CircleMarker>
                     ))}
 
                     <FeatureGroup ref={featureGroupRef}>

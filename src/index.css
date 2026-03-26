@@ -98,6 +98,21 @@ body {
     overscroll-behavior: contain;
 }
 
+.leaflet-tooltip.gps-point-tooltip {
+    background: rgba(245, 245, 245, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: var(--primary-400);
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.leaflet-tooltip.gps-point-tooltip::before {
+    border-right-color: rgba(0, 0, 0, 0.12);
+}
+
 #root {
     height: 100%;
     /* overflow: hidden; - Removed to enable pull-to-refresh */

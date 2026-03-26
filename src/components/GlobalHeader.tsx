@@ -6,10 +6,11 @@ interface GlobalHeaderProps {
     title?: string;
     showBack?: boolean;
     onBack?: () => void;
+    rightSlot?: React.ReactNode;
     style?: React.CSSProperties;
 }
 
-const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, style }) => {
+const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, rightSlot, style }) => {
     const navigate = useNavigate();
 
     return (
@@ -28,6 +29,7 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onB
                 </button>
             )}
             <h1>{title}</h1>
+            {rightSlot ? <div style={{ display: 'flex', alignItems: 'center' }}>{rightSlot}</div> : null}
         </header>
     );
 };
