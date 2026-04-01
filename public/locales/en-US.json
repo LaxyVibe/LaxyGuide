@@ -3,6 +3,16 @@
         "selectLanguage": "Select Language",
         "poweredBy": "Powered by"
     },
+    "hub": {
+        "pageTitle": "Hub",
+        "language": "Language",
+        "basicInfo": "Basic Info",
+        "map": "Map",
+        "spot": "Spot",
+        "museum": "Museum",
+        "guideNumber": "Guide #",
+        "recommended": "Recommended Spots"
+    },
     "map": {
         "title": "Map",
         "comingSoon": "Coming soon",

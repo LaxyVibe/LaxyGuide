@@ -3,6 +3,16 @@
         "selectLanguage": "Choisir la langue",
         "poweredBy": "Propulsé par"
     },
+    "hub": {
+        "pageTitle": "Accueil",
+        "language": "Langue",
+        "basicInfo": "Informations",
+        "map": "Carte",
+        "spot": "Spot",
+        "museum": "Musée",
+        "guideNumber": "No. guide",
+        "recommended": "Spots recommandés"
+    },
     "map": {
         "title": "Carte",
         "comingSoon": "Bientôt disponible",

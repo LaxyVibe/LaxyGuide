@@ -3,6 +3,16 @@
         "selectLanguage": "言語を選択",
         "poweredBy": "Powered by"
     },
+    "hub": {
+        "pageTitle": "ハブ",
+        "language": "言語",
+        "basicInfo": "基本情報",
+        "map": "地図",
+        "spot": "スポット",
+        "museum": "宝物館",
+        "guideNumber": "ガイド番号",
+        "recommended": "おすすめスポット"
+    },
     "map": {
         "title": "マップ",
         "comingSoon": "準備中",

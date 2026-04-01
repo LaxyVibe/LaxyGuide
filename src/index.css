@@ -54,6 +54,13 @@
     --misc-bs-50: #FFBBBF;
     --misc-bs-100: #FF5A5F;
     --misc-opam: #DAB381;
+    --misc-theme: var(--misc-opam);
+}
+
+body.theme-guide-jpn-usaa-tem-001 {
+    --misc-usaa: #D93513;
+    --misc-theme: var(--misc-usaa);
+    --misc-opam: var(--misc-theme);
 }
 
 * {

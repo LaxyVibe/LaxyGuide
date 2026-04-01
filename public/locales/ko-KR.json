@@ -3,6 +3,16 @@
         "selectLanguage": "언어 선택",
         "poweredBy": "Powered by"
     },
+    "hub": {
+        "pageTitle": "허브",
+        "language": "언어",
+        "basicInfo": "기본 정보",
+        "map": "지도",
+        "spot": "스팟",
+        "museum": "박물관",
+        "guideNumber": "가이드 번호",
+        "recommended": "추천 스팟"
+    },
     "map": {
         "title": "지도",
         "comingSoon": "준비 중",

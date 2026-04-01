@@ -3,6 +3,16 @@
         "selectLanguage": "选择语言",
         "poweredBy": "Powered by"
     },
+    "hub": {
+        "pageTitle": "主页",
+        "language": "语言",
+        "basicInfo": "基本信息",
+        "map": "地图",
+        "spot": "景点",
+        "museum": "宝物馆",
+        "guideNumber": "导览编号",
+        "recommended": "推荐景点"
+    },
     "map": {
         "title": "地图",
         "comingSoon": "敬请期待",

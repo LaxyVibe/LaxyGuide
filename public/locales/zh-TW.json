@@ -3,6 +3,16 @@
         "selectLanguage": "選擇語言",
         "poweredBy": "Powered by"
     },
+    "hub": {
+        "pageTitle": "首頁",
+        "language": "語言",
+        "basicInfo": "基本資訊",
+        "map": "地圖",
+        "spot": "景點",
+        "museum": "寶物館",
+        "guideNumber": "導覽編號",
+        "recommended": "推薦景點"
+    },
     "map": {
         "title": "地圖",
         "comingSoon": "敬請期待",
