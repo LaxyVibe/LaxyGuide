@@ -1,0 +1,306 @@
+{
+    "data": {
+        "id": 5,
+        "documentId": "au3e8t9cegnebahml864mmss",
+        "createdAt": "2025-06-15T13:47:22.398Z",
+        "updatedAt": "2025-08-03T03:40:10.233Z",
+        "publishedAt": "2025-08-03T03:40:09.985Z",
+        "locale": "ja",
+        "universalConfig": {
+            "id": 385,
+            "themeOptions": [
+                {
+                    "name": "beppu-airbnb",
+                    "colors": {
+                        "text": {
+                            "primary": "#333333",
+                            "secondary": "#666666"
+                        },
+                        "third": {
+                            "100": "#fd4ee8",
+                            "200": "#fd87ac",
+                            "300": "#f2ba6f",
+                            "400": "#ed9d33",
+                            "500": "#cd8d12",
+                            "600": "#90580d"
+                        },
+                        "primary": {
+                            "50": "#FFBBBF",
+                            "100": "#FF5A5F",
+                            "200": "#5fbcc4",
+                            "300": "#46b2bb",
+                            "400": "#328188",
+                            "500": "#215458",
+                            "600": "#133033"
+                        },
+                        "secondary": {
+                            "100": "#fc6dcd",
+                            "200": "#f9ad9b",
+                            "300": "#f57c5f",
+                            "400": "#f24b24",
+                            "500": "#cb310c",
+                            "600": "#a82209"
+                        },
+                        "background": {
+                            "paper": "#ffffff",
+                            "default": "#f5f5f7"
+                        }
+                    },
+                    "custom": {},
+                    "components": {},
+                    "typography": {
+                        "h5": {},
+                        "h6": {},
+                        "fontFamily": "\"Segoe UI\", \"Roboto\", \"Helvetica Neue\", sans-serif"
+                    }
+                }
+            ],
+            "releasedLanguages": [
+                {
+                    "id": 1591,
+                    "label": "English",
+                    "value": "en"
+                },
+                {
+                    "id": 1593,
+                    "label": "繁體中文",
+                    "value": "zh-Hant"
+                },
+                {
+                    "id": 1594,
+                    "label": "简体中文",
+                    "value": "zh-Hans"
+                },
+                {
+                    "id": 1595,
+                    "label": "日本語",
+                    "value": "ja"
+                },
+                {
+                    "id": 1592,
+                    "label": "한국어",
+                    "value": "ko"
+                }
+            ]
+        },
+        "globalComponent": {
+            "id": 5,
+            "readMoreLabel": "もっと読む",
+            "readLessLabel": "閉じる",
+            "hostTagLabel": "おすすめ",
+            "poweredByLabel": "Powered by{{value}}",
+            "exploreMoreAboutLabel": "{{value}}についてもっと知る",
+            "speechButton": {
+                "id": 133,
+                "label": "現地の言語で話す",
+                "icon": {
+                    "id": 141,
+                    "documentId": "tpgzvmi93gf1osa0xwzuxr0q",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_speak_address_4969d0f112.svg"
+                }
+            },
+            "audioGuideButton": {
+                "id": 1114,
+                "label": "Laxy でオーディオガイドを開始"
+            }
+        },
+        "header": {
+            "id": 5,
+            "leftRoute": "/language",
+            "rightRoute": "/search",
+            "leftIcon": {
+                "id": 50,
+                "documentId": "hkuhf9x3sdxvk6ze7jvq08t4",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993225/language_d9b073e167.svg"
+            },
+            "rightIcon": {
+                "id": 51,
+                "documentId": "jvchy61ioa80jed127o3frn8",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993228/Thin_23221aaa82.svg"
+            }
+        },
+        "pageLanding": {
+            "id": 5,
+            "recommendationHeading": "おすすめ",
+            "naviagtion": [
+                {
+                    "id": 115,
+                    "label": "情報",
+                    "route": "/info",
+                    "icon": {
+                        "id": 134,
+                        "documentId": "ombo0ro1g4mb4eoxe7jlm6xw",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/home_71883efcee.svg"
+                    }
+                },
+                {
+                    "id": 116,
+                    "label": "Wi-Fi",
+                    "route": "/info/wifi",
+                    "icon": {
+                        "id": 136,
+                        "documentId": "shsaxh5axl38lpn3e1rdkhxq",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/wifi_7524ba9935.svg"
+                    }
+                },
+                {
+                    "id": 117,
+                    "label": "観光スポット",
+                    "route": "/nearby-attractions",
+                    "icon": {
+                        "id": 135,
+                        "documentId": "xfzojkskubw4embqr4pusahf",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/attraction_5c03bd884d.svg"
+                    }
+                },
+                {
+                    "id": 118,
+                    "label": "グルメ",
+                    "route": "/nearby-restaurants",
+                    "icon": {
+                        "id": 137,
+                        "documentId": "heuvx1oitqvtk7grrznu15h5",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/restaurant_31d7d2875f.svg"
+                    }
+                },
+                {
+                    "id": 119,
+                    "label": "ツアー",
+                    "route": "/tours",
+                    "icon": {
+                        "id": 133,
+                        "documentId": "bgy78q860mn9pu9j5ihmi2h4",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/laxy_guide_ca15b8e003.svg"
+                    }
+                }
+            ]
+        },
+        "pageLanguage": {
+            "id": 5,
+            "heading": "言語",
+            "applyButton": {
+                "id": 120,
+                "label": "言語を選択"
+            }
+        },
+        "pageSearch": {
+            "id": 5,
+            "searchInputPlaceholder": "次の体験を見つけよう",
+            "searchResultHeading": "{{value}}の検索結果",
+            "noResultsFound": "検索結果なし",
+            "defaultListHeading": "人気の検索",
+            "highlightedListHeading": "おすすめ",
+            "defaultList": [
+                {
+                    "id": 126,
+                    "label": "温泉",
+                    "value": "温泉"
+                }
+            ]
+        },
+        "pageInfo": {
+            "id": 5,
+            "heading": "客室情報",
+            "navigation": [
+                {
+                    "id": 128,
+                    "label": "住所",
+                    "route": "/info/address",
+                    "icon": {
+                        "id": 139,
+                        "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+                    }
+                },
+                {
+                    "id": 129,
+                    "label": "チェックイン & チェックアウト",
+                    "route": "/info/check-in-out",
+                    "icon": {
+                        "id": 140,
+                        "documentId": "ny3i9mxz3tqphepd6lnz9rx3",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_check_in_fd1c9f89e4.svg"
+                    }
+                },
+                {
+                    "id": 130,
+                    "label": "ハウスルール",
+                    "route": "/info/house-rules",
+                    "icon": {
+                        "id": 146,
+                        "documentId": "rgw0u3z4veeijwz946iin296",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_house_rule_f8f555ad4e.svg"
+                    }
+                },
+                {
+                    "id": 131,
+                    "label": "アメニティ",
+                    "route": "/info/amenities",
+                    "icon": {
+                        "id": 145,
+                        "documentId": "dwx9uucbnqip27nk9chj468r",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_amenities_8647386535.svg"
+                    }
+                },
+                {
+                    "id": 132,
+                    "label": "よくある質問",
+                    "route": "/info/faq",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                },
+                {
+                    "id": 1030,
+                    "label": "直接連絡",
+                    "route": "/info/direct-contact",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                }
+            ]
+        },
+        "pageWiFi": {
+            "id": 5,
+            "networkLabel": "ネットワーク",
+            "passwordLabel": "パスワード",
+            "scanQRButton": {
+                "id": 134,
+                "label": "QRコードをスキャンして接続"
+            },
+            "clipboardButton": {
+                "id": 135,
+                "label": "パスワードをコピー"
+            },
+            "showQRButton": {
+                "id": 136,
+                "label": "共有用のQRコードを表示"
+            }
+        },
+        "pagPoiDetail": {
+            "id": 5,
+            "recommendationHeading": "おすすめ",
+            "highlightHeading": "ハイライト",
+            "addressIcon": {
+                "id": 139,
+                "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+            },
+            "urlIcon": {
+                "id": 143,
+                "documentId": "w85dgbdib90x46ftsjdba0qe",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_website_9231e953c1.svg"
+            },
+            "dialIcon": {
+                "id": 142,
+                "documentId": "ajwi1suy1r4uheq9disvahq1",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_phone_879b964e27.svg"
+            }
+        }
+    },
+    "meta": {}
+}

@@ -1,0 +1,1016 @@
+{
+    "data": [
+        {
+            "id": 33,
+            "documentId": "fqo1h0out7mhbu3510at2l4x",
+            "recommendation": "這是一間從住宿地步行不到10分鐘即可抵達的溫泉，入場費也只要100日圓。\n\n它擁有超過百年歷史，被譽為別府最美的溫泉建築之一。\n\n不過可惜的是內部設施相當老舊，雖然受到當地居民喜愛，對韓國旅客來說可能會有些文化衝擊。\n\n不過外觀真的非常漂亮，無論白天或晚上都是拍照的絕佳景點。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 1,
+            "weightInHighlight": 0,
+            "poi": {
+                "id": 90,
+                "documentId": "ay4mg0bs3x2bxba901uhtanm",
+                "slug": "Takegawara-Onsen",
+                "label": "竹瓦溫泉",
+                "address": "〒874-0944 大分縣別府市元町16番23號",
+                "highlight": "竹瓦溫泉是別府市最具代表性的傳統公共溫泉之一，位於一棟極具歷史風情的老式建築內。建築本身已有百年以上歷史，是別府溫泉文化的象徵之一，也被視為市內的地標。\n\n除了經典的日式溫泉浴池之外，這裡最著名的特色是「砂湯」——旅客可躺入溫熱的砂堆中，由天然地熱蒸氣加熱身體，體驗不同於一般泡湯的療癒效果，深受海內外旅客喜愛。\n\n作為歷史與文化交會之地，竹瓦溫泉不僅是泡湯場所，更是一場時光旅行的體驗，極推薦給第一次造訪別府的旅人。",
+                "externalURL": "https://www.takegawara-onsen.com/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 13,
+                        "documentId": "cfq91726e76i6u7ywdblwsnn",
+                        "name": "溫泉",
+                        "color": "GREY"
+                    },
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 61,
+                    "documentId": "cuwoxz5swpqikoe2n5p1kmse",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993261/Takegawara_Onsen_ae85d80840.jpg"
+                }
+            }
+        },
+        {
+            "id": 38,
+            "documentId": "cdemz0jtzqzijqkioptpa5fm",
+            "recommendation": "這是從住宿地走路只需3分鐘的溫泉。只要250日圓就可以入場。\n別府的在地溫泉沒有提供毛巾、肥皂、洗髮精等備品，請務必從住宿處自行攜帶前往。\n\n（可參考別府 Airbnb 部落格）\nhttps://blog.naver.com/beppu-airbnb/221190748570",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": 0,
+            "poi": {
+                "id": 98,
+                "documentId": "zbyhe0y7k0w2ma9h1538lab9",
+                "slug": "Kaimonji-Onsen",
+                "label": "海門寺溫泉",
+                "address": "〒874-0920 大分縣別府市北濱2丁目3番2號",
+                "highlight": "海門寺溫泉是位於日本大分縣別府市的一間歷史悠久的公共溫泉，價格親民，深受當地居民與旅客的喜愛。對於想體驗地道日式泡湯文化的人來說，是非常理想的選擇。\n\n溫泉本身保留了傳統簡約的風格，雖不豪華，卻充滿溫馨與懷舊感。設施樸實，適合喜歡安靜、純粹泡湯體驗的旅人。由於地點鄰近別府市中心，從車站步行即可到達，交通相當便利。\n\n若您想要深入感受別府的日常與溫泉文化，海門寺溫泉是一個值得納入行程的好選擇。",
+                "externalURL": "https://www.city.beppu.oita.jp/sisetu/shieionsen/detail7.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 13,
+                        "documentId": "cfq91726e76i6u7ywdblwsnn",
+                        "name": "溫泉",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 20,
+                    "documentId": "bn0d6ekn7kb3kd07g07srb2d",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993120/Kaimonji_Onsen_bdf2f3eabf.webp"
+                }
+            }
+        },
+        {
+            "id": 47,
+            "documentId": "yc90mvlgxhe5vpota6hx1eas",
+            "recommendation": "這家店搭乘大眾交通工具比較困難，不過如果是自駕的話，從住宿地出發約20分鐘就能抵達。若您有時間，非常推薦一試。\n這是別府最受歡迎的炸豬排專門店之一。只需約1,200日圓，就能吃到讓人難忘的美味炸豬排。\n每週一為固定公休日，其餘日子正常營業。\n但下午2點到5點之間為準備時間，暫不接待客人，建議最晚在1點半前到店，才能確保有位子用餐。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 69,
+                "documentId": "wq5ru3gyazxqyv3zel38jv70",
+                "slug": "Tonkichi-Pork-Cutlet-Restaurant",
+                "label": "炸豬排亭",
+                "address": "〒874-0922 大分縣別府市船小路町4-38",
+                "highlight": "「とん吉 日出店」是位於大分縣速見郡日出町的人氣日式炸豬排專門店，以香酥外皮與多汁厚切豬排聞名。這裡的炸豬排經過細緻工法處理，外酥內嫩，搭配濃郁特製醬汁與現炸現上的口感，深受在地居民與觀光客一致好評。\n\n店內環境簡潔溫馨，設有座席區，非常適合家庭聚餐或自駕旅途中途休息享用。除了經典豬排定食外，也有提供味噌豬排、起司豬排、海鮮炸物等多樣選擇，配菜與白飯、味噌湯的搭配也極具誠意，是一間讓人吃得飽足又滿意的餐廳。\n\n由於店舖位置靠近別府至湯布院的中繼點，非常適合作為行程中的午餐停留地點。",
+                "externalURL": null,
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 30,
+                    "documentId": "krzmra0m4y3q56q0qghmd8ug",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993153/Tonkichi_Pork_Cutlet_Restaurant_96b3b8190d.webp"
+                }
+            }
+        },
+        {
+            "id": 51,
+            "documentId": "iyw10rslycmv2ehlqunsfw33",
+            "recommendation": "說到別府的飯店與溫泉，杉乃井飯店的溫泉大概是最有名的了。\n住宿過的旅客大多給予極高的評價。不過問題是價格，即使最便宜每人每晚也要大約12萬韓元，旺季時甚至可能接近40萬韓元。以四人家庭來說，總金額輕鬆超過150萬韓元。\n\n不過，其實有個方法可以用很划算的價格，享受杉乃井飯店的屋頂展望溫泉「棚湯」與溫水泳池「Aqua Garden」。很多人不知道，即使不住宿，只要支付入場費也可以使用這兩個設施。大人只需1,200日圓（週末為1,800日圓），3歲至小學生只需700日圓（週末為1,100日圓）即可入場。\n\n從別府站西口出發，每15分鐘就有一班免費接駁車，開車前往也有免費停車場。晚上8點、9點、10點與11點還有華麗的雷射秀，特別推薦夜間前往。周邊也有由地熱發電點亮的燈飾，非常適合拍照留念。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": 0,
+            "poi": {
+                "id": 105,
+                "documentId": "hjcj7rzrritadxa3c3cmrgjg",
+                "slug": "Suginoi-Hotel-Aqua-Garden",
+                "label": "杉乃井飯店 棚湯・水上樂園",
+                "address": "〒874-0822 大分縣別府市觀海寺1",
+                "highlight": "The Aqua Garden 是位於別府杉乃井飯店內的著名水療樂園，結合了溫泉療癒與度假風情，為旅客帶來絕佳的放鬆體驗。設施包含露天溫泉水池、發光噴泉、瀑布牆與視覺特效等，不僅適合情侶與家庭同遊，也非常適合喜愛夜間浪漫氛圍的旅人。\n\n遊客不需住宿杉乃井飯店也可單獨購票入場，因此深受一日遊旅客喜愛。尤其夜晚點燈與水上表演搭配背景音樂，營造出別府難得一見的幻想景色，是拍照與放鬆身心的熱門選擇。",
+                "externalURL": "https://www.suginoi-hotel.com/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 13,
+                        "documentId": "cfq91726e76i6u7ywdblwsnn",
+                        "name": "溫泉",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 28,
+                    "documentId": "fh1ususq0aqyits1nm12k08d",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993148/Suginoi_Hotel_Aqua_Garden_9183456676.jpg"
+                }
+            }
+        },
+        {
+            "id": 53,
+            "documentId": "sztyjnxmari8esrsqhxjtg95",
+            "recommendation": "這不是什麼非去不可的美食名店，但在別府這個早上很難找到早餐地點的城市，這家24小時營業的店非常實用。\n從住宿地走路約5分鐘即可抵達，菜單選擇也多，推薦給想好好吃頓早餐的旅客。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 67,
+                "documentId": "ufvfj53ool114vx4qoajv07p",
+                "slug": "Gusto-Family-Restaurant",
+                "label": "Gusto 別府店",
+                "address": "〒874-0929 大分縣別府市南的濱町5-23",
+                "highlight": "ガスト 別府店是日本知名的家庭餐廳連鎖店「Gusto」在別府的分店。這家餐廳提供多樣化的菜單選擇，從日式料理到西式餐點應有盡有，包括漢堡排、義大利麵、沙拉和各種甜點。無論是早餐、午餐還是晚餐，都是當地居民和遊客輕鬆用餐的好去處。餐廳通常營業時間很長，能滿足不同時段的用餐需求，提供一個舒適便利的用餐環境。您可以在這裡享用美味且價格實惠的家庭式料理。",
+                "externalURL": "https://www.skylark.co.jp/gusto/?utm_source=gt&utm_medium=gmb&utm_campaign=brandtop-Oita",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 54,
+                    "documentId": "v3pgajqtu70x5o79o2hro4mp",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993239/Gusto_Family_Restaurant_e599f80ef5.jpg"
+                }
+            }
+        },
+        {
+            "id": 57,
+            "documentId": "ygz4f9zcv7qn7zka972zlrgj",
+            "recommendation": "這裡除了御好燒之外，還有各種便宜又好吃的料理。\n（可參考別府 Airbnb 部落格）\nhttps://blog.naver.com/beppu-airbnb/221192980467",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 103,
+                "documentId": "jib9rnnskq6upziyoqrcy20w",
+                "slug": "Miyako",
+                "label": "御好燒與家庭料理店",
+                "address": "〒874-0944 大分縣別府市元町7-4 Sol Paseo Ginza",
+                "highlight": "「味Dining みやこ」是一家位於別府市中心的溫馨居酒屋，以家庭料理與日式鐵板燒風味著稱。料理價格親民，是享受美食與輕鬆聚會的絕佳選擇。\n\n餐廳位於商業大樓「ソルパセオ銀座」內部，交通便利，內用環境整潔舒適，氣氛輕鬆。餐點內容豐富，從經典日式小菜到現煎御好燒等應有盡有，特別適合想體驗道地日式晚餐的旅人。",
+                "externalURL": null,
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 65,
+                    "documentId": "lgncb5nepp8m2sme3xsfnskr",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993274/Miyako_3465e2547c.jpg"
+                }
+            }
+        },
+        {
+            "id": 60,
+            "documentId": "w8juezzycgun0tjllzv3cu24",
+            "recommendation": "這是一間從住宿地走路大約3分鐘就能到的居酒屋。牛排、雞天（炸雞天婦羅）、生魚片和啤酒都非常美味。\n在日本來說，這裡少見地可以使用信用卡付款。\n由於實在太受歡迎，有時候可能要排很久，甚至可能完全沒有位子喔！",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 53,
+                "documentId": "c719oonijgcgt626kq8fdcix",
+                "slug": "Robata-Jin",
+                "label": "炉端燒 仁",
+                "address": "〒874-0920 大分縣別府市北濱1丁目15-7",
+                "highlight": "「ろばた仁」是一間位於別府市北濱的溫馨日式居酒屋，以親切的服務與溫暖氛圍深受在地人與旅客喜愛。店內提供多樣酒類，包括啤酒、日本酒與燒酌，並搭配各式美味下酒菜。\n\n料理以天婦羅與新鮮海鮮料理為主，無論是想小酌幾杯，還是與朋友家人共度一段悠閒時光，都非常適合。這裡僅提供內用服務，不支援外送，是一處適合坐下來慢慢享受的居酒屋空間。",
+                "externalURL": "http://robata-jin.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 62,
+                    "documentId": "cmxjsspjlcpa681n2l8nsm52",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993265/Robata_Jin_7347b0a438.jpg"
+                }
+            }
+        },
+        {
+            "id": 67,
+            "documentId": "g1dcfl7avlm56zcjg55mg1d5",
+            "recommendation": "串燒料理非常出色，食物和店內氛圍都乾淨又舒服。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 56,
+                "documentId": "ryy1jnppo9wybvmp70ech7am",
+                "slug": "Yakitori-Bon",
+                "label": "烤雞凡 母家",
+                "address": "〒874-0920 大分縣別府市北濱1丁目1-11",
+                "highlight": "「焼とり凡 母家」是別府市北濱一帶極具人氣的日式燒鳥居酒屋，店內設有掘式座席與包廂空間，氛圍雅緻又具隱私性，非常適合朋友聚餐或小酌放鬆。\n\n店內主打香氣四溢的炭火串燒（焼き鳥），並搭配各式新鮮海鮮料理與小菜。除了美味佳餚，這裡也備有豐富的地酒與燒酎選擇，能滿足講究品味的客人，是體驗地道日式居酒屋文化的絕佳場所。",
+                "externalURL": "http://www.yakitoribon.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 68,
+                    "documentId": "jthi0uk1t3mn2ih8vig77jqg",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993284/Yakitori_Bon_7f6349f1d9.jpg"
+                }
+            }
+        },
+        {
+            "id": 70,
+            "documentId": "x6rmzcbbyy4exizeasek46cr",
+            "recommendation": "這是一間從住宿地步行約10分鐘即可抵達的拉麵店。\n主打豚骨拉麵，但幾乎沒有常見的豬肉腥味，味道非常清爽可口。\n我個人特別推薦蔬菜拉麵。到目前為止，從沒有人去過後感到失望。\n（可參考別府 Airbnb 部落格）\nhttps://blog.naver.com/beppu-airbnb/221189815570",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 48,
+                "documentId": "rc804d2del0mxnd6yah50v5x",
+                "slug": "Fukuya-Ramen",
+                "label": "福屋拉麵工房 總本店",
+                "address": "〒874-0926 大分縣別府市京町8-16",
+                "highlight": "\"位於別府市京町的「ラーメン工房 ふくや総本店」是一家老字號的拉麵專門店，以實在的味道與濃厚豚骨湯頭聞名。店面外觀樸實低調，內部則是簡約舒適的日式設計，氣氛親切，是許多當地人與熟客的日常用餐首選。\n\n本店堅持以傳統手法熬製豚骨湯頭，香氣濃郁但不油膩，配上彈牙的中細麵條，呈現出一碗風味十足的經典九州拉麵。除了基本款，還提供蔬菜拉麵、叉燒加量版本，以及辣味變化，滿足不同食客的口味需求。\n\n店內提供座位內用，也開放外帶服務，非常適合在行程緊湊的旅途中快速品嚐一餐熱騰騰的拉麵。無論是當作午餐還是晚餐的選擇，這裡都能提供一碗令人滿足的熱湯拉麵。\"",
+                "externalURL": "https://fukuya-ramen.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 19,
+                    "documentId": "e5agzobomj3a6u58h7iz9sgp",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993117/Fukuya_Ramen_60448ac175.jpg"
+                }
+            }
+        },
+        {
+            "id": 72,
+            "documentId": "isu7ps10ec3y3tzfxakty8pa",
+            "recommendation": "\"這間麵包店也距離住宿地步行約10分鐘，\n每天早上8點半開門，非常適合當作早餐選擇。\n擁有超過100年歷史，味道簡單卻很有溫度與親切感。\n因為很受歡迎，經常有人排隊，麵包都是現烤現賣，非常熱騰騰。\n紅豆麵包不會太甜，非常好吃。我推薦粒餡麵包（つぶあん）和奶油法國麵包。\n星期日為固定公休日，請避開當天前往。\n（可參考別府 Airbnb 部落格）\nhttps://blog.naver.com/beppu-airbnb/221192886631",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 127,
+                "documentId": "ni2f8rqmz4p31j41wfw7cqba",
+                "slug": "Tomonaga-Bakery",
+                "label": "友永麵包店",
+                "address": "〒874-0942 大分縣別府市千代町2-29",
+                "highlight": "創業超過百年的「友永パン屋」是別府當地歷史最悠久、人氣最高的老字號麵包店之一。自大正時代創業以來，店舖始��堅持使用傳統製法與自家改良的配方，將一個個樸實無華卻溫暖人心的手作麵包，帶給每一位顧客。\n\n這裡最受歡迎的產品包括經典的紅豆麵包（つぶあんパン）與奶油法國麵包，內餡不會過甜，口感柔軟有彈性，老顧客絡繹不絕。不論是當地居民還是觀光客，常常一早就來排隊，只為搶購剛出爐的熱騰騰麵包。\n\n店內僅提供外帶，不設內用座位，也無���配服務。由於數量有限，熱門商品常常在早上就售罄，建議早點前往以免向隅。",
+                "externalURL": "https://www.instagram.com/tomonaga_panya/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 64,
+                    "documentId": "baw7gjiq544l4i112urpxs0f",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993271/Tomonaga_Bakery_4f3a049426.jpg"
+                }
+            }
+        },
+        {
+            "id": 79,
+            "documentId": "f09aintojoqdgfuy19fdc28d",
+            "recommendation": "這碗拉麵不需要多加說明，我敢說這是我心目中的「人生拉麵」。\n一定要試試看，保證不會後悔。\n價格不到700日圓，配料中的豆芽（もやし）還可以無限續加。\n（可參考別府 Airbnb 部落格）\nhttps://blog.naver.com/beppu-airbnb/221196535282",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 120,
+                "documentId": "ta9w6rsuey2dq5giwvjymqmm",
+                "slug": "Taiichi-Shoten-Ramen-Restaurant",
+                "label": "太一商店 別府山嶺店",
+                "address": "〒874-0845 大分縣別府市北中",
+                "highlight": "「太一商店 別府やまなみ店」是位於別府市北中的人氣拉麵店，以份量豪邁、湯頭濃厚的「二郎系拉麵」風格受到饕客青睞。店舖設計簡潔實用，座位寬敞，適合一人用餐，也適合朋友相約一同大口吃麵。\n\n湯頭以豚骨為基底，融合濃郁醬油風味，油脂豐厚卻不膩口。麵條採用粗捲麵，彈性十足，搭配大量豆芽菜、捲心菜與厚切叉燒，讓人吃得非常過癮。還能依個人喜好加蒜、加背脂、加量，打造專屬你的客製化拉麵。\n\n此外，店家亦提供外帶服務，是喜歡重口味與飽足感拉麵愛好者的必訪名店之一。",
+                "externalURL": "http://taichi-shouten.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 60,
+                    "documentId": "bxcel738a2au9zqf61p7ka67",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993258/Taiichi_Shoten_Ramen_Restaurant_2e028bdbb9.jpg"
+                }
+            }
+        },
+        {
+            "id": 83,
+            "documentId": "ggdg58lya8zch2xrc1ub65t5",
+            "recommendation": "這間壽司店距離第7號拉麵店步行約4分鐘。\n總是人潮滿滿，熱門時段甚至可能要等上2個小時，不過真的非常值得一試。\n吃過這裡的壽司後，可能會讓你對其他壽司再也提不起興趣。\n味噌湯免費供應，平均一個人會喝上三碗。\n每週三為固定公休日，請特別注意。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 130,
+                "documentId": "b0awrv0nz4o9jx05w2g2bfqa",
+                "slug": "Kamesho-Sushi-Restaurant",
+                "label": "龜正壽司",
+                "address": "〒874-0840 大分縣別府市鶴見34番地",
+                "highlight": "\"「亀正くるくる寿司」是別府市鶴見地區極具人氣的迴轉壽司名店，以新鮮份量十足的壽司食材聞名。這裡的每一貫壽司用料厚實、切工大器，不僅味道新鮮，視覺上也相當滿足，是許多在地人與觀光客心中的「回訪名單」。\n\n店內裝潢走簡約路線，設有吧檯座與寬敞的家庭式包廂座位，無論是一人用餐還是家族聚餐都相當合適。餐盤種類多樣，從經典鮪魚、鮭魚、花枝，到每日現流海鮮，都能輕鬆以迴轉方式享用，或直接向師傅點單。\n\n該店不提供外送服務，但可內用或外帶。由於人氣極高，高峰時段常需排隊候位，建議提前前往或安排較早用餐時間。",
+                "externalURL": "https://instagram.com/kamesho_9696_sushi",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 53,
+                    "documentId": "vbqclj7f6fnfr58wetno9q8f",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993236/Kamesho_Sushi_Restaurant_43a2b77d65.jpg"
+                }
+            }
+        },
+        {
+            "id": 87,
+            "documentId": "rioj7xtte9duy59488673uwh",
+            "recommendation": "這可說是別府最具代表性的在地美食體驗。\n使用溫泉的天然蒸氣來蒸熟食材，這種味道絕對會讓你驚艷，前所未有的體驗！\n就算什麼都沒準備，現場也有搭配好的菜單可以點餐。\n如果是開車來的話，也可以事先到超市買好自己想吃的食材，帶到現場直接蒸來吃。\n（自備食材的話需另外加收500日圓，但份量和選擇都會更滿意。）",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 139,
+                "documentId": "he4j08woj4a9xa8951wr185e",
+                "slug": "Jigoku-Steam-Food",
+                "label": "地獄蒸工房 鐵輪",
+                "address": "〒874-0041 大分縣別府市風呂本5組",
+                "highlight": "「地獄蒸し工房 鉄輪」是別府著名的體驗型鄉土料理餐廳，以利用天然溫泉蒸氣進行烹調的「地獄蒸し料理」聞名。這種烹飪方式自江戶時代便已流傳，將蔬菜、海鮮、肉類等食材放入蒸籠中，直接以地底噴出的高溫蒸氣烹熟，不加一滴油水，保留食材原始風味與營養。\n\n工房提供兩種體驗方式：可選擇現場提供的套餐菜單，也可自備食材進行DIY蒸煮（酌收設備使用費）。體驗過程親自動手操作，既有趣又能留下深刻回憶，是家庭、朋友與情侶間熱門的別府特色行程。\n\n店內設有寬敞的用餐區，但不提供外帶與宅配服務。地點位於鐵輪溫泉區中心，交通便利，是到訪別府不可錯過的在地體驗美食。",
+                "externalURL": "http://jigokumushi.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 22,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "美食",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 17,
+                    "documentId": "gx4ei6tx9t03gg9rndbpsipc",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993110/Jigoku_Steam_Food_5036f0ebc7.jpg"
+                }
+            }
+        },
+        {
+            "id": 88,
+            "documentId": "qxlohlevz1explpizllk1pj9",
+            "recommendation": "這是一間於2022年12月新開幕、非常有名的人氣店家。\n從住宿地走路只需4分鐘，建議輕鬆前往，好好享受一段美好的時光！",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 84,
+                "documentId": "k43jal69ybwqggeyuh7x5plr",
+                "slug": "Don-Quijote-Beppu",
+                "label": "惊安的殿堂 唐吉诃德 别府店",
+                "address": "〒874-0929 大分縣別府市南的濱町6-20",
+                "highlight": "「ドン・キホーテ 別府店」是日本知名的連鎖折扣百貨之一，位於別府市中心，提供種類繁多的商品，是觀光客與當地居民愛逛的超人氣便利購物地點。\n\n店內商品琳瑯滿目，從零食、日用品、藥妝、家電、玩具，到旅遊用品、服飾、鞋類、伴手禮等幾乎應有盡有。獨特的貨架設計讓人彷彿置身迷宮，每一次逛街都有不同發現，購物過程充滿樂趣。\n\n這裡特別受到海外遊客歡迎，常設免稅櫃檯，也提供多語言標示與友善服務。若想一站購足旅行所需或尋找平價驚喜好物，這裡絕對是必訪選擇之一。",
+                "externalURL": "https://www.donki.com/store/shop_detail.php?shop_id=650",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 17,
+                        "documentId": "n1fasfi52e6y59v8id9eimde",
+                        "name": "購物",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 33,
+                    "documentId": "b26zl95p6yx9h2497yl2xnhu",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993163/Don_Quijote_Beppu_bc0d8ce926.webp"
+                }
+            }
+        },
+        {
+            "id": 95,
+            "documentId": "an2vgmjggr5w3twg3vub26lo",
+            "recommendation": "這是別府最大的購物中心。\n若您習慣了韓國華麗的大型百貨，可能會覺得這裡比較樸實，但在別府來說，這裡算是規模最大、商品種類齊全，逛街買東西都非常方便，也很適合消磨時間。\n一樓有超市，二樓是服飾店與百元商店 DAISO，三樓則有書店、遊戲中心、UNIQLO 和美食廣場，不知不覺就能逛很久。\n從住宿地走路約10分鐘即可抵達，若是開車前來，也有免費停車場，完全沒有壓力。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 93,
+                "documentId": "u7dzshg6ndcfbqn4lostzltw",
+                "slug": "YouMe-Town",
+                "label": "YouMe Town",
+                "address": "〒874-0943 大分縣別府市楠町382-7",
+                "highlight": "「YouMe Town Beppu（ゆめタウン別府）」是別府市規模最大的複合式購物中心之一，集結超市、服飾、美妝、書店、遊戲中心、餐飲與生活用品等多元店鋪，為當地居民與旅客提供一站式購物與休閒體驗。\n\n商場共有數層樓，1樓為大型超市與生活雜貨區，方便購買日常用品與伴手禮。2樓主打服飾品牌與百元商店如DAISO，3樓則設有UNIQLO、書局、兒童遊樂區與美食廣場，無論購物、用餐還是親子同行都相當便利。\n\n地點鄰近別府市區，交通便利，設有免費停車場，也可步行或搭乘大眾交通工具前往。無論是想快速採購生活用品，還是打發悠閒午後時光，這裡都是絕佳選擇。",
+                "externalURL": "http://www.izumi.jp/tenpo/beppu",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 17,
+                        "documentId": "n1fasfi52e6y59v8id9eimde",
+                        "name": "購物",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 67,
+                    "documentId": "lyvotngq6b8coryziudxxe1o",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993280/You_Me_Town_1942a0f995.jpg"
+                }
+            }
+        },
+        {
+            "id": 98,
+            "documentId": "l5czot5ynsv0dczsdgzmzsga",
+            "recommendation": "這是一座能與眾多猴子一起互動、度過愉快時光的小型動物園。\n如果您熱愛動物，尤其對猴子有興趣，非常推薦來這裡體驗！園區每天早上 8:30 開園。\n\n從別府車站（Beppu Station）搭乘大分交通巴士（大分交通），搭乘前往大分站（大分駅行）的班車，於高崎山自然動物園前站下車即可。\n\n若直接從住宿地出發，別府北濱巴士站（Tokiwa百貨旁）可能比別府車站更近，您可以搭乘AS60 或 AS61 號巴士。\n班次不多，建議事先查詢時刻表",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 82,
+                "documentId": "buj1fyygg1np66jit4b0is97",
+                "slug": "Takasaki-Mountain-Monkey-Park",
+                "label": "高崎山自然動物園",
+                "address": "〒870-0802 大分縣大分市神崎3098-1",
+                "highlight": "高崎山自然動物園位於大分市神崎地區，是一座以野生獼猴（日本猕猴）為主角的自然動物公園，也是九州地區最具代表性的親子戶外景點之一。園內的猴群生活在天然山林中，遊客可近距離觀察牠們自然生活的樣貌，體驗人與動物共處的和諧氛圍。\n\n這裡以無柵欄設計聞名，猴子們可自由在園區活動，十分活潑且不怕人。除了觀看猴群的生活，園方還會安排定時餵食解說，幫助旅客了解猴子的習性與群體行為，特別受親子與生態愛好者歡迎。\n\n園區附設有購票處、簡單的紀念品商店與資訊展覽空間，可作為教育性旅遊的理想場域。園區與「大分海洋水族館 うみたまご」相鄰，可安排成半日至一日的連線觀光行程。",
+                "externalURL": "http://www.takasakiyama.jp/takasakiyama/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 59,
+                    "documentId": "sl3agayy164c9neg14tzwe0n",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993255/Takasaki_Mountain_Monkey_Park_7563ebf6b2.jpg"
+                }
+            }
+        },
+        {
+            "id": 102,
+            "documentId": "yk8wxb6rl1wqud1ruct2onda",
+            "recommendation": "從住宿地走路約7分鐘，就能抵達別府「彌生通」上的天狗頭像（日本的妖怪形象）。\n彌生通曾是別府車站前最熱鬧的商店街之一，但近年來人潮略為減少。\n這尊天狗被視為守護這條街的象徵，很多人都會在天狗前拍照打卡。\n天狗的大鼻子象徵著男性陽剛之氣……如果你從後面看看，還可能發現一個「隱藏的小驚喜」喔！（偷偷說，有點19禁！）",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 40,
+                "documentId": "nkd2ej5kim0rc9kkf0c90ws6",
+                "slug": "Yayoi-Tengu",
+                "label": "彌生天狗",
+                "address": "〒874-0920 大分縣別府市北濱1丁目1-21",
+                "highlight": "「やよい天狗」是位於別府市北濱、彌生商店街入口處的特色地標雕像，以巨大的天狗面具（日本傳說中的山林守護神）為造型，象徵著驅邪與守護。這座雕像不僅是當地信仰的象徵，也成為來別府觀光時的熱門拍照點。\n\n天狗的鼻子高挺，表情威嚴，據說代表男性力量與庇佑之意。許多遊客會站在其前方或一旁留影，尤其在夜晚點燈時更具神秘感。據說從雕像背面觀察還能發現一些「隱藏彩蛋」，讓遊客多了一分趣味探索。\n\n地點鄰近別府站，交通方便，也與彌生商店街連接，是在地人過往繁華的購物區之一。雖然如今人潮不如以往，但這座天狗雕像仍默默守護著別府的街角與記憶，是散步途中不可錯過的文化景觀。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 28,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "漫步",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 29,
+                    "documentId": "xymbmct90lzww2chxijcpq9v",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993150/Yayoi_Tengu_0cfbb6be33.avif"
+                }
+            }
+        },
+        {
+            "id": 107,
+            "documentId": "r3nirdp1537ofb2srpamuorr",
+            "recommendation": "這處海灘距離住宿地步行不到5分鐘。\n雖然不是可以游泳的海灘，但非常適合早晨或傍晚散步。\n如果您穿著運動鞋，來回走個30分鐘，會意外地覺得非常有氣氛與療癒。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 108,
+                "documentId": "qjxyx38759qbkxcvw0rzwshe",
+                "slug": "Matogahama-Park",
+                "label": "的ヶ濱公園",
+                "address": "〒874-0928 오이타현 벳푸시 北的濱町5",
+                "highlight": "「的ヶ浜公園」位於別府市北的ヶ浜町，是一座緊鄰海岸的開放型市民公園，擁有開闊的視野與寧靜的氛圍，是當地居民與旅客喜愛的散步與休憩地點。\n\n公園面朝別府灣，沿岸設有步道，非常適合早晨慢跑、傍晚散步或欣賞日出與海景。場地寬敞平坦，綠意盎然，是遛狗、野餐、帶小孩放電的理想場所。更重要的是，這裡可攜帶寵物同行，對於有毛小孩的旅客來說非常友善。\n\n由於鄰近市區與海邊，步行可達多個溫泉設施與餐飲店，位置便利，是串聯別府生活風景的一部分。不論是清晨的海風還是夜晚的寧靜，皆令人感受到別府獨有的悠閒魅力。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 28,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "漫步",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 56,
+                    "documentId": "hkspxp7htf4ig2pslswgye80",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993244/Matogahama_Park_ca14f9cc40.jpg"
+                }
+            }
+        },
+        {
+            "id": 110,
+            "documentId": "mk5pmntu30bmrncmcuxxi0lz",
+            "recommendation": "這是位於「高崎山自然動物園」（第1個景點）對面的水族館。\n搭乘大眾交通工具（公車）時，交通方式與前往動物園相同。\n水族館早上 9點開園，非常推薦給情侶與有小孩的家庭前來參觀。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 143,
+                "documentId": "uyj91g2qym0hfs9s78jvhk7u",
+                "slug": "Umitamago-Aquarium",
+                "label": "大分海洋宮水族館",
+                "address": "〒870-0100 大分縣大分市神崎字宇戶-3078番地之22",
+                "highlight": "大分海洋水族館「海之卵」位於大分縣神崎地區的海岸邊，是一座以海洋生物展示與互動體驗為主題的大型水族館，也是九州地區親子旅遊的熱門景點之一。該館以其新穎的建築外觀與多樣化的展覽空間聞名，並致力於結合娛樂與海洋教育，打造寓教於樂的觀光體驗。\n\n館內擁有豐富的展示內容，包括熱帶魚、企鵝、海獅、海豚、魟魚等多種海洋生物。遊客可觀賞到精彩的海獅與海豚表演，還能在觸摸池中親手觸摸海星與貝類，深受小朋友與家庭旅客喜愛。\n\n水族館內設有紀念品商店、咖啡區與戶外景觀步道，是一處全天候適合參觀的綜合性休閒��施。館外即是海岸步道，可串聯前往鄰近的高崎山自然動物園，一起安排成半日至一日的旅遊行程。",
+                "externalURL": "https://www.umitamago.jp/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 21,
+                    "documentId": "q5qia9ektjm2ga5mnhccyxdt",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993124/Umitamago_Aquarium_26c789b8a4.webp"
+                }
+            }
+        },
+        {
+            "id": 115,
+            "documentId": "yyovr7ipuqhszio96ih8h518",
+            "recommendation": "這是一座非常有趣的野生動物園，最大的特色就是可以親手餵食動物。\n您將搭乘特製的「叢林巴士」（外層有鐵籠保護），在園區內巡遊，一邊近距離觀察野生動物、一邊餵食，非常特別。\n特別推薦給攜帶小朋友同行的旅客！\n從住宿地開車約需 40 分鐘，搭乘大眾交通工具約 1 小時。\n\n若搭乘大眾交通，建議在別府車站的觀光案內所購買優惠套票：\n包含來回巴士 + 野生動物園門票 + 叢林巴士搭乘券，只需 3,700日圓（原價為5,120日圓）。\n國中生票價為2,700日圓，小學生為2,150日圓。\n喜歡動物的話，千萬不要錯過！",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 39,
+                "documentId": "lxxj4eydfyx81d25fx4623yv",
+                "slug": "African-Safari",
+                "label": "九州自然動物公園",
+                "address": "〒872-0722 大分縣宇佐市安心院町南畑2-1755-1",
+                "highlight": "九州自然動物公園，又名「African Safari」，是一座位於大分縣宇佐市的廣闊野生動物園，以自由放養方式展示非洲草原風格的動物生態，是親子與動物愛好者不可錯過的旅遊亮點。\n\n園區最大特色是搭乘鐵籠裝甲的「叢林巴士」，可在專屬路線中近距離觀察獅子、大象、長頸鹿、斑馬、駱駝等動物，還可以親手餵食，帶來極具臨場感的野生動物互動體驗。除了叢林巴士外，也設有步行區與小型動物觸摸園，適合各年齡層遊客悠閒參觀。\n\n園內附設商店、餐飲區與便利的停車場，亦提供與大分市、別府市間接駁的交通方案，是安排一日親子郊遊或團體旅遊的理想景點。",
+                "externalURL": "https://africansafari.co.jp/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 31,
+                    "documentId": "ujmkkbhq0cas90iajt1asgjm",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993156/African_Safari_0b2a57df5a.jpg"
+                }
+            }
+        },
+        {
+            "id": 119,
+            "documentId": "y17ikretp33jwfqnysd3jqsg",
+            "recommendation": "\"從住宿地往山的方向步行約15分鐘，就能抵達別府最大的一座公園。\n這不是觀光景點，但園內綠意盎然、樹木茂密，能讓人心情平靜，是一座非常可愛的公園。\n繞園區一圈大約需要30分鐘。\n考量到別府是個步調悠閒的小地方，早上沒有太多行程的話，穿上運動鞋、清晨繞一圈散步，也會是一段意外美好的回憶。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 151,
+                "documentId": "ukfqzkoowvkcpqcorzthjnou",
+                "slug": "Beppu-Park",
+                "label": "別府公園",
+                "address": "〒874-0903 大分縣別府市別府3018-1",
+                "highlight": "\"別府公園是別府市中心面積最大的都市綠地，佔地遼闊、景色四季各異，是當地居民與旅客放鬆身心、晨間運動與親子散步的熱門地點。園內設有廣闊草地、竹林、松樹步道，以及春季盛開的櫻花與梅花林，是攝影與賞花的理想之地。\n\n除了自然景觀，公園也常被用作當地活動或祭典場地，節慶期間氣氛熱鬧，平日則清幽寧靜，是深入體驗別府生活節奏的好場所。園區步道平緩好走，適合慢跑、遛狗、野餐或在樹蔭下小憩。\n\n別府公園全年無柵欄開放，並允許攜帶狗隻同行，十分友善寵物家庭。地點鄰近市區，交通便利，無論早晨或傍晚，都能在此感受自然與城市交融的舒適節奏。",
+                "externalURL": "http://www.city.beppu.oita.jp/sisetu/kouen_tyuusyajyou/03kouen_03-01beppu.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 28,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "漫步",
+                        "color": "GREY"
+                    },
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 34,
+                    "documentId": "w8a1ixjs7esonbfebnlrb0sm",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993166/Beppu_Park_9c3ec76d96.jpg"
+                }
+            }
+        },
+        {
+            "id": 120,
+            "documentId": "viuss3emxl2tejgslie86t3g",
+            "recommendation": "別府有許多大小不一的神社，其中最大的一座是「朝見神社」。\n這座神社不是供奉戰犯或日本武將，可以安心參拜。\n實際到訪的話，您會感受到神社內寧靜而莊嚴的氛圍，非常適合為家人的健康、家庭和睦，或是學業順利祈願。\n這裡的湧泉也很有名，很多當地人都會特地過來取水。\n從住宿地或夢之小鎮走過去約需20分鐘，不會覺得太遠，我自己有時也會當作散步路線走一趟。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 117,
+                "documentId": "jd9fe7zsk035bjm6x5n5ap4f",
+                "slug": "Hachiman-Asami-Shrine",
+                "label": "八幡朝見神社",
+                "address": "〒874-0812 大分縣別府市朝見2丁目15-19",
+                "highlight": "八幡朝見神社是別府市歷史最悠久、規模最大的神社之一，擁有超過千年的歷史，是祭祀八幡大神的莊嚴神域。神社坐落於朝見山麓，自古以來便是當地居民祈求健康、平安、家庭和諧的信仰中心。\n\n境內氣氛寧靜，綠蔭環繞，建築風格古樸典雅，鳥居、石燈籠、神橋與主殿等處處散發著歲月痕跡。春季櫻花綻放時，整個神社更顯浪漫祥和，是賞花與拍照的絕佳地點。\n\n此外，這裡還有一處被譽為「長壽之水」的湧泉，是許多當地人會特地前來汲取的名水。無論是觀光、參拜、還是散步沉澱心靈，八幡朝見神社都是深入認識別府歷史與文化的理想之地。",
+                "externalURL": "http://www.asami.or.jp/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 28,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "漫步",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 32,
+                    "documentId": "mjqr2uqo8dnjjiao94f4xut8",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993159/Asami_Shrine_e8e00db78f.jpg"
+                }
+            }
+        },
+        {
+            "id": 124,
+            "documentId": "ntdkvzhrqe0880rqjzu9jh7c",
+            "recommendation": "\"這個海灘步行或搭公車都不太方便，但如果您是自駕的話，非常推薦來這裡走一趟。\n從住宿地開車過來不到15分鐘。\n海灘旁有一座通往人工島的橋，很適合慢慢散步、拍拍照。\n風景非常漂亮，適合拍攝紀念照。如果是帶小朋友來的旅客，這裡還有一座海盜船造型的遊樂場，非常有趣。\n每年7～8月還能在這裡戲水，海水非常乾淨，還可以抓到小魚，樂趣十足。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 147,
+                "documentId": "ndibwc6kzg3gud9w03qwrde6",
+                "slug": "Tanoura-Beach",
+                "label": "田之浦海灘",
+                "address": "〒870-0100 大分縣大分市神崎4253",
+                "highlight": "田ノ浦ビーチ是位於大分市神崎地區的人氣海濱景點，以寧靜宜人的氛圍與便利設施聞名。這裡設有人工築起的緩坡沙灘與防波堤，適合散步、戲水、以及在傍晚欣賞壯麗的夕陽景色。\n\n海灘對面有一座小型人工島公園，透過步行橋可輕鬆前往，島上配有兒童遊具與座椅，成為家庭客與情侶散步拍照的熱門場所。沿岸的長廊步道平坦好走，是慢跑、帶寵物散步與放空放鬆的理想空間。\n\n在夏季，海灘開放給民眾遊泳，水質乾淨，適合抓魚、觀察小生物，也有洗手間與淋浴等基礎設施。此地區也開放寵物同行，是愛狗人士的友善沙灘選擇。",
+                "externalURL": "https://www.city.oita.oita.jp/o177/tanoura_syoukai.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 28,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "漫步",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 58,
+                    "documentId": "tl28tf13q1itbjqacl9a6wnw",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993253/Tanoura_Beach_d51055ed51.jpg"
+                }
+            }
+        },
+        {
+            "id": 131,
+            "documentId": "ifrwtcg8mfj3y0ageemxld4q",
+            "recommendation": "這是一座距離住宿地約25分鐘車程的湖畔公園。\n雖然不是知名觀光景點，但深受在地人喜愛。\n如果您是自駕旅客，非常推薦順路過來看看。這裡有免費停車場。\n園區裡有鴨子漫步，也可以體驗鴨子造型的腳踏船。還能烤肉、露營，並與「別府奧勒步道」相連，是非常適合散步的地點。\n四季皆宜，是能夠留下美好回憶的地方。繞湖一圈大約需30分鐘。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 45,
+                "documentId": "ojprcnuzd2onbyvkfnqpf95l",
+                "slug": "Shidaka-Lake",
+                "label": "志高湖",
+                "address": "〒874-0000 大分縣別府市東山別府4380-1",
+                "highlight": "志高湖是位於大分縣別府市山區的一座高原湖泊，四周被群山環繞，湖光山色相映成趣，是一處兼具自然美景與休閒設施的隱藏版景點。這裡常年氣候宜人，春有櫻花、秋有紅葉，四季各有風情。\n\n湖畔規劃完善，有露營區、烤肉場、湖上鴨子船出租、登山健行步道以及親子可同樂的設施，是當地人與遊客假日放鬆的好去處。喜歡安靜自然的人可以在湖邊釣魚或野餐，想體驗戶外活動的旅客也可安排一日露營或健行。\n\n湖區空氣清新，水面平靜如鏡，特別推薦在清晨或傍晚時分來訪，拍攝倒影與雲霧交織的絕美畫面。",
+                "externalURL": "https://www.recamp.co.jp/recamp%E5%88%A5%E5%BA%9C%E5%BF%97%E9%AB%98%E6%B9%96",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 28,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "漫步",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 66,
+                    "documentId": "tdq1qt2it4ia84ohr8nf4ub0",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993277/Shidaka_Lake_cc66655f32.jpg"
+                }
+            }
+        },
+        {
+            "id": 135,
+            "documentId": "zrye4vm58kewzmsqd6302084",
+            "recommendation": "這裡可說是別府觀光的核心地帶。\n即使錯過其他景點，大家也一定會來「地獄巡禮」！\n所謂的「地獄巡禮」不是實際泡湯，而是以觀賞為主的八大主題溫泉景觀巡遊。\n每一處單獨購票約需400～500日圓，或可選購全套8處通票只需2,000日圓。\n\n其中有6個地獄位於同一區域，另外2個較遠，如搭乘大眾交通工具，需中途轉乘巴士。\n全部參觀大約需時4小時，時間充足不緊湊。\n\n從別府車站西口出發，可搭乘龜之井巴士（開往鐵輪），\n在海地獄前或鐵輪下車即可抵達。\n營業時間為早上8點至下午5點。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 5,
+            "weightInHighlight": 5,
+            "poi": {
+                "id": 155,
+                "documentId": "f4fwpb81h7i0fqrbgosmkdh6",
+                "slug": "Jigoku-Hell-Tour",
+                "label": "別府地獄巡禮",
+                "address": "〒874-0000 大分縣別府市鐵輪559-1",
+                "highlight": "別府地獄巡禮是別府最具代表性的觀光行程之一，將溫泉觀賞與文化主題結合，打造出獨一無二的視覺與感官體驗。不同於一般溫泉以泡湯為主，地獄巡禮是以觀賞為目的的溫泉奇景，設有多個風格迥異的主題地獄，讓旅客一次飽覽地熱的神秘與壯觀。\n\n地獄巡禮總共包含八處主要溫泉景點，分別是：海地獄、血之池地獄、鬼山地獄、白池地獄、龍卷地獄、山地獄、鬼石坊主地獄與灶地獄。每處都有不同的地熱現象與展示內容，有的鮮紅如血、有的湛藍如海，更有鱷魚養殖區與地熱蒸食體驗設施，是結合自然與人文的多元觀光路線。\n\n部分地獄地點之間距離稍遠，建議搭配市區巴士或自駕前往，亦可購買地獄巡禮通票一次參觀八處，票價更為優惠。適合安排半日至一日的深度旅遊行程。",
+                "externalURL": "https://www.beppu-jigoku.com/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 16,
+                    "documentId": "z8iyfrx4xc70tni8fu6z30i8",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993107/Jigoku_Hell_Tour_e70335560f.jpg"
+                }
+            }
+        },
+        {
+            "id": 137,
+            "documentId": "s3c7gi3jh1wuy86gu4u9t6b9",
+            "recommendation": "許多造訪別府的旅客也會順道安排由布院行程。\n湯布院擁有美麗的自然風景和許多可愛的小店，非常適合悠閒散步。\n不過要注意的是，大多數店家約早上10點開門、下午5點就關門，\n若不是特地想在高級溫泉旅館享受懷石料理和泡湯，其實不太建議在當地過夜。\n\n不論是搭巴士還是火車，行程通常從由湯院車站開始。\n如果是開車前往，建議直接停在金鱗湖（Kinrinko）附近的停車場。\n湖邊有全天300日圓的停車位，遠一點的則可能超過500日圓。\n最基本的散步路線就是從車站走到金鱗湖再返回。\n當地有名的甜點包括 B-Speak 蛋糕捲 和 金賞可樂餅。\n\n從別府出發的話，搭巴士是最便宜、方便又快速的選擇。\n從別府站西口出發，一小時約有一到兩班車。\n詳細時刻表請參考以下連結：\nhttp://www.kamenoibus.com/data/kamenoibus_rosen_yufuin.pdf",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 72,
+                "documentId": "z5ftr8chb861ij88uz9jkgp0",
+                "slug": "Yufuin",
+                "label": "湯布院",
+                "address": "大分縣由布市 由布院溫泉",
+                "highlight": "湯布院（Yufuin）是位於大分縣的著名溫泉小鎮，毗鄰別府，卻展現出截然不同的魅力。與別府的熱鬧喧囂相比，湯布院以其寧靜優雅、藝術氛圍和自然美景聞名，是尋求放鬆和浪漫的理想之地。\n\n小鎮中心地帶的湯之坪街道（Yunotsubo Kaido）兩旁，林立著各式獨特的精品店、美術館、咖啡館和特色餐廳，適合悠閒漫步、尋寶購物。而最著名的地標莫過於金鱗湖（Lake Kinrinko），清晨湖面飄渺的霧氣與湖畔景緻構成一幅如畫般的美景。此外，湯布院被壯麗的由布岳（Mount Yufu）環繞，提供豐富的戶外活動和壯麗的自然風光。這裡的傳統日式旅館也以精緻服務和私密溫泉體驗著稱，是遠離塵囂、享受高品質度假的熱門選擇。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 57,
+                    "documentId": "r8yr6omq6mjffvln9ip3blnk",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993249/Yufuin_990fc54861.jpg"
+                }
+            }
+        },
+        {
+            "id": 143,
+            "documentId": "ei0v8kxm0tfy13hv7ai23yrj",
+            "recommendation": "這是被選入「日本百大美景展望台」的其中一處。\n雖然在起霧嚴重的日子裡可能什麼都看不到，但只要天氣好，您絕對會被那無與倫比的美景所震撼。\n無論白天或夜晚，都能欣賞到極美的風景。\n可惜無法搭乘大眾交通工具前往，如果是自駕旅客，非常推薦您一遊。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 114,
+                "documentId": "wwzn6fi6olvnxqwcds45r21p",
+                "slug": "Jyumonjibaru-Observatory",
+                "label": "十文字原展望台",
+                "address": "〒874-0016 大分縣別府市野田字池之鶴-1200",
+                "highlight": "十文字原展望台位於別府市北側的高台上，是俯瞰整個別府市區與別府灣的絕景勝地，亦名列「日本百大展望地」之一。視野開闊，天氣晴朗時更可遠眺四國方向，是攝影愛好者與自然景觀愛好者不可錯過的場所。\n\n此地特別推薦於傍晚時分造訪，能欣賞夕陽西下、城市點燈的浪漫景致，夜景亦極具魅力，展現出別府溫泉城市另一種風貌。由於展望台全天候開放，自駕族可依照自己節奏選擇造訪時段，避開人潮，靜享山海交會的壯麗景觀。",
+                "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/jumonjibaru.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 32,
+                        "documentId": "fakk0mv2t9ckbl11cnd4m2s8",
+                        "name": "觀景台",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 18,
+                    "documentId": "mniby0xjcvkqkz3gin1n9r94",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993113/Jyumonjibaru_Observatory_3ddbe13a55.jpg"
+                }
+            }
+        },
+        {
+            "id": 147,
+            "documentId": "ny9fojhgdzv0yvs4paln6mm5",
+            "recommendation": "這個地方無法搭乘大眾交通工具前往，但如果您是自駕旅客，非常推薦一探究竟。\n甚至連很多當地人都不知道，這裡是欣賞鐵輪溫泉區四面八方升起的「湯煙（溫泉蒸氣）」壯觀景象的最佳地點。\n非常適合拍照留念，有時間的話一定要來看看！\n而且這裡離我推薦過的壽司名店 龜正 非常近，吃完壽司順路過來非常剛好。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 61,
+                "documentId": "wn13m48m8jo1ngqgrjubqou2",
+                "slug": "Yukemuri-Observatory",
+                "label": "湯煙展望台",
+                "address": "〒874-0041 大分縣別府市鐵輪8組",
+                "highlight": "湯煙展望台位於別府市鐵輪地區，是欣賞別府溫泉鄉壯觀景致的絕佳地點。從展望台望去，可見溫泉蒸氣（湯煙）自地面騰起、於街巷間縷縷飄散，勾勒出一幅充滿生活感與歷史氛圍的地熱城市風景，尤其清晨與黃昏時分最為迷人。\n\n此地不僅適合攝影愛好者與觀景遊客，也是了解別府溫泉文化的推薦起點。天氣晴朗時，還能遠眺別府灣與周邊山景，成為許多遊客前往地獄巡禮前或後的順遊地點。\n\n若是自駕前來，展望台設有停車場；亦可結合附近的名店「亀正壽司」行程，一併造訪。",
+                "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/yukemuri.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 63,
+                    "documentId": "k4n3yokyb1jvs0k994ws1ci3",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993268/Yukemuri_Observatory_f7f1e74717.jpg"
+                }
+            }
+        },
+        {
+            "id": 149,
+            "documentId": "xi4di0hpxw8fepvst0verqz7",
+            "recommendation": "每年 7月最後一個週五、週六、週日，別府市區會舉辦盛大的夏日祭典。\n市中心三個主要地點會設置大量攤販，可以在屋台裡品嚐各種美食與酒品。\n\n在最後一天（週日），會有長達兩小時的日本傳統舞蹈遊行，\n並於 晚上8點起施放約一小時的煙火，場面壯觀無比。\n這段期間也是別府住宿最難預訂、價格最昂貴的時候之一",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": 2,
+            "poi": {
+                "id": 35,
+                "documentId": "rnmkx5dp1q18a54vl94sdf6y",
+                "slug": "Beppu-Summer-Fireworks-Festival",
+                "label": "別府夏季煙火大會（7月下旬）",
+                "address": null,
+                "highlight": "別府市在每年七月的最後一個週末，都會舉行盛大的夏日祭典。這項為期三天的活動是當地的大型慶典，為別府帶來熱鬧非凡的節慶氣氛。\n\n祭典期間，市中心將設有眾多屋台，提供各式美味的街頭小吃和飲品，讓民眾與遊客盡情享受美食與歡樂。\n\n活動的高潮落在週日，當天會有約兩小時的日本傳統舞蹈遊行。而最令人期待的，則是晚上八點起約一小時的別府灣花火大會，璀璨煙火在夜空中綻放，場面極為壯觀。由於祭典吸引大量人潮，此時期的別府住宿價格通常是一年中最昂貴的時期之一，建議提早規劃。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 9,
+                        "documentId": "xd02cfhqrxhr35klrjghebhi",
+                        "name": "活動／盛事",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 69,
+                    "documentId": "kxk09w1udkblszwicsuxeu08",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993288/Beppu_Summer_Fireworks_Festival_8220adcb80.jpg"
+                }
+            }
+        },
+        {
+            "id": 155,
+            "documentId": "xnupr0rtkiynbti83ju7bd0w",
+            "recommendation": "在聖誕節當週的週六與週日，別府會舉辦為期兩天的冬季祭典與煙火大會。\n不同於7月底只有一天煙火，這期間會連續兩晚施放煙火，氣氛更加熱鬧！\n\n現場也有許多屋台攤販，可以享受美食與熱飲，氣氛相當溫馨歡樂。\n由於是熱門旅遊期間，住宿非常搶手，建議至少提前兩個月預訂房間。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 79,
+                "documentId": "hm5m7axp9xl437e9shjpjaeo",
+                "slug": "Enjoy-Christmas-in-Beppu",
+                "label": "在別府享受聖誕節（12月）",
+                "address": null,
+                "highlight": "別府在聖誕節週的週六與週日，都會舉辦盛大的冬季慶典——別府聖誕花火幻想曲 (べっぷクリスマスHanabiファンタジア)。這個為期兩天的活動是別府冬季的一大亮點。\n\n與七月底的夏日祭典花火僅施放一天不同，此時期的花火大會連續兩晚點亮別府的夜空，景色格外迷人與壯觀。活動現場設置了豐富的屋台，提供各式美味小吃與飲品，讓遊客在享受節慶氛圍的同時，也能大飽口福。\n\n由於這場冬季盛會廣受歡迎，別府市內的住宿設施會迅速滿房。因此，強烈建議計劃前往的旅客，務必提前至少兩個月預訂好住宿，以確保能順利參與這場浪漫又精彩的聖誕花火盛宴。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 9,
+                        "documentId": "xd02cfhqrxhr35klrjghebhi",
+                        "name": "活動／盛事",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 71,
+                    "documentId": "h3p1f5ldu14ztktlppexvuje",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993294/Enjoy_Christmas_in_Beppu_5d77d68805.jpg"
+                }
+            }
+        },
+        {
+            "id": 233,
+            "documentId": "du5v45uq039828tvu2hbq1oq",
+            "recommendation": "這段期間是別府最大的溫泉祭典。\n大約每年 3月30日到4月3日 舉行（日期可能會有變動），為期5天，整個別府市區都瀰漫著熱鬧的祭典氛圍。\n\n這段期間的最大亮點是：所有市營溫泉皆可免費入場使用！\n此外還有一項特別儀式——焚燒整座山丘以祈求一整年的無病長壽與事業興旺，十分壯觀。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": -1,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 155,
+                "documentId": "f4fwpb81h7i0fqrbgosmkdh6",
+                "slug": "Jigoku-Hell-Tour",
+                "label": "別府地獄巡禮",
+                "address": "〒874-0000 大分縣別府市鐵輪559-1",
+                "highlight": "別府地獄巡禮是別府最具代表性的觀光行程之一，將溫泉觀賞與文化主題結合，打造出獨一無二的視覺與感官體驗。不同於一般溫泉以泡湯為主，地獄巡禮是以觀賞為目的的溫泉奇景，設有多個風格迥異的主題地獄，讓旅客一次飽覽地熱的神秘與壯觀。\n\n地獄巡禮總共包含八處主要溫泉景點，分別是：海地獄、血之池地獄、鬼山地獄、白池地獄、龍卷地獄、山地獄、鬼石坊主地獄與灶地獄。每處都有不同的地熱現象與展示內容，有的鮮紅如血、有的湛藍如海，更有鱷魚養殖區與地熱蒸食體驗設施，是結合自然與人文的多元觀光路線。\n\n部分地獄地點之間距離稍遠，建議搭配市區巴士或自駕前往，亦可購買地獄巡禮通票一次參觀八處，票價更為優惠。適合安排半日至一日的深度旅遊行程。",
+                "externalURL": "https://www.beppu-jigoku.com/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 27,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人氣景點",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 16,
+                    "documentId": "z8iyfrx4xc70tni8fu6z30i8",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993107/Jigoku_Hell_Tour_e70335560f.jpg"
+                }
+            }
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "page": 1,
+            "pageSize": 10000,
+            "pageCount": 1,
+            "total": 31
+        }
+    }
+}

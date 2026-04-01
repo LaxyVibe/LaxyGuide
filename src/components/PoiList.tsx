@@ -3,7 +3,6 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import type { POI } from '../types';
 import { getLanguageFromQuery } from '../utils/languageUtils';
 import ViewTransitionLink from './ViewTransitionLink';
-import audioIcon from '../assets/icons/audio.svg';
 import './PoiList.css';
 
 interface PoiListProps {
@@ -25,8 +24,8 @@ const PoiList: React.FC<PoiListProps> = ({ pois }) => {
                     </div>
                     <div className="poi-title">{poi.title}</div>
                     {poi.withAudio && (
-                        <div className="poi-audio-icon">
-                            <img src={audioIcon} alt="Audio available" />
+                        <div className="poi-audio-icon" role="img" aria-label="Audio available">
+                            <span className="poi-audio-glyph" aria-hidden="true" />
                         </div>
                     )}
                 </ViewTransitionLink>

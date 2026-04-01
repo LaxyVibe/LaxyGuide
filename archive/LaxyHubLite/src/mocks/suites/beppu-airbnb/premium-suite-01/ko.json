@@ -1,0 +1,941 @@
+{
+    "data": [
+        {
+            "id": 146,
+            "documentId": "uwlhp9m10ne63hmryquyrir0",
+            "name": "premium-suite-01",
+            "label": "Premium Suite 1",
+            "headline": null,
+            "address": "874-0934 오이타현 벳푸시 에키마에혼마치 8-17 누벨",
+            "addressURL": "https://maps.app.goo.gl/oz4tgL46mvXGsFAY7",
+            "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.4267072550774!2d131.5028807!3d33.281498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a700030bffa9%3A0xac8539ea96375e74!2sNouvelle!5e0!3m2!1sen!2sjp!4v1751451706981!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+            "checkInOut": "<p>체크인: 오후 3:00 이후<br>체크아웃: 오전 10:00 이전</p>\n<p>고객님의 편의를 위해 얼리 체크인 및 레이트 체크아웃 옵션을 제공하고 있습니다.<br>객실 이용 가능 여부와 전날 이용객의 상황에 따라&nbsp;<br>얼리 체크인은 최소 3시간, 레이트 체크아웃은 최대 3시간까지 이용하실 수 있습니다.&nbsp;<br>이 서비스에는 시간당 1,000엔의 추가 요금이 부과됩니다.&nbsp;<br>옵션이 필요 하시면 문의 주세요. :)</p>",
+            "amenities": "<p>- 욕조<br>- 샴푸, 린스, 바디워시<br>- 헤어드라이어<br>- 비데<br>- 세탁기 (건조기 포함)<br>- 수저류<br>- 테이블<br>- 에어컨</p>",
+            "directContact": "<ul class=\"ak-ul\" data-indent-level=\"1\">\n<li>\n<p data-renderer-start-pos=\"184\">Instagram @ kakaotalk_beppuairbnb</p>\n</li>\n<li>\n<p data-renderer-start-pos=\"221\">KakaoTalk @ beppuairbnb</p>\n</li>\n<li>\n<p data-renderer-start-pos=\"248\">LINE @ beppuairbnb</p>\n</li>\n</ul>",
+            "houseRules": "<p>- 최대 숙박 인원: 5명<br>- 반려동물 동반 불가<br>- 금연</p>",
+            "slider": [
+                {
+                    "id": 24,
+                    "documentId": "n2uijz2wlhhxp1zlu86p00p8",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993134/premiumsuite01_beppu_airbnb_e8cfa84f16.webp"
+                }
+            ],
+            "faq": [],
+            "wifi": [
+                {
+                    "id": 1586,
+                    "network": "Suite 201 2.4G",
+                    "password": "beppuairbnb"
+                },
+                {
+                    "id": 1588,
+                    "network": "Suite 201 5G",
+                    "password": "beppuairbnb"
+                }
+            ],
+            "ownedBy": {
+                "id": 5,
+                "documentId": "sryg01oy5y4rbisxyhzujue9",
+                "slug": "beppu-airbnb",
+                "label": "Beppu Airbnb",
+                "greeting": "벳푸에 오신 것을 환영합니다!",
+                "nativeLanguageCode": "ja",
+                "avatar": {
+                    "id": 15,
+                    "documentId": "fsq8lgbw9fbut3p0nlkibn3b",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993104/beppu_airbnb_logo_7553f8ffa7.png"
+                },
+                "pickedPOIs": [
+                    {
+                        "id": 133,
+                        "documentId": "c7j2oppvcojte9if27e22xue",
+                        "slug": "Beppu-Hatto-Onsen-Festival",
+                        "label": "벳푸 핫토 온천 축제 (3월 하순 ~ 4월 상순)",
+                        "address": null,
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": null,
+                        "highlight": "벳푸 핫토 온천 축제는 현지에서 가장 큰 온천 축제로, 보통 3월 말부터 4월 초까지 5일간 진행됩니다. 이 기간 동안 많은 시영 온천이 무료로 개방되며, 도시 전체가 즐거운 분위기로 가득합니다. 축제에는 퍼레이드, 전통 공연, 그리고 참가자들이 온천수를 사람들에게 뿌리는 독특한 \"\"유카케 마츠리(물 뿌리기 축제)\"\"가 포함되어 있어 매우 활기찬 모습을 보여줍니다.\n\n또 다른 독특한 행사는 오기야마 불 축제로, 이는 오기야마 산에 불을 놓는 의식으로, 한 해의 건강, 장수, 사업 번창을 기원합니다. 다만, 이 불 축제는 보통 2월 초에 열리며 온천 축제와는 날짜가 다르니 유의하시기 바랍니다. 벳푸 겨울만의 장관입니다.",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 10,
+                                "documentId": "xd02cfhqrxhr35klrjghebhi",
+                                "name": "이벤트",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 70,
+                            "documentId": "su3ta56s79trfrd2nu3n6hsd",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993291/Beppu_Hatto_Onsen_Festival_a9473eeefc.jpg"
+                        }
+                    },
+                    {
+                        "id": 99,
+                        "documentId": "zbyhe0y7k0w2ma9h1538lab9",
+                        "slug": "Kaimonji-Onsen",
+                        "label": "카이몬지 온천",
+                        "address": "〒874-0920 오이타현 벳푸시 기타하마 2초메 3-2",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.4653855924157!2d131.5032886!3d33.2804858!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6dd05cfbeff%3A0xdc9485bc2d68384!2z5rW36ZaA5a-65rip5rOJIEthaW1vbmppIG9uc2Vu!5e0!3m2!1sja!2sjp!4v1749357166015!5m2!1sja!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "0977-22-3625",
+                        "highlight": "카이몬지 온천은 일본 오이타현 벳푸시에 위치한 유서 깊은 공중 온천으로, 합리적인 가격에 현지 주민과 여행객 모두에게 사랑받고 있습니다. 진정한 일본식 온천 문화를 경험하고 싶은 분들에게 이상적인 선택입니다.\n\n온천 자체는 전통적이고 소박한 스타일을 유지하고 있으며, 화려하지는 않지만 따뜻함과 향수를 불러일으킵니다. 소박한 시설은 조용하고 순수한 온천 경험을 선호하는 여행객에게 적합합니다. 벳푸 시내와 가깝고 역에서 도보로 갈 수 있어 교통이 매우 편리합니다.\n\n벳푸의 일상과 온천 문화를 깊이 느끼고 싶다면 카이몬지 온천은 일정에 포함할 가치가 있는 좋은 선택입니다.",
+                        "externalURL": "https://www.city.beppu.oita.jp/sisetu/shieionsen/detail7.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 14,
+                                "documentId": "cfq91726e76i6u7ywdblwsnn",
+                                "name": "온천",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 20,
+                            "documentId": "bn0d6ekn7kb3kd07g07srb2d",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993120/Kaimonji_Onsen_bdf2f3eabf.webp"
+                        }
+                    },
+                    {
+                        "id": 106,
+                        "documentId": "hjcj7rzrritadxa3c3cmrgjg",
+                        "slug": "Suginoi-Hotel-Aqua-Garden",
+                        "label": "스기노이 호텔 타나유 · 더 아쿠아 가든",
+                        "address": "〒874-0822 오이타현 벳푸시 칸카이지 1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.289058650653!2d131.4726!3d33.28510000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a65c95c88521%3A0x2b1c619b643d0a36!2sThe%20Aqua%20Garden!5e0!3m2!1sen!2sjp!4v1749359230971!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "0977-24-1141",
+                        "highlight": "아쿠아 가든은 벳푸 스기노이 호텔 내에 위치한 유명한 스파 및 워터파크로, 온천 치유와 리조트 분위기를 결합하여 여행객에게 최고의 휴식 경험을 제공합니다. 노천 온천 풀, 빛나는 분수, 폭포 벽, 시각 효과 등을 포함한 시설은 커플과 가족뿐만 아니라 낭만적인 밤의 분위기를 좋아하는 여행객에게도 매우 적합합니다.\n\n방문객은 스기노이 호텔에 숙박하지 않아도 단독으로 티켓을 구매하여 입장할 수 있어 당일치기 여행객들에게 인기가 많습니다. 특히 밤에는 조명과 수상 쇼가 배경 음악과 어우러져 벳푸에서 보기 드문 환상적인 풍경을 연출하며, 사진 촬영과 몸과 마음의 휴식을 위한 인기 있는 선택지입니다.",
+                        "externalURL": "https://www.suginoi-hotel.com/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 14,
+                                "documentId": "cfq91726e76i6u7ywdblwsnn",
+                                "name": "온천",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 28,
+                            "documentId": "fh1ususq0aqyits1nm12k08d",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993148/Suginoi_Hotel_Aqua_Garden_9183456676.jpg"
+                        }
+                    },
+                    {
+                        "id": 89,
+                        "documentId": "ay4mg0bs3x2bxba901uhtanm",
+                        "slug": "Takegawara-Onsen",
+                        "label": "다케가와라 온천",
+                        "address": "〒874-0944 오이타현 벳푸시 모토마치 16-23",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5811698237458!2d131.5059894!3d33.277455599999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6dbc076d72f%3A0x30437b42d69f3478!2sTakegawara%20Onsen!5e0!3m2!1sen!2sjp!4v1749359217585!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "0977-23-1585",
+                        "highlight": "타케가와라 온천은 벳푸 시를 대표하는 전통 공중 온천 중 하나로, 유서 깊은 고풍스러운 건물 안에 자리하고 있습니다. 건물 자체는 100년 이상의 역사를 가지고 있으며, 벳푸 온천 문화의 상징이자 도시의 랜드마크로 여겨집니다.\n\n전통적인 일본식 온천탕 외에도, 이곳에서 가장 유명한 특징은 '모래찜질(스나유)'입니다. 방문객들은 따뜻한 모래 더미에 누워 천연 지열 증기로 몸을 데우며 일반 온천과는 다른 치유 효과를 경험할 수 있어 국내외 여행객들에게 큰 사랑을 받고 있습니다.\n\n역사와 문화가 교차하는 곳으로서, 타케가와라 온천은 단순히 목욕하는 장소를 넘어 시간 여행의 경험을 선사하므로 벳푸를 처음 방문하는 여행객에게 강력히 추천합니다.",
+                        "externalURL": "https://www.takegawara-onsen.com/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 14,
+                                "documentId": "cfq91726e76i6u7ywdblwsnn",
+                                "name": "온천",
+                                "color": "GREY"
+                            },
+                            {
+                                "id": 25,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "인기 관광지",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 61,
+                            "documentId": "cuwoxz5swpqikoe2n5p1kmse",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993261/Takegawara_Onsen_ae85d80840.jpg"
+                        }
+                    },
+                    {
+                        "id": 102,
+                        "documentId": "jib9rnnskq6upziyoqrcy20w",
+                        "slug": "Miyako",
+                        "label": "[오코노미야키와 가정 요리 전문점] 아지 다이닝 미야코",
+                        "address": "일본 〒874-0944 오이타현 벳푸시 모토마치 7-4 솔파세오긴자",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5981343224757!2d131.5048875!3d33.2770116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c3382ce709%3A0xa9853fd37dca9845!2z5ZGz44OA44Kk44OL44Oz44KwIOOBv-OChOOBkw!5e0!3m2!1sen!2sjp!4v1749359253640!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-23-3223",
+                        "highlight": "아지 다이닝 미야코는 벳푸 시 중심에 위치한 아늑한 이자카야로, 가정식 요리와 일본식 철판구이 스타일로 유명합니다. 합리적인 가격으로 맛있는 음식을 즐기고 편안한 모임을 가질 수 있는 훌륭한 선택입니다.\n\n레스토랑은 상업 건물 솔 파세오 긴자 내부에 위치하여 교통이 편리하며, 내부 식사 환경은 깨끗하고 쾌적하며 분위기는 편안합니다. 고전적인 일본식 반찬부터 갓 구운 오코노미야키까지 다양한 메뉴를 제공하며, 특히 정통 일본식 저녁 식사를 경험하고 싶은 여행객에게 적합합니다.",
+                        "externalURL": null,
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 65,
+                            "documentId": "lgncb5nepp8m2sme3xsfnskr",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993274/Miyako_3465e2547c.jpg"
+                        }
+                    },
+                    {
+                        "id": 54,
+                        "documentId": "c719oonijgcgt626kq8fdcix",
+                        "slug": "Robata-Jin",
+                        "label": "로바타 진",
+                        "address": "일본 〒874-0920 오이타현 벳푸시 기타하마 1초메 15-7",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5067376287343!2d131.50581929999998!3d33.2794036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6dc86628019%3A0x660c877a77932490!2sRobata%20Jin!5e0!3m2!1sen!2sjp!4v1749359241111!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1768",
+                        "highlight": "로바타 진\"은 벳푸시 기타하마에 위치한 아늑한 일본식 이자카야로, 친절한 서비스와 따뜻한 분위기로 현지인과 여행객 모두에게 사랑받고 있습니다. 매장에서는 맥주, 사케, 소주를 포함한 다양한 주류와 함께 맛있는 안주들을 제공합니다.\n\n요리는 튀김과 신선한 해산물 요리가 주를 이루며, 간단히 술을 한잔하거나 친구 및 가족과 여유로운 시간을 보내기에 매우 적합합니다. 이곳은 내부 식사만 가능하며, 배달은 지원하지 않습니다. 앉아서 천천히 이자카야 경험을 즐기기에 좋은 공간입니다.",
+                        "externalURL": "http://robata-jin.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 62,
+                            "documentId": "cmxjsspjlcpa681n2l8nsm52",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993265/Robata_Jin_7347b0a438.jpg"
+                        }
+                    },
+                    {
+                        "id": 87,
+                        "documentId": "k43jal69ybwqggeyuh7x5plr",
+                        "slug": "Don-Quijote-Beppu",
+                        "label": "돈키호테 벳푸점",
+                        "address": "일본 〒874-0929 오이타현 벳푸시 미나미키타하마마치 6-20",
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": "+81 570-200-465",
+                        "highlight": "돈키호테 벳푸점은 일본의 유명한 할인 백화점 체인 중 하나로, 벳푸시 중심부에 위치해 다양한 종류의 상품을 제공하여 관광객과 현지 주민 모두에게 사랑받는 초인기 쇼핑 명소입니다.\n\n가게 안에는 과자, 일용품, 약국 화장품, 가전제품, 장난감부터 여행 용품, 의류, 신발, 기념품 등 거의 모든 종류의 상품이 가득합니다. 독특한 진열대 디자인은 마치 미로에 있는 듯한 느낌을 주어, 매번 쇼핑할 때마다 새로운 발견을 할 수 있어 쇼핑 과정이 즐거움으로 가득합니다.\n\n이곳은 특히 해외 관광객들에게 인기가 많으며, 상설 면세 카운터를 운영하고 다국어 안내 및 친절한 서비스를 제공합니다. 여행에 필요한 모든 것을 한 번에 구매하거나 저렴하고 놀라운 상품을 찾고 싶다면, 이곳은 반드시 방문해야 할 곳 중 하나입니다.",
+                        "externalURL": "https://www.donki.com/store/shop_detail.php?shop_id=650",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 18,
+                                "documentId": "n1fasfi52e6y59v8id9eimde",
+                                "name": "쇼핑",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 33,
+                            "documentId": "b26zl95p6yx9h2497yl2xnhu",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993163/Don_Quijote_Beppu_bc0d8ce926.webp"
+                        }
+                    },
+                    {
+                        "id": 50,
+                        "documentId": "rc804d2del0mxnd6yah50v5x",
+                        "slug": "Fukuya-Ramen",
+                        "label": "후쿠야 라멘 공방 총본점",
+                        "address": "일본 〒874-0926 오이타현 벳푸시 교마치 8-16",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.2133157247627!2d131.5039933!3d33.2870819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6df796c3b93%3A0xcdc0fb800ae8b95e!2sFukuya%20So-Honten!5e0!3m2!1sen!2sjp!4v1749359288720!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-25-9471",
+                        "highlight": "벳푸시 교마치에 위치한 \"\"라멘 코보 후쿠야 소본텐\"\"은 진정한 맛과 진한 돈코츠 육수로 유명한 오래된 라멘 전문점입니다. 가게 외관은 소박하고 눈에 띄지 않지만, 내부는 심플하고 편안한 일본식 디자인으로 친근한 분위기를 자아내 많은 현지인과 단골들의 일상적인 식사 장소로 사랑받고 있습니다.\n\n이곳은 전통적인 방식으로 돈코츠 육수를 끓여내 진한 향을 내면서도 느끼하지 않으며, 쫄깃한 중세면과 어우러져 풍미 가득한 클래식 규슈 라멘을 선사합니다. 기본 라멘 외에도 야채 라멘, 차슈 추가 버전, 매운맛 변형 등 다양한 손님들의 입맛을 만족시킬 수 있는 메뉴를 제공합니다.\n\n가게는 좌석 식사와 포장 서비스를 모두 제공하여, 바쁜 여행 일정 중에도 따뜻한 라멘 한 그릇을 빠르게 맛보기에 매우 적합합니다. 점심이든 저녁이든, 이곳은 만족스러운 뜨거운 라멘 한 그릇을 제공할 수 있습니다.",
+                        "externalURL": "https://fukuya-ramen.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 19,
+                            "documentId": "e5agzobomj3a6u58h7iz9sgp",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993117/Fukuya_Ramen_60448ac175.jpg"
+                        }
+                    },
+                    {
+                        "id": 65,
+                        "documentId": "ufvfj53ool114vx4qoajv07p",
+                        "slug": "Gusto-Family-Restaurant",
+                        "label": "가스토 벳푸점",
+                        "address": "일본 〒874-0929 오이타현 벳푸시 미나미키타하마마치 5-23",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6670.760326954975!2d131.50500399999999!3d33.28271600000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6de987686f1%3A0x80977dcb31a9e37e!2z44Ks44K544OIIOWIpeW6nOW6lw!5e0!3m2!1sen!2sjp!4v1749359278056!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 570-021-065",
+                        "highlight": "가스토 벳푸점은 일본의 유명한 패밀리 레스토랑 체인 \"Gusto\"의 벳푸 지점입니다. 이 레스토랑은 함박스테이크, 파스타, 샐러드, 다양한 디저트 등 일본식 요리부터 서양식 요리까지 다채로운 메뉴를 제공합니다. 아침, 점심, 저녁 언제든지 현지 주민과 방문객이 편안하게 식사하기 좋은 곳입니다. 레스토랑은 일반적으로 영업시간이 길어 다양한 시간대의 식사 요구를 충족시키며, 편안하고 편리한 식사 환경을 제공합니다. 이곳에서 맛있고 합리적인 가격의 가정식 요리를 즐기실 수 있습니다.",
+                        "externalURL": "https://www.skylark.co.jp/gusto/?utm_source=gt&utm_medium=gmb&utm_campaign=brandtop-Oita",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 54,
+                            "documentId": "v3pgajqtu70x5o79o2hro4mp",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993239/Gusto_Family_Restaurant_e599f80ef5.jpg"
+                        }
+                    },
+                    {
+                        "id": 137,
+                        "documentId": "he4j08woj4a9xa8951wr185e",
+                        "slug": "Jigoku-Steam-Food",
+                        "label": "지옥찜 공방 가나와",
+                        "address": "일본 〒874-0041 오이타현 벳푸시 후로모토 5조",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.1273790772834!2d131.4762201!3d33.3154852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a7a18b11e30f%3A0x7d092fbf0d6c8086!2sJigokumushikobo%20Kannawa!5e0!3m2!1sen!2sjp!4v1749359417652!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-66-3775",
+                        "highlight": "지고쿠무시 공방 칸나와는 벳푸의 유명한 체험형 향토 요리 레스토랑으로, 천연 온천 증기를 이용하여 요리하는 지고쿠무시 요리로 유명합니다. 이 조리법은 에도 시대부터 전해 내려온 것으로, 채소, 해산물, 고기 등의 식재료를 찜통에 넣어 지하에서 뿜어져 나오는 고온의 증기로 직접 익혀, 기름이나 물 한 방울도 넣지 않고 식재료 본연의 맛과 영양을 보존합니다.\n\n공방은 두 가지 체험 방식을 제공합니다: 현장에서 제공하는 세트 메뉴를 선택하거나, 직접 식재료를 가져와 DIY 찜 요리(시설 사용료 부과)를 할 수 있습니다. 직접 손으로 요리하는 체험 과정은 흥미롭고 깊은 추억을 남길 수 있어 가족, 친구, 연인 사이에서 인기 있는 벳푸의 특별한 코스입니다.\n\n가게 내부에는 넓은 식사 공간이 있지만, 포장 및 배달 서비스는 제공하지 않습니다. 칸나와 온천 지역 중심에 위치하여 교통이 편리하며, 벳푸를 방문할 때 놓치지 말아야 할 현지 체험 맛집입니다.",
+                        "externalURL": "http://jigokumushi.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 17,
+                            "documentId": "gx4ei6tx9t03gg9rndbpsipc",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993110/Jigoku_Steam_Food_5036f0ebc7.jpg"
+                        }
+                    },
+                    {
+                        "id": 131,
+                        "documentId": "b0awrv0nz4o9jx05w2g2bfqa",
+                        "slug": "Kamesho-Sushi-Restaurant",
+                        "label": "카메쇼",
+                        "address": "일본 〒874-0840 오이타현 벳푸시 츠루미 34번지",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.2560101022887!2d131.4841769!3d33.31212190000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a70b04ebffff%3A0x3a0db168b14ff957!2sKamesho%20Kurukuru%20Sushi!5e0!3m2!1sen!2sjp!4v1749359409305!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-66-5225",
+                        "highlight": "\"카메마사 쿠루쿠루 스시는 벳푸시 츠루미 지역에서 매우 인기 있는 회전 초밥 맛집으로, 신선하고 푸짐한 초밥 재료로 유명합니다. 이곳의 모든 초밥은 재료가 두툼하고 큼직하게 썰려 있어 신선한 맛뿐만 아니라 시각적으로도 만족감을 주어 많은 현지인과 관광객들의 재방문 리스트에 올라 있습니다.\n\n가게 내부는 심플한 인테리어로, 바 좌석과 넓은 가족형 룸 좌석이 마련되어 있어 혼밥부터 가족 모임까지 모두 적합합니다. 접시 종류가 다양하여 클래식한 참치, 연어, 오징어부터 매일 들어오는 신선한 해산물까지 모두 회전 벨트에서 편리하게 즐기거나 직접 셰프에게 주문할 수 있습니다.\n\n이곳은 배달 서비스를 제공하지 않지만, 내부 식사 또는 포장이 가능합니다. 인기가 매우 높아 피크 시간에는 종종 대기해야 하므로, 미리 방문하거나 좀 더 이른 식사 시간을 계획하는 것이 좋습니다.",
+                        "externalURL": "https://instagram.com/kamesho_9696_sushi",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 53,
+                            "documentId": "vbqclj7f6fnfr58wetno9q8f",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993236/Kamesho_Sushi_Restaurant_43a2b77d65.jpg"
+                        }
+                    },
+                    {
+                        "id": 122,
+                        "documentId": "ta9w6rsuey2dq5giwvjymqmm",
+                        "slug": "Taiichi-Shoten-Ramen-Restaurant",
+                        "label": "타이치 상점 벳푸 야마나미점",
+                        "address": "일본 〒874-0942 오이타현 벳푸시 지요마치 2-29",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.2602628035274!2d131.4821036!3d33.3120107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a70a3edc6e65%3A0xd691cc2f33149c83!2sTaichishoten%20Beppuyamanamiten!5e0!3m2!1sen!2sjp!4v1749359328438!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-67-0876",
+                        "highlight": "타이치 쇼텐 벳푸 야마나미점은 벳푸시 키타나카에 위치한 인기 라멘집으로, 푸짐한 양과 진한 국물의 '지로계 라멘' 스타일로 미식가들에게 사랑받고 있습니다. 매장 디자인은 간결하고 실용적이며, 좌석이 넓어 혼밥하기에도 좋고 친구와 함께 푸짐한 라멘을 즐기기에도 적합합니다.\n\n육수는 돼지뼈를 기반으로 진한 간장 맛이 어우러져 기름기가 풍부하면서도 느끼하지 않습니다. 면은 굵은 곱슬면으로 쫄깃한 식감을 자랑하며, 푸짐한 숙주나물, 양배추, 두툼한 차슈와 함께 제공되어 매우 만족스러운 식사를 할 수 있습니다. 또한, 개인 취향에 따라 마늘, 등지방, 면 양을 추가하여 나만의 커스터마이징 라멘을 만들 수도 있습니다.\n\n이 외에도, 이 가게는 포장 서비스도 제공하며, 진한 맛과 푸짐한 라멘을 좋아하는 사람들에게는 꼭 방문해야 할 명소 중 하나입니다.",
+                        "externalURL": "http://taichi-shouten.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 60,
+                            "documentId": "bxcel738a2au9zqf61p7ka67",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993258/Taiichi_Shoten_Ramen_Restaurant_2e028bdbb9.jpg"
+                        }
+                    },
+                    {
+                        "id": 126,
+                        "documentId": "ni2f8rqmz4p31j41wfw7cqba",
+                        "slug": "Tomonaga-Bakery",
+                        "label": "토모나가 빵집",
+                        "address": "일본 〒874-0942 오이타현 벳푸시 지요마치 2-29",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.6907363219098!2d131.504148!3d33.2745879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c3b67a8ff7%3A0x3feb11a15c177bc1!2sTomonaga%20Bakery!5e0!3m2!1sen!2sjp!4v1749359298103!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-23-0969",
+                        "highlight": "창업 100년이 넘는 \"토모나가 빵집\"은 벳푸 현지에서 가장 오래되고 인기 있는 노포 빵집 중 하나입니다. 다이쇼 시대 창업 이래, 이 가게는 전통적인 제법과 자체 개량 레시피를 꾸준히 고수하며, 소박하지만 따뜻한 마음을 전하는 수제 빵들을 모든 고객에게 제공하고 있습니다.\n\n이곳에서 가장 인기 있는 제품은 클래식한 팥빵(츠부앙팡)과 버터 프랑스 빵으로, 속은 너무 달지 않고 식감은 부드럽고 쫄깃하여 단골 손님들의 발길이 끊이지 않습니다. 현지 주민이든 관광객이든 상관없이, 갓 구운 따끈따끈한 빵을 사기 위해 아침 일찍부터 줄을 서는 경우가 많습니다.\n\n가게는 포장 판매만 제공하며, 내부 좌석이나 택배 서비스는 없습니다. 수량이 한정되어 있어 인기 상품은 아침 일찍 품절되는 경우가 많으니, 실망하지 않으려면 일찍 방문하는 것을 추천합니다.",
+                        "externalURL": "https://www.instagram.com/tomonaga_panya/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 64,
+                            "documentId": "baw7gjiq544l4i112urpxs0f",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993271/Tomonaga_Bakery_4f3a049426.jpg"
+                        }
+                    },
+                    {
+                        "id": 70,
+                        "documentId": "wq5ru3gyazxqyv3zel38jv70",
+                        "slug": "Tonkichi-Pork-Cutlet-Restaurant",
+                        "label": "돈카츠테이",
+                        "address": "일본 〒874-0922 오이타현 벳푸시 후나코지마치 4-38",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.7256473316343!2d131.5020446!3d33.2998398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a73d8297750b%3A0xf67fab0c01c2b352!2sTonkatsutei%20Beppu!5e0!3m2!1sen!2sjp!4v1749359440720!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-26-6685",
+                        "highlight": "돈카츠 테이는 오이타현 하야미군 히지마치에 위치한 인기 일본식 돈카츠 전문점으로, 바삭한 겉껍질과 육즙 가득한 두툼한 돈카츠로 유명합니다. 이곳의 돈카츠는 섬세한 공정으로 처리되어 겉은 바삭하고 속은 부드러우며, 진한 특제 소스와 갓 튀겨낸 식감이 어우러져 현지 주민과 관광객 모두에게 호평을 받고 있습니다.\n\n가게 내부는 간결하고 따뜻하며, 좌석 공간이 마련되어 있어 가족 외식이나 자가용 여행 중 휴식하며 식사하기에 매우 적합합니다. 클래식 돈카츠 정식 외에도 미소 돈카츠, 치즈 돈카츠, 해산물 튀김 등 다양한 선택지를 제공하며, 반찬과 흰쌀밥, 미소 된장국의 조합도 매우 정성스러워 배부르고 만족스러운 식사를 할 수 있는 레스토랑입니다.&lt;br>&lt;br>가게 위치가 벳푸에서 유후인으로 가는 중간 지점에 있어, 여행 일정 중 점심 식사 장소로 매우 적합합니다.",
+                        "externalURL": null,
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 30,
+                            "documentId": "krzmra0m4y3q56q0qghmd8ug",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993153/Tonkichi_Pork_Cutlet_Restaurant_96b3b8190d.webp"
+                        }
+                    },
+                    {
+                        "id": 59,
+                        "documentId": "ryy1jnppo9wybvmp70ech7am",
+                        "slug": "Yakitori-Bon",
+                        "label": "야키토리 범 오모야",
+                        "address": "일본 〒874-0920 오이타현 벳푸시 기타하마 1초메 1-11",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5431976589944!2d131.5028965!3d33.2784494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c2b7f05fd1%3A0x4db01432deac96d9!2z54S844Go44KK5YehIOavjeWutg!5e0!3m2!1sen!2sjp!4v1749359265680!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-26-6006",
+                        "highlight": "야키토리 본 오모야는 벳푸시 키타하마 지역에서 매우 인기 있는 일본식 야키토리 이자카야입니다. 가게 내에는 호리고타츠 좌석과 개별 룸 공간이 마련되어 있어 우아하면서도 프라이빗한 분위기로 친구들과의 모임이나 가볍게 술 한잔하기에 매우 적합합니다.\n\n이곳의 주 메뉴는 향긋한 숯불 꼬치구이(야키토리)이며, 다양한 신선한 해산물 요리와 안주들이 함께 제공됩니다. 맛있는 음식 외에도 풍부한 지역 사케와 소주 선택지가 마련되어 있어 품격 있는 손님들의 입맛을 만족시킬 수 있으며, 정통 일본식 이자카야 문화를 경험하기에 완벽한 장소입니다.",
+                        "externalURL": "http://www.yakitoribon.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 20,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "맛집",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 68,
+                            "documentId": "jthi0uk1t3mn2ih8vig77jqg",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993284/Yakitori_Bon_7f6349f1d9.jpg"
+                        }
+                    },
+                    {
+                        "id": 94,
+                        "documentId": "u7dzshg6ndcfbqn4lostzltw",
+                        "slug": "YouMe-Town",
+                        "label": "유메타운 벳푸",
+                        "address": "일본 〒874-0943 오이타현 벳푸시 쿠스노키마치 382-7",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6671.257148794366!2d131.5075326!3d33.2762149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c4cbb65641%3A0x933daa209e21df0b!2sYouMe%20Town%20Beppu!5e0!3m2!1sen!2sjp!4v1749359463586!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-26-3333",
+                        "highlight": "유메타운 벳푸(YouMe Town Beppu)는 벳푸시에서 가장 큰 복합 쇼핑몰 중 하나로, 슈퍼마켓, 의류, 화장품, 서점, 게임 센터, 음식점, 생활용품 등 다양한 상점들을 한데 모아 현지 주민과 여행객에게 원스톱 쇼핑 및 여가 경험을 제공합니다.\n\n쇼핑몰은 여러 층으로 이루어져 있으며, 1층은 대형 슈퍼마켓과 생활 잡화 구역으로 일상용품과 기념품 구매에 편리합니다. 2층은 의류 브랜드와 다이소와 같은 100엔 샵이 주를 이루고, 3층에는 유니클로, 서점, 어린이 놀이 공간, 푸드코트가 있어 쇼핑, 식사, 가족 동반 방문 모두 편리합니다.\n\n벳푸 시내와 가까워 교통이 편리하며, 무료 주차장이 마련되어 있어 도보나 대중교통으로도 갈 수 있습니다. 생활용품을 빠르게 구매하고 싶거나 여유로운 오후 시간을 보내고 싶을 때 모두 훌륭한 선택입니다.",
+                        "externalURL": "http://www.izumi.jp/tenpo/beppu",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 18,
+                                "documentId": "n1fasfi52e6y59v8id9eimde",
+                                "name": "쇼핑",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 67,
+                            "documentId": "lyvotngq6b8coryziudxxe1o",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993280/You_Me_Town_1942a0f995.jpg"
+                        }
+                    },
+                    {
+                        "id": 116,
+                        "documentId": "jd9fe7zsk035bjm6x5n5ap4f",
+                        "slug": "Hachiman-Asami-Shrine",
+                        "label": "하치만 아사미 신사",
+                        "address": "일본 〒874-0812 오이타현 벳푸시 아사미 2초메 15-19",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.8040574276943!2d131.4951489!3d33.27162169999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6934ad40397%3A0x6477dc4b0952a412!2sHachiman%20Asami%20Shrine!5e0!3m2!1sen!2sjp!4v1749359524312!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-23-1408",
+                        "highlight": "하치만 아사미 신사는 벳푸시에서 가장 유서 깊고 규모가 큰 신사 중 하나로, 천년 이상의 역사를 가지고 있으며 하치만 오카미를 모시는 장엄한 신성한 공간입니다. 신사는 아사미 산기슭에 자리하고 있으며, 예로부터 현지 주민들이 건강, 평안, 가정의 화목을 기원하는 신앙의 중심지였습니다.\n\n경내 분위기는 고요하고 푸른 나무들로 둘러싸여 있으며, 건축 양식은 고풍스럽고 우아합니다. 도리이, 석등, 신교, 본당 등 곳곳에서 세월의 흔적이 느껴집니다. 봄철 벚꽃이 만개하면 신사 전체가 더욱 로맨틱하고 평화로운 분위기를 자아내 꽃놀이와 사진 촬영에 최적의 장소입니다.\n\n또한, 이곳에는 장수(長壽)의 물로 불리는 용천수가 있어 많은 현지인들이 특별히 길어가는 명수입니다. 관광, 참배, 또는 마음을 정화하는 산책 등 어떤 목적으로든 하치만 아사미 신사는 벳푸의 역사와 문화를 깊이 이해하기에 이상적인 장소입니다.",
+                        "externalURL": "http://www.asami.or.jp/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": "https://guide.laxy.travel/en/poi/Hachiman-Asami-Shrine",
+                        "tag_labels": [
+                            {
+                                "id": 31,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "산책",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 32,
+                            "documentId": "mjqr2uqo8dnjjiao94f4xut8",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993159/Asami_Shrine_e8e00db78f.jpg"
+                        }
+                    },
+                    {
+                        "id": 149,
+                        "documentId": "ukfqzkoowvkcpqcorzthjnou",
+                        "slug": "Beppu-Park",
+                        "label": "벳푸 공���",
+                        "address": "일본 〒874-0903 오이타현 벳푸시 벳푸 3018-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.4244488848994!2d131.4910055!3d33.28155710000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6f020482965%3A0x9e5d27cb752123a8!2sBeppu%20Park!5e0!3m2!1sen!2sjp!4v1749359512569!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1473",
+                        "highlight": "벳푸 공원은 벳푸 시 중심부에 위치한 가장 넓은 도시 녹지 공간으로, 드넓은 부지와 사계절 각기 다른 풍경을 자랑하며 현지 주민과 여행객이 휴식을 취하고 아침 운동을 하며 가족과 함께 산책하기 좋은 인기 장소입니다. 공원 내에는 넓은 잔디밭, 대나무 숲, 소나무 산책로, 그리고 봄철 만개하는 벚꽃과 매화 숲이 조성되어 있어 사진 촬영 �� 꽃 구경에 이상적인 곳입니다.\n\n자연 경관 외에도 공원은 종종 지역 행사나 축제 장소로 활용되어 축제 기간에는 활기찬 분위기를, 평일에는 고요하고 평화로운 분위기를 선사하여 벳푸의 생활 리듬을 깊이 체험하기 좋은 곳입니다. 공원 내 산책로는 완만하고 걷기 편하여 조깅, 강아지 산책, 피크닉 또는 나무 그늘 아래에서 휴식을 취하기에 적합합니다.\n\n벳푸 공원은 연중 울타리 없이 개방되며, 반려견 동반이 가능하여 반려동물 가족에게 매우 친화적입니다. 시내와 인접하여 교통이 편리하며, 아침이든 저녁이든 자연과 도시가 어우러지는 편안한 리듬을 이곳에서 느낄 수 있습니다.",
+                        "externalURL": "http://www.city.beppu.oita.jp/sisetu/kouen_tyuusyajyou/03kouen_03-01beppu.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 31,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "산책",
+                                "color": "GREY"
+                            },
+                            {
+                                "id": 25,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "인기 관광지",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 34,
+                            "documentId": "w8a1ixjs7esonbfebnlrb0sm",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993166/Beppu_Park_9c3ec76d96.jpg"
+                        }
+                    },
+                    {
+                        "id": 109,
+                        "documentId": "qjxyx38759qbkxcvw0rzwshe",
+                        "slug": "Matogahama-Park",
+                        "label": "마토가하마 공원",
+                        "address": "일본 〒874-0928 오이타현 벳푸시 기타마토가하마마치 5",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.2953375788084!2d131.50515289999998!3d33.2849357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6ded9706d85%3A0xc114a1dd39d3335!2sMatogahama%20Park!5e0!3m2!1sen!2sjp!4v1749359474655!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1111",
+                        "highlight": "테키가하마 공원은 벳푸시 키타노하마초에 위치한 해변과 인접한 개방형 시민 공원으로, 탁 트인 시야와 고요한 분위기를 자랑하며 현지 주민과 여행객 모두에게 사랑받는 산책 및 휴식 공간입니다.\n\n벳푸만을 마주보고 있는 공원 해안가에는 산책로가 조성되어 있어 아침 조깅, 저녁 산책, 일출 및 바다 경치 감상에 매우 적합합니다. 넓고 평탄한 잔디밭은 푸른 녹음으로 가득하며, 강아지 산책, 피크닉, 아이들과 함께 뛰어놀기에 이상적인 장소입니다. 무엇보다 반려동물 동반이 가능하여 반려동물과 함께하는 여행객에게 매우 친화적입니다.\n\n시내와 해변에 인접해 있어 여러 온천 시설과 식당까지 도보로 이동할 수 있어 편리하며, 벳푸의 일상 풍경과 연결되는 중요한 부분입니다. 새벽의 바닷바람이든 밤의 고요함이든, 이곳에서는 벳푸만의 여유로운 매력을 느낄 수 있습니다.",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 31,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "산책",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 56,
+                            "documentId": "hkspxp7htf4ig2pslswgye80",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993244/Matogahama_Park_ca14f9cc40.jpg"
+                        }
+                    },
+                    {
+                        "id": 47,
+                        "documentId": "ojprcnuzd2onbyvkfnqpf95l",
+                        "slug": "Shidaka-Lake",
+                        "label": "시다카 호수",
+                        "address": "일본 〒874-0000 오이타현 벳푸시 히가시야마벳푸 4380-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.1078125982526!2d131.4549176!3d33.26366970000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a5e51e2ff08b%3A0x1e166e28e296ff65!2sShidaka%20Lake!5e0!3m2!1sen!2sjp!4v1749359544754!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": null,
+                        "highlight": "시다카 호수는 오이타현 벳푸시 산간 지역에 위치한 고원 호수로, 사방이 산으로 둘러싸여 호수와 산의 경치가 어우러져 자연 경관과 휴식 시설을 겸비한 숨겨진 명소입니다. 이곳은 사계절 내내 기후가 쾌적하며, 봄에는 벚꽃, 가을에는 단풍이 물들어 계절마다 다른 매력을 선사합니다.\n\n호수 주변은 캠핑장, 바비큐장, 오리배 대여, 등산 트레일, 그리고 가족이 함께 즐길 수 있는 시설들이 잘 조성되어 있어 현지인과 여행객 모두에게 휴일 휴식처로 좋습니다. 조용하고 자연을 좋아하는 사람들은 호숫가에서 낚시를 하거나 피크닉을 즐길 수 있으며, 야외 활동을 체험하고 싶은 여행객은 당일 캠핑이나 하이킹을 계획할 수도 있습니다.\n\n호수 지역은 공기가 맑고 수면이 거울처럼 잔잔합니다. 특히 이른 아침이나 해 질 녘에 방문하여 물에 비친 풍경과 안개가 어우러진 아름다운 장면을 촬영하는 것을 추천합니다.",
+                        "externalURL": "https://www.recamp.co.jp/recamp%E5%88%A5%E5%BA%9C%E5%BF%97%E9%AB%98%E6%B9%96",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 31,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "산책",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 66,
+                            "documentId": "tdq1qt2it4ia84ohr8nf4ub0",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993277/Shidaka_Lake_cc66655f32.jpg"
+                        }
+                    },
+                    {
+                        "id": 145,
+                        "documentId": "ndibwc6kzg3gud9w03qwrde6",
+                        "slug": "Tanoura-Beach",
+                        "label": "야키토리 범 오모야",
+                        "address": "일본 〒870-0100 오이타현 오이타시 간자키 4253",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.3912072576054!2d131.5474087!3d33.256249200000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a1115d167fe9%3A0xba67a416773d5b1c!2sTanoura%20beach!5e0!3m2!1sen!2sjp!4v1749359533520!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 97-537-5638",
+                        "highlight": "\"타노우라 해변은 오이타시 칸자키 지역에 위치한 인기 해변 명소로, 고요하고 쾌적한 분위기와 편리한 시설로 유명합니다. 이곳에는 인공적으로 조성된 완만한 경사의 모래사장과 방파제가 있어 산책, 물놀이, 그리고 저녁 노을 감상에 적합합니다.\n\n해변 맞은편에는 작은 인공섬 공원이 있으며, 보행교를 통해 쉽게 갈 수 있습니다. 섬에는 어린이 놀이기구와 벤치가 마련되어 있어 가족과 커플이 산책하고 사진을 찍기 좋은 인기 장소입니다. 해안을 따라 길게 뻗은 산책로는 평탄하고 걷기 좋아 조깅, 반려동물 산책, 그리고 편안하게 휴식을 취하기에 이상적인 공간입니다.\n\n여름에는 해변이 일반인에게 개방되어 수영이 가능하며, 수질이 깨끗하여 물고기를 잡거나 작은 생물을 관찰하기에 적합합니다. 화장실과 샤워실 등 기본 시설도 갖춰져 있습니다. 이 지역은 반려동물 동반도 가능하여 반려견을 사랑하는 사람들에게 친화적인 해변 선택지입니다.",
+                        "externalURL": "https://www.city.oita.oita.jp/o177/tanoura_syoukai.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 31,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "산책",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 58,
+                            "documentId": "tl28tf13q1itbjqacl9a6wnw",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993253/Tanoura_Beach_d51055ed51.jpg"
+                        }
+                    },
+                    {
+                        "id": 43,
+                        "documentId": "nkd2ej5kim0rc9kkf0c90ws6",
+                        "slug": "Yayoi-Tengu",
+                        "label": "야요이 텐구",
+                        "address": "일본 〒874-0920 오이타현 벳푸시 기타하마 1초메 1-21",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5628792715493!2d131.5033774!3d33.2779343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c2d16bd203%3A0x325a21d5c2a8dfa8!2sYayoi%20Tengu!5e0!3m2!1sen!2sjp!4v1749359498895!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": null,
+                        "highlight": "야요이 텐구는 벳푸시 기타하마, 야요이 상점가 입구에 위치한 독특한 랜드마크 조형물로, 거대한 텐구 가면(일본 전설 속 산림 수호신)을 형상화하여 액막이와 수호를 상징합니다. 이 조형물은 현지 신앙의 상징일 뿐만 아니라 벳푸 관광 시 인기 있는 포토 스팟이 되었습니다.\n\n텐구의 콧대가 높고 표정이 위엄 있어 남성적인 힘과 수호를 의미한다고 합니다. 많은 관광객들이 그 앞에 서거나 옆에서 사진을 찍으며, 특히 밤에 조명이 켜지면 더욱 신비로운 분위기를 자아냅니다. 조형물 뒤편에서 관찰하면 숨겨진 이스터 에그를 발견할 수 있다고 하여, 방문객들에게 탐색의 재미를 더해줍니다.\n\n벳푸역과 인접하여 교통이 편리하며, 야요이 상점가와도 연결되어 현지인들의 옛 번화한 쇼핑 구역 중 하나였습니다. 지금은 예전만큼 인파가 많지 않지만, 이 텐구 조형물은 벳푸의 거리와 기억을 묵묵히 지키고 있으며, 산책 중에 놓쳐서는 안 될 문화 경관입니다.",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 31,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "산책",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 29,
+                            "documentId": "xymbmct90lzww2chxijcpq9v",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993150/Yayoi_Tengu_0cfbb6be33.avif"
+                        }
+                    },
+                    {
+                        "id": 37,
+                        "documentId": "lxxj4eydfyx81d25fx4623yv",
+                        "slug": "African-Safari",
+                        "label": "아프리칸 사파리",
+                        "address": "일본 〒872-0722 오이타현 우사시 아지무마치 미나미하타 2-1755-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3332.7712648138936!2d131.4137658!3d33.35092509999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a82560d12c2f%3A0x6f9e5e00fb890acd!2sKyushu%20Wildlife%20Park%20African%20Safari!5e0!3m2!1sen!2sjp!4v1749359580506!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 978-48-2331",
+                        "highlight": "규슈 자연 동물 공원, 일명 아프리칸 사파리는 오이타현 우사시에 위치한 광활한 야생 동물원으로, 자유 방목 방식으로 아프리카 초원 스타일의 동물 생태계를 보여주며 가족과 동물 애호가들이 놓칠 수 없는 여행 명소입니다.\n\n공원의 가장 큰 특징은 철제 우리 장갑차 형태의 정글 버스를 타는 것으로, 전용 노선을 따라 사자, 코끼리, 기린, 얼룩말, 낙타 등의 동물을 가까이에서 관찰할 수 있으며, 직접 먹이를 줄 수도 있어 매우 생생한 야생 동물 상호작용 체험을 제공합니다. 정글 버스 외에도 도보 구역과 작은 동물 만지기 공원이 있어 모든 연령대의 방문객이 여유롭게 관람하기에 적합합니다.\n\n공원 내에는 상점, 식사 공간, 편리한 주차장이 마련되어 있으며, 오이타시와 벳푸시 간 셔틀 교통편도 제공되어 가족 나들이나 단체 여행을 위한 이상적인 장소입니다.",
+                        "externalURL": "https://africansafari.co.jp/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 25,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "인기 관광지",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 31,
+                            "documentId": "ujmkkbhq0cas90iajt1asgjm",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993156/African_Safari_0b2a57df5a.jpg"
+                        }
+                    },
+                    {
+                        "id": 33,
+                        "documentId": "rnmkx5dp1q18a54vl94sdf6y",
+                        "slug": "Beppu-Summer-Fireworks-Festival",
+                        "label": "벳푸 여름 불꽃놀이 대회 (7월 하순)",
+                        "address": null,
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": null,
+                        "highlight": "벳푸시는 매년 7월 마지막 주말에 성대한 여름 축제를 개최합니다. 이 3일간의 행사는 벳푸에 활기 넘치는 축제 분위기를 선사하는 대규모 지역 축제입니다.\n\n축제 기간 동안 시내 중심가에는 다양한 길거리 음식과 음료를 제공하는 수많은 야타이(포장마차)가 설치되어 시민과 관광객들이 음식과 즐거움을 만끽할 수 있습니다.\n\n행사의 절정은 일요일에 열리며, 약 두 시간 동안 일본 전통 춤 퍼레이드가 진행됩니다. 가장 기대되는 것은 저녁 8시부터 약 한 시간 동안 펼쳐지는 벳푸만 불꽃놀이로, 화려한 불꽃이 밤하늘을 수놓으며 매우 장관을 이룹니다. 축제에 많은 인파가 몰리기 때문에 이 시기의 벳푸 숙박료는 보통 연중 가장 비싼 시기 중 하나이므로, 미리 계획을 세우는 것이 좋습니다.",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 10,
+                                "documentId": "xd02cfhqrxhr35klrjghebhi",
+                                "name": "이벤트",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 69,
+                            "documentId": "kxk09w1udkblszwicsuxeu08",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993288/Beppu_Summer_Fireworks_Festival_8220adcb80.jpg"
+                        }
+                    },
+                    {
+                        "id": 77,
+                        "documentId": "hm5m7axp9xl437e9shjpjaeo",
+                        "slug": "Enjoy-Christmas-in-Beppu",
+                        "label": "벳푸에서 즐기는 크리스마스 (12월)",
+                        "address": null,
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": null,
+                        "highlight": "벳푸는 크리스마스 주말 토요일과 일요일에 성대한 겨울 축제인 벳푸 크리스마스 하나비 판타지아(べっぷクリスマスHanabiファンタジア)를 개최합니다. 이 이틀간의 행사는 벳푸 겨울의 주요 볼거리입니다.\n\n7월 말의 여름 축제 불꽃놀이가 하루만 진행되는 것과 달리, 이 시기의 불꽃놀이 대회는 이틀 연속 벳푸의 밤하늘을 밝히며 더욱 매력적이고 장관을 이룹니다. 행사 현장에는 풍부한 야타이(포장마차)가 설치되어 다양한 맛있는 먹거리와 음료를 제공하여 방문객들이 축제 분위기를 즐기면서 미식의 즐거움을 만끽할 수 있습니다.\n\n이 겨울 축제는 큰 인기를 끌기 때문에 벳푸 시내 숙박 시설은 빠르게 만실이 됩니다. 따라서 방문을 계획하는 여행객들은 이 낭만적이고 멋진 크리스마스 불꽃 축제에 원활하게 참여할 수 있도록 최소 두 달 전에 숙소를 예약하는 것을 강력히 권장합니다.",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 10,
+                                "documentId": "xd02cfhqrxhr35klrjghebhi",
+                                "name": "이벤트",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 71,
+                            "documentId": "h3p1f5ldu14ztktlppexvuje",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993294/Enjoy_Christmas_in_Beppu_5d77d68805.jpg"
+                        }
+                    },
+                    {
+                        "id": 153,
+                        "documentId": "f4fwpb81h7i0fqrbgosmkdh6",
+                        "slug": "Jigoku-Hell-Tour",
+                        "label": "벳푸 지옥 순례",
+                        "address": "일본 〒874-0000 오이타현 벳푸시 칸나와 559-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.1121527910245!2d131.4696745!3d33.315883299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a7b960bca539%3A0x8bdccd2d35d910f2!2sHells%20of%20Beppu!5e0!3m2!1sen!2sjp!4v1749359571081!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-66-1577",
+                        "highlight": "\"벳푸 지옥순례는 벳푸를 대표하는 관광 코스 중 하나로, 온천 관람과 문화적 요소를 결합하여 독특한 시각 및 감각 체험을 선사합니다. 일반적인 온천이 입욕 위주인 것과 달리, 지옥순례는 관람을 목적으로 하는 온천의 경이로운 풍경을 보여주며, 각기 다른 테마의 여러 지옥으로 구성되어 방문객이 지열의 신비로움과 웅장함을 한 번에 만끽할 수 있도록 합니다.\n\n지옥순례는 총 여덟 곳의 주요 온천 명소로 구성되어 있습니다: 우미 지옥(海地獄), 피의 연못 지옥(血の池地獄), 오니야마 지옥(鬼山地獄), 시라이케 지옥(白池地獄), 다쓰마키 지옥(龍巻地獄), 야마 지옥(山地獄), 오니이시보즈 지옥(鬼石坊主地獄), 가마도 지옥(かまど地獄). 각 장소는 다양한 지열 현상과 전시 내용을 가지고 있으며, 어떤 곳은 피처럼 붉고, 어떤 곳은 바다처럼 푸릅니다. 또한 악어 사육장과 지열 증기 음식 체험 시설도 있어 자연과 인문학을 결합한 다채로운 관광 코스입니다.\n\n일부 지옥은 거리가 다소 멀기 때문에 시내버스나 자가용을 이용하는 것을 추천하며, 지옥순례 통합권을 구매하면 여덟 곳을 한 번에 할인된 가격으로 방문할 수 있습니다. 반나절에서 하루 동안의 심도 있는 여행 코스로 적합합니다.",
+                        "externalURL": "https://www.beppu-jigoku.com/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": "https://guide.laxy.travel/en/tour/JPN-BEPU-TUR-001",
+                        "tag_labels": [
+                            {
+                                "id": 25,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "인기 관광지",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 16,
+                            "documentId": "z8iyfrx4xc70tni8fu6z30i8",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993107/Jigoku_Hell_Tour_e70335560f.jpg"
+                        }
+                    },
+                    {
+                        "id": 112,
+                        "documentId": "wwzn6fi6olvnxqwcds45r21p",
+                        "slug": "Jyumonjibaru-Observatory",
+                        "label": "주몬지하라 전망대",
+                        "address": "일본 〒874-0016 오이타현 벳푸시 노다자이케노쓰루 1200",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3333.5828542348854!2d131.4602103!3d33.329719499999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a7ecbf391055%3A0x3b0fe1c46181594b!2sJumonji%20Viewpoint!5e0!3m2!1sen!2sjp!4v1749359610113!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1128",
+                        "highlight": "\"주몬지하라 전망대는 벳푸시 북쪽 고지대에 위치하며, 벳푸 시내 전체와 벳푸만을 조망할 수 있는 절경 명소이자 일본 100대 전망대 중 하나로 꼽힙니다. 시야가 탁 트여 맑은 날에는 시코쿠 방향까지 멀리 볼 수 있어 사진 애호가와 자연 경관 애호가에게 놓칠 수 없는 장소입니다.\n\n특히 해 질 녘에 방문하여 해가 지는 모습과 도시의 불빛이 켜지는 낭만적인 풍경을 감상하는 것을 추천합니다. 야경 또한 매우 매력적이며, 벳푸 온천 도시의 또 다른 면모를 보여줍니다. 전망대는 24시간 개방되므로 자가용 이용자는 자신의 페이스에 맞춰 방문 시간을 선택하여 인파를 피하고 산과 바다가 어우러진 웅장한 경관을 조용히 감상할 수 있습니다.",
+                        "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/jumonjibaru.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 35,
+                                "documentId": "fakk0mv2t9ckbl11cnd4m2s8",
+                                "name": "전망대",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 18,
+                            "documentId": "mniby0xjcvkqkz3gin1n9r94",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993113/Jyumonjibaru_Observatory_3ddbe13a55.jpg"
+                        }
+                    },
+                    {
+                        "id": 80,
+                        "documentId": "buj1fyygg1np66jit4b0is97",
+                        "slug": "Takasaki-Mountain-Monkey-Park",
+                        "label": "다카사키야마 자연 동물원",
+                        "address": "일본 〒870-0802 오이타현 오이타시 간자키 3098-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.313444949981!2d131.5328036!3d33.25828549999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a1386bb372c3%3A0xfa8325f5ccb225ff!2sTakasakiyama%20Natural%20Zoological%20Garden!5e0!3m2!1sen!2sjp!4v1749359553556!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 97-532-5010",
+                        "highlight": "\"다카사키야마 자연동물원은 오이타시 간자키 지역에 위치한 야생 원숭이(일본 원숭이)를 주인공으로 하는 자연동물 공원으로, 규슈 지역에서 가장 대표적인 가족 야외 명소 중 하나입니다. 공원 내 원숭이들은 자연 산림에서 생활하며, 방문객들은 가까이에서 이들의 자연스러운 모습을 관찰하며 사람과 동물이 공존하는 조화로운 분위기를 경험할 수 있습니다.\n\n이곳은 울타리 없는 디자인으로 유명하며, 원숭이들이 공원 내에서 자유롭게 활동하고 매우 활발하며 사람을 두려워하지 않습니다. 원숭이들의 생활을 관찰하는 것 외에도, 공원 측은 정기적인 먹이 주기 해설을 진행하여 방문객들이 원숭이의 습성과 집단 행동을 이해하도록 돕습니다. 특히 가족 단위 방문객과 생태 애호가들에게 인기가 많습니다.\n\n공원 내에는 매표소, 간단한 기념품 가게, 정보 전시 공간이 마련되어 교육적인 여행지로도 이상적입니다. 공원은 오이타 마린 팰리스 수족관 우미타마고와 인접해 있어 반나절에서 하루 동안의 연계 관광 코스로 계획할 수 있습니다.",
+                        "externalURL": "http://www.takasakiyama.jp/takasakiyama/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 25,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "인기 관광지",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 59,
+                            "documentId": "sl3agayy164c9neg14tzwe0n",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993255/Takasaki_Mountain_Monkey_Park_7563ebf6b2.jpg"
+                        }
+                    },
+                    {
+                        "id": 141,
+                        "documentId": "uyj91g2qym0hfs9s78jvhk7u",
+                        "slug": "Umitamago-Aquarium",
+                        "label": "오이타 마린 팰리스 수족관 우미타마고",
+                        "address": "일본 〒870-0100 오이타현 오이타시 간자키 우토-3078-22",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.296645477282!2d131.53556319999998!3d33.258725399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a139253d6ab5%3A0x39c434d349a8835a!2sOita%20Marine%20Palace%20Aquarium%20%22Umitamago%22!5e0!3m2!1sen!2sjp!4v1749359562419!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 97-534-1010",
+                        "highlight": "오이타 마린 팰리스 수족관 우미타마고는 오이타현 간자키 지역 해안가에 위치한 해양 생물 전시와 체험을 주제로 한 대형 수족관으로, 규슈 지역 가족 여행의 인기 명소 중 하나입니다. 이 수족관은 혁신적인 건축 외���과 다양한 전시 공간으로 유명하며, 오락과 해양 교육을 결합하여 교육적이면서도 즐거운 관광 경험을 제공하기 위해 노력하고 있습니다.\n\n수족관 내에는 열대어, 펭귄, 바다사자, 돌고래, 가오리 등 다양한 해양 생물이 풍부하게 전시되어 있습니다. 방문객들은 멋진 바다사자와 돌고래 쇼를 관람할 수 있으며, 터치 풀에서는 불가사리와 조개류를 직접 만져볼 수 있어 어린이와 가족 단위 여행객에게 큰 사랑을 받고 있습니다.\n\n수족관 내에는 기념품 가게, 카페 구역, 야외 전망 산책로가 있어 하루 종일 방문하기에 적합한 종합 휴양 시설입니다. 건물 밖에는 해안 산책로가 바로 연결되어 인근 다카사키야마 자연동물원과 연계하여 반나절에서 하루 동안의 여행 코스로 계획할 수 있습니다.",
+                        "externalURL": "https://www.umitamago.jp/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 25,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "인기 관광지",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 21,
+                            "documentId": "q5qia9ektjm2ga5mnhccyxdt",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993124/Umitamago_Aquarium_26c789b8a4.webp"
+                        }
+                    },
+                    {
+                        "id": 74,
+                        "documentId": "z5ftr8chb861ij88uz9jkgp0",
+                        "slug": "Yufuin",
+                        "label": "유후인",
+                        "address": "일본 오이타현 유후시 유후인 온천",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13344.030025572556!2d131.36058895!3d33.2662958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546adda17e590d1%3A0x50b023f7a070b46a!2sYufuin%20Onsen%2C%20Yufu%2C%20Oita!5e0!3m2!1sen!2sjp!4v1749359589844!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": null,
+                        "highlight": "유후인(Yufuin)은 오이타현에 위치한 유명 온천 마을로, 벳푸와 인접해 있지만 전혀 다른 매력을 선사합니다. 벳푸의 번잡함과 달리 유후인은 고요하고 우아하며 예술적인 분위기와 자연의 아름다움으로 유명하여 휴식과 낭만을 찾는 이들에게 이상적인 곳입니다.\n\n마을 중심부의 유노츠보 거리(Yunotsubo Kaido) 양옆으로는 독특한 부티크 상점, 미술관, 카페, 특색 있는 레스토랑이 즐비하여 여유롭게 산책하며 쇼핑하기 좋습니다. 가장 유명한 랜드마크는 긴린코 호수(Lake Kinrinko)로, 이른 아침 호수 위에 피어오르는 안개와 호반 풍경이 한 폭의 그림 같은 아름다움을 선사합니다. 또한 유후인은 웅장한 유후다케(Mount Yufu)에 둘러싸여 풍부한 야외 활동과 장엄한 자연 경관을 제공합니다. 이곳의 전통 일본식 료칸은 섬세한 서비스와 프라이빗한 온천 체험으로 유명하여, 번잡함을 피해 고품격 휴가를 즐기기에 인기 있는 선택지입니다.",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 25,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "인기 관광지",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 57,
+                            "documentId": "r8yr6omq6mjffvln9ip3blnk",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993249/Yufuin_990fc54861.jpg"
+                        }
+                    },
+                    {
+                        "id": 60,
+                        "documentId": "wn13m48m8jo1ngqgrjubqou2",
+                        "slug": "Yukemuri-Observatory",
+                        "label": "유케무리 전망대",
+                        "address": "일본 〒874-0041 오이타현 벳푸시 칸나와 8조",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.1203760000276!2d131.4853258!3d33.3156683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a775b765d5e7%3A0x21200e289a85660c!2sYukemuri%20Observation%20Deck!5e0!3m2!1sen!2sjp!4v1749359600114!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1128",
+                        "highlight": "유케무리 전망대는 벳푸시 갓나와 지역에 위치하며, 벳푸 온천 마을의 장관을 감상하기에 가장 좋은 장소입니다. 전망대에서 바라보면 온천 증기(유케무리)가 땅에서 솟아올라 거리와 골목 사이로 흩날리며 생활감과 역사적 분위기가 가득한 지열 도시 풍경을 그려냅니다. 특히 이른 아침과 해 질 녘에 가장 매력적입니다.\n\n이곳은 사진 애호가와 풍경 감상객에게 적합할 뿐만 아니라, 벳푸 온천 문화를 이해하기 위한 추천 시작점입니다. 날씨가 맑을 때는 벳푸만과 주변 산 풍경을 멀리서도 조망할 수 있어 많은 여행객들이 지옥순례 전후로 들르는 곳이기도 합니다.\n\n자가용으로 방문할 경우, 전망대에는 주차장이 마련되어 있습니다. 또한 인근의 유명한 식당 카메마사 스시와 함께 일정을 계획할 수도 있습니다.",
+                        "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/yukemuri.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 35,
+                                "documentId": "fakk0mv2t9ckbl11cnd4m2s8",
+                                "name": "전망대",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 63,
+                            "documentId": "k4n3yokyb1jvs0k994ws1ci3",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993268/Yukemuri_Observatory_f7f1e74717.jpg"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "page": 1,
+            "pageSize": 25,
+            "pageCount": 1,
+            "total": 1
+        }
+    }
+}

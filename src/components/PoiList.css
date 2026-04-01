@@ -64,8 +64,18 @@
     justify-content: center;
 }
 
-.poi-audio-icon img {
+.poi-audio-glyph {
+    display: inline-block;
     width: 24px;
     height: 24px;
-    opacity: 0.6;
+    background: var(--misc-opam);
+    opacity: 0.9;
+    -webkit-mask-image: url('../assets/icons/audio.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-image: url('../assets/icons/audio.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
 }

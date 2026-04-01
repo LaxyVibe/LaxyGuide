@@ -1,0 +1,306 @@
+{
+    "data": {
+        "id": 3,
+        "documentId": "au3e8t9cegnebahml864mmss",
+        "createdAt": "2025-06-15T13:47:16.469Z",
+        "updatedAt": "2025-08-03T03:40:10.377Z",
+        "publishedAt": "2025-08-03T03:29:10.036Z",
+        "locale": "zh-Hant",
+        "universalConfig": {
+            "id": 390,
+            "themeOptions": [
+                {
+                    "name": "beppu-airbnb",
+                    "colors": {
+                        "text": {
+                            "primary": "#333333",
+                            "secondary": "#666666"
+                        },
+                        "third": {
+                            "100": "#fd4ee8",
+                            "200": "#fd87ac",
+                            "300": "#f2ba6f",
+                            "400": "#ed9d33",
+                            "500": "#cd8d12",
+                            "600": "#90580d"
+                        },
+                        "primary": {
+                            "50": "#FFBBBF",
+                            "100": "#FF5A5F",
+                            "200": "#5fbcc4",
+                            "300": "#46b2bb",
+                            "400": "#328188",
+                            "500": "#215458",
+                            "600": "#133033"
+                        },
+                        "secondary": {
+                            "100": "#fc6dcd",
+                            "200": "#f9ad9b",
+                            "300": "#f57c5f",
+                            "400": "#f24b24",
+                            "500": "#cb310c",
+                            "600": "#a82209"
+                        },
+                        "background": {
+                            "paper": "#ffffff",
+                            "default": "#f5f5f7"
+                        }
+                    },
+                    "custom": {},
+                    "components": {},
+                    "typography": {
+                        "h5": {},
+                        "h6": {},
+                        "fontFamily": "\"Segoe UI\", \"Roboto\", \"Helvetica Neue\", sans-serif"
+                    }
+                }
+            ],
+            "releasedLanguages": [
+                {
+                    "id": 1616,
+                    "label": "English",
+                    "value": "en"
+                },
+                {
+                    "id": 1617,
+                    "label": "繁體中文",
+                    "value": "zh-Hant"
+                },
+                {
+                    "id": 1619,
+                    "label": "简体中文",
+                    "value": "zh-Hans"
+                },
+                {
+                    "id": 1618,
+                    "label": "日本語",
+                    "value": "ja"
+                },
+                {
+                    "id": 1620,
+                    "label": "한국어",
+                    "value": "ko"
+                }
+            ]
+        },
+        "globalComponent": {
+            "id": 3,
+            "readMoreLabel": "閱讀更多",
+            "readLessLabel": "收起",
+            "hostTagLabel": "推薦",
+            "poweredByLabel": "Powered by{{value}}",
+            "exploreMoreAboutLabel": "探索更多關於{{value}}",
+            "speechButton": {
+                "id": 65,
+                "label": " 用當地語言說出",
+                "icon": {
+                    "id": 141,
+                    "documentId": "tpgzvmi93gf1osa0xwzuxr0q",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_speak_address_4969d0f112.svg"
+                }
+            },
+            "audioGuideButton": {
+                "id": 1051,
+                "label": "開始 Laxy 語音導覽"
+            }
+        },
+        "header": {
+            "id": 3,
+            "leftRoute": "/language",
+            "rightRoute": "/search",
+            "leftIcon": {
+                "id": 50,
+                "documentId": "hkuhf9x3sdxvk6ze7jvq08t4",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993225/language_d9b073e167.svg"
+            },
+            "rightIcon": {
+                "id": 51,
+                "documentId": "jvchy61ioa80jed127o3frn8",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993228/Thin_23221aaa82.svg"
+            }
+        },
+        "pageLanding": {
+            "id": 3,
+            "recommendationHeading": "我們的推薦",
+            "naviagtion": [
+                {
+                    "id": 48,
+                    "label": "資訊",
+                    "route": "/info",
+                    "icon": {
+                        "id": 134,
+                        "documentId": "ombo0ro1g4mb4eoxe7jlm6xw",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/home_71883efcee.svg"
+                    }
+                },
+                {
+                    "id": 49,
+                    "label": "Wi-Fi",
+                    "route": "/info/wifi",
+                    "icon": {
+                        "id": 136,
+                        "documentId": "shsaxh5axl38lpn3e1rdkhxq",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/wifi_7524ba9935.svg"
+                    }
+                },
+                {
+                    "id": 50,
+                    "label": "景點",
+                    "route": "/nearby-attractions",
+                    "icon": {
+                        "id": 135,
+                        "documentId": "xfzojkskubw4embqr4pusahf",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/attraction_5c03bd884d.svg"
+                    }
+                },
+                {
+                    "id": 51,
+                    "label": "飲食",
+                    "route": "/nearby-restaurants",
+                    "icon": {
+                        "id": 137,
+                        "documentId": "heuvx1oitqvtk7grrznu15h5",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/restaurant_31d7d2875f.svg"
+                    }
+                },
+                {
+                    "id": 52,
+                    "label": "導覽團",
+                    "route": "/tours",
+                    "icon": {
+                        "id": 133,
+                        "documentId": "bgy78q860mn9pu9j5ihmi2h4",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/laxy_guide_ca15b8e003.svg"
+                    }
+                }
+            ]
+        },
+        "pageLanguage": {
+            "id": 3,
+            "heading": "語言",
+            "applyButton": {
+                "id": 53,
+                "label": "選擇語言"
+            }
+        },
+        "pageSearch": {
+            "id": 3,
+            "searchInputPlaceholder": "發掘您的下一個體驗",
+            "searchResultHeading": "{{value}}的搜尋結果",
+            "noResultsFound": "沒有搜尋結果",
+            "defaultListHeading": "最多搜尋",
+            "highlightedListHeading": "我們的推薦",
+            "defaultList": [
+                {
+                    "id": 59,
+                    "label": "溫泉",
+                    "value": "温泉"
+                }
+            ]
+        },
+        "pageInfo": {
+            "id": 3,
+            "heading": "房間資訊",
+            "navigation": [
+                {
+                    "id": 60,
+                    "label": "地址",
+                    "route": "/info/address",
+                    "icon": {
+                        "id": 139,
+                        "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+                    }
+                },
+                {
+                    "id": 61,
+                    "label": "入住 & 退房",
+                    "route": "/info/check-in-out",
+                    "icon": {
+                        "id": 140,
+                        "documentId": "ny3i9mxz3tqphepd6lnz9rx3",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_check_in_fd1c9f89e4.svg"
+                    }
+                },
+                {
+                    "id": 62,
+                    "label": "房間規則",
+                    "route": "/info/house-rules",
+                    "icon": {
+                        "id": 146,
+                        "documentId": "rgw0u3z4veeijwz946iin296",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_house_rule_f8f555ad4e.svg"
+                    }
+                },
+                {
+                    "id": 63,
+                    "label": "設施",
+                    "route": "/info/amenities",
+                    "icon": {
+                        "id": 145,
+                        "documentId": "dwx9uucbnqip27nk9chj468r",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_amenities_8647386535.svg"
+                    }
+                },
+                {
+                    "id": 64,
+                    "label": "常見問題",
+                    "route": "/info/faq",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                },
+                {
+                    "id": 967,
+                    "label": "直接聯繫",
+                    "route": "/info/direct-contact",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                }
+            ]
+        },
+        "pageWiFi": {
+            "id": 3,
+            "networkLabel": "網路",
+            "passwordLabel": "密碼",
+            "scanQRButton": {
+                "id": 66,
+                "label": "掃描 QR 碼連線"
+            },
+            "clipboardButton": {
+                "id": 67,
+                "label": "複製密碼"
+            },
+            "showQRButton": {
+                "id": 68,
+                "label": "顯示 QR 碼以供分享"
+            }
+        },
+        "pagPoiDetail": {
+            "id": 3,
+            "recommendationHeading": "我們的推薦",
+            "highlightHeading": "特點",
+            "addressIcon": {
+                "id": 139,
+                "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+            },
+            "urlIcon": {
+                "id": 143,
+                "documentId": "w85dgbdib90x46ftsjdba0qe",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_website_9231e953c1.svg"
+            },
+            "dialIcon": {
+                "id": 142,
+                "documentId": "ajwi1suy1r4uheq9disvahq1",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_phone_879b964e27.svg"
+            }
+        }
+    },
+    "meta": {}
+}

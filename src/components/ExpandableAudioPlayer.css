@@ -360,6 +360,38 @@
     height: 32px;
 }
 
+.audio-control-icon {
+    display: inline-block;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
+
+.audio-control-icon.play {
+    -webkit-mask-image: url('../assets/icons/play.svg');
+    mask-image: url('../assets/icons/play.svg');
+}
+
+.audio-control-icon.pause {
+    -webkit-mask-image: url('../assets/icons/pause.svg');
+    mask-image: url('../assets/icons/pause.svg');
+}
+
+.audio-control-icon.mini {
+    width: 42px;
+    height: 42px;
+    background: #ffffff;
+}
+
+.audio-control-icon.expanded {
+    width: 24px;
+    height: 24px;
+    background: var(--misc-opam);
+}
+
 .skip-button img {
     transition: transform 0.6s ease-in-out;
 }

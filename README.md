@@ -71,3 +71,24 @@ export default defineConfig([
   },
 ])
 ```
+
+## Map Capture Cloud Bundles
+
+Capture mode now supports Cloudinary-backed import/export bundles.
+
+- Export uploads one ZIP bundle containing `map-pins.json`, map image, and `manifest.json`.
+- Import loads bundle list for a guide, then replaces current map image and pin data.
+- Cloud path format: `capture-bundles/<guideId>/<saveName>/<timestamp>/bundle.zip`.
+
+### Netlify Environment Variables
+
+Set these in Netlify site environment settings:
+
+- `CLOUDINARY_API_SECRET` (required)
+- `CLOUDINARY_CLOUD_NAME` (optional, defaults to `dui2mxeuh`)
+- `CLOUDINARY_API_KEY` (optional, defaults to `314786376781459`)
+
+### Endpoints
+
+- `/.netlify/functions/cloudinary-sign` (POST): returns signed upload parameters.
+- `/.netlify/functions/cloudinary-list-bundles` (GET `?guideId=...`): returns available bundles.

@@ -1,0 +1,29 @@
+# Netlify Configuration for LaxyHubLite
+# App-specific configuration file
+
+[build]
+  # Build and install deps from root, publish from this app's build directory
+  publish = "apps/LaxyHubLite/build"
+  command = "npm install --legacy-peer-deps --no-optional && npm install @rollup/rollup-linux-x64-gnu --save-dev && npm run build:hub-lite"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_CONFIG_LEGACY_PEER_DEPS = "true"
+  NPM_CONFIG_FUND = "false"
+  NPM_CONFIG_AUDIT = "false"
+
+# Only build when LaxyHubLite or shared dependencies change
+[context.production]
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF apps/LaxyHubLite/ packages/"
+
+[context.deploy-preview]
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF apps/LaxyHubLite/ packages/"
+
+# Branch-specific builds
+[context.develop]
+  command = "npm install --legacy-peer-deps && npm run build:hub-lite"
+  
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

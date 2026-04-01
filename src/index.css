@@ -54,6 +54,13 @@
     --misc-bs-50: #FFBBBF;
     --misc-bs-100: #FF5A5F;
     --misc-opam: #DAB381;
+    --misc-theme: var(--misc-opam);
+}
+
+body.theme-guide-jpn-usaa-tem-001 {
+    --misc-usaa: #D93513;
+    --misc-theme: var(--misc-usaa);
+    --misc-opam: var(--misc-theme);
 }
 
 * {
@@ -85,6 +92,32 @@ body {
     -webkit-user-select: none;
     touch-action: pan-y;
     /* Allow vertical scrolling and pull-to-refresh */
+}
+
+/* Leaflet needs full control of touch gestures (panning/zooming).
+   Our global `touch-action: pan-y` blocks horizontal panning on mobile. */
+.leaflet-container,
+.leaflet-container * {
+    touch-action: none;
+}
+
+.leaflet-container {
+    overscroll-behavior: contain;
+}
+
+.leaflet-tooltip.gps-point-tooltip {
+    background: rgba(245, 245, 245, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: var(--primary-400);
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.leaflet-tooltip.gps-point-tooltip::before {
+    border-right-color: rgba(0, 0, 0, 0.12);
 }
 
 #root {
@@ -175,6 +208,8 @@ textarea:focus {
     gap: 16px;
     background: var(--neutral-100);
     /* Match page background */
+    position: relative;
+    z-index: 2000;
 }
 
 .global-header h1 {
@@ -182,6 +217,28 @@ textarea:focus {
     flex: 1;
     margin: 0;
     color: var(--neutral-800);
+}
+
+.global-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-version {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    border: 1px solid var(--neutral-300);
+    background: var(--neutral-50);
+    color: var(--neutral-600);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
 }
 
 /* View Transitions */

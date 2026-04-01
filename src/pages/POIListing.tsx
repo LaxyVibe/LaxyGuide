@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
@@ -30,8 +30,17 @@ const POIListing: React.FC = () => {
     }, [searchParams, setSearchParams]);
 
     const lang = getLanguageFromQuery(searchParams);
+    const scope = searchParams.get('scope');
     const { data, loading, error } = useGuideData(guideId, lang);
     const { t, loading: transLoading } = useTranslation(lang);
+
+    const filteredPois = useMemo(() => {
+        if (!data) return [];
+        if (scope === '0' || scope === '1') {
+            return data.pois.filter((poi) => poi.number.startsWith(scope));
+        }
+        return data.pois;
+    }, [data, scope]);
 
     // Fetch available languages for this guide
     useEffect(() => {
@@ -130,7 +139,7 @@ const POIListing: React.FC = () => {
             </div>
 
             <div className="scroll-content">
-                <PoiList pois={data.pois} />
+                <PoiList pois={filteredPois} />
             </div>
             <LanguageSwitchDialog
                 open={showLanguageDialog}

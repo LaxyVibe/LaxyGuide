@@ -1,0 +1,208 @@
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 {
+    background: #ffffff;
+    --misc-usaa: #D93513;
+    --misc-theme: var(--misc-usaa);
+    --misc-opam: var(--misc-theme);
+
+    /* USAA guide type scale (H1-H8): size / auto line-height */
+    --usaa-h1: 38px;
+    --usaa-h2: 34px;
+    --usaa-h3: 30px;
+    --usaa-h4: 28px;
+    --usaa-h5: 26px;
+    --usaa-h6: 24px;
+    --usaa-h7: 22px;
+    --usaa-h8: 18px;
+    --usaa-h9: 16px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-content-shell {
+    max-width: 100%;
+    margin: 0;
+    background: #ffffff;
+    border-radius: 0;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-hero {
+    min-height: 0;
+    border-bottom: 0;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-hero-overlay {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-lang-btn {
+    border: none;
+    background: transparent;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-title {
+    font-size: var(--usaa-h1);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    line-height: normal;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-hero-brand {
+    top: 50px;
+    padding-top: 0;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-title-logo {
+    width: min(224px, calc(100vw - 96px));
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-scroll-content {
+    padding: 0 12px 24px;
+    overflow-y: visible;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-action-nav {
+    margin-top: -16px;
+    margin-left: -12px;
+    margin-right: -12px;
+    gap: 7px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: none;
+    padding: 12px 6px 10px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-action-icon {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-action-icon-img {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-action-label {
+    color: #e24e34;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured {
+    margin-top: 16px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-title {
+    color: #e24e34;
+    font-size: var(--usaa-h8);
+    font-weight: 800;
+    line-height: normal;
+    margin-bottom: 12px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-banner-section {
+    margin-top: 14px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-banner-section img {
+    border-radius: 16px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid {
+    margin-top: 0;
+    gap: 10px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid-card {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 12px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid-media {
+    width: 100%;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid-media img {
+    aspect-ratio: 4 / 3;
+    height: auto;
+    border-radius: 8px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid-caption {
+    margin-top: 5px;
+    min-height: 28px;
+    justify-content: center;
+    align-items: center;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid-meta {
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-id {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e24e34;
+    color: #ffffff;
+    font-size: var(--usaa-h9);
+    font-weight: 800;
+    line-height: normal;
+    border-radius: 5px;
+    padding: 2px 6px 3px;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid-meta strong {
+    display: inline-flex;
+    align-items: center;
+    color: #4b3f3e;
+    font-size: var(--usaa-h9);
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+}
+
+.page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-powered-by-logo-usaa {
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    background-color: #1d4642;
+    -webkit-mask-image: url('https://res.cloudinary.com/dui2mxeuh/image/upload/v1764482353/logo_invert_1_gpalmw.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-image: url('https://res.cloudinary.com/dui2mxeuh/image/upload/v1764482353/logo_invert_1_gpalmw.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
+
+@media (max-width: 390px) {
+    .page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-title {
+        font-size: var(--usaa-h2);
+    }
+
+    .page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-title-logo {
+        width: min(196px, calc(100vw - 96px));
+    }
+
+    .page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-title {
+        font-size: var(--usaa-h8);
+    }
+
+    .page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-grid-meta strong {
+        font-size: var(--usaa-h9);
+    }
+
+    .page.hub-landing.hub-landing--jpn-usaa-tem-001 .hub-featured-id {
+        font-size: var(--usaa-h9);
+    }
+}

@@ -1,0 +1,1042 @@
+{
+    "data": [
+        {
+            "id": 32,
+            "documentId": "fqo1h0out7mhbu3510at2l4x",
+            "recommendation": "宿泊先から徒歩10分以内で行ける温泉です。利用料金もたったの100円。\n\n100年以上の歴史を持ち、別府で最も美しい建物のひとつといわれています。\n\nただし内部はかなり老朽化していて、地元の方には親しまれているものの、韓国の方にはちょっとカルチャーショックかもしれません。\n\nとはいえ外観は本当に美しく、昼も夜も写真映えするスポットです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 1,
+            "weightInHighlight": 0,
+            "poi": {
+                "id": 91,
+                "documentId": "ay4mg0bs3x2bxba901uhtanm",
+                "slug": "Takegawara-Onsen",
+                "label": "竹瓦温泉",
+                "address": "〒874-0944 大分県別府市元町16番23号",
+                "highlight": "竹瓦温泉は、別府市を代表する伝統的な公衆温泉の一つで、歴史情緒あふれる古い建物の中にあります。建物自体は築百年以上で、別府温泉文化の象徴の一つであり、市内のランドマークとしても知られています。\n\n古典的な日本の温泉浴槽に加え、ここでは「砂湯（すなゆ）」が最も有名です。温泉客は温かい砂の中に横たわり、天然の地熱蒸気で体を温め、通常の入浴とは異なる癒しの効果を体験でき、国内外の観光客に大変人気があります。\n\n歴史と文化が交差する場所として、竹瓦温泉はただの入浴施設ではなく、タイムトラベルのような体験を提供します。別府を初めて訪れる旅行者に強くお勧めします。",
+                "externalURL": "https://www.takegawara-onsen.com/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 15,
+                        "documentId": "cfq91726e76i6u7ywdblwsnn",
+                        "name": "おんせん",
+                        "color": "GREY"
+                    },
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 61,
+                    "documentId": "cuwoxz5swpqikoe2n5p1kmse",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993261/Takegawara_Onsen_ae85d80840.jpg"
+                }
+            }
+        },
+        {
+            "id": 37,
+            "documentId": "cdemz0jtzqzijqkioptpa5fm",
+            "recommendation": "宿泊先から徒歩3分ほどで行ける温泉です。たったの250円で入浴できます。\n\n別府の温泉はタオル・石鹸・シャンプーなどの備品が一切ありませんので、宿から持って行くのをお忘れなく。\n（別府Airbnbブログもぜひご覧ください）\nhttps://blog.naver.com/beppu-airbnb/221190748570",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": 0,
+            "poi": {
+                "id": 96,
+                "documentId": "zbyhe0y7k0w2ma9h1538lab9",
+                "slug": "Kaimonji-Onsen",
+                "label": "海門寺温泉",
+                "address": "〒874-0920 大分県別府市北浜2丁目3番2号",
+                "highlight": "海門寺温泉は、大分県別府市にある歴史ある公衆温泉で、手頃な価格で地元住民や観光客に親しまれています。本格的な日本の入浴文化を体験したい方には理想的な選択肢です。\n\n温泉自体は伝統的なシンプルなスタイルを保っており、豪華さはありませんが、温かみと懐かしさに満ちています。素朴な設備は、静かで純粋な入浴体験を好む旅行者に適しています。別府市中心部に近く、駅から徒歩圏内と交通アクセスも非常に便利です。\n\n別府の日常と温泉文化を深く感じたいなら、海門寺温泉は旅程に加える価値のある良い選択肢です。",
+                "externalURL": "https://www.city.beppu.oita.jp/sisetu/shieionsen/detail7.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 15,
+                        "documentId": "cfq91726e76i6u7ywdblwsnn",
+                        "name": "おんせん",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 20,
+                    "documentId": "bn0d6ekn7kb3kd07g07srb2d",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993120/Kaimonji_Onsen_bdf2f3eabf.webp"
+                }
+            }
+        },
+        {
+            "id": 44,
+            "documentId": "yc90mvlgxhe5vpota6hx1eas",
+            "recommendation": "公共交通機関ではアクセスが難しい場所ですが、レンタカーであれば宿泊先から20分ほどで行けるので、時間があればぜひ挑戦してみてください。\nここは別府で一番有名なとんかつ専門店です。1,200円ほどで、一生忘れられないとんかつが味わえます。\n月曜日は定休日で、それ以外の日は営業していますが、14時から17時までは準備中のため入店できません。\n確実に席を確保するには13時30分までに到着することをおすすめします。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 68,
+                "documentId": "wq5ru3gyazxqyv3zel38jv70",
+                "slug": "Tonkichi-Pork-Cutlet-Restaurant",
+                "label": "とんカツ亭",
+                "address": "〒874-0922 大分県別府市船小路町４−３８",
+                "highlight": "「とんカツ亭」は大分県速見郡日出町にある人気のとんかつ専門店で、サクサクの衣とジューシーな厚切り豚肉が自慢です。ここではとんかつが丁寧に調理されており、外はサクサク、中はジューシーで、濃厚な特製ソースと揚げたての食感が相まって、地元住民や観光客から絶賛されています。\n\n店内はシンプルで温かい雰囲気で、座席エリアがあり、家族での食事やドライブ旅行中の休憩に最適です。定番のとんかつ定食の他に、味噌とんかつ、チーズとんかつ、海鮮フライなど多様な選択肢があり、付け合わせやご飯、味噌汁の組み合わせも非常に丁寧で、満腹で満足できるレストランです。\n\n店舗は別府から湯布院への中継地点に近いため、旅の途中のランチ休憩場所として非常に適しています。",
+                "externalURL": null,
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 30,
+                    "documentId": "krzmra0m4y3q56q0qghmd8ug",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993153/Tonkichi_Pork_Cutlet_Restaurant_96b3b8190d.webp"
+                }
+            }
+        },
+        {
+            "id": 50,
+            "documentId": "iyw10rslycmv2ehlqunsfw33",
+            "recommendation": "別府のホテルや温泉といえば、杉乃井ホテルの温泉が最も有名かもしれません。\n実際に宿泊された方の満足度も非常に高いです。ただし、料金がネックで、安くても1泊1人12万ウォンほど、繁忙期には40万ウォン近くになることもあります。4人家族で宿泊すれば、簡単に150万ウォンを超えてしまいます。\n\nですが、杉乃井ホテルの展望露天風呂「棚湯」と温水プール「アクアガーデン」をお得に楽しむ方法があります。宿泊しなくても、入場料を払えばどちらも利用可能であることを知らない方も多いようです。大人は1,200円（週末は1,800円）、3歳から小学生までは700円（週末は1,100円）で利用できます。\n\n別府駅西口からは15分間隔で無料のシャトルバスが運行しており、車で行く場合も無料駐車場があります。夜8時、9時、10時、11時には華やかなレーザーショーが開催され、特に夜の時間帯は楽しさが倍増します。ホテル周辺には地熱発電によるイルミネーションもあり、夜の写真スポットとしてもおすすめです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": 0,
+            "poi": {
+                "id": 107,
+                "documentId": "hjcj7rzrritadxa3c3cmrgjg",
+                "slug": "Suginoi-Hotel-Aqua-Garden",
+                "label": "杉乃井ホテル 棚湯・ザ アクアガーデン  ",
+                "address": "〒874-0822 大分県別府市観海寺1",
+                "highlight": "ザ アクアガーデンは、別府杉乃井ホテル内にある有名なスパ＆ウォーターパークで、温泉の癒しとリゾートの雰囲気を融合させ、旅行者に最高のくつろぎ体験を提供します。露天温泉プール、光る噴水、滝の壁、視覚効果などの設備があり、カップルや家族連れだけでなく、夜のロマンチックな雰囲気を好む旅行者にも最適です。\n\n杉乃井ホテルに宿泊しなくても単独でチケットを購入して入場できるため、日帰り客にも人気です。特に夜はライトアップと水上パフォーマンスがBGMと相まって、別府では珍しい幻想的な景色を演出し、写真撮影や心身のリラックスに人気の選択肢です。",
+                "externalURL": "https://www.suginoi-hotel.com/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 15,
+                        "documentId": "cfq91726e76i6u7ywdblwsnn",
+                        "name": "おんせん",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 28,
+                    "documentId": "fh1ususq0aqyits1nm12k08d",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993148/Suginoi_Hotel_Aqua_Garden_9183456676.jpg"
+                }
+            }
+        },
+        {
+            "id": 55,
+            "documentId": "sztyjnxmari8esrsqhxjtg95",
+            "recommendation": "\"特別なグルメスポットというわけではありませんが、朝食をとれる場所が少ない別府において、24時間営業というのが魅力です。\n宿泊先から徒歩約5分で行けて、メニューも豊富なので、しっかり朝ごはんを食べたい方にはおすすめです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 66,
+                "documentId": "ufvfj53ool114vx4qoajv07p",
+                "slug": "Gusto-Family-Restaurant",
+                "label": "ガスト 別府店",
+                "address": "〒874-0929 大分県別府市南的ケ浜町５−２３",
+                "highlight": "ガスト 別府店は、日本で有名なファミリーレストランチェーン「ガスト」の別府支店です。ハンバーグ、パスタ、サラダ、各種デザートなど、和食から洋食まで多岐にわたるメニューを提供しており、朝食、ランチ、ディナーを問わず、地元住民や観光客が気軽に食事を楽しめる場所です。営業時間が長く、様々な時間帯の食事ニーズに対応しており、快適で便利な食事環境を提供しています。美味しくて手頃な価格のファミリースタイルの料理をここで楽しむことができます。",
+                "externalURL": "https://www.skylark.co.jp/gusto/?utm_source=gt&utm_medium=gmb&utm_campaign=brandtop-Oita",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 54,
+                    "documentId": "v3pgajqtu70x5o79o2hro4mp",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993239/Gusto_Family_Restaurant_e599f80ef5.jpg"
+                }
+            }
+        },
+        {
+            "id": 59,
+            "documentId": "ygz4f9zcv7qn7zka972zlrgj",
+            "recommendation": "お好み焼きをはじめ、安くて美味しい料理がいろいろ揃っています。\n（別府のAirbnbブログもぜひご覧ください）\nhttps://blog.naver.com/beppu-airbnb/221192980467",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 100,
+                "documentId": "jib9rnnskq6upziyoqrcy20w",
+                "slug": "Miyako",
+                "label": "[お好み焼きと家庭料理の店] 味Dining みやこ",
+                "address": "〒874-0944 大分県別府市元町７−４ ソルパセオ銀座",
+                "highlight": "「味Dining みやこ」は、別府市中心部にあるアットホームな居酒屋で、家庭料理と日本の鉄板焼きの味が特徴です。手頃な価格で美味しい料理と気軽な集まりに最適な選択肢です。\n\nレストランは商業ビル「ソルパセオ銀座」内にあり、交通アクセスが便利で、店内は清潔で快適、リラックスした雰囲気です。クラシックな和食の小皿料理から焼きたてのお好み焼きまで、豊富なメニューが揃っており、本格的な日本の夕食を体験したい旅行者に特に適しています。",
+                "externalURL": null,
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 65,
+                    "documentId": "lgncb5nepp8m2sme3xsfnskr",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993274/Miyako_3465e2547c.jpg"
+                }
+            }
+        },
+        {
+            "id": 61,
+            "documentId": "w8juezzycgun0tjllzv3cu24",
+            "recommendation": "宿泊先から徒歩約3分のところにある居酒屋です。ステーキ、鶏天、刺身、ビールはどれも絶品です。\n日本では珍しくクレジットカードが利用可能です。\n非常に人気のあるお店なので、長時間待つか、場合によっては席が取れないこともあります。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 55,
+                "documentId": "c719oonijgcgt626kq8fdcix",
+                "slug": "Robata-Jin",
+                "label": "ろばた仁",
+                "address": "〒874-0920 大分県別府市北浜１丁目１５−７",
+                "highlight": "「ろばた仁」は、別府市北浜にある居心地の良い日本の居酒屋で、親切なサービスと温かい雰囲気で地元の人々や旅行者に親しまれています。店内ではビール、日本酒、焼酎など様々な種類の酒類を提供しており、美味しいおつまみも豊富に揃っています。\n\n料理は天ぷらや新鮮な海鮮料理が中心で、軽く一杯飲みたい時でも、友人や家族とゆっ��りとした時間を過ごしたい時でも、非常に適しています。ここでは店内での飲食のみで、テイクアウトは対応していません。ゆっくりと座って居酒屋の空間を楽しむのに最適な場所です。",
+                "externalURL": "http://robata-jin.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 62,
+                    "documentId": "cmxjsspjlcpa681n2l8nsm52",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993265/Robata_Jin_7347b0a438.jpg"
+                }
+            }
+        },
+        {
+            "id": 65,
+            "documentId": "g1dcfl7avlm56zcjg55mg1d5",
+            "recommendation": "串焼きが絶品です。料理もお店の雰囲気も清潔感があってとても良いです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 57,
+                "documentId": "ryy1jnppo9wybvmp70ech7am",
+                "slug": "Yakitori-Bon",
+                "label": "焼とり凡 母家",
+                "address": "〒874-0920 大分県別府市北浜１丁目１−１１",
+                "highlight": "「焼とり凡 母家」は、別府市北浜エリアで人気の和風焼鳥居酒屋です。店内には掘りごたつ席や個室空間があり、上品でプライベートな雰囲気が魅力で、友人との食事会や気軽に一杯飲むのに最適です。\n\n香ばしい炭火焼鳥（焼き鳥）が自慢で、新鮮な海鮮料理や一品料理も豊富に揃っています。美味しい料理に加え、地酒や焼酎も充実しており、味にこだわるお客様にも満足いただけます。本格的な日本の居酒屋文化を体験するのに最適な場所です。",
+                "externalURL": "http://www.yakitoribon.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 68,
+                    "documentId": "jthi0uk1t3mn2ih8vig77jqg",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993284/Yakitori_Bon_7f6349f1d9.jpg"
+                }
+            }
+        },
+        {
+            "id": 71,
+            "documentId": "x6rmzcbbyy4exizeasek46cr",
+            "recommendation": "宿泊先から徒歩約10分のところにあるラーメン店です。\n豚骨ラーメンがメインですが、特有の臭みがほとんどなく、とても美味しいです。\n個人的には野菜ラーメンをおすすめします。今まで一度も案内して後悔されたことはありません。\n（別府Airbnbブログもぜひご覧ください）\nhttps://blog.naver.com/beppu-airbnb/221189815570",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 51,
+                "documentId": "rc804d2del0mxnd6yah50v5x",
+                "slug": "Fukuya-Ramen",
+                "label": "ふくやラーメン工房 総本店",
+                "address": "〒874-0926 大分県別府市京町８−１６",
+                "highlight": "\"別府市京町にある「ラーメン工房 ふくや総本店」は、しっかりとした味と濃厚な豚骨スープで知られる老舗のラーメン専門店です。店舗の外観は素朴で控えめですが、店内はシンプルで快適な和風のデザインで、親しみやすい雰囲気があり、多くの地元の人々や常連客の日常的な食事の選択肢となっています。\n\n当店では伝統的な製法で豚骨スープを煮込んでおり、香りが豊かで脂っこくなく、弾力のある中細麺と相まって、風味豊かな九州ラーメンの定番を提供しています。基本のラーメンに加え、野菜ラーメン、チャーシュー増量バージョン、辛味のバリエーションも提供しており、様々な客の好みに対応しています。\n\n店内での飲食もテイクアウトサービスも可能で、忙しい旅の途中で熱々のラーメンをさっと味わうのに最適です。ランチでもディナーでも、ここでは満足のいく温かいラーメンを提供できます。",
+                "externalURL": "https://fukuya-ramen.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 19,
+                    "documentId": "e5agzobomj3a6u58h7iz9sgp",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993117/Fukuya_Ramen_60448ac175.jpg"
+                }
+            }
+        },
+        {
+            "id": 74,
+            "documentId": "isu7ps10ec3y3tzfxakty8pa",
+            "recommendation": "こちらのパン屋さんも、宿泊先から徒歩約10分の場所にあります。\n朝8時半から営業しているので、朝食にもぴったりです。\n創業100年以上の歴史を持ち、素朴で親しみやすい味わいが魅力です。\nいつも行列ができる人気店で、パンは焼きたて・出来たてで温かい状態で提供されます。\nあんパンは甘さ控えめでとても美味しいです。つぶあんパンとバターフランスパンがおすすめです。\n日曜日は定休日なのでご注意ください。\n（別府Airbnbブログもぜひご覧ください）\nhttps://blog.naver.com/beppu-airbnb/221192886631",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 124,
+                "documentId": "ni2f8rqmz4p31j41wfw7cqba",
+                "slug": "Tomonaga-Bakery",
+                "label": "友永パン屋",
+                "address": "〒874-0942 大分県別府市千代町２−２９",
+                "highlight": "創業百年を超える「友永パン屋」は、別府で最も歴史が古く、人気の高い老舗パン屋の一つです。大正時代から創業以来、伝統的な製法と独自に改良したレシピを頑なに守り、素朴でありながら心温まる手作りパンを一つ一つお客様に届けています。\n\n一番人気の製品は、定番のつぶあんパンやバターフランスパンで、餡は甘すぎず、食感は柔らかく弾力があり、常連客が後を絶ちません。地元住民も観光客も、焼きたての温かいパンを求めて、朝早くから行列を作る姿がよく見られます。\n\n店内はテイクアウトのみで、イートインスペースや宅配サービスはありません。数量限定のため、人気商品は午前中に売り切れることが多いため、早めの来店をお勧めします。",
+                "externalURL": "https://www.instagram.com/tomonaga_panya/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 64,
+                    "documentId": "baw7gjiq544l4i112urpxs0f",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993271/Tomonaga_Bakery_4f3a049426.jpg"
+                }
+            }
+        },
+        {
+            "id": 76,
+            "documentId": "f09aintojoqdgfuy19fdc28d",
+            "recommendation": "説明不要のラーメンです。まさに「人生ラーメン」と言える一杯です。\nぜひ一度食べてみてください。絶対に後悔しません。\n700円もしないのに、トッピングのもやし（豆もやし）が何度でもおかわり自由です。\n（別府Airbnbブログもぜひご覧ください）\nhttps://blog.naver.com/beppu-airbnb/221196535282",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 121,
+                "documentId": "ta9w6rsuey2dq5giwvjymqmm",
+                "slug": "Taiichi-Shoten-Ramen-Restaurant",
+                "label": "太一商店 別府やまなみ店 ",
+                "address": "〒874-0845 大分県別府市北中",
+                "highlight": "「太一商店 別府やまなみ店」は、別府市北中にある人気のラーメン店で、豪快な量と濃厚なスープが特徴の「二郎系ラーメン」スタイルが食通に愛されています。店舗デザインはシンプルで実用的で、座席も広々としており、一人での食事にも、友人と一緒にガッツリ食べるのにも適しています。\n\nスープは豚骨をベースに濃厚な醤油の風味が融合しており、脂がたっぷりながらもくどくありません。麺は太めのちぢれ麺で弾力があり、たっぷりのもやし、キャベツ、厚切りチャーシューと共に、非常に食べ応えがあります。さらに、お好みでニンニク、背脂、増量なども可能で、自分だけのカスタマイズラーメンを作ることができます。\n\nまた、テイクアウトサービスも提供しており、濃厚な味とボリューム感を好むラーメン愛好家にとって必訪の名店の一つです。",
+                "externalURL": "http://taichi-shouten.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 60,
+                    "documentId": "bxcel738a2au9zqf61p7ka67",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993258/Taiichi_Shoten_Ramen_Restaurant_2e028bdbb9.jpg"
+                }
+            }
+        },
+        {
+            "id": 82,
+            "documentId": "ggdg58lya8zch2xrc1ub65t5",
+            "recommendation": "7番のラーメン店から徒歩約4分の場所にある寿司店です。\n常に大人気で、混雑時には2時間待つこともありますが、それだけの価値は十分にあります。\nここの寿司を食べたら、他の寿司が物足りなく感じるかもしれません。\n味噌汁は無料で、平均して3杯くらい飲む方も多いです。\n※毎週水曜日は定休日なのでご注意ください。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 128,
+                "documentId": "b0awrv0nz4o9jx05w2g2bfqa",
+                "slug": "Kamesho-Sushi-Restaurant",
+                "label": "亀正",
+                "address": "〒874-0840 大分県別府市鶴見34番地",
+                "highlight": "「亀正くるくる寿司」は、別府市鶴見地区にある人気の回転寿司店で、新鮮でボリューム満点の寿司ネタが自慢です。ここでは一貫一貫の寿司がネタも厚く、切り方も大きく、味の新鮮さだけでなく見た目も大変満足できるため、多くの地元の人々や観光客にとって「再訪リスト」に入っています。\n\n店内はシンプルな内装で、カウンター席と広々としたファミリー向けのボックス席があり、一人での食事にも家族での会食にも適しています。皿の種類も豊富で、定番のマグロ、サーモン、イカから、その日仕入れた新鮮な海鮮まで、回転で気軽に楽しむことも、直接板前さんに注文することも可能です。\n\nこの店はデリバリーサービスは提供していませんが、店内飲食またはテイクアウトが可能です。非常に人気が高いため、ピーク時には行列ができることが多いので、早めの来店や食事時間を早めることをお勧めします。",
+                "externalURL": "https://instagram.com/kamesho_9696_sushi",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 53,
+                    "documentId": "vbqclj7f6fnfr58wetno9q8f",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993236/Kamesho_Sushi_Restaurant_43a2b77d65.jpg"
+                }
+            }
+        },
+        {
+            "id": 84,
+            "documentId": "rioj7xtte9duy59488673uwh",
+            "recommendation": "言葉はいらない、別府を代表するご当地グルメです。\n温泉の蒸気で食材を蒸して食べる体験は、きっと初めての美味しさになるはずです。\n何も準備せずに行っても、現地で用意されたメニューから選ぶことができます。\nレンタカーでお越しの方は、事前にスーパーで好きな食材を購入し、ここで自分で蒸して楽しむことも可能です。\n（食材を持ち込む場合は、追加で500円がかかりますが、量や種類の満足度がさらに上がります。）",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 136,
+                "documentId": "he4j08woj4a9xa8951wr185e",
+                "slug": "Jigoku-Steam-Food",
+                "label": "地獄蒸し工房 鉄輪",
+                "address": "〒874-0041 大分県別府市風呂本５組",
+                "highlight": "「地獄蒸し工房 鉄輪」は、別府の有名な体験型郷土料理レストランで、天然温泉の蒸気を利用して調理する「地獄蒸し料理」が有名です。この調理法は江戸時代から伝わるもので、野菜、海鮮、肉などの食材を蒸篭に入れ、地下から噴出する高温の蒸気で直接調理することで、油や水を一切加えず、食材本来の風味と栄養を保ちます。\n\n工房では2つの体験方法を提供しています。店内で提供されるセットメニューを選ぶことも、食材を持参して自分で蒸し調理をDIYすることもできます（設備使用料がかかります）。体験は実際に自分で調理するため、楽しく思い出に残る別府ならではの人気アクティビティです。\n\n店内には広々とした食事スペースがありますが、テイクアウトや宅配サービスは提供していません。鉄輪温泉街の中心部に位置し、交通アクセスも便利で、別府を訪れた際にぜひ体験していただきたい地元の美食です。",
+                "externalURL": "http://jigokumushi.com/",
+                "type": "restaurant",
+                "tag_labels": [
+                    {
+                        "id": 21,
+                        "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                        "name": "グルメ",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 17,
+                    "documentId": "gx4ei6tx9t03gg9rndbpsipc",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993110/Jigoku_Steam_Food_5036f0ebc7.jpg"
+                }
+            }
+        },
+        {
+            "id": 90,
+            "documentId": "qxlohlevz1explpizllk1pj9",
+            "recommendation": "2022年12月にオープンした、とても有名なお店です。\n宿泊先から徒歩4分ほどで行けるので、気軽に立ち寄って楽しい時間をお過ごしください！",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 86,
+                "documentId": "k43jal69ybwqggeyuh7x5plr",
+                "slug": "Don-Quijote-Beppu",
+                "label": "ドン・キホーテ別府店",
+                "address": "〒874-0929 大分県別府市南的ケ浜町６−２０",
+                "highlight": "「ドン・キホーテ 別府店」は、日本で有名なディスカウントストアチェーンの一つで、別府市中心部に位置し、多種多様な商品を提供しています。観光客や地元住民が愛用する超人気で便利なショッピングスポットです。\n\n店内は商品が豊富で、お菓子、日用品、ドラッグストア製品、家電、おもちゃから、旅行用品、衣料品、靴、お土産まで、ほぼ何でも揃っています。独特の棚の配置はまるで迷路にいるような感覚で、買い物をするたびに新たな発見があり、ショッピングプロセスは楽しさに満ちています。\n\n特に外国人観光客に人気があり、常設の免税カウンターも設けられ、多言語表示やフレンドリーなサービスも提供されています。旅行に必要なものをワンストップで揃えたい、あるいは手頃な価格で掘り出し物を見つけたいなら、ここは間違いなく訪れるべき選択肢の一つです。",
+                "externalURL": "https://www.donki.com/store/shop_detail.php?shop_id=650",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 19,
+                        "documentId": "n1fasfi52e6y59v8id9eimde",
+                        "name": "ショッピング",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 33,
+                    "documentId": "b26zl95p6yx9h2497yl2xnhu",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993163/Don_Quijote_Beppu_bc0d8ce926.webp"
+                }
+            }
+        },
+        {
+            "id": 92,
+            "documentId": "an2vgmjggr5w3twg3vub26lo",
+            "recommendation": "ここは別府で一番大きなショッピングモールです。\n韓国の華やかなショッピングモールに慣れている方には少し地味に感じるかもしれませんが、別府では最大級で、いろいろな物が揃う便利な場所です。ゆっくり買い物したり時間を過ごすのにもぴったりです。\n1階にはスーパー、2階には衣料品店や100円ショップのダイソー、3階には書店、ゲームセンター、ユニクロ、フードコートがあります。思わず長居してしまうかもしれません。\n宿泊先から徒歩約10分で行けますし、レンタカーで来た方も無料駐車場があるので安心です。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 95,
+                "documentId": "u7dzshg6ndcfbqn4lostzltw",
+                "slug": "YouMe-Town",
+                "label": "ゆめタウン別府",
+                "address": "〒874-0943 大分県別府市楠町３８２−７",
+                "highlight": "「ゆめタウン別府」は、別府市で最大級の複合型ショッピングセンターの一つで、スーパーマーケット、衣料品、コスメ、書店、ゲームセンター、飲食店、生活用品など多様な店舗が集結しており、地元住民や観光客にワンストップのショッピングとレジャー体験を提供します。\n\n施設は数階建てで、1階には大型スーパーマーケットと生活雑貨エリアがあり、日用品やお土産の購入に便利です。2階はアパレルブランドやDAISOなどの100円ショップが中心で、3階にはUNIQLO、書店、子供の遊び場、フードコートが設けられており、買い物、食事、家族連れでの利用にも非常に便利です。\n\n別府市街地に近く、交通アクセスも良好で、無料駐車場も完備しており、徒歩や公共交通機関でもアクセスできます。生活用品を素早く購入したい場合でも、のんびりとした午後を過ごしたい場合でも、ここは素晴らしい選択肢です。",
+                "externalURL": "http://www.izumi.jp/tenpo/beppu",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 19,
+                        "documentId": "n1fasfi52e6y59v8id9eimde",
+                        "name": "ショッピング",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 67,
+                    "documentId": "lyvotngq6b8coryziudxxe1o",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993280/You_Me_Town_1942a0f995.jpg"
+                }
+            }
+        },
+        {
+            "id": 96,
+            "documentId": "l5czot5ynsv0dczsdgzmzsga",
+            "recommendation": "たくさんのサルたちと一緒に楽しい時間が過ごせる、小さな自然動物園です。\n動物が好きな方、特にサルと特別な体験をしてみたい方にはとてもおすすめです！開園は朝8時30分からです。\n\nアクセスは、別府駅前から**大分交通バス（大分駅行き）**に乗車し、高崎山自然動物園前で下車してください。\n\n宿泊先から直接行く場合は、**別府北浜バス停（トキハ百貨店の横）**の方が近いかもしれません。\nその場合は、AS60またはAS61番のバスをご利用ください。\nただし本数が少ないので、事前にこちらで時刻を確認しておくのがおすすめです",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 81,
+                "documentId": "buj1fyygg1np66jit4b0is97",
+                "slug": "Takasaki-Mountain-Monkey-Park",
+                "label": "高崎山自然動物園",
+                "address": "〒870-0802 大分県大分市神崎３０９８−１",
+                "highlight": "高崎山自然動物園は大分市神崎地区に位置する、野生のニホンザルを主役とした自然動物公園で、九州地方を代表する親子向けアウトドアスポットの一つです。園内のサルたちは天然の山林で生活しており、来園者は間近で彼らの自然な姿を観察し、人と動物が共存する調和のとれた雰囲気を体験できます。\n\nここは柵のないデザインで有名で、サルたちは園内を自由に活動し、非常に活発で人を恐れません。サルの生活を観察するだけでなく、園側は定時給餌の解説も行い、来園者がサルの習性や群れ行動を理解するのに役立ち、特に親子連れや生態愛好家に人気です。\n\n園内にはチケット売り場、簡単な土産物店、情報展示スペースがあり、教育的な観光の場としても理想的です。園は「大分マリーンパレス水族館 うみたまご」に隣接しており、半日または一日かけての連携観光コースとして計画できます。",
+                "externalURL": "http://www.takasakiyama.jp/takasakiyama/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 59,
+                    "documentId": "sl3agayy164c9neg14tzwe0n",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993255/Takasaki_Mountain_Monkey_Park_7563ebf6b2.jpg"
+                }
+            }
+        },
+        {
+            "id": 103,
+            "documentId": "yk8wxb6rl1wqud1ruct2onda",
+            "recommendation": "宿泊先から徒歩約7分の場所にある「やよい通り」には、大きな天狗の頭があります。\nやよい通りは別府駅前で最大の商店街ですが、最近では少し人通りが少なくなっています。\nこの天狗は通りの守り神のような存在で、多くの人がその前で記念写真を撮ります。\n天狗の大きな鼻は男性性の象徴とされており……実は、後ろから見ると「ちょっとした秘密」が隠されています。ぜひチェックしてみてください！（ちょっと大人向けかも？）",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 41,
+                "documentId": "nkd2ej5kim0rc9kkf0c90ws6",
+                "slug": "Yayoi-Tengu",
+                "label": "やよい天狗",
+                "address": "〒874-0920 大分県別府市北浜１丁目１−２１",
+                "highlight": "\"「やよい天狗」は、別府市北浜、やよい商店街の入口にある特徴的なランドマーク彫像で、巨大な天狗の面���日本の伝説に登場する山林の守り神）を模しており、魔除けや守護を象徴しています。この彫像は、地元信仰の象徴であるだけでなく、別府観光の際の人気の写真スポットにもなっています。\n\n天狗の鼻は高く、表情は威厳があり、男性的な力と加護を意味すると言われています。多くの観光客がその前や横で記念撮影をしており、特に夜間のライトアップ時には一層神秘的な雰囲気を醸し出します。彫像の背面から観察すると「隠れたイースターエッグ」が見つかるとも言われており、観光客に一層の探索の楽しみを与えています。\n\n別府駅に近く、交通アクセスも便利で、やよい商店街にも隣接しており、地元の人々がかつて賑わった商店街の一つでした。現在では以前ほどの賑わいはないものの、この天狗の彫像は別府の街角と記憶を静かに守り続けており、散策中に見逃せない文化的な景観です。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 30,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "散策",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 29,
+                    "documentId": "xymbmct90lzww2chxijcpq9v",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993150/Yayoi_Tengu_0cfbb6be33.avif"
+                }
+            }
+        },
+        {
+            "id": 104,
+            "documentId": "r3nirdp1537ofb2srpamuorr",
+            "recommendation": "宿泊先から徒歩5分以内のところにある海辺です。\n泳げる場所ではありませんが、朝や夕方のお散歩にはぴったりです。\nスニーカーなど歩きやすい靴があれば、30分ほどゆっくり往復するのもとても気持ちがいいですよ。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 110,
+                "documentId": "qjxyx38759qbkxcvw0rzwshe",
+                "slug": "Matogahama-Park",
+                "label": "的ケ浜公園",
+                "address": "〒874-0928 大分県別府市北的ケ浜町５",
+                "highlight": "\"「的ヶ浜公園」は、別府市北的ヶ浜町にある海岸に隣接する開放型の市民公園で、開放的な眺望と静かな雰囲気が特徴です。地元住民や観光客に人気の散策・休憩スポットとなっています。\n\n公園は別府湾に面しており、海岸沿いには遊歩道が整備されているため、朝のジョギング、夕方の散歩、日の出や海の景色を眺めるのに最適です。広々とした平坦な敷地は緑豊かで、犬の散歩、ピクニック、子供を遊ばせるのに理想的な場所です。さらに、ペット同伴が可能なので、愛犬家の方々にも非常に親しまれています。\n\n市内中心部や海に近く、複数の温泉施設や飲食店まで徒歩圏内とアクセスも便利で、別府の生活風景の一部を形成しています。早朝の潮風も夜の静けさも、別府ならではののんびりとした魅力を感じさせてくれます。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 30,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "散策",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 56,
+                    "documentId": "hkspxp7htf4ig2pslswgye80",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993244/Matogahama_Park_ca14f9cc40.jpg"
+                }
+            }
+        },
+        {
+            "id": 108,
+            "documentId": "mk5pmntu30bmrncmcuxxi0lz",
+            "recommendation": "こちらは「高崎山自然動物園」（スポット①）の向かいにある水族館です。\n公共交通機関（バス）をご利用の場合、行き方は動物園と同じです。\n開館時間は午前9時からで、カップルやお子さま連れのご家族に特におすすめです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 140,
+                "documentId": "uyj91g2qym0hfs9s78jvhk7u",
+                "slug": "Umitamago-Aquarium",
+                "label": "大分マリーンパレス水族館 うみたまご ",
+                "address": "〒870-0100 大分県大分市神崎字ウト−3078番地の22",
+                "highlight": "大分マリーンパレス水族館「うみたまご」は大分県神崎地区の海岸沿いに位置する、海洋生物の展示とインタラクティブな体験をテーマにした大型水族館で、九州地方の親子旅行の人気スポットの一つです。斬新な建築外観と多様な展示空間で知られ、エンターテイメントと海洋教育を融合させ、学びと遊びを兼ね備えた観光体験を提供しています。\n\n館内には熱帯魚、ペンギン、アシカ、イルカ、エイなど、豊富な海洋生物が展示されています。来館者は素晴らしいアシカやイルカのショーを観覧できるほか、タッチプールではヒトデや貝類に直接触れることができ、子供たちや家族連れに大変人気です。\n\n水族館内には、土産物店、カフェスペース、屋外の景観遊歩道があり、一日中楽しめる総合的なレジャー施設です。館外には海岸遊歩道が直結しており、隣接する高崎山自然動物園と連携して半日または一日かけての観光コースとして計画できます。",
+                "externalURL": "https://www.umitamago.jp/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 21,
+                    "documentId": "q5qia9ektjm2ga5mnhccyxdt",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993124/Umitamago_Aquarium_26c789b8a4.webp"
+                }
+            }
+        },
+        {
+            "id": 114,
+            "documentId": "yyovr7ipuqhszio96ih8h518",
+            "recommendation": "動物に直接エサをあげられる、ちょっと変わった体験ができる野生動物園です。\n「ジャングルバス」という鉄の柵に囲まれた特別なバスに乗って園内を巡りながら、野生動物を間近で見たり、エサをあげたりすることができます。\nお子さま連れのご家族に特におすすめです。\n宿泊先からは車で約40分、公共交通を使えば約1時間で行けます。\n\n公共交通をご利用の場合は、別府駅の観光案内所でお得なセット券が購入できます。\n内容は、往復バス + サファリ入園料 + ジャングルバス乗車券で、3,700円（通常価格は5,120円）。\n中学生は2,700円、小学生は2,150円です。\n動物好きの方は、ぜひ訪れてみてください！",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 38,
+                "documentId": "lxxj4eydfyx81d25fx4623yv",
+                "slug": "African-Safari",
+                "label": "アフリカンサファリ",
+                "address": "〒872-0722 大分県宇佐市安心院町南畑２−１７５５−１",
+                "highlight": "「九州自然動物公園」、通称「アフリカンサファリ」は、大分県宇佐市にある広大な野生動物園で、アフリカの草原を思わせる動物たちが放し飼いにされており、親子連れや動物愛好家にとって見逃せない観光スポットです。\n\n園内最大の特色は、檻付き装甲の「ジャングルバス」に乗車することです。専用ルートでライオン、ゾウ、キリン、シマウマ、ラクダなどの動物たちを間近で観察でき、直接餌やりも体験できるため、非常に臨場感あふれる野生動物との触れ合いが楽しめます。ジャングルバ��の他に、ウォーキングゾーンや小型動物とのふれあい広場もあり、あらゆる年齢層の来園者がゆっくりと楽しめます。\n\n\n園内には売店、飲食エリア、便利な駐車場が併設されており、大分市や別府市からのアクセス手段も提供されているため、日帰りでの親子旅行や団体旅行に理想的なスポットです。",
+                "externalURL": "https://africansafari.co.jp/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 31,
+                    "documentId": "ujmkkbhq0cas90iajt1asgjm",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993156/African_Safari_0b2a57df5a.jpg"
+                }
+            }
+        },
+        {
+            "id": 116,
+            "documentId": "y17ikretp33jwfqnysd3jqsg",
+            "recommendation": "宿泊先から山の方向に向かって徒歩約15分の場所に、別府で一番大きな公園があります。\n観光地ではありませんが、美しい木々がたくさんあり、心が穏やかになるような素敵な公園です。\n一周するのに約30分ほどかかります。\n別府はのんびりとした地方都市なので、朝は特に予定がない方も多いかもしれません。\nそんな時は、スニーカーを履いて早朝に一周してみるのも、きっといい思い出になると思います。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 148,
+                "documentId": "ukfqzkoowvkcpqcorzthjnou",
+                "slug": "Beppu-Park",
+                "label": "別府公園",
+                "address": "〒874-0903 大分県別府市別府３０１８−１",
+                "highlight": "別府公園は、別府市中心部で最大の都市緑地で、広大な敷地と四季折々の景色が広がり、地元住民や観光客がリラックスしたり、朝の運動をしたり、家族で散歩したりする人気の場所です。園内には広々とした芝生、竹林、松林の遊歩道、そして春には満開の桜や梅林があり、写真撮影や花見に理想的な場所です。\n\n自然景観のほかにも、公園は地元のイベントや祭りの会場としてもよく利用され、祭りの期間中は賑やかな雰囲気になりますが、平日は静かで落ち着いており、別府の生活のリズムを深く体験するのに良い場所です。園内の遊歩道は緩やかで歩きやすく、ジョギング、犬の散歩、ピクニック、木陰での休憩に適しています。\n\n別府公園は年間を通して柵がなく開放されており、犬同伴も可能で、ペット連れの家族に非常に優しい場所です。市街地に近く、交通アクセスも便利で、朝でも夕方でも、ここで自然と都市が融合した心地よいリズムを感じることができます。",
+                "externalURL": "http://www.city.beppu.oita.jp/sisetu/kouen_tyuusyajyou/03kouen_03-01beppu.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 34,
+                    "documentId": "w8a1ixjs7esonbfebnlrb0sm",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993166/Beppu_Park_9c3ec76d96.jpg"
+                }
+            }
+        },
+        {
+            "id": 121,
+            "documentId": "viuss3emxl2tejgslie86t3g",
+            "recommendation": "別府にも大小さまざまな神社がありますが、その中で一番大きいのが「朝見神社」です。\nここは戦犯や武将を祀っているわけではないので、安心してお参りできます。\n実際に訪れると、静かで落ち着いた雰囲気が広がっており、ご家族の健康や家庭円満、学業成就などを祈願するのにぴったりの場所です。\nまた、ここの湧き水（御神水）も有名で、地元の人がわざわざ汲みに来るほどです。\n宿泊先やゆめタウンから徒歩20分ほどなので、それほど遠く感じません。私もよく散歩がてら歩いて行っています。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 119,
+                "documentId": "jd9fe7zsk035bjm6x5n5ap4f",
+                "slug": "Hachiman-Asami-Shrine",
+                "label": "八幡朝見神社",
+                "address": "〒874-0812 大分県別府市朝見２丁目１５−１９",
+                "highlight": "八幡朝見神社は、別府市で最も歴史が古く、規模の大きい神社のひとつで、千年以上もの歴史を持ち、八幡大神を祀る荘厳な神域です。朝見山麓に鎮座し、古くから地元住民が健康、平安、家庭の和合を祈願する信仰の中心地でした。\n\n境内は静寂な雰囲気に包まれ、緑豊かな木々に囲まれています。建築様式は古風で優雅であり、鳥居、石灯籠、神橋、本殿など、至る所に年月の痕跡が漂います。春には桜が咲き誇り、神社全体がよりロマンチックで穏やかな雰囲気に包まれ、花見や写真撮影に最適な場所です。\n\nさらに、境内には「長寿の水」と称される湧き水があり、多くの地元の人々がわざわざ汲みに訪れる名水です。観光、参拝、あるいは心を落ち着ける散策など、八幡朝見神社は別府の歴史と文化を深く知るのに理想的な場所です。",
+                "externalURL": "http://www.asami.or.jp/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 30,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "散策",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 32,
+                    "documentId": "mjqr2uqo8dnjjiao94f4xut8",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993159/Asami_Shrine_e8e00db78f.jpg"
+                }
+            }
+        },
+        {
+            "id": 125,
+            "documentId": "ntdkvzhrqe0880rqjzu9jh7c",
+            "recommendation": "徒歩やバスで行くのは少し不便ですが、レンタカーでお越しの方にはぜひおすすめしたい海辺です。\n宿泊先から車で15分もかかりません。\n海岸から人工島へ渡る橋があり、ゆっくりお散歩するのにとても気持ちが良い場所です。\n写真映えも抜群で、特にお子さま連れの方には、海賊船をモチーフにした遊具のある楽しい遊び場もあります。\n7月・8月には海水浴も楽しめ、水はとてもきれいで、岸辺では小さな魚を捕まえる遊びもできます。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 144,
+                "documentId": "ndibwc6kzg3gud9w03qwrde6",
+                "slug": "Tanoura-Beach",
+                "label": "田ノ浦ビーチ",
+                "address": "〒870-0100 大分県大分市神崎４２５３",
+                "highlight": "田ノ浦ビーチは、大分市神崎地区にある人気の海岸スポットで、穏やかで心地よい雰囲気と便利な施設で知られています。ここでは人工的に作られた緩やかな傾斜の砂浜と防波堤があり、散歩や水遊び、夕暮れ時には壮大な夕日を楽しむのに適しています。\n\nビーチの向かいには小さな人工島公園があり、歩道橋で簡単にアクセスできます。島には子供の遊具やベンチが設置されており、家族連れやカップルが散歩したり写真を撮ったりする人気の場所となっています。海岸沿いの遊歩道は平坦で歩きやすく、ジョギング、ペットの散歩、ぼんやりとリラックスするのに理想的な空間です。\n\n夏には海水浴が解禁され、水質もきれいで、魚を捕まえたり小さな生き物を観察したりするのに適しています。トイレやシャワーなどの基本施設も整っています。この地域はペット同伴も可能で、愛犬家にとって優しいビーチの選択肢です。",
+                "externalURL": "https://www.city.oita.oita.jp/o177/tanoura_syoukai.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 30,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "散策",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 58,
+                    "documentId": "tl28tf13q1itbjqacl9a6wnw",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993253/Tanoura_Beach_d51055ed51.jpg"
+                }
+            }
+        },
+        {
+            "id": 128,
+            "documentId": "ifrwtcg8mfj3y0ageemxld4q",
+            "recommendation": "宿泊先から車で約25分の場所にある湖の公園です。\n有名な観光地ではありませんが、地元の人たちにとても愛されている場所です。\nレンタカーで訪れるなら、ぜひ立ち寄ってみてください。駐車場は無料です。\n園内にはアヒルが歩き回っていて、アヒル型の足こぎボートにも乗れます。バーベキューやキャンプも可能ですし、「別府オルレ」の散策コースとも繋がっていて、散歩にも最適です。\n四季折々の魅力があり、いつ行っても素敵な思い出が作れる場所です。湖を一周するのは大体30分ほどです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 44,
+                "documentId": "ojprcnuzd2onbyvkfnqpf95l",
+                "slug": "Shidaka-Lake",
+                "label": "志高湖",
+                "address": "〒874-0000 大分県別府市東山別府４３８０−１",
+                "highlight": "志高湖は、大分県別府市の山間部にある高原の湖で、周囲を山々に囲まれ、湖と山の景色が美しく調和しています。自然美とレジャー施設を兼ね備えた隠れた名所です。ここは年間を通して気候が穏やかで、春には桜、秋には紅葉が楽しめ、四季折々の風情があります。\n\n湖畔は整備されており、キャンプ場、バーベキュー場、湖上でのアヒルボート貸し出し、登山・ハイキングコース、そして親子で楽しめる施設があり、地元の人々や観光客が休日にリラックスするのに最適な場所です。静かな自然を好む人は湖畔で釣りやピクニックを、アウトドアアクティビティを体験したい旅行者は日帰りキャンプやハイキングを計画することもできます。\n\n湖周辺は空気が澄んでおり、水面は鏡のように穏やかです。特に早朝や夕暮れ時に訪れ、湖面に映る景色と雲霧が織りなす絶景を撮影することをお勧めします。",
+                "externalURL": "https://www.recamp.co.jp/recamp%E5%88%A5%E5%BA%9C%E5%BF%97%E9%AB%98%E6%B9%96",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 30,
+                        "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                        "name": "散策",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 66,
+                    "documentId": "tdq1qt2it4ia84ohr8nf4ub0",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993277/Shidaka_Lake_cc66655f32.jpg"
+                }
+            }
+        },
+        {
+            "id": 133,
+            "documentId": "zrye4vm58kewzmsqd6302084",
+            "recommendation": "言わずと知れた、別府観光の中心とも言えるスポットです。\n他の場所に行けなくても、ここだけは訪れるという方がほとんどです！\n「地獄めぐり」は入浴する温泉ではなく、8つの個性的な温泉地を見て楽しむ観光スポットです。\n各地獄はそれぞれ400〜500円の入場料がかかりますが、8ヵ所すべてを巡れる共通券は2,000円で購入できます。\n\n6つの地獄は近くにありますが、残りの2つは少し離れているため、公共交通をご利用の場合は途中でバスの移動が必要です。\n全8ヵ所をゆっくり巡るのに約4時間ほど見ておくと良いでしょう。\n\n別府駅西口から出発する**亀の井バス「鉄輪行き」**に乗り、\n**「海地獄前」または「鉄輪」**で下車してください。\n営業時間：8:00〜17:00",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 5,
+            "weightInHighlight": 5,
+            "poi": {
+                "id": 152,
+                "documentId": "f4fwpb81h7i0fqrbgosmkdh6",
+                "slug": "Jigoku-Hell-Tour",
+                "label": "別府地獄めぐり ",
+                "address": "〒874-0000 大分県別府市鉄輪５５９−１",
+                "highlight": "\"別府地獄めぐりは、別府を代表する観光コースの一つで、温泉の鑑賞と文化的テーマを組み合わせ、唯一無二の視覚と感覚の体験を提供します。一般的な温泉が湯治を主とするのとは異なり、地獄めぐりは観賞を目的とした温泉の奇景で、様々な趣のテーマ別地獄が複数設けられており、一度に地熱の神秘と壮大さを満喫できます。\n\n地獄めぐりは合計8つの主要な温泉スポットから構成されており、それぞれ海地獄、血の池地獄、鬼山地獄、白池地獄、龍巻地獄、山地獄、鬼石坊主地獄、かまど地獄です。各所には異なる地熱現象と展示内容があり、血のように真っ赤なもの、海のように深い青色のもの、さらにはワニの飼育区や地熱蒸し料理体験施設もあり、自然と人文が融合した多様な観光ルートです。\n\n一部の地獄は場所がやや離れているため、市バスや自家用車での移動をお勧めします。また、地獄めぐり共通券を購入すれば、8箇所すべてをお得な料金で一度に巡ることができます。半日～一日かけての充実した旅行コースに適しています。",
+                "externalURL": "https://www.beppu-jigoku.com/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 16,
+                    "documentId": "z8iyfrx4xc70tni8fu6z30i8",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993107/Jigoku_Hell_Tour_e70335560f.jpg"
+                }
+            }
+        },
+        {
+            "id": 138,
+            "documentId": "s3c7gi3jh1wuy86gu4u9t6b9",
+            "recommendation": "別府を訪れる方の多くが、湯布院観光も一緒に計画されます。\n自然が美しく、小さなお店がたくさん並ぶ可愛らしい町で、のんびり散策するのにぴったりです。\nただし、店の営業は朝10時ごろから夕方5時までなので、それ以降は開いているお店が少なくなります。\n高級旅館で懐石料理と温泉をゆっくり楽しむ予定がなければ、宿泊はあまりおすすめしません。\n\nバスでも電車でも、観光のスタートはたいてい湯布院駅からです。\nレンタカーの方は、金鱗湖付近の駐車場に停めて散策を始めるのがおすすめです。\n湖のすぐ近くなら1日300円の駐車場がありますが、少し離れると500円以上するところもあります。\n観光コースは駅から金鱗湖までの往復が基本です。\n有名なグルメには、B-Speakのロールケーキや金賞コロッケなどがあります。\n\n別府から行くにはバスが最も安くて便利で早いです。\n別府駅西口から出発し、1時間に1～2本程度のバスがあります。\n時刻表はこちらをご参照ください：\nhttp://www.kamenoibus.com/data/kamenoibus_rosen_yufuin.pdf",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 73,
+                "documentId": "z5ftr8chb861ij88uz9jkgp0",
+                "slug": "Yufuin",
+                "label": "湯布院",
+                "address": "大分県由布市 由布院温泉",
+                "highlight": "湯布院（Yufuin）は大分県にある有名な温泉地で、別府に隣接しながらも全く異なる魅力を放っています。別府の賑やかさとは対照的に、湯布院はその静かで優雅な雰囲気、芸術的な趣、そして豊かな自然美で知られ、心身のリラックスとロマンスを求めるのに理想的な場所です。\n\n町の中心部にある湯の坪街道（Yunotsubo Kaido）には、個性的なブティック、美術館、カフェ、特色あるレストランが立ち並び、ゆっくりと散策したり、お気に入りの品を探したりするのに最適です。最も有名なランドマークは金鱗湖（Lake Kinrinko）で、早朝に湖面に立ち込める霧と湖畔の景色が絵画のような美しさを醸し出します。また、湯布院は雄大な由布岳（Mount Yufu）に囲まれており、豊富なアウトドアアクティビティと壮大な自然景観を提供します。ここでは、伝統的な日本旅館もきめ細やかなサービスとプライベートな温泉体験で知られ、日常の喧騒から離れて質の高い休暇を過ごす人気の選択肢です。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 57,
+                    "documentId": "r8yr6omq6mjffvln9ip3blnk",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993249/Yufuin_990fc54861.jpg"
+                }
+            }
+        },
+        {
+            "id": 140,
+            "documentId": "ei0v8kxm0tfy13hv7ai23yrj",
+            "recommendation": "「日本の展望スポット100選」に選ばれている展望台です。\n霧が濃い日は何も見えないのが難点ですが、晴れた日には一生忘れられない絶景が広がります。\n昼間も夜景も本当に美しい景色が楽しめます。\n残念ながら公共交通機関では行けませんが、レンタカーで行かれる方にはぜひおすすめしたい場所です。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 115,
+                "documentId": "wwzn6fi6olvnxqwcds45r21p",
+                "slug": "Jyumonjibaru-Observatory",
+                "label": "十文字原展望台",
+                "address": "〒874-0016 大分県別府市野田字池ノツル−１２００",
+                "highlight": "十文字原展望台は、別府市北側の高台に位置し、別府市街地全体と別府湾を一望できる絶景スポットで、「日本百景」の一つにも数えられています。視界が開けており、晴れた日には遠く四国方面まで見渡せるため、写真愛好家や自然景観愛好家にとって見逃せない場所です。\n\n特にお勧めは夕暮れ時で、夕日が沈み、街に明かりが灯るロマンチックな景色を楽しむことができ、夜景も非常に魅力的で、温泉都市別府のもう一つの顔を垣間見せてくれます。展望台は終日開放されているため、自家用車を利用する方は、自分のペースで訪れる時間を選び、混雑を避けて山と海が交わる壮大な景色を静かに楽しむことができます。",
+                "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/jumonjibaru.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 34,
+                        "documentId": "fakk0mv2t9ckbl11cnd4m2s8",
+                        "name": "展望台",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 18,
+                    "documentId": "mniby0xjcvkqkz3gin1n9r94",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993113/Jyumonjibaru_Observatory_3ddbe13a55.jpg"
+                }
+            }
+        },
+        {
+            "id": 144,
+            "documentId": "ny9fojhgdzv0yvs4paln6mm5",
+            "recommendation": "公共交通では行けませんが、レンタカーでお越しの方にはぜひおすすめしたい場所です。\n実は地元の人でも知らない方が多いのですが、鉄輪温泉エリアの街全体から立ち上る湯けむり（温泉の蒸気）を一望できる、絶景スポットなんです。\n写真映えも抜群で、時間があるならぜひ立ち寄ってみてください！\n以前ご紹介した寿司の名店 亀正 からもすぐ近くなので、お寿司を食べた後に寄ってみるのもおすすめです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 63,
+                "documentId": "wn13m48m8jo1ngqgrjubqou2",
+                "slug": "Yukemuri-Observatory",
+                "label": "湯けむり展望台",
+                "address": "〒874-0041 大分県別府市鉄輪８組",
+                "highlight": "湯けむり展望台は、別府市鉄輪地区に位置し、別府温泉郷の壮大な景色を眺めるのに最適な場所です。展望台から見下ろすと、温泉の湯けむりが地面から立ち上り、街中にゆらゆらと漂う様子が見え、生活感と歴史情緒あふれる地熱都市の風景が描かれます。特に早朝と夕暮れ時は格別です。\n\nここは写真愛好家や景色を楽しむ観光客だけでなく、別府の温泉文化を理解するための推奨される出発点でもあります。天気の良い日には、別府湾や周辺の山々を遠望することもでき、多くの観光客が地獄めぐりの前後に立ち寄るスポットとなっています。\n\n自家用車で来園する場合、展望台には駐車場が併設されています。また、近くにある有名店「亀正寿司」と組み合わせて訪れることもできます。",
+                "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/yukemuri.html",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 34,
+                        "documentId": "fakk0mv2t9ckbl11cnd4m2s8",
+                        "name": "展望台",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 63,
+                    "documentId": "k4n3yokyb1jvs0k994ws1ci3",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993268/Yukemuri_Observatory_f7f1e74717.jpg"
+                }
+            }
+        },
+        {
+            "id": 148,
+            "documentId": "xi4di0hpxw8fepvst0verqz7",
+            "recommendation": "毎年 7月最後の金・土・日曜日には、別府市内で大規模な夏祭りが開催されます。\n中心市街地の3ヵ所にはたくさんの屋台が立ち並び、美味しい屋台グルメやお酒を楽しむことができます。\n\n最終日である日曜日には、約2時間にわたる日本伝統舞踊のパレードが行われ、\n夜8時から約1時間の花火大会が開催されます。とても壮観ですよ。\nこの時期は、別府の宿泊料金が一年で最も高くなるタイミングのひとつです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": 2,
+            "poi": {
+                "id": 32,
+                "documentId": "rnmkx5dp1q18a54vl94sdf6y",
+                "slug": "Beppu-Summer-Fireworks-Festival",
+                "label": "別府夏の花火大会（7月下旬）",
+                "address": null,
+                "highlight": "別府市では毎年7月の最後の週末に、盛大な夏まつりが開催されます。この3日間のイベントは地元の一大行事であり、別府に賑やかで華やかなお祭りムードをもたらします。\n\n祭りの期間中、市街地には数多くの屋台が出店し、様々な美味しい屋台料理や飲み物が提供され、市民や観光客が食事と楽しみを存分に味わうことができます。\n\nイベントのクライマックスは日曜日で、当日は約2時間の日本伝統の踊りパレードが行われます。そして最も期待されるのは、夜8時頃から約1時間行われる別府湾花火大会で、夜空に打ち上げられる鮮やかな花火は、まさに壮観な光景です。祭りには多くの人が訪れるため、この時期の別府の宿泊料金は通常、一年で最も高価な時期の一つとなるため、早めの計画をお勧めします。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 11,
+                        "documentId": "xd02cfhqrxhr35klrjghebhi",
+                        "name": "イベント",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 69,
+                    "documentId": "kxk09w1udkblszwicsuxeu08",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993288/Beppu_Summer_Fireworks_Festival_8220adcb80.jpg"
+                }
+            }
+        },
+        {
+            "id": 152,
+            "documentId": "xnupr0rtkiynbti83ju7bd0w",
+            "recommendation": "クリスマス週の土曜日と日曜日の2日間にわたって、別府では冬の祭りと花火大会が開催されます。\n7月末の夏祭りでは花火が1日だけなのに対し、この時期は2日連続で花火が打ち上げられるのが特徴です。\n\n会場では屋台グルメやお酒を楽しみながら、楽しいひとときを過ごせます。\n宿泊施設はすぐに満室になるため、2ヶ月前からの早めの予約がおすすめです。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 76,
+                "documentId": "hm5m7axp9xl437e9shjpjaeo",
+                "slug": "Enjoy-Christmas-in-Beppu",
+                "label": "別府で楽しむクリスマス（12月）",
+                "address": null,
+                "highlight": "別府ではクリスマス期間の土曜日と日曜日に、盛大な冬の祭典「べっぷクリスマスHanabiファンタジア」が開催されます。この2日間のイベントは、別府の冬の一大ハイライトです。\n\n7月末の夏まつりの花火が一日限りであるのとは異なり、この時期の花火大会は2夜連続で別府の夜空を彩り、その景色は格別に魅力的で壮観です。イベント会場には豊富な屋台が設置され、様々な美味しい軽食や飲み物が提供され、訪れる人々は祭りの雰囲気を楽しみながら、美味しい食事を堪能できます。\n\nこの冬の祭典は非常に人気が高いため、別府市内の宿泊施設はすぐに満室になる傾向があります。そのため、ご旅行を計画されるお客様は、このロマンチックで素晴らしいクリスマス花火の饗宴にスムーズに参加できるよう、必ず2ヶ月前までに宿泊施設の予約を完了することをお勧めします。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 11,
+                        "documentId": "xd02cfhqrxhr35klrjghebhi",
+                        "name": "イベント",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 71,
+                    "documentId": "h3p1f5ldu14ztktlppexvuje",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993294/Enjoy_Christmas_in_Beppu_5d77d68805.jpg"
+                }
+            }
+        },
+        {
+            "id": 202,
+            "documentId": "nvfap9j03br6xkxkpxb6yjp2",
+            "recommendation": null,
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": 0,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 38,
+                "documentId": "lxxj4eydfyx81d25fx4623yv",
+                "slug": "African-Safari",
+                "label": "アフリカンサファリ",
+                "address": "〒872-0722 大分県宇佐市安心院町南畑２−１７５５−１",
+                "highlight": "「九州自然動物公園」、通称「アフリカンサファリ」は、大分県宇佐市にある広大な野生動物園で、アフリカの草原を思わせる動物たちが放し飼いにされており、親子連れや動物愛好家にとって見逃せない観光スポットです。\n\n園内最大の特色は、檻付き装甲の「ジャングルバス」に乗車することです。専用ルートでライオン、ゾウ、キリン、シマウマ、ラクダなどの動物たちを間近で観察でき、直接餌やりも体験できるため、非常に臨場感あふれる野生動物との触れ合いが楽しめます。ジャングルバスの他に、ウォーキングゾーンや小型動物とのふれあい広場もあり、あらゆる年齢層の来園者がゆっくりと楽しめます。\n\n\n園内には売店、飲食エリア、便利な駐車場が併設されており、大分市や別府市からのアクセス手段も提供されているため、日帰りでの親子旅行や団体旅行に理想的なスポットです。",
+                "externalURL": "https://africansafari.co.jp/",
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 24,
+                        "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                        "name": "人気観光スポット",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 31,
+                    "documentId": "ujmkkbhq0cas90iajt1asgjm",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993156/African_Safari_0b2a57df5a.jpg"
+                }
+            }
+        },
+        {
+            "id": 236,
+            "documentId": "du5v45uq039828tvu2hbq1oq",
+            "recommendation": "これは別府最大の温泉祭りの開催時期です。\n例年、3月30日から4月3日ごろの5日間にわたって開催されます（開催日は年によって多少前後します）。\n期間中は別府市内の各所でお祭りムードを楽しめます。\n\n最大の特徴は、市営温泉がすべて無料開放されること！\nさらに、山全体を焼き払う「山焼き」イベントも行われ、一年間の無病息災や商売繁盛を祈願します。",
+            "kmFromStay": null,
+            "weightInNearbyRestaurants": 0,
+            "weightInNearbyAttractions": -1,
+            "weightInHighlight": -1,
+            "poi": {
+                "id": 132,
+                "documentId": "c7j2oppvcojte9if27e22xue",
+                "slug": "Beppu-Hatto-Onsen-Festival",
+                "label": "別府八湯温泉まつり（3月下旬〜4月上旬）",
+                "address": null,
+                "highlight": "別府八湯温泉まつりは、地元最大の温泉祭りであり、通常3月末から4月初旬にかけて5日間開催されます。期間中は、多くの市営温泉が無料開放され、街全体が楽しい雰囲気に包まれます。祭典にはパレード、伝統芸能、そして参加者が温泉水を群衆にかけ合うユニークな「湯かけまつり」が含まれ、会場は大変賑わいます。\n\nもう一つの特別な行事は扇山火まつりで、これは扇山に火を放つ儀式であり、一年間の健康、長寿、商売繁盛を祈願するものです。ただし、この火まつりは通常2月初旬に開催され、温泉祭りの日程とは異なります。別府の冬ならではの壮大な光景です。",
+                "externalURL": null,
+                "type": "attraction",
+                "tag_labels": [
+                    {
+                        "id": 11,
+                        "documentId": "xd02cfhqrxhr35klrjghebhi",
+                        "name": "イベント",
+                        "color": "GREY"
+                    }
+                ],
+                "coverPhoto": {
+                    "id": 70,
+                    "documentId": "su3ta56s79trfrd2nu3n6hsd",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993291/Beppu_Hatto_Onsen_Festival_a9473eeefc.jpg"
+                }
+            }
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "page": 1,
+            "pageSize": 10000,
+            "pageCount": 1,
+            "total": 32
+        }
+    }
+}

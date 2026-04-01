@@ -1,20 +1,27 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import backIcon from '../assets/icons/back.svg';
+import { APP_VERSION } from '../constants/appVersion';
 
 interface GlobalHeaderProps {
     title?: string;
     showBack?: boolean;
+    showVersion?: boolean;
     onBack?: () => void;
+    leftSlot?: React.ReactNode;
+    rightSlot?: React.ReactNode;
+    versionOverride?: string;
     style?: React.CSSProperties;
 }
 
-const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, style }) => {
+const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, showVersion = false, onBack, leftSlot, rightSlot, versionOverride, style }) => {
     const navigate = useNavigate();
 
     return (
         <header className="global-header" style={style}>
-            {showBack && (
+            {leftSlot ? (
+                leftSlot
+            ) : showBack ? (
                 <button className="back-button" onClick={onBack ? onBack : () => {
                     if ('startViewTransition' in document) {
                         document.startViewTransition(() => {
@@ -26,8 +33,14 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onB
                 }}>
                     <img src={backIcon} alt="Back" style={{ width: 28, height: 28 }} />
                 </button>
-            )}
+            ) : null}
             <h1>{title}</h1>
+            <div className="global-header-right">
+                {showVersion ? (
+                    <span className="app-version" aria-label="App version">{versionOverride || APP_VERSION}</span>
+                ) : null}
+                {rightSlot ? <div style={{ display: 'flex', alignItems: 'center' }}>{rightSlot}</div> : null}
+            </div>
         </header>
     );
 };

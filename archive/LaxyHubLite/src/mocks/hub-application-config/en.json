@@ -1,0 +1,306 @@
+{
+    "data": {
+        "id": 1,
+        "documentId": "au3e8t9cegnebahml864mmss",
+        "createdAt": "2025-06-15T13:47:10.324Z",
+        "updatedAt": "2025-08-03T03:40:10.377Z",
+        "publishedAt": "2025-07-26T04:50:56.468Z",
+        "locale": "en",
+        "universalConfig": {
+            "id": 389,
+            "themeOptions": [
+                {
+                    "name": "beppu-airbnb",
+                    "colors": {
+                        "text": {
+                            "primary": "#333333",
+                            "secondary": "#666666"
+                        },
+                        "third": {
+                            "100": "#fd4ee8",
+                            "200": "#fd87ac",
+                            "300": "#f2ba6f",
+                            "400": "#ed9d33",
+                            "500": "#cd8d12",
+                            "600": "#90580d"
+                        },
+                        "primary": {
+                            "50": "#FFBBBF",
+                            "100": "#FF5A5F",
+                            "200": "#5fbcc4",
+                            "300": "#46b2bb",
+                            "400": "#328188",
+                            "500": "#215458",
+                            "600": "#133033"
+                        },
+                        "secondary": {
+                            "100": "#fc6dcd",
+                            "200": "#f9ad9b",
+                            "300": "#f57c5f",
+                            "400": "#f24b24",
+                            "500": "#cb310c",
+                            "600": "#a82209"
+                        },
+                        "background": {
+                            "paper": "#ffffff",
+                            "default": "#f5f5f7"
+                        }
+                    },
+                    "custom": {},
+                    "components": {},
+                    "typography": {
+                        "h5": {},
+                        "h6": {},
+                        "fontFamily": "\"Segoe UI\", \"Roboto\", \"Helvetica Neue\", sans-serif"
+                    }
+                }
+            ],
+            "releasedLanguages": [
+                {
+                    "id": 1611,
+                    "label": "English",
+                    "value": "en"
+                },
+                {
+                    "id": 1612,
+                    "label": "繁體中文",
+                    "value": "zh-Hant"
+                },
+                {
+                    "id": 1615,
+                    "label": "简体中文",
+                    "value": "zh-Hans"
+                },
+                {
+                    "id": 1613,
+                    "label": "日本語",
+                    "value": "ja"
+                },
+                {
+                    "id": 1614,
+                    "label": "한국어",
+                    "value": "ko"
+                }
+            ]
+        },
+        "globalComponent": {
+            "id": 1,
+            "readMoreLabel": "Read more",
+            "readLessLabel": "Read less",
+            "hostTagLabel": "Host",
+            "poweredByLabel": "Powered by {{value}}",
+            "exploreMoreAboutLabel": "Explore more about {{value}}",
+            "speechButton": {
+                "id": 18,
+                "label": "Speak in the local language",
+                "icon": {
+                    "id": 141,
+                    "documentId": "tpgzvmi93gf1osa0xwzuxr0q",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_speak_address_4969d0f112.svg"
+                }
+            },
+            "audioGuideButton": {
+                "id": 925,
+                "label": "Start Audio with Laxy"
+            }
+        },
+        "header": {
+            "id": 1,
+            "leftRoute": "/language",
+            "rightRoute": "/search",
+            "leftIcon": {
+                "id": 50,
+                "documentId": "hkuhf9x3sdxvk6ze7jvq08t4",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993225/language_d9b073e167.svg"
+            },
+            "rightIcon": {
+                "id": 51,
+                "documentId": "jvchy61ioa80jed127o3frn8",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993228/Thin_23221aaa82.svg"
+            }
+        },
+        "pageLanding": {
+            "id": 1,
+            "recommendationHeading": "Explore Host Recommendations",
+            "naviagtion": [
+                {
+                    "id": 1,
+                    "label": "Info",
+                    "route": "/info",
+                    "icon": {
+                        "id": 134,
+                        "documentId": "ombo0ro1g4mb4eoxe7jlm6xw",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/home_71883efcee.svg"
+                    }
+                },
+                {
+                    "id": 2,
+                    "label": "WiFi",
+                    "route": "/info/wifi",
+                    "icon": {
+                        "id": 136,
+                        "documentId": "shsaxh5axl38lpn3e1rdkhxq",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/wifi_7524ba9935.svg"
+                    }
+                },
+                {
+                    "id": 3,
+                    "label": "Spots",
+                    "route": "/nearby-attractions",
+                    "icon": {
+                        "id": 135,
+                        "documentId": "xfzojkskubw4embqr4pusahf",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/attraction_5c03bd884d.svg"
+                    }
+                },
+                {
+                    "id": 4,
+                    "label": "Foods",
+                    "route": "/nearby-restaurants",
+                    "icon": {
+                        "id": 137,
+                        "documentId": "heuvx1oitqvtk7grrznu15h5",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/restaurant_31d7d2875f.svg"
+                    }
+                },
+                {
+                    "id": 5,
+                    "label": "Tours",
+                    "route": "/tours",
+                    "icon": {
+                        "id": 133,
+                        "documentId": "bgy78q860mn9pu9j5ihmi2h4",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/laxy_guide_ca15b8e003.svg"
+                    }
+                }
+            ]
+        },
+        "pageLanguage": {
+            "id": 1,
+            "heading": "Language",
+            "applyButton": {
+                "id": 6,
+                "label": "Select Language"
+            }
+        },
+        "pageSearch": {
+            "id": 1,
+            "searchInputPlaceholder": "Find Your Next Experience",
+            "searchResultHeading": "Result of {{value}}",
+            "noResultsFound": "No Results",
+            "defaultListHeading": "Most Searched",
+            "highlightedListHeading": "Our Recommendations",
+            "defaultList": [
+                {
+                    "id": 12,
+                    "label": "Onsen",
+                    "value": "onsen"
+                }
+            ]
+        },
+        "pageInfo": {
+            "id": 1,
+            "heading": "Room Information",
+            "navigation": [
+                {
+                    "id": 13,
+                    "label": "Address",
+                    "route": "/info/address",
+                    "icon": {
+                        "id": 139,
+                        "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+                    }
+                },
+                {
+                    "id": 14,
+                    "label": "Check-in & Check-out",
+                    "route": "/info/check-in-out",
+                    "icon": {
+                        "id": 140,
+                        "documentId": "ny3i9mxz3tqphepd6lnz9rx3",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_check_in_fd1c9f89e4.svg"
+                    }
+                },
+                {
+                    "id": 15,
+                    "label": "House Rules",
+                    "route": "/info/house-rules",
+                    "icon": {
+                        "id": 146,
+                        "documentId": "rgw0u3z4veeijwz946iin296",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_house_rule_f8f555ad4e.svg"
+                    }
+                },
+                {
+                    "id": 16,
+                    "label": "Amenities",
+                    "route": "/info/amenities",
+                    "icon": {
+                        "id": 145,
+                        "documentId": "dwx9uucbnqip27nk9chj468r",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_amenities_8647386535.svg"
+                    }
+                },
+                {
+                    "id": 17,
+                    "label": "FAQ",
+                    "route": "/info/faq",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                },
+                {
+                    "id": 946,
+                    "label": "Direct Contact",
+                    "route": "/info/direct-contact",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                }
+            ]
+        },
+        "pageWiFi": {
+            "id": 1,
+            "networkLabel": "Network",
+            "passwordLabel": "Password",
+            "scanQRButton": {
+                "id": 19,
+                "label": "Scan QR Code to Connect"
+            },
+            "clipboardButton": {
+                "id": 20,
+                "label": "Copy Password for \"{{value}}\""
+            },
+            "showQRButton": {
+                "id": 21,
+                "label": "Show QR Code to share"
+            }
+        },
+        "pagPoiDetail": {
+            "id": 1,
+            "recommendationHeading": "Our Recommendations",
+            "highlightHeading": "Highlight",
+            "addressIcon": {
+                "id": 139,
+                "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+            },
+            "urlIcon": {
+                "id": 143,
+                "documentId": "w85dgbdib90x46ftsjdba0qe",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_website_9231e953c1.svg"
+            },
+            "dialIcon": {
+                "id": 142,
+                "documentId": "ajwi1suy1r4uheq9disvahq1",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_phone_879b964e27.svg"
+            }
+        }
+    },
+    "meta": {}
+}

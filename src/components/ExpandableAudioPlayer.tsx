@@ -7,8 +7,6 @@ import { type Subtitle, type Slide } from '../types';
 import { parseSRT } from '../utils/srtParser';
 import { parseTTML, type TTMLData } from '../utils/ttmlParser';
 import './ExpandableAudioPlayer.css';
-import playIcon from '../assets/icons/play.svg';
-import pauseIcon from '../assets/icons/pause.svg';
 import collapseIcon from '../assets/icons/collapse.svg';
 import rewindIcon from '../assets/icons/rewind.svg';
 import fastForwardIcon from '../assets/icons/fast-forward.svg';
@@ -44,7 +42,7 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
     const audioRef = useRef<HTMLAudioElement>(null);
     const subtitleContainerRef = useRef<HTMLDivElement>(null);
     const currentSubtitleRef = useRef<HTMLSpanElement>(null);
-    const manualScrollTimerRef = useRef<number | null>(null);
+    const manualScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const milestonesSentRef = useRef<Set<number>>(new Set());
 
     // Reset milestones when src changes
@@ -426,7 +424,10 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                             onClick={togglePlayPause}
                             aria-label={isPlaying ? 'Pause' : 'Play'}
                         >
-                            <img src={isPlaying ? pauseIcon : playIcon} alt={isPlaying ? 'Pause' : 'Play'} style={{ width: 42, height: 42, filter: 'brightness(0) invert(1)' }} />
+                            <span
+                                className={`audio-control-icon ${isPlaying ? 'pause' : 'play'} mini`}
+                                aria-hidden="true"
+                            />
                         </button>
                     </div>
                 </div>
@@ -529,7 +530,10 @@ const ExpandableAudioPlayer: React.FC<ExpandableAudioPlayerProps> = ({ src, subt
                             onClick={togglePlayPause}
                             aria-label={isPlaying ? 'Pause' : 'Play'}
                         >
-                            <img src={isPlaying ? pauseIcon : playIcon} alt={isPlaying ? 'Pause' : 'Play'} style={{ width: 24, height: 24, filter: 'brightness(0) saturate(100%) invert(72%) sepia(16%) saturate(1024%) hue-rotate(343deg) brightness(95%) contrast(86%)' }} />
+                            <span
+                                className={`audio-control-icon ${isPlaying ? 'pause' : 'play'} expanded`}
+                                aria-hidden="true"
+                            />
                         </button>
 
                         <button
