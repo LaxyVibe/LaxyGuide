@@ -20,6 +20,8 @@ import museumIcon from '../guides/JPN-USAA-TEM-001/hub/assets/museum.svg';
 import guideNumberIcon from '../guides/JPN-USAA-TEM-001/hub/assets/guide-number.svg';
 import heroLocalImage from '../guides/JPN-USAA-TEM-001/hub/assets/hero-local.jpg';
 import bannerLocalImage from '../guides/JPN-USAA-TEM-001/hub/assets/banner-local.jpg';
+import heroTitleLogo from '../guides/JPN-USAA-TEM-001/hub/assets/hero-title-logo.png';
+import translateIcon from '../assets/icons/language-black.svg';
 
 const USAA_HUB_GUIDE_ID = 'JPN-USAA-TEM-001';
 
@@ -42,7 +44,7 @@ const HubLanding: React.FC = () => {
     const { data, loading, error } = useGuideData(guideId, lang);
     const { t, loading: transLoading } = useTranslation(lang);
     const normalizedGuideId = guideId?.toUpperCase();
-    const isUsaaHubTheme = normalizedGuideId === USAA_HUB_GUIDE_ID;
+    const isHubGuide = normalizedGuideId === USAA_HUB_GUIDE_ID;
 
     useEffect(() => {
         setPendingLang(lang);
@@ -69,13 +71,13 @@ const HubLanding: React.FC = () => {
         return q.toString();
     }, [searchParams, lang]);
 
-    const listQuery = (startWith?: '0' | '1') => {
+    const listQuery = (scope?: '0' | '1') => {
         const q = new URLSearchParams(searchParams);
         q.set('t', lang);
-        if (startWith) {
-            q.set('startWith', startWith);
+        if (scope) {
+            q.set('scope', scope);
         } else {
-            q.delete('startWith');
+            q.delete('scope');
         }
         return q.toString();
     };
@@ -92,43 +94,43 @@ const HubLanding: React.FC = () => {
         {
             key: 'basicInfo',
             label: t('hub.basicInfo', 'Basic Info'),
-            iconSrc: isUsaaHubTheme ? basicInfoIcon : undefined,
+            iconSrc: isHubGuide ? basicInfoIcon : undefined,
             onClick: () => {
                 trackHubAction('Hub Basic Info');
-                navigate(`/${guideId}/list?${listQuery()}`);
+                navigate(`/${guideId}/basic-info?${baseQuery}`);
             }
         },
         {
             key: 'map',
             label: t('hub.map', 'Map'),
-            iconSrc: isUsaaHubTheme ? mapIcon : undefined,
+            iconSrc: isHubGuide ? mapIcon : undefined,
             onClick: () => {
                 trackHubAction('Hub Map');
-                navigate(`/${guideId}/map?${baseQuery}`);
+                window.open(`/${guideId}/map?${baseQuery}`, '_blank', 'noopener,noreferrer');
             }
         },
         {
             key: 'spot',
             label: t('hub.spot', 'Spot'),
-            iconSrc: isUsaaHubTheme ? spotIcon : undefined,
+            iconSrc: isHubGuide ? spotIcon : undefined,
             onClick: () => {
                 trackHubAction('Hub Spot');
-                navigate(`/${guideId}/list?${isUsaaHubTheme ? listQuery('0') : listQuery()}`);
+                navigate(`/${guideId}/list?${isHubGuide ? listQuery('0') : listQuery()}`);
             }
         },
         {
             key: 'museum',
             label: t('hub.museum', 'Museum'),
-            iconSrc: isUsaaHubTheme ? museumIcon : undefined,
+            iconSrc: isHubGuide ? museumIcon : undefined,
             onClick: () => {
                 trackHubAction('Hub Museum');
-                navigate(`/${guideId}/list?${isUsaaHubTheme ? listQuery('1') : listQuery()}`);
+                navigate(`/${guideId}/list?${isHubGuide ? listQuery('1') : listQuery()}`);
             }
         },
         {
             key: 'guideNumber',
             label: t('hub.guideNumber', 'Guide Number'),
-            iconSrc: isUsaaHubTheme ? guideNumberIcon : undefined,
+            iconSrc: isHubGuide ? guideNumberIcon : undefined,
             onClick: () => {
                 trackHubAction('Hub Guide Number');
                 navigate(`/${guideId}/search?${baseQuery}`);
@@ -154,7 +156,7 @@ const HubLanding: React.FC = () => {
     }, [data, guideId, navigate, baseQuery]);
 
     const usaaFeaturedItems = useMemo(() => {
-        if (!isUsaaHubTheme) return featuredItems;
+        if (!isHubGuide) return featuredItems;
 
         const list = featuredItems.slice(0, 2);
         if (list.length === 2) return list;
@@ -172,16 +174,16 @@ const HubLanding: React.FC = () => {
         }
 
         return [];
-    }, [isUsaaHubTheme, featuredItems, t, guideId, navigate, searchParams, lang]);
+    }, [isHubGuide, featuredItems, t, guideId, navigate, searchParams, lang]);
 
     if (loading || transLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
     if (!data) return <div>{t('common.noData')}</div>;
 
     const pageTitle = `${data.guideTitle} | ${t('hub.pageTitle', 'Hub')}`;
-    const heroImage = isUsaaHubTheme ? heroLocalImage : data.guideUnderlayImage;
+    const heroImage = isHubGuide ? heroLocalImage : data.guideUnderlayImage;
 
-    const pageClassName = `page hub-landing${isUsaaHubTheme ? ' hub-landing--jpn-usaa-tem-001' : ''}`;
+    const pageClassName = `page hub-landing${isHubGuide ? ' hub-landing--jpn-usaa-tem-001' : ''}`;
 
     return (
         <div className={pageClassName}>
@@ -204,15 +206,17 @@ const HubLanding: React.FC = () => {
                         onClick={() => setIsLangDialogOpen(true)}
                         aria-label={t('hub.language', 'Language')}
                     >
-                        {availableLanguages.find((option) => option.code === lang)?.label || LANGUAGES[lang]}
+                        <img src={translateIcon} alt={t('hub.language', 'Language')} className="hub-lang-btn-icon" />
                     </button>
                 </div>
-                <h1 className="hub-title">{data.guideTitle}</h1>
+                <div className="hub-hero-brand" aria-label={data.guideTitle}>
+                    <img src={heroTitleLogo} alt={data.guideTitle} className="hub-title-logo" />
+                </div>
             </div>
 
             <div className="scroll-content hub-scroll-content">
                 <HubActionNav items={actionItems} />
-                {isUsaaHubTheme && (
+                {isHubGuide && (
                     <section className="hub-banner-section" aria-label={t('hub.bannerLabel', 'Banner')}>
                         <img src={bannerLocalImage} alt={t('hub.bannerLabel', 'Banner')} />
                     </section>
@@ -220,14 +224,14 @@ const HubLanding: React.FC = () => {
 
                 <HubFeaturedCards
                     heading={t('hub.recommended', 'Recommended Spots')}
-                    items={isUsaaHubTheme ? usaaFeaturedItems : featuredItems}
-                    variant={isUsaaHubTheme ? 'grid' : 'default'}
-                    showIdBadge={isUsaaHubTheme}
+                    items={isHubGuide ? usaaFeaturedItems : featuredItems}
+                    variant={isHubGuide ? 'grid' : 'default'}
+                    showIdBadge={isHubGuide}
                 />
 
                 <div className="hub-powered-by">
                     <span>{t('landing.poweredBy')}</span>
-                    {isUsaaHubTheme ? (
+                    {isHubGuide ? (
                         <span className="hub-powered-by-logo-usaa" role="img" aria-label="Laxy Logo" />
                     ) : (
                         <img

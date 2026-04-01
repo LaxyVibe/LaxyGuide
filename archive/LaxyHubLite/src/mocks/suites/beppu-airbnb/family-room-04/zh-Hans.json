@@ -1,0 +1,975 @@
+{
+    "data": [
+        {
+            "id": 141,
+            "documentId": "kxsekfv7e55mmq9dac437ied",
+            "name": "family-room-04",
+            "label": "Family Room 4",
+            "headline": null,
+            "address": "〒874-0920 大分县别府市北滨2町目6-6信用大楼",
+            "addressURL": "https://maps.app.goo.gl/z3LNWA1QGYsV4t7h9",
+            "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.4395542950692!2d131.5044823!3d33.2811618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a79f8bcc9bdd%3A0x6265dcb4b7a8c0c8!2z5Yil5bqc44K544OI44O844Oq44O84oWh!5e0!3m2!1sja!2sjp!4v1749357483667!5m2!1sja!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+            "checkInOut": "<p>入住: 下午 3:00 後<br>退房: 上午 10:00 前</p>\n<p>我們很高興提供便捷的提早入住和延遲退房選擇。根據客房供應情況和入住率，我們可提供最少三小時的提早入住和最多三小時的延遲退房。請注意，這些服務每小時將收取 1,000 日圓的額外費用。我們將很樂意協助您進行必要的安排。 :)</p>",
+            "amenities": "<div class=\"ewa-rteLine\">- 淋浴</div>\n<div class=\"ewa-rteLine\">- 洗发水、护发素和沐浴露</div>\n<div class=\"ewa-rteLine\">- 吹风机</div>\n<div class=\"ewa-rteLine\">- 智能马桶盖</div>\n<div class=\"ewa-rteLine\">- 洗衣机</div>\n<div class=\"ewa-rteLine\">- 餐具</div>\n<div class=\"ewa-rteLine\">- 桌子</div>\n<div class=\"ewa-rteLine\">- 空调</div>",
+            "directContact": "<ul class=\"ak-ul\" data-indent-level=\"1\">\n<li>\n<p data-renderer-start-pos=\"184\">Instagram @ kakaotalk_beppuairbnb</p>\n</li>\n<li>\n<p data-renderer-start-pos=\"221\">KakaoTalk @ beppuairbnb</p>\n</li>\n<li>\n<p data-renderer-start-pos=\"248\">LINE @ beppuairbnb</p>\n</li>\n</ul>",
+            "houseRules": "<div class=\"ewa-rteLine\">- 最多可入住4位客人</div>\n<div class=\"ewa-rteLine\">- 禁止携带宠物</div>\n<div class=\"ewa-rteLine\">- 禁止吸烟</div>",
+            "slider": [
+                {
+                    "id": 25,
+                    "documentId": "u4pjb4zevmt1ed1sm1pk6sjs",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993138/familyroom04_beppu_airbnb_3446cbdf3d.webp"
+                }
+            ],
+            "faq": [],
+            "wifi": [
+                {
+                    "id": 1576,
+                    "network": "Beppu Airbnb 3",
+                    "password": "beppuairbnb"
+                },
+                {
+                    "id": 1577,
+                    "network": "Beppu Airbnb 4",
+                    "password": "beppuairbnb"
+                }
+            ],
+            "ownedBy": {
+                "id": 4,
+                "documentId": "sryg01oy5y4rbisxyhzujue9",
+                "slug": "beppu-airbnb",
+                "label": "Beppu Airbnb",
+                "greeting": "欢迎来到別府！",
+                "nativeLanguageCode": "ja",
+                "avatar": {
+                    "id": 15,
+                    "documentId": "fsq8lgbw9fbut3p0nlkibn3b",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993104/beppu_airbnb_logo_7553f8ffa7.png"
+                },
+                "pickedPOIs": [
+                    {
+                        "id": 134,
+                        "documentId": "c7j2oppvcojte9if27e22xue",
+                        "slug": "Beppu-Hatto-Onsen-Festival",
+                        "label": "别府八汤温泉节（3月下旬至4月上旬）",
+                        "address": null,
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": null,
+                        "highlight": "别府八汤温泉祭是当地最大的温泉节庆，通常在三月底至四月初为期五天。期间，许多市营温泉免费开放，整个城镇洋溢着欢乐气氛。庆典包含游行、传统表演，以及独特的“泼汤祭”，参与者将温泉水泼洒向人群，场面热闹非凡。\n\n另一独特活动是扇山火祭，这是在扇山上放火的仪式，旨在祈求一年的健康、长寿与生意兴旺。然而，请注意此火祭通常在二月初举行，与温泉祭的日期不同，是别府冬季独有的壮观景象。",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 8,
+                                "documentId": "xd02cfhqrxhr35klrjghebhi",
+                                "name": "活动／盛会",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 70,
+                            "documentId": "su3ta56s79trfrd2nu3n6hsd",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993291/Beppu_Hatto_Onsen_Festival_a9473eeefc.jpg"
+                        }
+                    },
+                    {
+                        "id": 97,
+                        "documentId": "zbyhe0y7k0w2ma9h1538lab9",
+                        "slug": "Kaimonji-Onsen",
+                        "label": "海门寺温泉",
+                        "address": "〒874-0920 大分县别府市北滨2丁目3番2号",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.4653855924157!2d131.5032886!3d33.2804858!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6dd05cfbeff%3A0xdc9485bc2d68384!2z5rW36ZaA5a-65rip5rOJIEthaW1vbmppIG9uc2Vu!5e0!3m2!1sja!2sjp!4v1749357166015!5m2!1sja!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "0977-22-3625",
+                        "highlight": "海门寺温泉是位于日本大分县别府市的一间历史悠久的公共温泉，价格亲民，深受当地居民与旅客的喜爱。对于想体验地道日式泡汤文化的人来说，是非常理想的选择。\n\n温泉本身保留了传统简约的风格，虽不豪华，却充满温馨与怀旧感。设施朴实，适合喜欢安静、纯粹泡汤体验的旅人。由于地点邻近别府市中心，从车站步行即可到达，交通相当便利。\n\n若您想要深入感受别府的日常与温泉文化，海门寺温泉是一个值得纳入行程的好选择。",
+                        "externalURL": "https://www.city.beppu.oita.jp/sisetu/shieionsen/detail7.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 12,
+                                "documentId": "cfq91726e76i6u7ywdblwsnn",
+                                "name": "温泉",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 20,
+                            "documentId": "bn0d6ekn7kb3kd07g07srb2d",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993120/Kaimonji_Onsen_bdf2f3eabf.webp"
+                        }
+                    },
+                    {
+                        "id": 104,
+                        "documentId": "hjcj7rzrritadxa3c3cmrgjg",
+                        "slug": "Suginoi-Hotel-Aqua-Garden",
+                        "label": "杉乃井酒店 棚汤・水上乐园",
+                        "address": "〒874-0822 大分县别府市观海寺1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.289058650653!2d131.4726!3d33.28510000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a65c95c88521%3A0x2b1c619b643d0a36!2sThe%20Aqua%20Garden!5e0!3m2!1sen!2sjp!4v1749359230971!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "0977-24-1141",
+                        "highlight": "The Aqua Garden 是位于别府杉乃井酒店内的著名水疗乐园，结合了温泉疗愈与度假风情，为旅客带来绝佳的放松体验。设施包含露天温泉水池、发光喷泉、瀑布墙与视觉特效等，不仅适合情侣与家庭同游，也非常适合喜爱夜间浪漫氛围的旅人。\n\n游客无需住宿杉乃井酒店也可单独购票入场，因此深受一日游旅客喜爱。尤其夜晚点灯与水上表演搭配背景音乐，营造出别府难得一见的幻想景色，是拍照与放松身心的热门选择。",
+                        "externalURL": "https://www.suginoi-hotel.com/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 12,
+                                "documentId": "cfq91726e76i6u7ywdblwsnn",
+                                "name": "温泉",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 28,
+                            "documentId": "fh1ususq0aqyits1nm12k08d",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993148/Suginoi_Hotel_Aqua_Garden_9183456676.jpg"
+                        }
+                    },
+                    {
+                        "id": 88,
+                        "documentId": "ay4mg0bs3x2bxba901uhtanm",
+                        "slug": "Takegawara-Onsen",
+                        "label": "竹瓦温泉",
+                        "address": "〒874-0944 大分县别府市元町16番23号",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5811698237458!2d131.5059894!3d33.277455599999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6dbc076d72f%3A0x30437b42d69f3478!2sTakegawara%20Onsen!5e0!3m2!1sen!2sjp!4v1749359217585!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "0977-23-1585",
+                        "highlight": "竹瓦温泉是别府市最具代表性的传统公共温泉之一，位于一栋极具历史风情的老式建筑内。建筑本身已有百年以上历史，是别府温泉文化的象征之一，也被视为市内的地标。\n\n除了经典的日式温泉浴池之外，这里最著名的特色是“砂汤”——旅客可躺入温热的沙堆中，由天然地热蒸汽加热身体，体验不同于一般泡汤的疗愈效果，深受海内外旅客喜爱。\n\n作为历史与文化交会之地，竹瓦温泉不仅是泡汤场所，更是一场时光旅行的体验，极推荐给第一次造访别府的旅人。",
+                        "externalURL": "https://www.takegawara-onsen.com/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 12,
+                                "documentId": "cfq91726e76i6u7ywdblwsnn",
+                                "name": "温泉",
+                                "color": "GREY"
+                            },
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 61,
+                            "documentId": "cuwoxz5swpqikoe2n5p1kmse",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993261/Takegawara_Onsen_ae85d80840.jpg"
+                        }
+                    },
+                    {
+                        "id": 101,
+                        "documentId": "jib9rnnskq6upziyoqrcy20w",
+                        "slug": "Miyako",
+                        "label": "御好烧与家庭料理店",
+                        "address": "〒874-0944 大分县别府市元町7-4 Sol Paseo Ginza",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5981343224757!2d131.5048875!3d33.2770116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c3382ce709%3A0xa9853fd37dca9845!2z5ZGz44OA44Kk44OL44Oz44KwIOOBv-OChOOBkw!5e0!3m2!1sen!2sjp!4v1749359253640!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-23-3223",
+                        "highlight": "味Dining みやこ是一家位于别府市中心的温馨居酒屋，以家庭料理与日式铁板烧风味著称。料理价格亲民，是享受美食与轻松聚会的绝佳选择。\n\n餐厅位于商业大楼ソルパセオ銀座内部，交通便利，内用环境整洁舒适，气氛轻松。餐点内容丰富，从经典日式小菜到现煎御好烧等应有尽有，特别适合想体验地道日式晚餐的旅人。",
+                        "externalURL": null,
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 65,
+                            "documentId": "lgncb5nepp8m2sme3xsfnskr",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993274/Miyako_3465e2547c.jpg"
+                        }
+                    },
+                    {
+                        "id": 52,
+                        "documentId": "c719oonijgcgt626kq8fdcix",
+                        "slug": "Robata-Jin",
+                        "label": "炉端烧 仁",
+                        "address": "〒874-0920 大分县别府市北滨1丁目15-7",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5067376287343!2d131.50581929999998!3d33.2794036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6dc86628019%3A0x660c877a77932490!2sRobata%20Jin!5e0!3m2!1sen!2sjp!4v1749359241111!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1768",
+                        "highlight": "ろばた仁是一间位于别府市北滨的温馨日式居酒屋，以亲切的服务与温暖氛围深受在地人与旅客喜爱。店内提供多样酒类，包括啤酒、日本酒与烧酌，并搭配各式美味下酒菜。\n\n料理以天妇罗与新鲜海鲜料理为主，无论是想小酌几杯，还是与朋友家人共度一段悠闲时光，都非常适合。这里仅提供内用服务，不支持外送，是一处适合坐下来慢慢享受的居酒屋空间。",
+                        "externalURL": "http://robata-jin.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 62,
+                            "documentId": "cmxjsspjlcpa681n2l8nsm52",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993265/Robata_Jin_7347b0a438.jpg"
+                        }
+                    },
+                    {
+                        "id": 85,
+                        "documentId": "k43jal69ybwqggeyuh7x5plr",
+                        "slug": "Don-Quijote-Beppu",
+                        "label": "驚安的殿堂 唐吉訶德 別府店",
+                        "address": "〒874-0929 大分县别府市南的滨町6-20",
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": "+81 570-200-465",
+                        "highlight": "堂吉诃德 别府店是日本知名的连锁折扣百货之一，位于别府市中心，提供种类繁多的商品，是观光客与当地居民爱逛的超人气便利购物地点。\n\n店内商品琳琅满目，从零食、日用品、药妆、家电、玩具，到旅游用品、服饰、鞋类、伴手礼等几乎应有尽有。独特的货架设计让人仿佛置身迷宫，每一次逛街都有不同发现，购物过程充满乐趣。\n\n这里特别受到海外游客欢迎，常设免税柜台，也提供多语言标示与友善服务。若想一站购足旅行所需或寻找平价惊喜好物，这里绝对是必访选择之一。",
+                        "externalURL": "https://www.donki.com/store/shop_detail.php?shop_id=650",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 16,
+                                "documentId": "n1fasfi52e6y59v8id9eimde",
+                                "name": "购物",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 33,
+                            "documentId": "b26zl95p6yx9h2497yl2xnhu",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993163/Don_Quijote_Beppu_bc0d8ce926.webp"
+                        }
+                    },
+                    {
+                        "id": 49,
+                        "documentId": "rc804d2del0mxnd6yah50v5x",
+                        "slug": "Fukuya-Ramen",
+                        "label": "福屋拉面工房 总本店",
+                        "address": "〒874-0926 大分县别府市京町8-16",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.2133157247627!2d131.5039933!3d33.2870819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6df796c3b93%3A0xcdc0fb800ae8b95e!2sFukuya%20So-Honten!5e0!3m2!1sen!2sjp!4v1749359288720!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-25-9471",
+                        "highlight": "\"位于别府市京町的“ラーメン工房 ふくや総本店”是一家老字号的拉面专门店，以实在的味道与浓厚豚骨汤头闻名。店面外观朴实低调，内部则是简约舒适的日式设计，气氛亲切，是许多当地人与熟客的日常用餐首选。\n\n本店坚持以传统手法熬制豚骨汤头，香气浓郁但不油腻，配上弹牙的中细面条，呈现出一碗风味十足的经典九州拉面。除了基本款，还提供蔬菜拉面、叉烧加量版本，以及辣味变化，满足不同食客的口味需求。\n\n店内提供座位内用，也开放外带服务，非常适合在行程紧凑的旅途中快速品尝一餐热腾腾的拉面。无论是当作午餐还是晚餐的选择，这里都能提供一碗令人满足的热汤拉面。",
+                        "externalURL": "https://fukuya-ramen.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 19,
+                            "documentId": "e5agzobomj3a6u58h7iz9sgp",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993117/Fukuya_Ramen_60448ac175.jpg"
+                        }
+                    },
+                    {
+                        "id": 64,
+                        "documentId": "ufvfj53ool114vx4qoajv07p",
+                        "slug": "Gusto-Family-Restaurant",
+                        "label": "Gusto 别府店",
+                        "address": "〒874-0929 大分县别府市南的滨町5-23",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6670.760326954975!2d131.50500399999999!3d33.28271600000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6de987686f1%3A0x80977dcb31a9e37e!2z44Ks44K544OIIOWIpeW6nOW6lw!5e0!3m2!1sen!2sjp!4v1749359278056!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 570-021-065",
+                        "highlight": "Gusto 别府店是日本知名的家庭餐厅连锁店“Gusto”在别府的分店。这家餐厅提供多样化的菜单选择，从日式料理到西式餐点应有尽有，包括汉堡排、意大利面、沙拉和各种甜点。无论是早餐、午餐还是晚餐，都是当地居民和游客轻松用餐的好去处。餐厅通常营业时间很长，能满足不同时段的用餐需求，提供一个舒适便利的用餐环境。您可以在这里享用美味且价格实惠的家庭式料理。",
+                        "externalURL": null,
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 54,
+                            "documentId": "v3pgajqtu70x5o79o2hro4mp",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993239/Gusto_Family_Restaurant_e599f80ef5.jpg"
+                        }
+                    },
+                    {
+                        "id": 138,
+                        "documentId": "he4j08woj4a9xa8951wr185e",
+                        "slug": "Jigoku-Steam-Food",
+                        "label": "地狱蒸工房 铁轮",
+                        "address": "〒874-0041 大分县别府市風呂本5组",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.1273790772834!2d131.4762201!3d33.3154852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a7a18b11e30f%3A0x7d092fbf0d6c8086!2sJigokumushikobo%20Kannawa!5e0!3m2!1sen!2sjp!4v1749359417652!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-66-3775",
+                        "highlight": "地狱蒸工房 铁轮是别府著名的体验型乡土料理餐厅，以利用天然温泉蒸汽进行烹调的地狱蒸料理闻名。这种烹饪方式自江户时代便已流传，将蔬菜、海鲜、肉类等食材放入蒸笼中，直接以地底喷出的高温蒸汽烹熟，不加一滴油水，保留食材原始风味与营养。\n\n工房提供两种体验方式：可选择现场提供的套餐菜单，也可自备食材进行DIY蒸煮（酌收设备使用费）。体验过程亲自动手操作，既有趣又能留下深刻回忆，是家庭、朋友与情侣间���门的别府特色行程。\n\n店内设有宽敞的用餐区，但不提供外带与宅配服务。地点位于铁轮温泉区中心，交通便利，是到访别府不可错过的在地体验美食。",
+                        "externalURL": "http://jigokumushi.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 17,
+                            "documentId": "gx4ei6tx9t03gg9rndbpsipc",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993110/Jigoku_Steam_Food_5036f0ebc7.jpg"
+                        }
+                    },
+                    {
+                        "id": 129,
+                        "documentId": "b0awrv0nz4o9jx05w2g2bfqa",
+                        "slug": "Kamesho-Sushi-Restaurant",
+                        "label": "龟正寿司",
+                        "address": "〒874-0840 大分县别府市鹤见34番地",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.2560101022887!2d131.4841769!3d33.31212190000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a70b04ebffff%3A0x3a0db168b14ff957!2sKamesho%20Kurukuru%20Sushi!5e0!3m2!1sen!2sjp!4v1749359409305!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-66-5225",
+                        "highlight": "龟正转转寿司是别府市鹤见地区极具人气的回转寿司名店，以新鲜份量十足的寿司食材闻名。这里的每一贯寿司用料厚实、切工大器，不仅味道新鲜，视觉上也相当满足，是许多在地人与观光客心中的回访名单。\n\n店内装潢走简约路线，设有吧台座与宽敞的家庭式包厢座位，无论是一人用餐还是家族聚餐都相当合适。餐盘种类多样，从经典金枪鱼、鲑鱼、乌贼，到每日现流海鲜，都能轻松以回转方式享用，或直接向师傅点单。\n\n该店不提供外送服务，但可内用或外带。由于人气极高，高峰时段常需排队候位，建议提前前往或安排较早用餐时间。",
+                        "externalURL": "https://instagram.com/kamesho_9696_sushi",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 53,
+                            "documentId": "vbqclj7f6fnfr58wetno9q8f",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993236/Kamesho_Sushi_Restaurant_43a2b77d65.jpg"
+                        }
+                    },
+                    {
+                        "id": 123,
+                        "documentId": "ta9w6rsuey2dq5giwvjymqmm",
+                        "slug": "Taiichi-Shoten-Ramen-Restaurant",
+                        "label": "太一商店 別府山嶺店",
+                        "address": "〒874-0942 大分縣別府市千代町2-29",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.2602628035274!2d131.4821036!3d33.3120107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a70a3edc6e65%3A0xd691cc2f33149c83!2sTaichishoten%20Beppuyamanamiten!5e0!3m2!1sen!2sjp!4v1749359328438!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-67-0876",
+                        "highlight": "太一商店 别府山手店是位于别府市北中的人气拉面店，以份量豪迈、汤头浓厚的“二郎系拉面”风格受到食客青睐。店铺设计简洁实用，座位宽敞，适合一人用餐，也适合朋友相约一同大口吃面。\n\n汤头以豚骨为基底，融合浓郁酱油风味，油脂丰厚却不腻口。面条采用粗卷面，弹性十足，搭配大量豆芽菜、卷心菜与厚切叉烧，让人吃得非常过瘾。还能依个人喜好加蒜、加背脂、加量，打造专属你的客制化拉面。\n\n此外，店家亦提供外带服务，是喜欢重口味与饱足感拉面爱好者的必访名店之一。",
+                        "externalURL": "http://taichi-shouten.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 60,
+                            "documentId": "bxcel738a2au9zqf61p7ka67",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993258/Taiichi_Shoten_Ramen_Restaurant_2e028bdbb9.jpg"
+                        }
+                    },
+                    {
+                        "id": 125,
+                        "documentId": "ni2f8rqmz4p31j41wfw7cqba",
+                        "slug": "Tomonaga-Bakery",
+                        "label": "友永面包店",
+                        "address": "〒874-0942 大分县别府市千代町2-29",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.6907363219098!2d131.504148!3d33.2745879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c3b67a8ff7%3A0x3feb11a15c177bc1!2sTomonaga%20Bakery!5e0!3m2!1sen!2sjp!4v1749359298103!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-23-0969",
+                        "highlight": "创业超过百年的友永面包店是别府当地历史最悠久、人气最高的老字号面包店之一。自大正时代创业以来，店铺始终坚持使用传统制法与自家改良的配方，将一个个朴实无华却温暖人心的手作面包，带给每一位顾客。\n\n这里最受欢迎的产品包括经典的红豆面包（つぶあんパン）与奶油法国面包，内馅不会过甜，口感柔软有弹力，老顾客络绎不绝。不论是当地居民还是观光客，常常一早就来排队，只为抢购刚出炉的热腾腾面包。\n\n店内仅提供外带，不设内用座位，也无宅配服务。由于数量有限，热门商品常常在早上就售罄，建议早点前往以免向隅。",
+                        "externalURL": "https://www.instagram.com/tomonaga_panya/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 64,
+                            "documentId": "baw7gjiq544l4i112urpxs0f",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993271/Tomonaga_Bakery_4f3a049426.jpg"
+                        }
+                    },
+                    {
+                        "id": 71,
+                        "documentId": "wq5ru3gyazxqyv3zel38jv70",
+                        "slug": "Tonkichi-Pork-Cutlet-Restaurant",
+                        "label": "炸豬排亭",
+                        "address": "〒874-0922 大分县别府市船小路町4-38",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.7256473316343!2d131.5020446!3d33.2998398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a73d8297750b%3A0xf67fab0c01c2b352!2sTonkatsutei%20Beppu!5e0!3m2!1sen!2sjp!4v1749359440720!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-26-6685",
+                        "highlight": "炸猪排亭是位于大分县速见郡日出町的人气日式炸猪排专门店，以香酥外皮与多汁厚切猪排闻名。这里的炸猪排经过细致工法处理，外酥内嫩，搭配浓郁特制酱汁与现炸现上的口感，深受在地居民与观光客一致好评。\n\n店内环境简洁温馨，设有座席区，非常适合家庭聚餐或自驾旅途中途休息享用。除了经典猪排定食外，也有提供味噌猪排、起司猪排、海鲜炸物等多样选择，配菜与白饭、味噌汤的搭配也极具诚意，是一间让人吃得饱足又满意的餐厅。\n\n由于店铺位置靠近别府至汤布院的中继点，非常适合作为行程中的午餐停留地点。",
+                        "externalURL": null,
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 30,
+                            "documentId": "krzmra0m4y3q56q0qghmd8ug",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993153/Tonkichi_Pork_Cutlet_Restaurant_96b3b8190d.webp"
+                        }
+                    },
+                    {
+                        "id": 58,
+                        "documentId": "ryy1jnppo9wybvmp70ech7am",
+                        "slug": "Yakitori-Bon",
+                        "label": "烤鸡凡 母家",
+                        "address": "〒874-0920 大分县别府市北滨1丁目1-11",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5431976589944!2d131.5028965!3d33.2784494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c2b7f05fd1%3A0x4db01432deac96d9!2z54S844Go44KK5YehIOavjeWutg!5e0!3m2!1sen!2sjp!4v1749359265680!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-26-6006",
+                        "highlight": "烧鸟凡 母家是别府市北滨一带极具人气的日式烧鸟居酒屋，店内设有掘式座席与包厢空间，氛围雅致又具隐私性，非常适合朋友聚餐或小酌放松。\n\n店内主打香气四溢的炭火串烧（焼き鳥），并搭配各式新鲜海鲜料理与小菜。除了美味佳肴，这里也备有丰富的地酒与烧酎选择，能满足讲究品味的客人，是体验地道日式居酒屋文化的绝佳场所。",
+                        "externalURL": "http://www.yakitoribon.com/",
+                        "type": "restaurant",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 23,
+                                "documentId": "g5i2tgti48fgebp6rlauo6ci",
+                                "name": "美食",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 68,
+                            "documentId": "jthi0uk1t3mn2ih8vig77jqg",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993284/Yakitori_Bon_7f6349f1d9.jpg"
+                        }
+                    },
+                    {
+                        "id": 92,
+                        "documentId": "u7dzshg6ndcfbqn4lostzltw",
+                        "slug": "YouMe-Town",
+                        "label": "YouMe Town",
+                        "address": "〒874-0943 大分县别府市楠町382-7",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6671.257148794366!2d131.5075326!3d33.2762149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c4cbb65641%3A0x933daa209e21df0b!2sYouMe%20Town%20Beppu!5e0!3m2!1sen!2sjp!4v1749359463586!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-26-3333",
+                        "highlight": "YouMe Town Beppu（梦幻城别府）是别府市规模最大的复合式购物中心之一，集结超市、服饰、美妆、书店、游戏中心、餐饮与生活用品等多元店铺，为当地居民与旅客提供一站式购物与休闲体验。\n\n商场共有数层楼，1楼为大型超市与生活杂货区，方便购买日常用品与伴手礼。2楼主打服饰品牌与百元商店如DAISO，3楼则设有UNIQLO、书局、儿童游乐区与美食广场，无论购物、用餐还是亲子同行都相当便利。\n\n地点邻近别府市区，交通便利，设有免费停车场，也可步行或搭乘大众交通工具前往。无论是想快速采购生活用品，还是打发悠闲午后时光，这里都是绝佳选择。",
+                        "externalURL": "http://www.izumi.jp/tenpo/beppu",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 16,
+                                "documentId": "n1fasfi52e6y59v8id9eimde",
+                                "name": "购物",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 67,
+                            "documentId": "lyvotngq6b8coryziudxxe1o",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993280/You_Me_Town_1942a0f995.jpg"
+                        }
+                    },
+                    {
+                        "id": 118,
+                        "documentId": "jd9fe7zsk035bjm6x5n5ap4f",
+                        "slug": "Hachiman-Asami-Shrine",
+                        "label": "八幡朝见神社",
+                        "address": "〒874-0812 大分县别府市朝见2丁目15-19",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.8040574276943!2d131.4951489!3d33.27162169999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6934ad40397%3A0x6477dc4b0952a412!2sHachiman%20Asami%20Shrine!5e0!3m2!1sen!2sjp!4v1749359524312!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-23-1408",
+                        "highlight": "\"八幡朝见神社是别府市历史最悠久、规模最大的神社之一，拥有超过千年的历史，是祭祀八幡大神的庄严神域。神社坐落于朝见山麓，自古以来便是当地居民祈求健康、平安、家庭和谐的信仰中心。\n\n境内气氛宁静，绿荫环绕，建筑风格古朴典雅，鸟居、石灯笼、神桥与主殿等处处散发着岁月痕迹。春季樱花绽放时，整个神社更显浪漫祥和，是赏花与拍照的绝佳地点。\n\n此外，这里还有一处被誉为长寿之水的涌泉，是许多当地人会特地前来汲取的名水。无论是观光、参拜、还是散步沉淀心灵，八幡朝见神社都是深入认识别府历史与文化的理想之地。",
+                        "externalURL": "http://www.asami.or.jp/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": "https://guide.laxy.travel/en/poi/Hachiman-Asami-Shrine",
+                        "tag_labels": [
+                            {
+                                "id": 29,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "漫步",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 32,
+                            "documentId": "mjqr2uqo8dnjjiao94f4xut8",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993159/Asami_Shrine_e8e00db78f.jpg"
+                        }
+                    },
+                    {
+                        "id": 150,
+                        "documentId": "ukfqzkoowvkcpqcorzthjnou",
+                        "slug": "Beppu-Park",
+                        "label": "别府公园",
+                        "address": "〒874-0903 大分县别府市别府3018-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.4244488848994!2d131.4910055!3d33.28155710000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6f020482965%3A0x9e5d27cb752123a8!2sBeppu%20Park!5e0!3m2!1sen!2sjp!4v1749359512569!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1473",
+                        "highlight": "别府公园是别府市中心面积最大的都市绿地，占地辽阔、景色四季各异，是当地居民与旅客放松身心、晨间运动与亲子散步的热门地点。园内设有广阔草地、竹林、松树步道，以及春季盛开的樱花与梅花林，是摄影与赏花的理想之地。\n\n除了自然景观，公园也常被用作当地活动或祭典场地，节庆期间气氛热闹，平日则清幽宁静，是深入体验别府生活节奏的好场所。园区步道平缓好走，适合慢跑、遛狗、野餐或在树荫下小憩。\n\n别府公园全年无栅栏开放，并允许携带狗只同行，十分友善宠物家庭。地点邻近市区，交通便利，无论早晨或傍晚，都能在此感受自然与城市交融的舒适节奏。",
+                        "externalURL": "http://www.city.beppu.oita.jp/sisetu/kouen_tyuusyajyou/03kouen_03-01beppu.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 29,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "漫步",
+                                "color": "GREY"
+                            },
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 34,
+                            "documentId": "w8a1ixjs7esonbfebnlrb0sm",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993166/Beppu_Park_9c3ec76d96.jpg"
+                        }
+                    },
+                    {
+                        "id": 111,
+                        "documentId": "qjxyx38759qbkxcvw0rzwshe",
+                        "slug": "Matogahama-Park",
+                        "label": "的ヶ滨公园",
+                        "address": "〒874-0928 大分县别府市北的滨町5",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.2953375788084!2d131.50515289999998!3d33.2849357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6ded9706d85%3A0xc114a1dd39d3335!2sMatogahama%20Park!5e0!3m2!1sen!2sjp!4v1749359474655!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1111",
+                        "highlight": "的ヶ浜公园位于别府市北的ヶ浜町，是一座紧邻海岸的开放型市民公园，拥有开阔的视野与宁静的氛围，是当地居民与旅客喜爱的散步与休憩地点。\n\n公园面朝别府湾，沿岸设有步道，非常适合早晨慢跑、傍晚散步或欣赏日出与海景。场地宽敞平坦，绿意盎然，是遛狗、野餐、带小孩放电的理想场所。更重要的是，这里可携带宠物同行，对于有毛小孩的旅客来说非常友善。\n\n由于邻近市区与海边，步行可达多个温泉设施与餐饮店，位置便利，是串联别府生活风景的一部分。不论是清晨的海风还是夜晚的宁静，皆令人感受到别府独有的悠闲魅力。",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 29,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "漫步",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 56,
+                            "documentId": "hkspxp7htf4ig2pslswgye80",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993244/Matogahama_Park_ca14f9cc40.jpg"
+                        }
+                    },
+                    {
+                        "id": 46,
+                        "documentId": "ojprcnuzd2onbyvkfnqpf95l",
+                        "slug": "Shidaka-Lake",
+                        "label": "志高湖",
+                        "address": "〒874-0000 大分县别府市东山别府4380-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.1078125982526!2d131.4549176!3d33.26366970000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a5e51e2ff08b%3A0x1e166e28e296ff65!2sShidaka%20Lake!5e0!3m2!1sen!2sjp!4v1749359544754!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": null,
+                        "highlight": "志高湖是位于大分县别府市山区的一座高原湖泊，四周被群山环绕，湖光山色相映成趣，是一处兼具自然美景与休闲设施的隐藏版景点。这里常年气候宜人，春有樱花、秋有红叶，四季各有风情。\n\n湖畔规划完善，有露营区、烤肉场、湖上鸭子船出租、登山健行步道以及亲子可同乐的设施，是当地人与游客假日放松的好去处。喜欢安静自然的人可以在湖边钓鱼或野餐，想体验户外活动的旅客也可安排一日露营或健行。\n\n湖区空气清新，水面平静如镜，特别推荐在清晨或傍晚时分来访，拍摄倒影与云雾交织的绝美画面。",
+                        "externalURL": "https://www.recamp.co.jp/recamp%E5%88%A5%E5%BA%9C%E5%BF%97%E9%AB%98%E6%B9%96",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 29,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "漫步",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 66,
+                            "documentId": "tdq1qt2it4ia84ohr8nf4ub0",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993277/Shidaka_Lake_cc66655f32.jpg"
+                        }
+                    },
+                    {
+                        "id": 146,
+                        "documentId": "ndibwc6kzg3gud9w03qwrde6",
+                        "slug": "Tanoura-Beach",
+                        "label": "田之浦海滩",
+                        "address": "〒870-0100 大分县大分市神崎4253",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.3912072576054!2d131.5474087!3d33.256249200000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a1115d167fe9%3A0xba67a416773d5b1c!2sTanoura%20beach!5e0!3m2!1sen!2sjp!4v1749359533520!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 97-537-5638",
+                        "highlight": "田ノ浦ビーチ是位于大分市神崎地区的人气海滨景点，以宁静宜人的氛围与便利设施闻名。这里设有人工筑起的缓坡沙滩与防波堤，适合散步、戏水、以及在傍晚欣赏壮丽的夕阳景色。\n\n海滩对面有一座小型人工岛公园，透过步行桥可轻松前往，岛上配有儿童游具与座椅，成为家庭客与情侣散步拍照的热门场所。沿岸的长廊步道平坦好走，是慢跑、带宠物散步与放空放松的理想空间。\n\n在夏季，海滩开放给民众游泳，水质干净，适合抓鱼、观察小生物，也有洗手间与淋浴等基础设施。此地区也开放宠物同行，是爱狗人士的友善沙滩选择。",
+                        "externalURL": "https://www.city.oita.oita.jp/o177/tanoura_syoukai.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 29,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "漫步",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 58,
+                            "documentId": "tl28tf13q1itbjqacl9a6wnw",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993253/Tanoura_Beach_d51055ed51.jpg"
+                        }
+                    },
+                    {
+                        "id": 42,
+                        "documentId": "nkd2ej5kim0rc9kkf0c90ws6",
+                        "slug": "Yayoi-Tengu",
+                        "label": "弥生天狗",
+                        "address": "〒874-0920 大分县别府市北滨1丁目1-21",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3335.5628792715493!2d131.5033774!3d33.2779343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a6c2d16bd203%3A0x325a21d5c2a8dfa8!2sYayoi%20Tengu!5e0!3m2!1sen!2sjp!4v1749359498895!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": null,
+                        "highlight": "\"弥生天狗是位于别府市北滨、弥生商店街入口处的特色地标雕像，以巨大的天狗面具（日本传说中的山林守护神）为造型，象征着驱邪与守护。这座雕像不仅是当地信仰的象征，也成为来别府观光时的热门拍照点。\n\n天狗的鼻子高挺，表情威严，据说代表男性力量与庇佑之意。许多游客会站在其前方或一旁留影，尤其在夜晚点灯时更具神秘感。据说从雕像背面观察还能发现一些隐藏彩蛋，让游客多了一分趣味探索。\n\n地点邻近别府站，交通方便，也与弥生商店街连接，是在地人过往繁华的购物区之一。虽然如今人潮不如以往，但这座天狗雕像仍默默守护着别府的街角与记忆，是散步途中不可错过的文化景观。",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 29,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "漫步",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 29,
+                            "documentId": "xymbmct90lzww2chxijcpq9v",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993150/Yayoi_Tengu_0cfbb6be33.avif"
+                        }
+                    },
+                    {
+                        "id": 36,
+                        "documentId": "lxxj4eydfyx81d25fx4623yv",
+                        "slug": "African-Safari",
+                        "label": "九州自然动物公园",
+                        "address": "〒872-0722 大分县宇佐市安心院町南畑2-1755-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3332.7712648138936!2d131.4137658!3d33.35092509999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a82560d12c2f%3A0x6f9e5e00fb890acd!2sKyushu%20Wildlife%20Park%20African%20Safari!5e0!3m2!1sen!2sjp!4v1749359580506!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 978-48-2331",
+                        "highlight": "九州自然动物公园，又名African Safari，是一座位于大分县宇佐市的广阔野生动物园，以自由放养方式展示非洲草原风格的动物生态，是亲子与动物爱好者不可错过的旅游亮点。\n\n园区最大特色是搭乘铁笼装甲的丛林巴士，可在专属路线中近距离观察狮子、大象、长颈鹿、斑马、骆驼等动物，还可以亲手喂食，带来极具临场感的野生动物互动体验。除了丛林巴士外，也设有步行区与小型动物触摸园，适合各年龄层游客悠闲参观。\n\n园内附设商店、餐饮区与便利的停车场，亦提供与大分市、别府市间接驳的交通方案，是安排一日亲子郊游或团体旅游的理想景点。",
+                        "externalURL": "https://africansafari.co.jp/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 31,
+                            "documentId": "ujmkkbhq0cas90iajt1asgjm",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993156/African_Safari_0b2a57df5a.jpg"
+                        }
+                    },
+                    {
+                        "id": 34,
+                        "documentId": "rnmkx5dp1q18a54vl94sdf6y",
+                        "slug": "Beppu-Summer-Fireworks-Festival",
+                        "label": "别府夏季烟火大会（7月下旬）",
+                        "address": null,
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": null,
+                        "highlight": "别府市在每年七月的最后一个周末，都会举行盛大的夏日祭典。这项为期三天的活动是当地的大型庆典，为别府带来热闹非凡的节庆气氛。\n\n祭典期间，市中心将设有众多屋台，提供各式美味的街头小吃和饮品，让民众与游客尽情享受美食与欢乐。\n\n活动的高潮落在周日，当天会有约两小时的日本传统舞蹈游行。而最令人期待的，则是晚上八点起约一小时的别府湾花火大会，璀璨烟火在夜空中绽放，场面极为壮观。由于祭典吸引大量人潮，此时期的别府住宿价格通常是一年中最昂贵的时期之一，建议提早规划。",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 8,
+                                "documentId": "xd02cfhqrxhr35klrjghebhi",
+                                "name": "活动／盛会",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 69,
+                            "documentId": "kxk09w1udkblszwicsuxeu08",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993288/Beppu_Summer_Fireworks_Festival_8220adcb80.jpg"
+                        }
+                    },
+                    {
+                        "id": 78,
+                        "documentId": "hm5m7axp9xl437e9shjpjaeo",
+                        "slug": "Enjoy-Christmas-in-Beppu",
+                        "label": "在别府享受圣诞节（12月）",
+                        "address": null,
+                        "addressURL": null,
+                        "addressEmbedHTML": null,
+                        "dial": null,
+                        "highlight": "别府在圣诞节周的周六与周日，都会举办盛大的冬季庆典——别府圣诞花火幻想曲 (べっぷクリスマスHanabiファンタジア)。这个为期两天的活动是别府冬季的一大亮点。\n\n与七月底的夏日祭典花火仅施放一天不同，此时期的花火大会连续两晚点亮别府的夜空，景色格外迷人与壮观。活动现场设置了丰富的屋台，提供各式美味小吃与饮品，让游客在享受节庆氛围的同时，也能大饱口福。\n\n由于这场冬季盛会广受欢迎，别府市内的住宿设施会迅速满房。因此，强烈建议计划前往的旅客，务必提前至少两个月预订好住宿，以确保能顺利参与这场浪漫又精彩的圣诞花火盛宴。",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 8,
+                                "documentId": "xd02cfhqrxhr35klrjghebhi",
+                                "name": "活动／盛会",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 71,
+                            "documentId": "h3p1f5ldu14ztktlppexvuje",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993294/Enjoy_Christmas_in_Beppu_5d77d68805.jpg"
+                        }
+                    },
+                    {
+                        "id": 154,
+                        "documentId": "f4fwpb81h7i0fqrbgosmkdh6",
+                        "slug": "Jigoku-Hell-Tour",
+                        "label": "别府地狱巡礼",
+                        "address": "〒874-0000 大分县别府市铁轮559-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.1121527910245!2d131.4696745!3d33.315883299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a7b960bca539%3A0x8bdccd2d35d910f2!2sHells%20of%20Beppu!5e0!3m2!1sen!2sjp!4v1749359571081!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-66-1577",
+                        "highlight": "别府地狱巡礼是别府最具代表性的观光行程之一，将温泉观赏与文化主题结合，打造出独一无二的视觉与感官体验。不同于一般温泉以泡汤为主，地狱巡礼是以观赏为目的的温泉奇景，设有多个风格迥异的主题地狱，让旅客一次饱览地热的神秘与壮观。\n\n地狱巡礼总共包含八处主要温泉景点，分别是：海地狱、血之池地狱、鬼山地狱、白池地狱、龙卷地狱、山地狱、鬼石坊主地狱与灶地狱。每处都有不同的地热现象与展示内容，有的鲜红如血、有的湛蓝如海，更有鳄鱼养殖区与地热蒸食体验设施，是结合自然与人文的多元观光路线。\n\n部分地狱地点之间距离稍远，建议搭配市区巴士或自驾前往，亦可购买地狱巡礼通票一次参观八处，票价更为优惠。适合安排半日至一日的深度旅游行程。",
+                        "externalURL": "https://www.beppu-jigoku.com/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": "https://guide.laxy.travel/en/tour/JPN-BEPU-TUR-001",
+                        "tag_labels": [
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 16,
+                            "documentId": "z8iyfrx4xc70tni8fu6z30i8",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993107/Jigoku_Hell_Tour_e70335560f.jpg"
+                        }
+                    },
+                    {
+                        "id": 113,
+                        "documentId": "wwzn6fi6olvnxqwcds45r21p",
+                        "slug": "Jyumonjibaru-Observatory",
+                        "label": "十文字原展望台",
+                        "address": "〒874-0016 大分县别府市野田字池之鹤-1200",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3333.5828542348854!2d131.4602103!3d33.329719499999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a7ecbf391055%3A0x3b0fe1c46181594b!2sJumonji%20Viewpoint!5e0!3m2!1sen!2sjp!4v1749359610113!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1128",
+                        "highlight": "十文字原展望台位于别府市北侧的高台上，是俯瞰整个别府市区与别府湾的绝景胜地，亦名列日本百大展望地之一。视野开阔，天气晴朗时更可远眺四国方向，是摄影爱好者与自然景观爱好者不可错过的场所。\n\n此地特别推荐于傍晚时分造访，能欣赏夕阳西下、城市点灯的浪漫景致，夜景亦极具魅力，展现出别府温泉城市另一种风貌。由于展望台全天候开放，自驾族可依照自己节奏选择造访时段，避开人潮，静享山海交会的壮丽景观。",
+                        "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/jumonjibaru.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 33,
+                                "documentId": "fakk0mv2t9ckbl11cnd4m2s8",
+                                "name": "观景台",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 18,
+                            "documentId": "mniby0xjcvkqkz3gin1n9r94",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993113/Jyumonjibaru_Observatory_3ddbe13a55.jpg"
+                        }
+                    },
+                    {
+                        "id": 83,
+                        "documentId": "buj1fyygg1np66jit4b0is97",
+                        "slug": "Takasaki-Mountain-Monkey-Park",
+                        "label": "高崎山自然动物园",
+                        "address": "〒870-0802 大分县大分市神崎3098-1",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.313444949981!2d131.5328036!3d33.25828549999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a1386bb372c3%3A0xfa8325f5ccb225ff!2sTakasakiyama%20Natural%20Zoological%20Garden!5e0!3m2!1sen!2sjp!4v1749359553556!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 97-532-5010",
+                        "highlight": "高崎山自然动物园位于大分市神崎地区，是一座以野生猕猴（日本猕猴）为主角的自然动物公园，也是九州地区最具代表性的亲子户外景点之一。园内的猴群生活在天然山林中，游客可近距离观察它们自然生活的样貌，体验人与动物共处的和谐氛围。\n\n这里以无栅栏设计闻名，猴子们可自由在园区活动，十分活泼且不怕人。除了观看猴群的生活，园方还会安排定时喂食解说，帮助旅客了解猴子的习性与群体行为，特别受亲子与生态爱好者欢迎。\n\n园区附设有购票处、简单的纪念品商店与资讯展览空间，可作为教育性旅游的理想场域。园区与大分海洋水族馆 うみたまご相邻，可安排成半日至一日的连线观光行程。",
+                        "externalURL": "http://www.takasakiyama.jp/takasakiyama/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 59,
+                            "documentId": "sl3agayy164c9neg14tzwe0n",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993255/Takasaki_Mountain_Monkey_Park_7563ebf6b2.jpg"
+                        }
+                    },
+                    {
+                        "id": 142,
+                        "documentId": "uyj91g2qym0hfs9s78jvhk7u",
+                        "slug": "Umitamago-Aquarium",
+                        "label": "大分海洋宫水族馆",
+                        "address": "〒870-0100 大分县大分市神崎字宇户-3078番地之22",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.296645477282!2d131.53556319999998!3d33.258725399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a139253d6ab5%3A0x39c434d349a8835a!2sOita%20Marine%20Palace%20Aquarium%20%22Umitamago%22!5e0!3m2!1sen!2sjp!4v1749359562419!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 97-534-1010",
+                        "highlight": "大分海洋水族馆海之卵位于大分县神崎地区的海岸边，是一座以海洋生物展示与互动体验为主题的大型水族馆，也是九州地区亲子旅游的热门景点之一。该馆以其新颖的建筑外观与多样化的展览空间闻名，并致力于结合娱乐与海洋教育，打造寓教于乐的观光体验。\n\n馆内拥有丰富的展示内容，包括热带鱼、企鹅、海狮、海豚、魟鱼等多种海洋生物。游客可观赏到精彩的海狮与海豚表演，还能在触摸池中亲手触摸海星与贝类，深受小朋友与家庭旅客喜爱。\n\n水族馆内设有纪念品商店、咖啡区与户外景观步道，是一处全天候适合参观的综合性休闲设施。馆外即是海岸步道，可串联前往邻近的高崎山自然动物园，一起安排成半日至一日的旅游行程。",
+                        "externalURL": "https://www.umitamago.jp/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 21,
+                            "documentId": "q5qia9ektjm2ga5mnhccyxdt",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993124/Umitamago_Aquarium_26c789b8a4.webp"
+                        }
+                    },
+                    {
+                        "id": 75,
+                        "documentId": "z5ftr8chb861ij88uz9jkgp0",
+                        "slug": "Yufuin",
+                        "label": "汤布院",
+                        "address": "大分县由布市 由布院温泉",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13344.030025572556!2d131.36058895!3d33.2662958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546adda17e590d1%3A0x50b023f7a070b46a!2sYufuin%20Onsen%2C%20Yufu%2C%20Oita!5e0!3m2!1sen!2sjp!4v1749359589844!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": null,
+                        "highlight": "汤布院（Yufuin）是位于大分县的著名温泉小镇，毗邻别府，却展现出截然不同的魅力。与别府的热闹喧嚣相比，汤布院以其宁静优雅、艺术氛围和自然美景闻名，是寻求放松和浪漫的理想之地。\n\n小镇中心地带的汤之坪街道（Yunotsubo Kaido）两旁，林立着各式独特的精品店、美术馆、咖啡馆和特色餐厅，适合悠闲漫步、寻宝购物。而最著名的地标莫过于金鳞湖（Lake Kinrinko），清晨湖面飘渺的雾气与湖畔景致构成一幅如画般的美景。此外，汤布院被壮丽的由布岳（Mount Yufu）环绕，提供丰富的户外活动和壮丽的自然风光。这里的传统日式旅馆也以精致服务和私密温泉体验著称，是远离尘嚣、享受高品质度假的热门选择。",
+                        "externalURL": null,
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 57,
+                            "documentId": "r8yr6omq6mjffvln9ip3blnk",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993249/Yufuin_990fc54861.jpg"
+                        }
+                    },
+                    {
+                        "id": 62,
+                        "documentId": "wn13m48m8jo1ngqgrjubqou2",
+                        "slug": "Yukemuri-Observatory",
+                        "label": "汤烟展望台",
+                        "address": "〒874-0041 大分县别府市铁轮8组",
+                        "addressURL": null,
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.1203760000276!2d131.4853258!3d33.3156683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a775b765d5e7%3A0x21200e289a85660c!2sYukemuri%20Observation%20Deck!5e0!3m2!1sen!2sjp!4v1749359600114!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81 977-21-1128",
+                        "highlight": "汤烟展望台位于别府市铁轮地区，是欣赏别府温泉乡壮观景致的绝佳地点。从展望台望去，可见温泉蒸汽（汤烟）自地面腾起、于街巷间缕缕飘散，勾勒出一幅充满生活感与历史氛围的地热城市风景，尤其清晨与黄昏时分最为迷人。\n\n此地不仅适合摄影爱好者与观景游客，也是了解别府温泉文化的推荐起点。天气晴朗时，还能远眺别府湾与周边山景，成为许多游客前往地狱巡礼前或后的顺游地点。\n\n若是自驾前来，展望台设有停车场；亦可结合附近的名店龟正寿司行程，一并造访。",
+                        "externalURL": "https://www.city.beppu.oita.jp/sisetu/sangyou_kankou/yukemuri.html",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": null,
+                        "tag_labels": [
+                            {
+                                "id": 33,
+                                "documentId": "fakk0mv2t9ckbl11cnd4m2s8",
+                                "name": "观景台",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 63,
+                            "documentId": "k4n3yokyb1jvs0k994ws1ci3",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993268/Yukemuri_Observatory_f7f1e74717.jpg"
+                        }
+                    },
+                    {
+                        "id": 201,
+                        "documentId": "k6q2lfikdmfm6ukhfos0jgus",
+                        "slug": "Hachiman-Kamado-Shrine",
+                        "label": "八幡灶门神社",
+                        "address": "〒874-0011 大分县别府市大字内灶1900号",
+                        "addressURL": "https://maps.app.goo.gl/5D4uGjgT4yrQqRRH6",
+                        "addressEmbedHTML": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13333.921741904012!2d131.47289302622787!3d33.33239620465208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3546a77fd2917bd1%3A0xd06079ba4f45b67d!2sHachiman%20Kamado%20shrine!5e0!3m2!1sen!2sjp!4v1752474700052!5m2!1sen!2sjp\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+                        "dial": "+81-977-66-1633",
+                        "highlight": "位于别府的八幡灶门神社，创建于公元727年，深深植根于当地关于八幡神和恶鬼的传说。相传恶鬼被挑战在黎明前筑起100级石阶，却在完成99级后便匆忙逃离，这些石阶至今仍通往神社，见证了当年仓促建造的痕迹。近年来，这座神社因其与主角炭治郎同为“灶门”之名、神社驱逐恶鬼的传说、“灶门神乐”之舞以及象征性的龙之描绘等多项元素，成为动画《鬼灭之刃》粉丝们热门的“圣地”。这也使得古老传统与现代流行文化在此独特融合。",
+                        "externalURL": "http://hachimannkamado.sub.jp/",
+                        "type": "attraction",
+                        "nativeLanguageCode": "ja",
+                        "laxyURL": "https://guide.laxy.travel/en/poi/Hachiman-Kamado-Shrine",
+                        "tag_labels": [
+                            {
+                                "id": 26,
+                                "documentId": "y0fm6ubj5q6j89tv7xchn360",
+                                "name": "人气景点",
+                                "color": "GREY"
+                            },
+                            {
+                                "id": 29,
+                                "documentId": "cbe1blfqovxzr7wnb3dce3c8",
+                                "name": "漫步",
+                                "color": "GREY"
+                            }
+                        ],
+                        "coverPhoto": {
+                            "id": 100,
+                            "documentId": "ofj2668p6ywoarqd54h9zri2",
+                            "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1752475126/Hachiman_Kamado_Shrine01_93018e74bf.jpg"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "page": 1,
+            "pageSize": 25,
+            "pageCount": 1,
+            "total": 1
+        }
+    }
+}

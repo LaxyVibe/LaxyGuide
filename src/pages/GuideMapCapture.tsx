@@ -597,6 +597,7 @@ const GuideMapCapture: React.FC = () => {
             <GlobalHeader
                 title="Map Capturer"
                 showBack={false}
+                showVersion={true}
                 versionOverride="0326-01"
                 leftSlot={
                     <button

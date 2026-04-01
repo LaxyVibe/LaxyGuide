@@ -1,0 +1,306 @@
+{
+    "data": {
+        "id": 4,
+        "documentId": "au3e8t9cegnebahml864mmss",
+        "createdAt": "2025-06-15T13:47:19.467Z",
+        "updatedAt": "2025-08-03T03:40:10.374Z",
+        "publishedAt": "2025-08-03T03:39:49.906Z",
+        "locale": "ko",
+        "universalConfig": {
+            "id": 388,
+            "themeOptions": [
+                {
+                    "name": "beppu-airbnb",
+                    "colors": {
+                        "text": {
+                            "primary": "#333333",
+                            "secondary": "#666666"
+                        },
+                        "third": {
+                            "100": "#fd4ee8",
+                            "200": "#fd87ac",
+                            "300": "#f2ba6f",
+                            "400": "#ed9d33",
+                            "500": "#cd8d12",
+                            "600": "#90580d"
+                        },
+                        "primary": {
+                            "50": "#FFBBBF",
+                            "100": "#FF5A5F",
+                            "200": "#5fbcc4",
+                            "300": "#46b2bb",
+                            "400": "#328188",
+                            "500": "#215458",
+                            "600": "#133033"
+                        },
+                        "secondary": {
+                            "100": "#fc6dcd",
+                            "200": "#f9ad9b",
+                            "300": "#f57c5f",
+                            "400": "#f24b24",
+                            "500": "#cb310c",
+                            "600": "#a82209"
+                        },
+                        "background": {
+                            "paper": "#ffffff",
+                            "default": "#f5f5f7"
+                        }
+                    },
+                    "custom": {},
+                    "components": {},
+                    "typography": {
+                        "h5": {},
+                        "h6": {},
+                        "fontFamily": "\"Segoe UI\", \"Roboto\", \"Helvetica Neue\", sans-serif"
+                    }
+                }
+            ],
+            "releasedLanguages": [
+                {
+                    "id": 1608,
+                    "label": "English",
+                    "value": "en"
+                },
+                {
+                    "id": 1606,
+                    "label": "繁體中文",
+                    "value": "zh-Hant"
+                },
+                {
+                    "id": 1607,
+                    "label": "简体中文",
+                    "value": "zh-Hans"
+                },
+                {
+                    "id": 1610,
+                    "label": "日本語",
+                    "value": "ja"
+                },
+                {
+                    "id": 1609,
+                    "label": "한국어",
+                    "value": "ko"
+                }
+            ]
+        },
+        "globalComponent": {
+            "id": 4,
+            "readMoreLabel": "더 보기",
+            "readLessLabel": "간단히 보기",
+            "hostTagLabel": "추천",
+            "poweredByLabel": "Powered by{{value}}",
+            "exploreMoreAboutLabel": "{{value}}에 대해 더 알아보기",
+            "speechButton": {
+                "id": 96,
+                "label": "현지 언어로 주소 말하기",
+                "icon": {
+                    "id": 141,
+                    "documentId": "tpgzvmi93gf1osa0xwzuxr0q",
+                    "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_speak_address_4969d0f112.svg"
+                }
+            },
+            "audioGuideButton": {
+                "id": 1093,
+                "label": "Laxy 과 함께 오디오 가이드 시작"
+            }
+        },
+        "header": {
+            "id": 4,
+            "leftRoute": "/language",
+            "rightRoute": "/search",
+            "leftIcon": {
+                "id": 50,
+                "documentId": "hkuhf9x3sdxvk6ze7jvq08t4",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993225/language_d9b073e167.svg"
+            },
+            "rightIcon": {
+                "id": 51,
+                "documentId": "jvchy61ioa80jed127o3frn8",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1749993228/Thin_23221aaa82.svg"
+            }
+        },
+        "pageLanding": {
+            "id": 4,
+            "recommendationHeading": "추천 목록",
+            "naviagtion": [
+                {
+                    "id": 79,
+                    "label": "정보",
+                    "route": "/info",
+                    "icon": {
+                        "id": 134,
+                        "documentId": "ombo0ro1g4mb4eoxe7jlm6xw",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/home_71883efcee.svg"
+                    }
+                },
+                {
+                    "id": 80,
+                    "label": "Wi-Fi",
+                    "route": "/info/wifi",
+                    "icon": {
+                        "id": 136,
+                        "documentId": "shsaxh5axl38lpn3e1rdkhxq",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/wifi_7524ba9935.svg"
+                    }
+                },
+                {
+                    "id": 81,
+                    "label": "관광 명소",
+                    "route": "/nearby-attractions",
+                    "icon": {
+                        "id": 135,
+                        "documentId": "xfzojkskubw4embqr4pusahf",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/attraction_5c03bd884d.svg"
+                    }
+                },
+                {
+                    "id": 82,
+                    "label": "맛집",
+                    "route": "/nearby-restaurants",
+                    "icon": {
+                        "id": 137,
+                        "documentId": "heuvx1oitqvtk7grrznu15h5",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/restaurant_31d7d2875f.svg"
+                    }
+                },
+                {
+                    "id": 83,
+                    "label": "투어",
+                    "route": "/tours",
+                    "icon": {
+                        "id": 133,
+                        "documentId": "bgy78q860mn9pu9j5ihmi2h4",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753321291/laxy_guide_ca15b8e003.svg"
+                    }
+                }
+            ]
+        },
+        "pageLanguage": {
+            "id": 4,
+            "heading": "언어",
+            "applyButton": {
+                "id": 84,
+                "label": "언어 선택"
+            }
+        },
+        "pageSearch": {
+            "id": 4,
+            "searchInputPlaceholder": "다음 경험 찾아보기",
+            "searchResultHeading": "{{value}}의 검색 결과",
+            "noResultsFound": "검색 결과 없음",
+            "defaultListHeading": "인기 검색어",
+            "highlightedListHeading": "추천 목록",
+            "defaultList": [
+                {
+                    "id": 90,
+                    "label": "온천",
+                    "value": "온천"
+                }
+            ]
+        },
+        "pageInfo": {
+            "id": 4,
+            "heading": "객실 정보",
+            "navigation": [
+                {
+                    "id": 91,
+                    "label": "주소",
+                    "route": "/info/address",
+                    "icon": {
+                        "id": 139,
+                        "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+                    }
+                },
+                {
+                    "id": 92,
+                    "label": "체크인 & 체크아웃",
+                    "route": "/info/check-in-out",
+                    "icon": {
+                        "id": 140,
+                        "documentId": "ny3i9mxz3tqphepd6lnz9rx3",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_check_in_fd1c9f89e4.svg"
+                    }
+                },
+                {
+                    "id": 93,
+                    "label": "숙소 이용 규칙",
+                    "route": "/info/house-rules",
+                    "icon": {
+                        "id": 146,
+                        "documentId": "rgw0u3z4veeijwz946iin296",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_house_rule_f8f555ad4e.svg"
+                    }
+                },
+                {
+                    "id": 94,
+                    "label": "편의 시설",
+                    "route": "/info/amenities",
+                    "icon": {
+                        "id": 145,
+                        "documentId": "dwx9uucbnqip27nk9chj468r",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_amenities_8647386535.svg"
+                    }
+                },
+                {
+                    "id": 95,
+                    "label": "자주 묻는 질문",
+                    "route": "/info/faq",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                },
+                {
+                    "id": 1009,
+                    "label": "직접 연락",
+                    "route": "/info/direct-contact",
+                    "icon": {
+                        "id": 144,
+                        "documentId": "v3a84qdts0qdh0l14tns8x5d",
+                        "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_FAQ_7bc338f61f.svg"
+                    }
+                }
+            ]
+        },
+        "pageWiFi": {
+            "id": 4,
+            "networkLabel": "네트워크",
+            "passwordLabel": "비밀번호",
+            "scanQRButton": {
+                "id": 97,
+                "label": "QR 코드 스캔하여 연결하기"
+            },
+            "clipboardButton": {
+                "id": 98,
+                "label": "비밀번호 복사"
+            },
+            "showQRButton": {
+                "id": 99,
+                "label": "QR 코드 표시하여 공유하기"
+            }
+        },
+        "pagPoiDetail": {
+            "id": 4,
+            "recommendationHeading": "추천 목록",
+            "highlightHeading": "하이라이트",
+            "addressIcon": {
+                "id": 139,
+                "documentId": "ppmzqc17zx4vn4hnuzgknwdl",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753496520/beppu_airbnb_address_b869d493ef.svg"
+            },
+            "urlIcon": {
+                "id": 143,
+                "documentId": "w85dgbdib90x46ftsjdba0qe",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_website_9231e953c1.svg"
+            },
+            "dialIcon": {
+                "id": 142,
+                "documentId": "ajwi1suy1r4uheq9disvahq1",
+                "url": "https://res.cloudinary.com/dui2mxeuh/image/upload/v1753497424/beppu_airbnb_phone_879b964e27.svg"
+            }
+        }
+    },
+    "meta": {}
+}

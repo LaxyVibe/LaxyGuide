@@ -30,17 +30,17 @@ const POIListing: React.FC = () => {
     }, [searchParams, setSearchParams]);
 
     const lang = getLanguageFromQuery(searchParams);
-    const startWith = searchParams.get('startWith');
+    const scope = searchParams.get('scope');
     const { data, loading, error } = useGuideData(guideId, lang);
     const { t, loading: transLoading } = useTranslation(lang);
 
     const filteredPois = useMemo(() => {
         if (!data) return [];
-        if (startWith === '0' || startWith === '1') {
-            return data.pois.filter((poi) => poi.number.startsWith(startWith));
+        if (scope === '0' || scope === '1') {
+            return data.pois.filter((poi) => poi.number.startsWith(scope));
         }
         return data.pois;
-    }, [data, startWith]);
+    }, [data, scope]);
 
     // Fetch available languages for this guide
     useEffect(() => {

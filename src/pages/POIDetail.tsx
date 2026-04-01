@@ -7,7 +7,9 @@ import { useTranslation } from '../hooks/useTranslation';
 import GlobalHeader from '../components/GlobalHeader';
 import { useNavigate } from 'react-router-dom';
 import ExpandableAudioPlayer from '../components/ExpandableAudioPlayer';
+import HubFeaturedCards from '../components/hub/HubFeaturedCards';
 import '../components/DisplayItemDetail.css';
+import './HubLanding.css';
 import surveyIcon from '../assets/icons/survey.svg';
 import languageIcon from '../assets/icons/language.svg';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
@@ -85,6 +87,7 @@ const POIDetail: React.FC = () => {
 
     const { data, loading, error } = useGuideData(guideId, lang);
     const { t, loading: transLoading } = useTranslation(lang);
+    const isHubGuide = guideId?.toUpperCase() === 'JPN-USAA-TEM-001';
 
     if (loading || transLoading) return <Loading />;
     if (error) return <div className="error-container"><p>{t('common.error')}: {error}</p></div>;
@@ -95,18 +98,78 @@ const POIDetail: React.FC = () => {
 
     if (!poi) return <div className="error-container"><p>{t('poiDetail.notFound')}</p></div>;
 
+    const currentQuery = searchParams.toString();
+    const recommendedItems = (() => {
+        if (!isHubGuide) return [];
+
+        const scope = poi.number.charAt(0);
+        const scopedPois = data.pois
+            .filter((item) => item.number.charAt(0) === scope)
+            .sort((a, b) => Number(a.number) - Number(b.number));
+
+        const currentIndex = scopedPois.findIndex((item) => item.number === poi.number);
+        if (currentIndex < 0) return [];
+
+        const picks: typeof scopedPois = [];
+        const pushIfExists = (index: number) => {
+            const item = scopedPois[index];
+            if (item && item.number !== poi.number && !picks.some((p) => p.number === item.number)) {
+                picks.push(item);
+            }
+        };
+
+        // Neighbor rule within scope:
+        // first -> next two, middle/last -> prev then next.
+        if (currentIndex === 0) {
+            pushIfExists(currentIndex + 1);
+            pushIfExists(currentIndex + 2);
+        } else {
+            pushIfExists(currentIndex - 1);
+            pushIfExists(currentIndex + 1);
+        }
+
+        // Fallback: fill from beginning of same scope if next does not exist.
+        if (picks.length < 2) {
+            for (const item of scopedPois) {
+                if (item.number === poi.number) continue;
+                if (picks.some((p) => p.number === item.number)) continue;
+                picks.push(item);
+                if (picks.length >= 2) break;
+            }
+        }
+
+        return picks.slice(0, 2).map((item) => ({
+            id: item.number,
+            title: item.title,
+            image: item.hero,
+            onClick: () => {
+                navigate(`/${guideId}/${item.number}${currentQuery ? `?${currentQuery}` : ''}`);
+            }
+        }));
+    })();
+
     const handleBack = () => {
+        const scope = poi.number.charAt(0);
+        const backQuery = new URLSearchParams();
+        backQuery.set('t', lang);
+        if (isHubGuide && scope) {
+            backQuery.set('scope', scope);
+        }
+        const backTarget = `/${guideId}/list?${backQuery.toString()}`;
+
         if ('startViewTransition' in document) {
             document.startViewTransition(() => {
-                navigate(`/${guideId}/list?t=${lang}`);
+                navigate(backTarget);
             });
         } else {
-            navigate(`/${guideId}/list?t=${lang}`);
+            navigate(backTarget);
         }
     };
 
+    const pageClassName = `page display-item-detail${isHubGuide ? ' poi-detail--jpn-usaa-tem-001' : ''}`;
+
     return (
-        <div className="page display-item-detail" style={{ padding: 0, background: 'var(--neutral-100)' }}>
+        <div className={pageClassName} style={{ padding: 0, background: 'var(--neutral-100)' }}>
             <Helmet>
                 <title>{poi.title} - {t('meta.title')}</title>
                 <meta name="description" content={poi.content ? poi.content.substring(0, 150) + '...' : poi.title} />
@@ -288,6 +351,17 @@ const POIDetail: React.FC = () => {
                                     <ReactMarkdown>{poi.content}</ReactMarkdown>
                                 </div>
                             </div>
+
+                            {isHubGuide && recommendedItems.length > 0 && (
+                                <div className="poi-detail-hub-recommended">
+                                    <HubFeaturedCards
+                                        heading={t('hub.recommended', 'Recommended Spots')}
+                                        items={recommendedItems}
+                                        variant="grid"
+                                        showIdBadge={true}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { BrowserRouter as Router, Routes, Route, useLocation, useParams } from 'react-router-dom';
 import Landing from './pages/Landing';
 import HubLanding from './pages/HubLanding';
+import BasicInfo from './pages/BasicInfo';
 import POIListing from './pages/POIListing';
 import POISearch from './pages/POISearch';
 import POIDetail from './pages/POIDetail';
@@ -36,8 +37,8 @@ const GuideThemeController: React.FC = () => {
       ? parts[1]?.toUpperCase()
       : parts[0]?.toUpperCase();
 
-    const isUsaaGuide = activeGuideId === USAA_GUIDE_ID;
-    document.body.classList.toggle(USAA_THEME_CLASS, isUsaaGuide);
+    const isHubGuide = activeGuideId === USAA_GUIDE_ID;
+    document.body.classList.toggle(USAA_THEME_CLASS, isHubGuide);
 
     return () => {
       document.body.classList.remove(USAA_THEME_CLASS);
@@ -78,8 +79,8 @@ function App() {
           <AnalyticsTracker />
           <Routes>
             <Route path="/" element={<GuideListing />} />
-            <Route path="/hub/:guideId" element={<HubLanding />} />
             <Route path="/:guideId" element={<GuideLandingGate />} />
+            <Route path="/:guideId/basic-info" element={<BasicInfo />} />
             <Route path="/:guideId/list" element={<POIListing />} />
             <Route path="/:guideId/search" element={<POISearch />} />
             <Route path="/:guideId/map/capture" element={<GuideMapCapture />} />

@@ -124,6 +124,7 @@ const GuideMap: React.FC = () => {
             <GlobalHeader
                 title="Map Viewer"
                 showBack={false}
+                showVersion={true}
                 versionOverride="0326-01"
                 leftSlot={
                     <button

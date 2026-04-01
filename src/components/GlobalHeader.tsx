@@ -6,6 +6,7 @@ import { APP_VERSION } from '../constants/appVersion';
 interface GlobalHeaderProps {
     title?: string;
     showBack?: boolean;
+    showVersion?: boolean;
     onBack?: () => void;
     leftSlot?: React.ReactNode;
     rightSlot?: React.ReactNode;
@@ -13,7 +14,7 @@ interface GlobalHeaderProps {
     style?: React.CSSProperties;
 }
 
-const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onBack, leftSlot, rightSlot, versionOverride, style }) => {
+const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, showVersion = false, onBack, leftSlot, rightSlot, versionOverride, style }) => {
     const navigate = useNavigate();
 
     return (
@@ -35,7 +36,9 @@ const GlobalHeader: React.FC<GlobalHeaderProps> = ({ title, showBack = true, onB
             ) : null}
             <h1>{title}</h1>
             <div className="global-header-right">
-                <span className="app-version" aria-label="App version">{versionOverride || APP_VERSION}</span>
+                {showVersion ? (
+                    <span className="app-version" aria-label="App version">{versionOverride || APP_VERSION}</span>
+                ) : null}
                 {rightSlot ? <div style={{ display: 'flex', alignItems: 'center' }}>{rightSlot}</div> : null}
             </div>
         </header>

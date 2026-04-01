@@ -239,6 +239,77 @@
     margin-top: 16px;
 }
 
+.poi-detail-hub-recommended {
+    margin-top: 20px;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured {
+    margin-top: 16px;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-title {
+    color: #e24e34;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: normal;
+    margin-bottom: 12px;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-grid {
+    margin-top: 0;
+    gap: 10px;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-grid-card {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 12px;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-grid-media img {
+    aspect-ratio: 4 / 3;
+    height: auto;
+    border-radius: 8px;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-grid-caption {
+    margin-top: 5px;
+    min-height: 28px;
+    justify-content: center;
+    align-items: center;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-grid-meta {
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-id {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e24e34;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: normal;
+    border-radius: 5px;
+    padding: 2px 6px 3px;
+}
+
+.page.display-item-detail.poi-detail--jpn-usaa-tem-001 .hub-featured-grid-meta strong {
+    display: inline-flex;
+    align-items: center;
+    color: #4b3f3e;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+}
+
 /* Responsive Design */
 @media (max-width: 968px) {
     .detail-content {
