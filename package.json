@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test": "npm run test:ga",
+    "test:ga": "node --test tests/ga-config.test.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
