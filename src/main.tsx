@@ -38,7 +38,7 @@ function setVh() {
   }
 }
 
-ReactGA.initialize("G-XXXXXXXXXX");
+ReactGA.initialize("G-Z16JEM2EY8");
 
 setVh()
 window.addEventListener('resize', setVh, { passive: true })
