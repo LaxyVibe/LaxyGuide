@@ -5,9 +5,14 @@ import Loading from '../components/Loading';
 import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
+import { downloadCloudBundle, listCloudBundles } from '../utils/cloudinaryCapture';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
+import { parseCaptureBundle } from '../utils/mapCaptureBundle';
 import type { MapPin, MapPinsFile, POI } from '../types';
 import { fetchPinsFile, findNearestPin, loadPinsFromLocalStorage } from '../utils/mapPins';
+
+const TARGET_GUIDE_ID = 'JPN-USAA-TEM-001';
+const TARGET_BUNDLE_LABEL = '0528-sun-demo / 2026-05-28T04-04-59-537Z';
 
 const truncateSummary = (text: string, maxChars = 100): string => {
     const normalized = text.replace(/\s+/g, ' ').trim();
@@ -57,9 +62,82 @@ const GuideMap: React.FC = () => {
     const [mapImageOverride, setMapImageOverride] = useState<string | null>(null);
     const [focusedPinId, setFocusedPinId] = useState<string | null>(null);
     const [locationTrackingEnabled, setLocationTrackingEnabled] = useState(false);
+    const [cloudInitStatus, setCloudInitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [cloudInitError, setCloudInitError] = useState<string | null>(null);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
+    const isCloudForcedGuide = (guideId ?? '').toUpperCase() === TARGET_GUIDE_ID;
 
     useEffect(() => {
+        let cancelled = false;
+
+        const bootstrapCloudBundle = async () => {
+            if (!guideId) {
+                setCloudInitStatus('idle');
+                setCloudInitError(null);
+                return;
+            }
+
+            if (!isCloudForcedGuide) {
+                setCloudInitStatus('success');
+                setCloudInitError(null);
+                return;
+            }
+
+            setCloudInitStatus('loading');
+            setCloudInitError(null);
+            setPinsError(null);
+
+            try {
+                const bundles = await listCloudBundles(guideId);
+                const target = bundles.find((bundle) => {
+                    const label = `${bundle.saveName} / ${bundle.createdAt}`;
+                    return label === TARGET_BUNDLE_LABEL;
+                });
+
+                if (!target) {
+                    throw new Error(`Required cloud bundle not found: ${TARGET_BUNDLE_LABEL}`);
+                }
+
+                const bundleBlob = await downloadCloudBundle(target.secureUrl, {
+                    publicId: target.publicId,
+                    format: target.format
+                });
+                const parsed = await parseCaptureBundle(bundleBlob, guideId);
+                if (!parsed.imageDataUrl) {
+                    throw new Error('Selected cloud bundle has no map image.');
+                }
+
+                if (cancelled) return;
+                setPins(parsed.pinsFile.pins ?? []);
+                setMapImageOverride(parsed.imageDataUrl);
+                setCloudInitStatus('success');
+            } catch (e) {
+                if (cancelled) return;
+                const message = e instanceof Error ? e.message : String(e);
+                setPins([]);
+                setMapImageOverride(null);
+                setCloudInitError(message);
+                setCloudInitStatus('error');
+                console.error('GuideMap cloud bundle bootstrap failed', {
+                    guideId,
+                    expectedBundleLabel: TARGET_BUNDLE_LABEL,
+                    error: message
+                });
+            }
+        };
+
+        bootstrapCloudBundle();
+        return () => {
+            cancelled = true;
+        };
+    }, [guideId, isCloudForcedGuide]);
+
+    useEffect(() => {
+        if (isCloudForcedGuide) {
+            setMapImageOverride(null);
+            return;
+        }
+
         if (!guideId) {
             setMapImageOverride(null);
             return;
@@ -75,13 +153,14 @@ const GuideMap: React.FC = () => {
         } catch {
             setMapImageOverride(null);
         }
-    }, [guideId]);
+    }, [guideId, isCloudForcedGuide]);
 
     useEffect(() => {
         let cancelled = false;
         const run = async () => {
             setPinsError(null);
             if (!guideId) return;
+            if (isCloudForcedGuide) return;
 
             const local = loadPinsFromLocalStorage(guideId);
             if (local && local.pins.length > 0) {
@@ -110,7 +189,7 @@ const GuideMap: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [guideId, data?.mapPinsUrl]);
+    }, [guideId, data?.mapPinsUrl, isCloudForcedGuide]);
 
     useEffect(() => {
         if (!locationTrackingEnabled) return;
@@ -202,9 +281,11 @@ const GuideMap: React.FC = () => {
         );
     }, [t]);
 
-    const mapImage = mapImageOverride || data?.mapImage;
+    const mapImage = isCloudForcedGuide ? mapImageOverride : (mapImageOverride || data?.mapImage);
 
-    if (transLoading || guideLoading) return <Loading />;
+    if (transLoading || guideLoading || (isCloudForcedGuide && (cloudInitStatus === 'idle' || cloudInitStatus === 'loading'))) {
+        return <Loading />;
+    }
     if (error) return <div>{t('common.error')}: {error}</div>;
 
     const handleSwapToCapture = () => {
@@ -289,9 +370,26 @@ const GuideMap: React.FC = () => {
                 }}
             >
                 {!mapImage ? (
-                    <div style={{ padding: 24, textAlign: 'center', color: 'var(--neutral-600)', fontWeight: 700 }}>
-                        {t('map.noImage')}
-                    </div>
+                    isCloudForcedGuide && cloudInitStatus === 'error' ? (
+                        <div
+                            style={{
+                                margin: 16,
+                                padding: 16,
+                                borderRadius: 12,
+                                border: '1px solid rgba(228, 50, 22, 0.3)',
+                                background: 'rgba(228, 50, 22, 0.08)',
+                                color: '#7f1d10',
+                                fontWeight: 800,
+                                lineHeight: 1.4
+                            }}
+                        >
+                            {t('common.error')}: {cloudInitError || 'Failed to load required cloud map bundle.'}
+                        </div>
+                    ) : (
+                        <div style={{ padding: 24, textAlign: 'center', color: 'var(--neutral-600)', fontWeight: 700 }}>
+                            {t('map.noImage')}
+                        </div>
+                    )
                 ) : (
                     <>
                         <MapViewer
@@ -371,6 +469,7 @@ const GuideMap: React.FC = () => {
                                 {t('common.error')}: {pinsError}
                             </div>
                         )}
+
                     </>
                 )}
 
