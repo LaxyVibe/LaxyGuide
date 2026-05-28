@@ -1,4 +1,4 @@
-import React, { useCallback, useImperativeHandle, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { TransformComponent, TransformWrapper, type ReactZoomPanPinchContentRef } from 'react-zoom-pan-pinch';
 import type { MapPin } from '../types';
 
@@ -6,6 +6,16 @@ export interface MapViewerProps {
     imageUrl: string;
     pins: MapPin[];
     highlightedPinId?: string;
+    pinDisplayNameById?: Record<string, string>;
+    fitToViewportOnInit?: boolean;
+    centerOnImageOnInit?: boolean;
+    focusedPinCard?: {
+        pinId: string;
+        poiId?: string;
+        title: string;
+        imageUrl?: string;
+        summary?: string;
+    };
     showCenterCursor?: boolean;
     showPinGpsCount?: boolean;
     initialScale?: number;
@@ -20,7 +30,10 @@ export interface MapViewerProps {
 
 export interface MapViewerHandle {
     getViewportCenter: () => { x: number; y: number } | null;
-    centerOnPoint: (point: { x: number; y: number }) => void;
+    centerOnPoint: (
+        point: { x: number; y: number },
+        options?: { scale?: number; yOffsetPx?: number }
+    ) => void;
 }
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
@@ -31,6 +44,10 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             imageUrl,
             pins,
             highlightedPinId,
+            pinDisplayNameById,
+            fitToViewportOnInit = false,
+            centerOnImageOnInit = false,
+            focusedPinCard,
             showCenterCursor = false,
             showPinGpsCount = true,
             onMapClick,
@@ -49,6 +66,8 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
     const frameRef = useRef<HTMLDivElement | null>(null);
     const transformRef = useRef<ReactZoomPanPinchContentRef | null>(null);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const didFitToViewportRef = useRef(false);
+    const didCenterOnImageRef = useRef(false);
 
     const [pressingPinId, setPressingPinId] = useState<string | null>(null);
     const [pressProgress, setPressProgress] = useState(0);
@@ -112,7 +131,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             const y = clamp01((cy - frame.top) / frame.height);
             return { x, y };
         },
-        centerOnPoint: (point) => {
+        centerOnPoint: (point, options) => {
             if (!viewportRef.current || !frameRef.current) return;
             const setTransform = transformRef.current?.setTransform;
             if (!setTransform) return;
@@ -124,13 +143,66 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             if (viewportW <= 0 || viewportH <= 0 || frameW <= 0 || frameH <= 0) return;
 
             const currentScale = transformRef.current?.instance?.transformState?.scale ?? initialScale;
-            const scale = Math.max(0.01, currentScale);
+            const scale = Math.max(0.01, options?.scale ?? currentScale);
+            const yOffsetPx = options?.yOffsetPx ?? 0;
 
             const targetX = viewportW / 2 - (edgeMarginPx + clamp01(point.x) * frameW) * scale;
-            const targetY = viewportH / 2 - (edgeMarginPx + clamp01(point.y) * frameH) * scale;
+            const targetY = viewportH / 2 - yOffsetPx - (edgeMarginPx + clamp01(point.y) * frameH) * scale;
             setTransform(targetX, targetY, scale, 200, 'easeOut');
         }
     }));
+
+    useEffect(() => {
+        didFitToViewportRef.current = false;
+        didCenterOnImageRef.current = false;
+    }, [imageUrl]);
+
+    useEffect(() => {
+        if (!centerOnImageOnInit) return;
+        if (!imageLoaded) return;
+        if (didCenterOnImageRef.current) return;
+        if (!viewportRef.current || !frameRef.current) return;
+
+        const setTransform = transformRef.current?.setTransform;
+        if (!setTransform) return;
+
+        const viewportW = viewportRef.current.clientWidth;
+        const viewportH = viewportRef.current.clientHeight;
+        const frameW = frameRef.current.clientWidth;
+        const frameH = frameRef.current.clientHeight;
+        if (viewportW <= 0 || viewportH <= 0 || frameW <= 0 || frameH <= 0) return;
+
+        const scale = Math.max(0.01, initialScale);
+        const targetX = viewportW / 2 - (edgeMarginPx + frameW / 2) * scale;
+        const targetY = viewportH / 2 - (edgeMarginPx + frameH / 2) * scale;
+        setTransform(targetX, targetY, scale, 0, 'easeOut');
+        didCenterOnImageRef.current = true;
+    }, [centerOnImageOnInit, imageLoaded, initialScale, edgeMarginPx]);
+
+    useEffect(() => {
+        if (!fitToViewportOnInit) return;
+        if (!imageLoaded) return;
+        if (didFitToViewportRef.current) return;
+        if (!viewportRef.current || !frameRef.current) return;
+
+        const setTransform = transformRef.current?.setTransform;
+        if (!setTransform) return;
+
+        const viewportW = viewportRef.current.clientWidth;
+        const viewportH = viewportRef.current.clientHeight;
+        const frameW = frameRef.current.clientWidth;
+        const frameH = frameRef.current.clientHeight;
+        if (viewportW <= 0 || viewportH <= 0 || frameW <= 0 || frameH <= 0) return;
+
+        const contentW = frameW + edgeMarginPx * 2;
+        const contentH = frameH + edgeMarginPx * 2;
+        const fitScale = Math.max(0.01, Math.min(viewportW / contentW, viewportH / contentH));
+
+        const targetX = viewportW / 2 - (edgeMarginPx + frameW / 2) * fitScale;
+        const targetY = viewportH / 2 - (edgeMarginPx + frameH / 2) * fitScale;
+        setTransform(targetX, targetY, fitScale, 0, 'easeOut');
+        didFitToViewportRef.current = true;
+    }, [fitToViewportOnInit, imageLoaded, edgeMarginPx]);
 
     const handleClick = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
@@ -148,7 +220,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
     return (
         <div ref={viewportRef} style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
             <TransformWrapper
-                minScale={1}
+                minScale={fitToViewportOnInit ? 0.01 : 1}
                 maxScale={maxScale}
                 initialScale={initialScale}
                 centerOnInit={true}
@@ -164,64 +236,81 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                             style={{
                                 position: 'absolute',
                                 right: 16,
-                                bottom: 16,
+                                top: 16,
                                 zIndex: 5,
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: 10
+                                width: 60,
+                                borderRadius: 20,
+                                border: '1px solid rgba(0, 0, 0, 0.1)',
+                                overflow: 'hidden',
+                                background: 'rgba(230, 230, 231, 0.96)',
+                                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)'
                             }}
                         >
                             <button
                                 onClick={() => zpp.zoomIn()}
                                 aria-label="Zoom in"
                                 style={{
-                                    width: 44,
-                                    height: 44,
-                                    borderRadius: 12,
+                                    width: '100%',
+                                    height: 56,
                                     border: 'none',
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
+                                    background: 'transparent',
+                                    color: '#E43216',
                                     fontWeight: 700,
-                                    fontSize: 22,
+                                    fontSize: 46,
                                     cursor: 'pointer'
                                 }}
                             >
                                 +
                             </button>
+                            <div style={{ height: 1, background: 'rgba(0, 0, 0, 0.12)' }} />
                             <button
                                 onClick={() => zpp.zoomOut()}
                                 aria-label="Zoom out"
                                 style={{
-                                    width: 44,
-                                    height: 44,
-                                    borderRadius: 12,
+                                    width: '100%',
+                                    height: 56,
                                     border: 'none',
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
+                                    background: 'transparent',
+                                    color: '#E43216',
                                     fontWeight: 700,
-                                    fontSize: 22,
+                                    fontSize: 46,
+                                    lineHeight: 0.75,
                                     cursor: 'pointer'
                                 }}
                             >
                                 −
                             </button>
+                            <div style={{ height: 1, background: 'rgba(0, 0, 0, 0.12)' }} />
                             <button
                                 onClick={() => zpp.resetTransform()}
                                 aria-label="Reset zoom"
                                 title="Reset zoom"
                                 style={{
-                                    width: 44,
-                                    height: 44,
-                                    borderRadius: 12,
+                                    width: '100%',
+                                    height: 56,
                                     border: 'none',
-                                    background: 'rgba(245, 245, 245, 0.95)',
-                                    color: 'var(--neutral-800)',
-                                    fontWeight: 700,
-                                    fontSize: 20,
+                                    background: 'transparent',
+                                    color: '#E43216',
                                     cursor: 'pointer'
                                 }}
                             >
-                                ⟲
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    width="30"
+                                    height="30"
+                                    fill="none"
+                                    style={{ transform: 'rotate(20deg)' }}
+                                >
+                                    <path
+                                        d="M3 11.5L20.5 4.5L13.5 22L10.8 13.8L3 11.5Z"
+                                        stroke="currentColor"
+                                        strokeWidth="2.4"
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                    />
+                                </svg>
                             </button>
                         </div>
 
@@ -255,6 +344,8 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
 
                                         {pins.map(pin => {
                                             const isHighlighted = pin.id === highlightedPinId;
+                                            const showFocusCard = focusedPinCard?.pinId === pin.id;
+                                            const pinDisplayName = pinDisplayNameById?.[pin.id] || pin.label || pin.id;
                                             const gpsCount = pin.latLngs?.length || 0;
                                             const size = isHighlighted ? 20 : 14;
                                             const fontSize = isHighlighted ? 11 : 9;
@@ -316,25 +407,122 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                 >
                                                     {showPinGpsCount ? gpsCount : null}
 
-                                                    <div
-                                                        aria-hidden="true"
-                                                        style={{
-                                                            position: 'absolute',
-                                                            left: '50%',
-                                                            top: 'calc(100% + 4px)',
-                                                            transform: 'translateX(-50%)',
-                                                            padding: '2px 6px',
-                                                            borderRadius: 10,
-                                                            background: 'rgba(245, 245, 245, 0.95)',
-                                                            color: 'var(--neutral-800)',
-                                                            fontWeight: 900,
-                                                            fontSize: 10,
-                                                            whiteSpace: 'nowrap',
-                                                            pointerEvents: 'none'
-                                                        }}
-                                                    >
-                                                        {pin.label || pin.id}
-                                                    </div>
+                                                    {!showFocusCard && (
+                                                        <div
+                                                            aria-hidden="true"
+                                                            style={{
+                                                                position: 'absolute',
+                                                                left: '50%',
+                                                                top: 'calc(100% + 4px)',
+                                                                transform: 'translateX(-50%)',
+                                                                padding: '2px 6px',
+                                                                borderRadius: 10,
+                                                                background: 'rgba(245, 245, 245, 0.95)',
+                                                                color: 'var(--neutral-800)',
+                                                                fontWeight: 900,
+                                                                fontSize: 10,
+                                                                whiteSpace: 'nowrap',
+                                                                pointerEvents: 'none'
+                                                            }}
+                                                        >
+                                                            {pinDisplayName}
+                                                        </div>
+                                                    )}
+
+                                                    {showFocusCard && (
+                                                        <div
+                                                            aria-hidden="true"
+                                                            style={{
+                                                                position: 'absolute',
+                                                                left: '50%',
+                                                                top: 'calc(100% + 8px)',
+                                                                transform: 'translateX(-50%)',
+                                                                width: 230,
+                                                                padding: 12,
+                                                                borderRadius: 16,
+                                                                border: '1px solid rgba(33, 36, 39, 0.1)',
+                                                                background: 'rgba(242, 242, 243, 0.98)',
+                                                                color: 'var(--neutral-800)',
+                                                                boxShadow: '0 6px 0 rgba(228, 50, 22, 0.9), 0 14px 24px rgba(0, 0, 0, 0.18)',
+                                                                pointerEvents: 'none',
+                                                                zIndex: 2
+                                                            }}
+                                                        >
+                                                            <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                                                                {focusedPinCard.imageUrl ? (
+                                                                    <img
+                                                                        src={focusedPinCard.imageUrl}
+                                                                        alt=""
+                                                                        style={{
+                                                                            width: 66,
+                                                                            height: 66,
+                                                                            borderRadius: 12,
+                                                                            objectFit: 'cover',
+                                                                            flex: '0 0 auto'
+                                                                        }}
+                                                                    />
+                                                                ) : (
+                                                                    <div
+                                                                        style={{
+                                                                            width: 66,
+                                                                            height: 66,
+                                                                            borderRadius: 12,
+                                                                            background: 'rgba(33, 36, 39, 0.12)',
+                                                                            flex: '0 0 auto'
+                                                                        }}
+                                                                    />
+                                                                )}
+
+                                                                <div style={{ minWidth: 0, flex: 1 }}>
+                                                                    <div
+                                                                        style={{
+                                                                            fontSize: 16,
+                                                                            fontWeight: 900,
+                                                                            lineHeight: 1.1,
+                                                                            color: '#E43216',
+                                                                            whiteSpace: 'nowrap',
+                                                                            overflow: 'hidden',
+                                                                            textOverflow: 'ellipsis'
+                                                                        }}
+                                                                    >
+                                                                        {focusedPinCard.title}
+                                                                    </div>
+
+                                                                    {focusedPinCard.poiId && (
+                                                                        <div
+                                                                            style={{
+                                                                                marginTop: 8,
+                                                                                display: 'inline-block',
+                                                                                padding: '2px 9px',
+                                                                                borderRadius: 11,
+                                                                                background: '#E43216',
+                                                                                color: 'rgba(245, 245, 245, 0.98)',
+                                                                                fontSize: 12,
+                                                                                fontWeight: 900,
+                                                                                letterSpacing: 0.3
+                                                                            }}
+                                                                        >
+                                                                            {focusedPinCard.poiId}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+
+                                                            {focusedPinCard.summary && (
+                                                                <div
+                                                                    style={{
+                                                                        marginTop: 10,
+                                                                        fontSize: 12,
+                                                                        fontWeight: 700,
+                                                                        lineHeight: 1.35,
+                                                                        color: 'var(--neutral-700)'
+                                                                    }}
+                                                                >
+                                                                    {focusedPinCard.summary}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )}
 
                                                     {isPressing && (
                                                         <svg
