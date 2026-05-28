@@ -598,7 +598,7 @@ const GuideMapCapture: React.FC = () => {
                 title="Map Capturer"
                 showBack={false}
                 showVersion={true}
-                versionOverride="0326-01"
+                versionOverride="0528-01"
                 leftSlot={
                     <button
                         className="back-button"
