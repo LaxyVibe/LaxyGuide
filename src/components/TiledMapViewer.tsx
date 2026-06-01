@@ -491,7 +491,12 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                                                         fontSize: 12,
                                                         fontWeight: 700,
                                                         lineHeight: 1.35,
-                                                        color: 'var(--neutral-700)'
+                                                        color: 'var(--neutral-700)',
+                                                        display: '-webkit-box',
+                                                        WebkitLineClamp: 2,
+                                                        WebkitBoxOrient: 'vertical',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis'
                                                     }}
                                                 >
                                                     {focusedPinCard.summary}
