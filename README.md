@@ -92,3 +92,39 @@ Set these in Netlify site environment settings:
 
 - `/.netlify/functions/cloudinary-sign` (POST): returns signed upload parameters.
 - `/.netlify/functions/cloudinary-list-bundles` (GET `?guideId=...`): returns available bundles.
+
+## GDAL2Tiles Map Slicing (USAA)
+
+The map viewer now supports local XYZ tiles for non-geographic guide maps.
+
+### Source Asset
+
+- `src/assets/map/usaa.webp`
+
+### Generate Tiles
+
+Requires GDAL with `gdal2tiles` available in PATH.
+
+```bash
+npm run tiles:usaa
+```
+
+This runs:
+
+- `npm run tiles:clean:usaa`
+- `npm run tiles:gen:usaa`
+
+Output tiles are generated in:
+
+- `public/maps/JPN-USAA-TEM-001/{z}/{x}/{y}.webp`
+
+### Guide Metadata Fields
+
+The USAA guide frontmatter can provide:
+
+- `mapTileUrlTemplate`
+- `mapTileMaxZoom`
+- `mapPixelWidth`
+- `mapPixelHeight`
+
+When these are present, the map viewer prefers tiled rendering and keeps the original image URL as fallback.

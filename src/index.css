@@ -120,6 +120,18 @@ body {
     border-right-color: rgba(0, 0, 0, 0.12);
 }
 
+.leaflet-tooltip.map-pin-focus-card-tooltip {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.leaflet-tooltip.map-pin-focus-card-tooltip::before {
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+}
+
 #root {
     height: 100%;
     /* overflow: hidden; - Removed to enable pull-to-refresh */

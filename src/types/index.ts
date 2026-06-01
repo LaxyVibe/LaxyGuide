@@ -32,6 +32,10 @@ export interface GuideData {
     guideTitle: string;
     guideUnderlayImage: string;
     mapImage?: string;
+    mapTileUrlTemplate?: string;
+    mapTileMaxZoom?: number;
+    mapPixelWidth?: number;
+    mapPixelHeight?: number;
     mapPinsUrl?: string;
     pois: POI[];
 }

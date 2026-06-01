@@ -13,31 +13,13 @@ import { fetchPinsFile, findNearestPin, loadPinsFromLocalStorage } from '../util
 
 const TARGET_GUIDE_ID = 'JPN-USAA-TEM-001';
 const TARGET_BUNDLE_LABEL = '0528-sun-demo / 2026-05-28T04-04-59-537Z';
+const LOCAL_DEV_BUNDLE_URL = '/bundles/JPN-USAA-TEM-001/bundle.zip';
 
 const truncateSummary = (text: string, maxChars = 100): string => {
     const normalized = text.replace(/\s+/g, ' ').trim();
     if (!normalized) return '';
     if (normalized.length <= maxChars) return normalized;
     return `${normalized.slice(0, Math.max(0, maxChars - 3)).trimEnd()}...`;
-};
-
-const computeFocusScale = (): number => {
-    if (typeof window === 'undefined') return 2.2;
-    const viewportWidth = window.innerWidth;
-    const minSide = Math.min(window.innerWidth, window.innerHeight);
-
-    const CARD_WIDTH_PX = 180;
-    const CARD_SIDE_MARGIN_PX = 16;
-    const CARD_SAFE_BLEED_PX = 12;
-    const horizontalBudget = Math.max(120, viewportWidth - (CARD_SIDE_MARGIN_PX * 2));
-    const maxScaleForCardFit = Math.max(1, (horizontalBudget - CARD_SAFE_BLEED_PX) / CARD_WIDTH_PX);
-
-    // Base focus from viewport geometry, then cap by card-fit scale to avoid horizontal clipping.
-    const baseScale = Math.max(1.8, Math.min(3.2, minSide / 210));
-    const fittedScale = Math.max(1.2, Math.min(baseScale, maxScaleForCardFit));
-
-    // Step down one more level to keep focused cards visible on tight viewports.
-    return Math.max(1.1, fittedScale - 1.8);
 };
 
 const GuideMap: React.FC = () => {
@@ -66,6 +48,9 @@ const GuideMap: React.FC = () => {
     const [cloudInitError, setCloudInitError] = useState<string | null>(null);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
     const isCloudForcedGuide = (guideId ?? '').toUpperCase() === TARGET_GUIDE_ID;
+    const isLocalDevHost = typeof window !== 'undefined'
+        && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+    const useLocalBundleForForcedGuide = isCloudForcedGuide && isLocalDevHost;
 
     useEffect(() => {
         let cancelled = false;
@@ -88,6 +73,23 @@ const GuideMap: React.FC = () => {
             setPinsError(null);
 
             try {
+                if (useLocalBundleForForcedGuide) {
+                    const resp = await fetch(LOCAL_DEV_BUNDLE_URL, { cache: 'no-store' });
+                    if (!resp.ok) {
+                        throw new Error(`Local bundle not found at ${LOCAL_DEV_BUNDLE_URL}`);
+                    }
+
+                    const bundleBlob = await resp.blob();
+                    const parsed = await parseCaptureBundle(bundleBlob, guideId);
+                    if (cancelled) return;
+
+                    setPins(parsed.pinsFile.pins ?? []);
+                    // Keep base map from guide content so tiled map can remain active on localhost.
+                    setMapImageOverride(null);
+                    setCloudInitStatus('success');
+                    return;
+                }
+
                 const bundles = await listCloudBundles(guideId);
                 const target = bundles.find((bundle) => {
                     const label = `${bundle.saveName} / ${bundle.createdAt}`;
@@ -109,7 +111,8 @@ const GuideMap: React.FC = () => {
 
                 if (cancelled) return;
                 setPins(parsed.pinsFile.pins ?? []);
-                setMapImageOverride(parsed.imageDataUrl);
+                // Keep guide base map so deployed map page can use tiled map after bundle pins load.
+                setMapImageOverride(null);
                 setCloudInitStatus('success');
             } catch (e) {
                 if (cancelled) return;
@@ -120,6 +123,7 @@ const GuideMap: React.FC = () => {
                 setCloudInitStatus('error');
                 console.error('GuideMap cloud bundle bootstrap failed', {
                     guideId,
+                    localBundleUrl: useLocalBundleForForcedGuide ? LOCAL_DEV_BUNDLE_URL : null,
                     expectedBundleLabel: TARGET_BUNDLE_LABEL,
                     error: message
                 });
@@ -130,7 +134,7 @@ const GuideMap: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [guideId, isCloudForcedGuide]);
+    }, [guideId, isCloudForcedGuide, useLocalBundleForForcedGuide]);
 
     useEffect(() => {
         if (isCloudForcedGuide) {
@@ -250,7 +254,6 @@ const GuideMap: React.FC = () => {
                 mapRef.current?.centerOnPoint(
                     { x: target.x, y: target.y },
                     {
-                        scale: computeFocusScale(),
                         yOffsetPx: 28
                     }
                 );
@@ -281,7 +284,14 @@ const GuideMap: React.FC = () => {
         );
     }, [t]);
 
-    const mapImage = isCloudForcedGuide ? mapImageOverride : (mapImageOverride || data?.mapImage);
+    const mapImage = isCloudForcedGuide
+        ? (mapImageOverride || data?.mapImage)
+        : (mapImageOverride || data?.mapImage);
+    const shouldDisableTiles = !!mapImageOverride;
+    const mapTileUrlTemplate = shouldDisableTiles ? undefined : data?.mapTileUrlTemplate;
+    const mapTileMaxZoom = shouldDisableTiles ? undefined : data?.mapTileMaxZoom;
+    const mapPixelWidth = shouldDisableTiles ? undefined : data?.mapPixelWidth;
+    const mapPixelHeight = shouldDisableTiles ? undefined : data?.mapPixelHeight;
 
     if (transLoading || guideLoading || (isCloudForcedGuide && (cloudInitStatus === 'idle' || cloudInitStatus === 'loading'))) {
         return <Loading />;
@@ -395,6 +405,10 @@ const GuideMap: React.FC = () => {
                         <MapViewer
                             ref={mapRef}
                             imageUrl={mapImage}
+                            mapTileUrlTemplate={mapTileUrlTemplate}
+                            mapTileMaxZoom={mapTileMaxZoom}
+                            mapPixelWidth={mapPixelWidth}
+                            mapPixelHeight={mapPixelHeight}
                             pins={pins}
                             highlightedPinId={focusedPin?.id ?? nearest?.pin.id}
                             pinDisplayNameById={pinDisplayNameById}
