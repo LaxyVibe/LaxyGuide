@@ -1,9 +1,14 @@
 import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { TransformComponent, TransformWrapper, type ReactZoomPanPinchContentRef } from 'react-zoom-pan-pinch';
 import type { MapPin } from '../types';
+import TiledMapViewer from './TiledMapViewer';
 
 export interface MapViewerProps {
     imageUrl: string;
+    mapTileUrlTemplate?: string;
+    mapPixelWidth?: number;
+    mapPixelHeight?: number;
+    mapTileMaxZoom?: number;
     pins: MapPin[];
     highlightedPinId?: string;
     pinDisplayNameById?: Record<string, string>;
@@ -42,6 +47,10 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
     (
         {
             imageUrl,
+            mapTileUrlTemplate,
+            mapPixelWidth,
+            mapPixelHeight,
+            mapTileMaxZoom,
             pins,
             highlightedPinId,
             pinDisplayNameById,
@@ -216,6 +225,41 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
         },
         [onMapClick]
     );
+
+    const shouldUseTiles = !!mapTileUrlTemplate
+        && Number.isFinite(mapPixelWidth)
+        && Number.isFinite(mapPixelHeight)
+        && mapPixelWidth! > 0
+        && mapPixelHeight! > 0
+        && !imageUrl.startsWith('data:image/');
+
+    if (shouldUseTiles) {
+        return (
+            <TiledMapViewer
+                ref={ref}
+                mapTileUrlTemplate={mapTileUrlTemplate!}
+                mapPixelWidth={mapPixelWidth!}
+                mapPixelHeight={mapPixelHeight!}
+                mapTileMaxZoom={mapTileMaxZoom}
+                pins={pins}
+                highlightedPinId={highlightedPinId}
+                pinDisplayNameById={pinDisplayNameById}
+                fitToViewportOnInit={fitToViewportOnInit}
+                centerOnImageOnInit={centerOnImageOnInit}
+                focusedPinCard={focusedPinCard}
+                showCenterCursor={showCenterCursor}
+                showPinGpsCount={showPinGpsCount}
+                initialScale={initialScale}
+                maxScale={maxScale}
+                edgeMarginPx={edgeMarginPx}
+                onMapClick={onMapClick}
+                onPinClick={onPinClick}
+                onPinLongPress={onPinLongPress}
+                onPinLongPressPrime={onPinLongPressPrime}
+                pinLongPressMs={pinLongPressMs}
+            />
+        );
+    }
 
     return (
         <div ref={viewportRef} style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>

@@ -8,6 +8,10 @@ interface GuideFrontmatter {
         code?: string;
         guideUnderlayImage?: string;
         mapImage?: string;
+        mapTileUrlTemplate?: string;
+        mapTileMaxZoom?: number;
+        mapPixelWidth?: number;
+        mapPixelHeight?: number;
         mapPinsUrl?: string;
         pois?: string[];
     } | string | undefined;
@@ -101,7 +105,15 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
     const guideTitle = guideLangData.title || guideDefaultData.title;
     const guideUnderlayImage = guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage;
     const mapImage = guideLangData.mapImage || guideDefaultData.mapImage;
+    const mapTileUrlTemplate = guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate;
+    const mapTileMaxZoomRaw = guideLangData.mapTileMaxZoom ?? guideDefaultData.mapTileMaxZoom;
+    const mapPixelWidthRaw = guideLangData.mapPixelWidth ?? guideDefaultData.mapPixelWidth;
+    const mapPixelHeightRaw = guideLangData.mapPixelHeight ?? guideDefaultData.mapPixelHeight;
     const mapPinsUrl = guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl;
+
+    const mapTileMaxZoom = Number.isFinite(Number(mapTileMaxZoomRaw)) ? Number(mapTileMaxZoomRaw) : undefined;
+    const mapPixelWidth = Number.isFinite(Number(mapPixelWidthRaw)) ? Number(mapPixelWidthRaw) : undefined;
+    const mapPixelHeight = Number.isFinite(Number(mapPixelHeightRaw)) ? Number(mapPixelHeightRaw) : undefined;
 
     // 2. Load POI Files
     const poiFiles = import.meta.glob('/src/content/pois/*.md', { eager: true, query: '?raw', import: 'default' });
@@ -155,6 +167,10 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
         guideTitle: guideTitle || '',
         guideUnderlayImage: guideUnderlayImage || '',
         mapImage,
+        mapTileUrlTemplate,
+        mapTileMaxZoom,
+        mapPixelWidth,
+        mapPixelHeight,
         mapPinsUrl,
         pois
     };
