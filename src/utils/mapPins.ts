@@ -1,5 +1,5 @@
 import type { MapPin, MapPinsFile } from '../types';
-import { maybeMigrateNumericIdToLetters } from './pinIdUtils';
+import { haversineDistanceMeters } from './geoTransform';
 
 const STORAGE_PREFIX = 'mapPins:';
 const LATEST_VERSION = 2;
@@ -44,22 +44,14 @@ export function normalizePinsFile(file: MapPinsFile, fallbackGuideId?: string): 
         if (p && typeof (p as any).id === 'string') usedIds.add(String((p as any).id).trim());
     }
 
-    const pins: MapPin[] = (file.pins || []).map((pin) => {
-        // Migrate legacy numeric IDs ("1", "2", ...) into letters ("A", "B", ...)
-        // so GPS points can be shown as A1, A2, ...
-        const migratedId = maybeMigrateNumericIdToLetters((pin as any).id, usedIds);
+    const pins: MapPin[] = (file.pins || []).map((pin, index) => {
+        const nextId = typeof pin.id === 'string' && pin.id.trim().length > 0
+            ? pin.id.trim()
+            : String(index + 1).padStart(3, '0');
 
-        // If we migrated, remove the old ID from the used set and replace it.
-        // (This keeps the set accurate for any subsequent migrations.)
-        if (migratedId) {
-            usedIds.delete(String((pin as any).id).trim());
-        }
-
-        const prevId = typeof (pin as any).id === 'string' ? String((pin as any).id).trim() : '';
-        const nextId = migratedId ?? pin.id;
-
-        const hasCustomLabel = typeof pin.label === 'string' && pin.label.trim().length > 0 && pin.label.trim() !== prevId;
-        const label = hasCustomLabel ? (pin.label as string) : nextId;
+        const trimmedLabel = typeof pin.label === 'string' ? pin.label.trim() : '';
+        const hasCustomLabel = trimmedLabel.length > 0 && trimmedLabel !== nextId;
+        const label = hasCustomLabel ? trimmedLabel : undefined;
         const latLngsRaw = Array.isArray(pin.latLngs)
             ? pin.latLngs.filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lng))
             : [];
@@ -135,23 +127,6 @@ export function downloadJson(filename: string, data: unknown) {
     a.click();
 
     URL.revokeObjectURL(url);
-}
-
-const toRad = (deg: number) => (deg * Math.PI) / 180;
-
-export function haversineDistanceMeters(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
-    const R = 6371000; // meters
-    const dLat = toRad(b.lat - a.lat);
-    const dLng = toRad(b.lng - a.lng);
-
-    const lat1 = toRad(a.lat);
-    const lat2 = toRad(b.lat);
-
-    const sinDLat = Math.sin(dLat / 2);
-    const sinDLng = Math.sin(dLng / 2);
-
-    const h = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLng * sinDLng;
-    return 2 * R * Math.asin(Math.sqrt(h));
 }
 
 export function findNearestPin(pins: MapPin[], here: { lat: number; lng: number }) {

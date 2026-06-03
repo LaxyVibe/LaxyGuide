@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CircleMarker, FeatureGroup, MapContainer, Polygon, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet';
 import * as L from 'leaflet';
-import type { MapPin } from '../types';
+import type { MapPin, TraversableRegion } from '../types';
 import { ensureLeafletGeomanLoaded } from '../utils/ensureLeafletGeoman';
 
 type LatLng = { lat: number; lng: number };
+type EditLayerMode = 'pins' | 'traversable';
 
 export interface TiledMapDrawerProps {
     mapTileUrlTemplate: string;
@@ -12,10 +13,15 @@ export interface TiledMapDrawerProps {
     mapPixelHeight: number;
     mapTileMaxZoom?: number;
     pins: MapPin[];
+    traversableRegions?: TraversableRegion[];
+    editLayerMode?: EditLayerMode;
     pinDisplayNameById?: Record<string, string>;
     selectedPinId?: string | null;
+    selectedTraversableRegionId?: string | null;
     onPinSelect?: (pinId: string) => void;
+    onTraversableRegionSelect?: (regionId: string) => void;
     onPolygonChange?: (pinId: string, polygon: LatLng[] | undefined) => void;
+    onTraversableRegionPolygonChange?: (regionId: string, polygon: LatLng[] | undefined) => void;
     onMapClick?: (point: { x: number; y: number }) => void;
 }
 
@@ -110,30 +116,50 @@ const SelectedPinFollower: React.FC<{
 };
 
 const DrawController: React.FC<{
+    editLayerMode: EditLayerMode;
     pins: MapPin[];
+    traversableRegions: TraversableRegion[];
     selectedPinId?: string | null;
+    selectedTraversableRegionId?: string | null;
     onPolygonChange?: (pinId: string, polygon: LatLng[] | undefined) => void;
-}> = ({ pins, selectedPinId, onPolygonChange }) => {
+    onTraversableRegionPolygonChange?: (regionId: string, polygon: LatLng[] | undefined) => void;
+}> = ({
+    editLayerMode,
+    pins,
+    traversableRegions,
+    selectedPinId,
+    selectedTraversableRegionId,
+    onPolygonChange,
+    onTraversableRegionPolygonChange
+}) => {
     const map = useMap();
     const featureGroupRef = useRef<L.FeatureGroup>(null);
     const [featureGroupReadyTick, setFeatureGroupReadyTick] = useState(0);
     const hasInitialized = useRef(false);
 
-    const activePinId = useMemo(() => selectedPinId ?? null, [selectedPinId]);
+    const activePinId = useMemo(
+        () => (editLayerMode === 'pins' ? (selectedPinId ?? null) : null),
+        [editLayerMode, selectedPinId]
+    );
+    const activeTraversableRegionId = useMemo(
+        () => (editLayerMode === 'traversable' ? (selectedTraversableRegionId ?? null) : null),
+        [editLayerMode, selectedTraversableRegionId]
+    );
+    const activeTargetId = activePinId ?? activeTraversableRegionId;
 
     const selectedPolygon = useMemo(() => {
-        if (!activePinId) return undefined;
-        const selectedPin = pins.find((pin) => pin.id === activePinId);
-        const points = selectedPin?.polygon;
+        const points = activePinId
+            ? pins.find((pin) => pin.id === activePinId)?.polygon
+            : traversableRegions.find((region) => region.id === activeTraversableRegionId)?.polygon;
         if (!points || points.length < 3) return undefined;
         return points.map((point) => ({ lat: point.lat, lng: point.lng }));
-    }, [pins, activePinId]);
+    }, [pins, traversableRegions, activePinId, activeTraversableRegionId]);
 
     useEffect(() => {
         const featureGroup = featureGroupRef.current;
         if (!featureGroup) return;
         applyPolygonToFeatureGroup(featureGroup, selectedPolygon);
-    }, [selectedPolygon, activePinId, featureGroupReadyTick]);
+    }, [selectedPolygon, activeTargetId, featureGroupReadyTick]);
 
     useEffect(() => {
         let disposed = false;
@@ -152,7 +178,7 @@ const DrawController: React.FC<{
             if (!mapAny?.pm) return;
 
             // Hide the toolbar when no pin is focused — nothing to draw for.
-            if (!activePinId) {
+            if (!activeTargetId) {
                 mapAny.pm.removeControls?.();
                 featureGroup.clearLayers();
                 return;
@@ -169,26 +195,32 @@ const DrawController: React.FC<{
                 drawCircleMarker: false,
                 drawText: false,
                 drawPolygon: true,
-                editMode: true,
+                editMode: false,
                 dragMode: false,
                 cutPolygon: false,
-                removalMode: true,
+                removalMode: false,
                 rotateMode: false
             });
 
             const syncFromGroup = () => {
-                if (!activePinId) return;
+                if (!activeTargetId) return;
                 const layers = featureGroup.getLayers();
                 const firstPoly = layers.find((layer) => isLeafletPolygonLayer(layer));
                 const poly = firstPoly ? layerToPolygonLatLng(firstPoly) : null;
-                onPolygonChange?.(activePinId, poly ?? undefined);
+                if (activePinId) {
+                    onPolygonChange?.(activePinId, poly ?? undefined);
+                    return;
+                }
+                if (activeTraversableRegionId) {
+                    onTraversableRegionPolygonChange?.(activeTraversableRegionId, poly ?? undefined);
+                }
             };
 
             const onCreate = (e: any) => {
                 if (e?.shape && String(e.shape).toLowerCase() !== 'polygon') return;
                 const layer = e?.layer;
                 if (!layer || !isLeafletPolygonLayer(layer)) return;
-                if (!activePinId) {
+                if (!activeTargetId) {
                     featureGroup.clearLayers();
                     return;
                 }
@@ -230,7 +262,15 @@ const DrawController: React.FC<{
             disposed = true;
             cleanup?.();
         };
-    }, [activePinId, map, onPolygonChange, featureGroupReadyTick]);
+    }, [
+        activePinId,
+        activeTargetId,
+        activeTraversableRegionId,
+        map,
+        onPolygonChange,
+        onTraversableRegionPolygonChange,
+        featureGroupReadyTick
+    ]);
 
     const handleFeatureGroupRef = useCallback((layer: L.FeatureGroup | null) => {
         featureGroupRef.current = layer as any;
@@ -249,10 +289,15 @@ const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
     mapPixelHeight,
     mapTileMaxZoom = 5,
     pins,
+    traversableRegions = [],
+    editLayerMode = 'pins',
     pinDisplayNameById,
     selectedPinId,
+    selectedTraversableRegionId,
     onPinSelect,
+    onTraversableRegionSelect,
     onPolygonChange,
+    onTraversableRegionPolygonChange,
     onMapClick
 }) => {
     // Ensure Geoman is fully loaded BEFORE the MapContainer renders.
@@ -263,7 +308,10 @@ const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
         ensureLeafletGeomanLoaded().then(() => setGeomanReady(true));
     }, []);
 
-    const selectedPin = useMemo(() => pins.find((pin) => pin.id === selectedPinId), [pins, selectedPinId]);
+    const selectedPin = useMemo(
+        () => (editLayerMode === 'pins' ? pins.find((pin) => pin.id === selectedPinId) : undefined),
+        [editLayerMode, pins, selectedPinId]
+    );
     const mapMinZoom = useMemo(() => Math.max(0, mapTileMaxZoom - 3), [mapTileMaxZoom]);
     const mapMaxZoom = mapTileMaxZoom;
 
@@ -318,7 +366,7 @@ const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
                 mapTileMaxZoom={mapTileMaxZoom}
             />
 
-            {pins.map((pin) => {
+            {editLayerMode === 'pins' && pins.map((pin) => {
                 const isSelected = pin.id === selectedPinId;
                 const points = pin.polygon;
                 const hasPolygon = Array.isArray(points) && points.length >= 3;
@@ -371,7 +419,7 @@ const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
                                         onPinSelect?.(pin.id);
                                     }}
                                 >
-                                    {pinDisplayNameById?.[pin.id] || pin.label || pin.id}
+                                    {pinDisplayNameById?.[pin.id] || pin.id}
                                 </div>
                             </Tooltip>
                         </CircleMarker>
@@ -379,10 +427,39 @@ const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
                 );
             })}
 
+            {editLayerMode === 'traversable' && traversableRegions.map((region) => {
+                const isSelected = region.id === selectedTraversableRegionId;
+                const hasPolygon = Array.isArray(region.polygon) && region.polygon.length >= 3;
+                if (!hasPolygon) return null;
+
+                return (
+                    <Polygon
+                        key={region.id}
+                        positions={region.polygon.map((point) => [point.lat, point.lng] as [number, number])}
+                        pathOptions={{
+                            color: isSelected ? '#16a34a' : 'rgba(22, 163, 74, 0.72)',
+                            fillColor: isSelected ? '#22c55e' : 'rgba(34, 197, 94, 0.55)',
+                            fillOpacity: isSelected ? 0.24 : 0.14,
+                            weight: isSelected ? 3 : 2
+                        }}
+                        eventHandlers={{
+                            click: (event) => {
+                                event.originalEvent.stopPropagation();
+                                onTraversableRegionSelect?.(region.id);
+                            }
+                        }}
+                    />
+                );
+            })}
+
             <DrawController
+                editLayerMode={editLayerMode}
                 pins={pins}
+                traversableRegions={traversableRegions}
                 selectedPinId={selectedPinId}
+                selectedTraversableRegionId={selectedTraversableRegionId}
                 onPolygonChange={onPolygonChange}
+                onTraversableRegionPolygonChange={onTraversableRegionPolygonChange}
             />
         </MapContainer>
     );

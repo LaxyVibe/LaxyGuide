@@ -5,11 +5,14 @@ import Loading from '../components/Loading';
 import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
+import { transformLatLngToNormalized } from '../utils/geoTransform';
+import { loadCalibrationFromLocalStorage, loadTraversableRegionsFromLocalStorage } from '../utils/mapDrawData';
 import { downloadCloudBundle, listCloudBundles } from '../utils/cloudinaryCapture';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { parseCaptureBundle } from '../utils/mapCaptureBundle';
-import type { MapPin, MapPinsFile, POI } from '../types';
+import type { GeoCalibration, MapPin, MapPinsFile, POI, TraversableRegion } from '../types';
 import { fetchPinsFile, findNearestPin, loadPinsFromLocalStorage } from '../utils/mapPins';
+import { clampPointToTraversableRegions, hasTraversableRegions, isPointInsideTraversableRegions } from '../utils/traversableRegions';
 
 const TARGET_GUIDE_ID = 'JPN-USAA-TEM-001';
 const TARGET_BUNDLE_LABEL = '0528-sun-demo / 2026-05-28T04-04-59-537Z';
@@ -39,6 +42,8 @@ const GuideMap: React.FC = () => {
 
     const { data, loading: guideLoading, error } = useGuideData(guideId, lang);
     const [pins, setPins] = useState<MapPin[]>([]);
+    const [geoCalibration, setGeoCalibration] = useState<GeoCalibration | null>(null);
+    const [traversableRegions, setTraversableRegions] = useState<TraversableRegion[]>([]);
     const [pinsError, setPinsError] = useState<string | null>(null);
     const [here, setHere] = useState<{ lat: number; lng: number } | null>(null);
     const [mapImageOverride, setMapImageOverride] = useState<string | null>(null);
@@ -160,6 +165,17 @@ const GuideMap: React.FC = () => {
     }, [guideId, isCloudForcedGuide]);
 
     useEffect(() => {
+        if (!guideId) {
+            setGeoCalibration(data?.geoCalibration ?? null);
+            setTraversableRegions([]);
+            return;
+        }
+
+        setGeoCalibration(loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null);
+        setTraversableRegions(loadTraversableRegionsFromLocalStorage(guideId)?.regions ?? []);
+    }, [guideId, data?.geoCalibration]);
+
+    useEffect(() => {
         let cancelled = false;
         const run = async () => {
             setPinsError(null);
@@ -211,10 +227,17 @@ const GuideMap: React.FC = () => {
         return () => navigator.geolocation.clearWatch(watchId);
     }, [locationTrackingEnabled]);
 
+    const displayedHere = useMemo(() => {
+        if (!here) return null;
+        if (!hasTraversableRegions(traversableRegions)) return here;
+        if (isPointInsideTraversableRegions(here, traversableRegions)) return here;
+        return clampPointToTraversableRegions(here, traversableRegions) ?? here;
+    }, [here, traversableRegions]);
+
     const nearest = useMemo(() => {
-        if (!here || pins.length === 0) return null;
-        return findNearestPin(pins, here);
-    }, [here, pins]);
+        if (!displayedHere || pins.length === 0) return null;
+        return findNearestPin(pins, displayedHere);
+    }, [displayedHere, pins]);
 
     const focusedPin = useMemo(() => {
         if (!focusedPinId) return null;
@@ -231,20 +254,26 @@ const GuideMap: React.FC = () => {
 
     const focusedPoi = useMemo(() => {
         if (!focusedPin) return null;
-        const poiNumber = (focusedPin.label ?? '').trim();
-        if (!poiNumber) return null;
-        return poiByNumber.get(poiNumber) ?? null;
+        return poiByNumber.get(focusedPin.id) ?? null;
     }, [focusedPin, poiByNumber]);
 
     const pinDisplayNameById = useMemo(() => {
         const out: Record<string, string> = {};
         for (const pin of pins) {
-            const poiNumber = (pin.label ?? pin.id).trim();
-            const poiTitle = poiByNumber.get(poiNumber)?.title;
-            out[pin.id] = poiTitle || pin.label || pin.id;
+            out[pin.id] = poiByNumber.get(pin.id)?.title || pin.id;
         }
         return out;
     }, [pins, poiByNumber]);
+
+    const displayedHerePoint = useMemo(() => {
+        if (!displayedHere || !geoCalibration) return null;
+        const normalized = transformLatLngToNormalized(geoCalibration.transform, displayedHere);
+        if (!normalized || !Number.isFinite(normalized.x) || !Number.isFinite(normalized.y)) return null;
+        return {
+            x: Math.max(0, Math.min(1, normalized.x)),
+            y: Math.max(0, Math.min(1, normalized.y))
+        };
+    }, [displayedHere, geoCalibration]);
 
     const handlePinFocus = React.useCallback(
         (pinId: string) => {
@@ -410,6 +439,7 @@ const GuideMap: React.FC = () => {
                             mapPixelWidth={mapPixelWidth}
                             mapPixelHeight={mapPixelHeight}
                             pins={pins}
+                            currentLocationPoint={displayedHerePoint}
                             highlightedPinId={focusedPin?.id ?? nearest?.pin.id}
                             pinDisplayNameById={pinDisplayNameById}
                             fitToViewportOnInit={false}
@@ -418,8 +448,8 @@ const GuideMap: React.FC = () => {
                                 focusedPin
                                     ? {
                                         pinId: focusedPin.id,
-                                        poiId: focusedPoi?.number || (focusedPin.label ?? focusedPin.id),
-                                        title: focusedPoi?.title || focusedPin.label || focusedPin.id,
+                                        poiId: focusedPoi?.number || focusedPin.id,
+                                        title: focusedPoi?.title || focusedPin.id,
                                         imageUrl: focusedPoi?.hero,
                                         summary: focusedPoi ? truncateSummary(focusedPoi.content, 100) : undefined
                                     }
@@ -454,7 +484,7 @@ const GuideMap: React.FC = () => {
                                 <div>
                                     <span style={{ color: 'var(--neutral-700)' }}>{t('map.nearestLabel')}: </span>
                                     <span style={{ color: 'var(--misc-opam)' }}>
-                                        {pinDisplayNameById[nearest.pin.id] || nearest.pin.label || nearest.pin.id}
+                                        {pinDisplayNameById[nearest.pin.id] || nearest.pin.id}
                                     </span>
                                     <span style={{ color: 'var(--neutral-700)' }}> • {t('map.gpsPointLabel')} </span>
                                     <span style={{ color: 'var(--misc-opam)' }}>#{nearest.pointIndex + 1}</span>

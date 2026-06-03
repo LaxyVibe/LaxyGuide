@@ -12,7 +12,7 @@ import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '.
 import type { MapPin, MapPinsFile } from '../types';
 import { getPinsStorageKey, loadPinsFromLocalStorage, savePinsToLocalStorage, upsertPin } from '../utils/mapPins';
 import { convexHullLatLng } from '../utils/convexHull';
-import { getNextLetterId } from '../utils/pinIdUtils';
+import { getNextNumericId } from '../utils/pinIdUtils';
 import { downloadCloudBundle, listCloudBundles, requestCloudinarySignedUpload, type CloudBundleItem, uploadCloudBundle } from '../utils/cloudinaryCapture';
 import { buildCaptureBundle, imageSourceToBlob, parseCaptureBundle } from '../utils/mapCaptureBundle';
 
@@ -135,7 +135,7 @@ const GuideMapCapture: React.FC = () => {
     }, [activeId, pins]);
 
     const getNextPinId = () => {
-        return getNextLetterId(pins.map(p => p.id));
+        return getNextNumericId(pins.map(p => p.id));
     };
 
     const handleAddPin = () => {
@@ -144,7 +144,6 @@ const GuideMapCapture: React.FC = () => {
         const center = mapRef.current?.getViewportCenter() ?? { x: 0.5, y: 0.5 };
         const pin: MapPin = {
             id,
-            label: id,
             x: center.x,
             y: center.y,
             latLngs: [],

@@ -13,6 +13,7 @@ import type { MapViewerHandle, MapViewerProps } from './MapViewer';
 type TiledMapViewerProps = Pick<
     MapViewerProps,
     | 'pins'
+    | 'currentLocationPoint'
     | 'highlightedPinId'
     | 'pinDisplayNameById'
     | 'focusedPinCard'
@@ -68,6 +69,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
             mapPixelHeight,
             mapTileMaxZoom = 5,
             pins,
+            currentLocationPoint,
             highlightedPinId,
             pinDisplayNameById,
             focusedPinCard,
@@ -336,7 +338,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                     {ready && pins.map((pin) => {
                         const isHighlighted = pin.id === highlightedPinId;
                         const showFocusCard = focusedPinCard?.pinId === pin.id;
-                        const pinDisplayName = pinDisplayNameById?.[pin.id] || pin.label || pin.id;
+                        const pinDisplayName = pinDisplayNameById?.[pin.id] || pin.id;
                         const gpsCount = pin.latLngs?.length || 0;
                         const isPressing = pressingPinId === pin.id;
 
@@ -522,6 +524,38 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                             </CircleMarker>
                         );
                     })}
+
+                    {ready && currentLocationPoint && (
+                        <>
+                            <CircleMarker
+                                center={L.CRS.Simple.pointToLatLng(
+                                    mapPointFromNormalized(currentLocationPoint, mapPixelWidth, mapPixelHeight),
+                                    mapTileMaxZoom
+                                )}
+                                radius={14}
+                                bubblingMouseEvents={false}
+                                pathOptions={{
+                                    color: 'rgba(14, 165, 233, 0.25)',
+                                    fillOpacity: 0,
+                                    weight: 8
+                                }}
+                            />
+                            <CircleMarker
+                                center={L.CRS.Simple.pointToLatLng(
+                                    mapPointFromNormalized(currentLocationPoint, mapPixelWidth, mapPixelHeight),
+                                    mapTileMaxZoom
+                                )}
+                                radius={8}
+                                bubblingMouseEvents={false}
+                                pathOptions={{
+                                    color: 'rgba(245, 245, 245, 0.96)',
+                                    fillColor: '#0ea5e9',
+                                    fillOpacity: 1,
+                                    weight: 3
+                                }}
+                            />
+                        </>
+                    )}
                 </MapContainer>
 
                 {!ready && (
