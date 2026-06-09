@@ -10,11 +10,13 @@ import { useTranslation } from '../hooks/useTranslation';
 import type { GeoCalibration, MapPin, MapPinsFile, TraversableRegion, TraversableRegionsFile } from '../types';
 import {
     loadCalibrationFromLocalStorage,
+    loadDrawPinsFromLocalStorage,
     loadTraversableRegionsFromLocalStorage,
     saveCalibrationToLocalStorage,
+    saveDrawPinsToLocalStorage,
     saveTraversableRegionsToLocalStorage
 } from '../utils/mapDrawData';
-import { downloadJson, fetchPinsFile, normalizePinsFile } from '../utils/mapPins';
+import { downloadJson, fetchPinsFile } from '../utils/mapPins';
 import { getNextNumericId } from '../utils/pinIdUtils';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { buildCornerBilinearCalibration, transformNormalizedPoint, type GeoPoint } from '../utils/geoTransform';
@@ -39,24 +41,7 @@ const CORNER_IMAGE_COORDINATES: Record<CornerKey, { x: number; y: number }> = {
     bottomLeft: { x: 0, y: 1 }
 };
 
-const getDrawStorageKey = (guideId: string) => `mapPins_draw_${guideId}`;
 const TILE_SIZE = 256;
-
-function loadDrawPinsFromLocalStorage(guideId: string): MapPinsFile | null {
-    try {
-        const raw = localStorage.getItem(getDrawStorageKey(guideId));
-        if (!raw) return null;
-        const parsed = JSON.parse(raw) as MapPinsFile;
-        if (!parsed || !Array.isArray(parsed.pins)) return null;
-        return normalizePinsFile(parsed, guideId);
-    } catch {
-        return null;
-    }
-}
-
-function saveDrawPinsToLocalStorage(guideId: string, pinsFile: MapPinsFile) {
-    localStorage.setItem(getDrawStorageKey(guideId), JSON.stringify(normalizePinsFile(pinsFile, guideId)));
-}
 
 function getCalibrationDraftCorners(calibration: GeoCalibration | null): Partial<Record<CornerKey, GeoPoint>> {
     if (!calibration) return {};

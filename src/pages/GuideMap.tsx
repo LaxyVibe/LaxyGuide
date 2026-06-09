@@ -25,6 +25,21 @@ const truncateSummary = (text: string, maxChars = 100): string => {
     return `${normalized.slice(0, Math.max(0, maxChars - 3)).trimEnd()}...`;
 };
 
+const getGeolocationErrorMessage = (error: GeolocationPositionError | null, fallback: string) => {
+    if (!error) return fallback;
+
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            return 'Location permission was denied.';
+        case error.POSITION_UNAVAILABLE:
+            return 'Current location is unavailable on this device right now.';
+        case error.TIMEOUT:
+            return 'Timed out while trying to get current location.';
+        default:
+            return error.message?.trim() || fallback;
+    }
+};
+
 const GuideMap: React.FC = () => {
     const { guideId } = useParams<{ guideId: string }>();
     const navigate = useNavigate();
@@ -51,6 +66,8 @@ const GuideMap: React.FC = () => {
     const [mapImageOverride, setMapImageOverride] = useState<string | null>(null);
     const [focusedPinId, setFocusedPinId] = useState<string | null>(null);
     const [locationTrackingEnabled, setLocationTrackingEnabled] = useState(false);
+    const [locationStatus, setLocationStatus] = useState<string | null>(null);
+    const [shouldCenterOnCurrentLocation, setShouldCenterOnCurrentLocation] = useState(false);
     const [cloudInitStatus, setCloudInitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [cloudInitError, setCloudInitError] = useState<string | null>(null);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
@@ -320,6 +337,39 @@ const GuideMap: React.FC = () => {
         };
     }, [displayedHere, geoCalibration]);
 
+    useEffect(() => {
+        if (!locationTrackingEnabled) {
+            setLocationStatus(null);
+            return;
+        }
+
+        if (!here) {
+            setLocationStatus('Waiting for GPS...');
+            return;
+        }
+
+        if (!displayedHerePoint) {
+            setLocationStatus('Location found, but this map cannot place the dot yet.');
+            return;
+        }
+
+        if (
+            displayedHere
+            && (Math.abs(displayedHere.lat - here.lat) > 1e-9 || Math.abs(displayedHere.lng - here.lng) > 1e-9)
+        ) {
+            setLocationStatus('Showing the nearest allowed point inside the traversable area.');
+            return;
+        }
+
+        setLocationStatus(null);
+    }, [displayedHere, displayedHerePoint, here, locationTrackingEnabled]);
+
+    useEffect(() => {
+        if (!shouldCenterOnCurrentLocation || !displayedHerePoint) return;
+        mapRef.current?.centerOnPoint(displayedHerePoint, { scale: 3 });
+        setShouldCenterOnCurrentLocation(false);
+    }, [displayedHerePoint, shouldCenterOnCurrentLocation]);
+
     const handlePinFocus = React.useCallback(
         (pinId: string) => {
             setFocusedPinId(pinId);
@@ -346,13 +396,18 @@ const GuideMap: React.FC = () => {
             return;
         }
 
+        setLocationStatus('Requesting GPS permission...');
+        setShouldCenterOnCurrentLocation(true);
         navigator.geolocation.getCurrentPosition(
             (pos) => {
                 setHere({ lat: pos.coords.latitude, lng: pos.coords.longitude });
                 setLocationTrackingEnabled(true);
             },
-            () => {
-                window.alert(t('map.locationDenied'));
+            (error) => {
+                const message = getGeolocationErrorMessage(error, t('map.locationDenied'));
+                setLocationStatus(message);
+                setShouldCenterOnCurrentLocation(false);
+                window.alert(message);
             },
             { enableHighAccuracy: true, maximumAge: 0, timeout: 12000 }
         );
@@ -372,8 +427,8 @@ const GuideMap: React.FC = () => {
     }
     if (error) return <div>{t('common.error')}: {error}</div>;
 
-    const handleSwapToCapture = () => {
-        const to = guideId ? `/${guideId}/map/capture?${searchParams.toString()}` : `/?${searchParams.toString()}`;
+    const handleSwapToDraw = () => {
+        const to = guideId ? `/${guideId}/map/draw?${searchParams.toString()}` : `/?${searchParams.toString()}`;
         if ('startViewTransition' in document) {
             document.startViewTransition(() => {
                 navigate(to);
@@ -559,13 +614,32 @@ const GuideMap: React.FC = () => {
                             </div>
                         )}
 
+                        {locationStatus && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: 16,
+                                    right: 16,
+                                    bottom: pinsError ? 72 : 16,
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-700)',
+                                    padding: '10px 12px',
+                                    borderRadius: 12,
+                                    fontWeight: 700,
+                                    fontSize: 12
+                                }}
+                            >
+                                {locationStatus}
+                            </div>
+                        )}
+
                     </>
                 )}
 
                 <button
-                    onClick={handleSwapToCapture}
-                    aria-label={t('map.swapToCapture')}
-                    title={t('map.swapToCapture')}
+                    onClick={handleSwapToDraw}
+                    aria-label={t('map.swapToDraw', 'Draw')}
+                    title={t('map.swapToDraw', 'Draw')}
                     style={{
                         position: 'fixed',
                         left: 16,
