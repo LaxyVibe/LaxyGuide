@@ -6,11 +6,11 @@ import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
 import { useGuideData } from '../hooks/useGuideData';
 import { useTranslation } from '../hooks/useTranslation';
 import { transformLatLngToNormalized } from '../utils/geoTransform';
-import { loadCalibrationFromLocalStorage, loadTraversableRegionsFromLocalStorage } from '../utils/mapDrawData';
+import { loadCalibrationFromLocalStorage, loadDrawRuntimeFromLocalStorage, loadTraversableRegionsFromLocalStorage } from '../utils/mapDrawData';
 import { downloadCloudBundle, listCloudBundles } from '../utils/cloudinaryCapture';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { parseCaptureBundle } from '../utils/mapCaptureBundle';
-import type { GeoCalibration, MapPin, MapPinsFile, POI, TraversableRegion } from '../types';
+import type { DrawRuntimeData, GeoCalibration, MapPin, MapPinsFile, POI, RuntimeMapPin, TraversableRegion } from '../types';
 import { fetchPinsFile, findNearestPin, loadPinsFromLocalStorage } from '../utils/mapPins';
 import { clampPointToTraversableRegions, hasTraversableRegions, isPointInsideTraversableRegions } from '../utils/traversableRegions';
 
@@ -42,6 +42,8 @@ const GuideMap: React.FC = () => {
 
     const { data, loading: guideLoading, error } = useGuideData(guideId, lang);
     const [pins, setPins] = useState<MapPin[]>([]);
+    const [runtimePins, setRuntimePins] = useState<Array<MapPin | RuntimeMapPin>>([]);
+    const [localDrawRuntime, setLocalDrawRuntime] = useState<DrawRuntimeData | null>(null);
     const [geoCalibration, setGeoCalibration] = useState<GeoCalibration | null>(null);
     const [traversableRegions, setTraversableRegions] = useState<TraversableRegion[]>([]);
     const [pinsError, setPinsError] = useState<string | null>(null);
@@ -58,11 +60,25 @@ const GuideMap: React.FC = () => {
     const useLocalBundleForForcedGuide = isCloudForcedGuide && isLocalDevHost;
 
     useEffect(() => {
+        if (!guideId) {
+            setLocalDrawRuntime(null);
+            return;
+        }
+        setLocalDrawRuntime(loadDrawRuntimeFromLocalStorage(guideId));
+    }, [guideId]);
+
+    useEffect(() => {
         let cancelled = false;
 
         const bootstrapCloudBundle = async () => {
             if (!guideId) {
                 setCloudInitStatus('idle');
+                setCloudInitError(null);
+                return;
+            }
+
+            if (localDrawRuntime) {
+                setCloudInitStatus('success');
                 setCloudInitError(null);
                 return;
             }
@@ -89,6 +105,7 @@ const GuideMap: React.FC = () => {
                     if (cancelled) return;
 
                     setPins(parsed.pinsFile.pins ?? []);
+                    setRuntimePins(parsed.pinsFile.pins ?? []);
                     // Keep base map from guide content so tiled map can remain active on localhost.
                     setMapImageOverride(null);
                     setCloudInitStatus('success');
@@ -116,6 +133,7 @@ const GuideMap: React.FC = () => {
 
                 if (cancelled) return;
                 setPins(parsed.pinsFile.pins ?? []);
+                setRuntimePins(parsed.pinsFile.pins ?? []);
                 // Keep guide base map so deployed map page can use tiled map after bundle pins load.
                 setMapImageOverride(null);
                 setCloudInitStatus('success');
@@ -123,6 +141,7 @@ const GuideMap: React.FC = () => {
                 if (cancelled) return;
                 const message = e instanceof Error ? e.message : String(e);
                 setPins([]);
+                setRuntimePins([]);
                 setMapImageOverride(null);
                 setCloudInitError(message);
                 setCloudInitStatus('error');
@@ -139,7 +158,7 @@ const GuideMap: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [guideId, isCloudForcedGuide, useLocalBundleForForcedGuide]);
+    }, [guideId, isCloudForcedGuide, localDrawRuntime, useLocalBundleForForcedGuide]);
 
     useEffect(() => {
         if (isCloudForcedGuide) {
@@ -171,35 +190,61 @@ const GuideMap: React.FC = () => {
             return;
         }
 
+        if (localDrawRuntime) {
+            setGeoCalibration(localDrawRuntime.calibration);
+            setTraversableRegions(localDrawRuntime.traversableRegions);
+            return;
+        }
+
         setGeoCalibration(loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null);
         setTraversableRegions(loadTraversableRegionsFromLocalStorage(guideId)?.regions ?? []);
-    }, [guideId, data?.geoCalibration]);
+    }, [guideId, data?.geoCalibration, localDrawRuntime]);
 
     useEffect(() => {
         let cancelled = false;
         const run = async () => {
             setPinsError(null);
-            if (!guideId) return;
+            if (!guideId) {
+                setPins([]);
+                setRuntimePins([]);
+                return;
+            }
+            if (localDrawRuntime) {
+                if (cancelled) return;
+                setPins(localDrawRuntime.pins.map((pin) => ({
+                    id: pin.id,
+                    x: pin.x,
+                    y: pin.y
+                })));
+                setRuntimePins(localDrawRuntime.pins);
+                return;
+            }
             if (isCloudForcedGuide) return;
 
             const local = loadPinsFromLocalStorage(guideId);
             if (local && local.pins.length > 0) {
                 setPins(local.pins);
+                setRuntimePins(local.pins);
                 return;
             }
 
             const url = data?.mapPinsUrl;
             if (!url) {
                 setPins([]);
+                setRuntimePins([]);
                 return;
             }
 
             try {
                 const file: MapPinsFile = await fetchPinsFile(url);
-                if (!cancelled) setPins(file.pins ?? []);
+                if (!cancelled) {
+                    setPins(file.pins ?? []);
+                    setRuntimePins(file.pins ?? []);
+                }
             } catch (e) {
                 if (!cancelled) {
                     setPins([]);
+                    setRuntimePins([]);
                     setPinsError(e instanceof Error ? e.message : String(e));
                 }
             }
@@ -209,7 +254,7 @@ const GuideMap: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [guideId, data?.mapPinsUrl, isCloudForcedGuide]);
+    }, [guideId, data?.mapPinsUrl, isCloudForcedGuide, localDrawRuntime]);
 
     useEffect(() => {
         if (!locationTrackingEnabled) return;
@@ -235,9 +280,9 @@ const GuideMap: React.FC = () => {
     }, [here, traversableRegions]);
 
     const nearest = useMemo(() => {
-        if (!displayedHere || pins.length === 0) return null;
-        return findNearestPin(pins, displayedHere);
-    }, [displayedHere, pins]);
+        if (!displayedHere || runtimePins.length === 0) return null;
+        return findNearestPin(runtimePins, displayedHere);
+    }, [displayedHere, runtimePins]);
 
     const focusedPin = useMemo(() => {
         if (!focusedPinId) return null;

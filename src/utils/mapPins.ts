@@ -1,4 +1,4 @@
-import type { MapPin, MapPinsFile } from '../types';
+import type { MapPin, MapPinsFile, RuntimeMapPin } from '../types';
 import { haversineDistanceMeters } from './geoTransform';
 
 const STORAGE_PREFIX = 'mapPins:';
@@ -129,11 +129,28 @@ export function downloadJson(filename: string, data: unknown) {
     URL.revokeObjectURL(url);
 }
 
-export function findNearestPin(pins: MapPin[], here: { lat: number; lng: number }) {
+export function findNearestPin(pins: Array<MapPin | RuntimeMapPin>, here: { lat: number; lng: number }) {
     let nearest: { pin: MapPin; distanceMeters: number; pointIndex: number; point: { lat: number; lng: number } } | null = null;
 
     for (const pin of pins) {
-        const points = pin.latLngs || [];
+        if ('geoPosition' in pin && pin.geoPosition && Number.isFinite(pin.geoPosition.lat) && Number.isFinite(pin.geoPosition.lng)) {
+            const d = haversineDistanceMeters(here, pin.geoPosition);
+            if (!nearest || d < nearest.distanceMeters) {
+                nearest = {
+                    pin: {
+                        id: pin.id,
+                        x: pin.x,
+                        y: pin.y
+                    },
+                    pointIndex: 0,
+                    point: { lat: pin.geoPosition.lat, lng: pin.geoPosition.lng },
+                    distanceMeters: d
+                };
+            }
+            continue;
+        }
+
+        const points = 'latLngs' in pin && Array.isArray(pin.latLngs) ? pin.latLngs : [];
         if (points.length === 0) continue;
 
         for (let pointIndex = 0; pointIndex < points.length; pointIndex++) {

@@ -121,6 +121,20 @@ export interface TraversableRegionsFile {
     regions: TraversableRegion[];
 }
 
+export interface RuntimeMapPin {
+    id: string;
+    x: number;
+    y: number;
+    geoPosition?: { lat: number; lng: number };
+}
+
+export interface DrawRuntimeData {
+    guideId: string;
+    calibration: GeoCalibration | null;
+    traversableRegions: TraversableRegion[];
+    pins: RuntimeMapPin[];
+}
+
 export type Language = 'en-US' | 'ja-JP' | 'ko-KR' | 'zh-TW' | 'zh-CN' | 'fr-FR';
 
 export const LANGUAGES: { [key in Language]: string } = {
