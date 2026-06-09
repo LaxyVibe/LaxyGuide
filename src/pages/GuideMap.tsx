@@ -12,6 +12,7 @@ import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '.
 import { parseCaptureBundle } from '../utils/mapCaptureBundle';
 import type { DrawRuntimeData, GeoCalibration, MapPin, MapPinsFile, POI, RuntimeMapPin, TraversableRegion } from '../types';
 import { fetchPinsFile, findNearestPin, loadPinsFromLocalStorage } from '../utils/mapPins';
+import { transformNormalizedPoint } from '../utils/geoTransform';
 import { clampPointToTraversableRegions, hasTraversableRegions, isPointInsideTraversableRegions } from '../utils/traversableRegions';
 
 const TARGET_GUIDE_ID = 'JPN-USAA-TEM-001';
@@ -75,6 +76,8 @@ const GuideMap: React.FC = () => {
     const isLocalDevHost = typeof window !== 'undefined'
         && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
     const useLocalBundleForForcedGuide = isCloudForcedGuide && isLocalDevHost;
+    const fallbackGuideCalibration = data?.geoCalibration ?? null;
+    const effectiveCalibration = localDrawRuntime?.calibration ?? fallbackGuideCalibration;
 
     useEffect(() => {
         if (!guideId) {
@@ -208,14 +211,14 @@ const GuideMap: React.FC = () => {
         }
 
         if (localDrawRuntime) {
-            setGeoCalibration(localDrawRuntime.calibration);
+            setGeoCalibration(effectiveCalibration);
             setTraversableRegions(localDrawRuntime.traversableRegions);
             return;
         }
 
         setGeoCalibration(loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null);
         setTraversableRegions(loadTraversableRegionsFromLocalStorage(guideId)?.regions ?? []);
-    }, [guideId, data?.geoCalibration, localDrawRuntime]);
+    }, [effectiveCalibration, guideId, data?.geoCalibration, localDrawRuntime]);
 
     useEffect(() => {
         let cancelled = false;
@@ -233,7 +236,14 @@ const GuideMap: React.FC = () => {
                     x: pin.x,
                     y: pin.y
                 })));
-                setRuntimePins(localDrawRuntime.pins);
+                setRuntimePins(localDrawRuntime.pins.map((pin) => ({
+                    ...pin,
+                    geoPosition: pin.geoPosition ?? (
+                        effectiveCalibration
+                            ? transformNormalizedPoint(effectiveCalibration.transform, { x: pin.x, y: pin.y })
+                            : undefined
+                    )
+                })));
                 return;
             }
             if (isCloudForcedGuide) return;
@@ -271,7 +281,7 @@ const GuideMap: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [guideId, data?.mapPinsUrl, isCloudForcedGuide, localDrawRuntime]);
+    }, [guideId, data?.mapPinsUrl, effectiveCalibration, isCloudForcedGuide, localDrawRuntime]);
 
     useEffect(() => {
         if (!locationTrackingEnabled) return;
