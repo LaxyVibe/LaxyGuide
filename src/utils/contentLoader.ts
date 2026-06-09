@@ -1,5 +1,6 @@
 import matter from 'gray-matter';
-import type { GuideData, POI } from '../types';
+import type { GeoCalibration, GuideData, POI } from '../types';
+import { normalizeGeoCalibration } from './geoTransform';
 
 // Define interfaces for the raw frontmatter structure
 interface GuideFrontmatter {
@@ -13,6 +14,7 @@ interface GuideFrontmatter {
         mapPixelWidth?: number;
         mapPixelHeight?: number;
         mapPinsUrl?: string;
+        geoCalibration?: GeoCalibration;
         pois?: string[];
     } | string | undefined;
 }
@@ -110,6 +112,7 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
     const mapPixelWidthRaw = guideLangData.mapPixelWidth ?? guideDefaultData.mapPixelWidth;
     const mapPixelHeightRaw = guideLangData.mapPixelHeight ?? guideDefaultData.mapPixelHeight;
     const mapPinsUrl = guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl;
+    const geoCalibration = normalizeGeoCalibration(guideLangData.geoCalibration ?? guideDefaultData.geoCalibration);
 
     const mapTileMaxZoom = Number.isFinite(Number(mapTileMaxZoomRaw)) ? Number(mapTileMaxZoomRaw) : undefined;
     const mapPixelWidth = Number.isFinite(Number(mapPixelWidthRaw)) ? Number(mapPixelWidthRaw) : undefined;
@@ -172,6 +175,7 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
         mapPixelWidth,
         mapPixelHeight,
         mapPinsUrl,
+        geoCalibration: geoCalibration ?? undefined,
         pois
     };
 }

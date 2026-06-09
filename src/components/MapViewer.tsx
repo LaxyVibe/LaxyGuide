@@ -10,6 +10,7 @@ export interface MapViewerProps {
     mapPixelHeight?: number;
     mapTileMaxZoom?: number;
     pins: MapPin[];
+    currentLocationPoint?: { x: number; y: number } | null;
     highlightedPinId?: string;
     pinDisplayNameById?: Record<string, string>;
     fitToViewportOnInit?: boolean;
@@ -52,6 +53,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             mapPixelHeight,
             mapTileMaxZoom,
             pins,
+            currentLocationPoint,
             highlightedPinId,
             pinDisplayNameById,
             fitToViewportOnInit = false,
@@ -242,6 +244,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                 mapPixelHeight={mapPixelHeight!}
                 mapTileMaxZoom={mapTileMaxZoom}
                 pins={pins}
+                currentLocationPoint={currentLocationPoint}
                 highlightedPinId={highlightedPinId}
                 pinDisplayNameById={pinDisplayNameById}
                 fitToViewportOnInit={fitToViewportOnInit}
@@ -389,7 +392,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                         {pins.map(pin => {
                                             const isHighlighted = pin.id === highlightedPinId;
                                             const showFocusCard = focusedPinCard?.pinId === pin.id;
-                                            const pinDisplayName = pinDisplayNameById?.[pin.id] || pin.label || pin.id;
+                                            const pinDisplayName = pinDisplayNameById?.[pin.id] || pin.id;
                                             const gpsCount = pin.latLngs?.length || 0;
                                             const size = isHighlighted ? 20 : 14;
                                             const fontSize = isHighlighted ? 11 : 9;
@@ -605,6 +608,26 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                 </div>
                                             );
                                         })}
+
+                                        {currentLocationPoint && (
+                                            <div
+                                                aria-hidden="true"
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: `${clamp01(currentLocationPoint.x) * 100}%`,
+                                                    top: `${clamp01(currentLocationPoint.y) * 100}%`,
+                                                    transform: 'translate(-50%, -50%)',
+                                                    width: 18,
+                                                    height: 18,
+                                                    borderRadius: 999,
+                                                    background: '#0ea5e9',
+                                                    border: '3px solid rgba(245, 245, 245, 0.96)',
+                                                    boxShadow: '0 0 0 8px rgba(14, 165, 233, 0.18)',
+                                                    pointerEvents: 'none',
+                                                    zIndex: 3
+                                                }}
+                                            />
+                                        )}
                                 </div>
                             </div>
                         </TransformComponent>
