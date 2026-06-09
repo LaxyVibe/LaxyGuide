@@ -54,6 +54,13 @@ export function loadDrawPinsFromLocalStorage(guideId: string): MapPinsFile | nul
     }
 }
 
+export function saveDrawPinsToLocalStorage(guideId: string, file: MapPinsFile) {
+    localStorage.setItem(
+        getDrawPinsStorageKey(guideId),
+        JSON.stringify(normalizePinsFile(file, guideId))
+    );
+}
+
 export function getCalibrationStorageKey(guideId: string) {
     return `${CALIBRATION_PREFIX}${guideId}`;
 }
