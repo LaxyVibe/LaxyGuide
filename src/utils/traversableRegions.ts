@@ -56,6 +56,35 @@ function nearestPointOnSegment(point: GeoPoint, start: GeoPoint, end: GeoPoint):
     };
 }
 
+function nearestPointOnSegmentWithRatio(point: GeoPoint, start: GeoPoint, end: GeoPoint) {
+    const scaleX = Math.cos(toRad((point.lat + start.lat + end.lat) / 3));
+    const ax = start.lng * scaleX;
+    const ay = start.lat;
+    const bx = end.lng * scaleX;
+    const by = end.lat;
+    const px = point.lng * scaleX;
+    const py = point.lat;
+
+    const dx = bx - ax;
+    const dy = by - ay;
+    const lengthSq = dx * dx + dy * dy;
+    if (lengthSq <= Number.EPSILON) {
+        return {
+            point: { lat: start.lat, lng: start.lng },
+            t: 0
+        };
+    }
+
+    const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lengthSq));
+    return {
+        point: {
+            lat: start.lat + (end.lat - start.lat) * t,
+            lng: start.lng + (end.lng - start.lng) * t
+        },
+        t
+    };
+}
+
 function isValidNormalizedPolygon(polygon: NormalizedTraversablePoint[] | undefined): polygon is NormalizedTraversablePoint[] {
     return Array.isArray(polygon) && polygon.length >= 3;
 }
@@ -151,6 +180,47 @@ export function clampPointToTraversableRegions(point: GeoPoint, regions: Travers
     }
 
     return nearest?.point ?? null;
+}
+
+export function clampPointToTraversableRegionsWithNormalized(
+    point: GeoPoint,
+    geoRegions: TraversableRegion[],
+    normalizedRegions: NormalizedTraversableRegion[]
+) {
+    let nearest: {
+        geoPoint: GeoPoint;
+        normalizedPoint: NormalizedTraversablePoint;
+        distanceMeters: number;
+    } | null = null;
+
+    for (const geoRegion of geoRegions) {
+        if (!isValidPolygon(geoRegion.polygon)) continue;
+
+        const normalizedRegion = normalizedRegions.find((region) => region.id === geoRegion.id);
+        if (!normalizedRegion || !isValidNormalizedPolygon(normalizedRegion.polygon)) continue;
+        if (normalizedRegion.polygon.length !== geoRegion.polygon.length) continue;
+
+        for (let i = 0; i < geoRegion.polygon.length; i++) {
+            const geoStart = geoRegion.polygon[i];
+            const geoEnd = geoRegion.polygon[(i + 1) % geoRegion.polygon.length];
+            const normalizedStart = normalizedRegion.polygon[i];
+            const normalizedEnd = normalizedRegion.polygon[(i + 1) % normalizedRegion.polygon.length];
+            const candidate = nearestPointOnSegmentWithRatio(point, geoStart, geoEnd);
+            const distanceMeters = haversineDistanceMeters(point, candidate.point);
+            if (!nearest || distanceMeters < nearest.distanceMeters) {
+                nearest = {
+                    geoPoint: candidate.point,
+                    normalizedPoint: {
+                        x: normalizedStart.x + (normalizedEnd.x - normalizedStart.x) * candidate.t,
+                        y: normalizedStart.y + (normalizedEnd.y - normalizedStart.y) * candidate.t
+                    },
+                    distanceMeters
+                };
+            }
+        }
+    }
+
+    return nearest;
 }
 
 export function hasNormalizedTraversableRegions(regions: NormalizedTraversableRegion[]) {

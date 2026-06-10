@@ -674,6 +674,7 @@ const GuideMapDraw: React.FC = () => {
         });
 
         setGeoCalibration(result.calibration);
+        saveCalibrationToLocalStorage(guideId, result.calibration);
         setShowCalibrateWizard(false);
         setFabMenuOpen(false);
     };
