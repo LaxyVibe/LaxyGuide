@@ -13,7 +13,12 @@ import { parseCaptureBundle } from '../utils/mapCaptureBundle';
 import type { DrawRuntimeData, GeoCalibration, MapPin, MapPinsFile, POI, RuntimeMapPin, TraversableRegion } from '../types';
 import { fetchPinsFile, findNearestPin, loadPinsFromLocalStorage } from '../utils/mapPins';
 import { transformNormalizedPoint } from '../utils/geoTransform';
-import { clampPointToTraversableRegions, hasTraversableRegions, isPointInsideTraversableRegions } from '../utils/traversableRegions';
+import {
+    clampPointToNormalizedTraversableRegions,
+    hasNormalizedTraversableRegions,
+    isPointInsideNormalizedTraversableRegions,
+    projectTraversableRegionsToNormalized
+} from '../utils/traversableRegions';
 
 const TARGET_GUIDE_ID = 'JPN-USAA-TEM-001';
 const TARGET_BUNDLE_LABEL = '0528-sun-demo / 2026-05-28T04-04-59-537Z';
@@ -299,12 +304,57 @@ const GuideMap: React.FC = () => {
         return () => navigator.geolocation.clearWatch(watchId);
     }, [locationTrackingEnabled]);
 
+    const traversableRegionsNormalized = useMemo(() => {
+        if (!data?.mapPixelWidth || !data?.mapPixelHeight) return [];
+        return projectTraversableRegionsToNormalized(
+            traversableRegions,
+            data.mapPixelWidth,
+            data.mapPixelHeight,
+            data.mapTileMaxZoom ?? 5
+        );
+    }, [data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, traversableRegions]);
+
+    const projectedHerePoint = useMemo(() => {
+        if (!here || !geoCalibration) return null;
+        const normalized = transformLatLngToNormalized(geoCalibration.transform, here);
+        if (!normalized || !Number.isFinite(normalized.x) || !Number.isFinite(normalized.y)) return null;
+        return normalized;
+    }, [geoCalibration, here]);
+
+    const displayedHerePoint = useMemo(() => {
+        if (!projectedHerePoint) return null;
+        if (!hasNormalizedTraversableRegions(traversableRegionsNormalized)) {
+            return {
+                x: Math.max(0, Math.min(1, projectedHerePoint.x)),
+                y: Math.max(0, Math.min(1, projectedHerePoint.y))
+            };
+        }
+
+        if (isPointInsideNormalizedTraversableRegions(projectedHerePoint, traversableRegionsNormalized)) {
+            return {
+                x: Math.max(0, Math.min(1, projectedHerePoint.x)),
+                y: Math.max(0, Math.min(1, projectedHerePoint.y))
+            };
+        }
+
+        const clamped = clampPointToNormalizedTraversableRegions(projectedHerePoint, traversableRegionsNormalized);
+        if (!clamped) {
+            return {
+                x: Math.max(0, Math.min(1, projectedHerePoint.x)),
+                y: Math.max(0, Math.min(1, projectedHerePoint.y))
+            };
+        }
+
+        return {
+            x: Math.max(0, Math.min(1, clamped.x)),
+            y: Math.max(0, Math.min(1, clamped.y))
+        };
+    }, [projectedHerePoint, traversableRegionsNormalized]);
+
     const displayedHere = useMemo(() => {
-        if (!here) return null;
-        if (!hasTraversableRegions(traversableRegions)) return here;
-        if (isPointInsideTraversableRegions(here, traversableRegions)) return here;
-        return clampPointToTraversableRegions(here, traversableRegions) ?? here;
-    }, [here, traversableRegions]);
+        if (!displayedHerePoint || !geoCalibration) return here;
+        return transformNormalizedPoint(geoCalibration.transform, displayedHerePoint);
+    }, [displayedHerePoint, geoCalibration, here]);
 
     const nearest = useMemo(() => {
         if (!displayedHere || runtimePins.length === 0) return null;
@@ -337,16 +387,6 @@ const GuideMap: React.FC = () => {
         return out;
     }, [pins, poiByNumber]);
 
-    const displayedHerePoint = useMemo(() => {
-        if (!displayedHere || !geoCalibration) return null;
-        const normalized = transformLatLngToNormalized(geoCalibration.transform, displayedHere);
-        if (!normalized || !Number.isFinite(normalized.x) || !Number.isFinite(normalized.y)) return null;
-        return {
-            x: Math.max(0, Math.min(1, normalized.x)),
-            y: Math.max(0, Math.min(1, normalized.y))
-        };
-    }, [displayedHere, geoCalibration]);
-
     useEffect(() => {
         if (!locationTrackingEnabled) {
             setLocationStatus(null);
@@ -364,15 +404,20 @@ const GuideMap: React.FC = () => {
         }
 
         if (
-            displayedHere
-            && (Math.abs(displayedHere.lat - here.lat) > 1e-9 || Math.abs(displayedHere.lng - here.lng) > 1e-9)
+            projectedHerePoint
+            && displayedHerePoint
+            && hasNormalizedTraversableRegions(traversableRegionsNormalized)
+            && (
+                Math.abs(displayedHerePoint.x - projectedHerePoint.x) > 1e-9
+                || Math.abs(displayedHerePoint.y - projectedHerePoint.y) > 1e-9
+            )
         ) {
             setLocationStatus('Showing the nearest allowed point inside the traversable area.');
             return;
         }
 
         setLocationStatus(null);
-    }, [displayedHere, displayedHerePoint, here, locationTrackingEnabled]);
+    }, [displayedHerePoint, here, locationTrackingEnabled, projectedHerePoint, traversableRegionsNormalized]);
 
     useEffect(() => {
         if (!shouldCenterOnCurrentLocation || !displayedHerePoint) return;
