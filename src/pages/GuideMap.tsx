@@ -550,7 +550,7 @@ const GuideMap: React.FC = () => {
                             mapPixelHeight={mapPixelHeight}
                             pins={pins}
                             currentLocationPoint={displayedHerePoint}
-                            highlightedPinId={focusedPin?.id ?? nearest?.pin.id}
+                            highlightedPinId={focusedPin?.id}
                             pinDisplayNameById={pinDisplayNameById}
                             fitToViewportOnInit={false}
                             centerOnImageOnInit={true}
@@ -571,7 +571,7 @@ const GuideMap: React.FC = () => {
                             onMapClick={handleMapClick}
                         />
 
-                        {nearest && !focusedPin && (
+                        {nearest && !focusedPin && !displayedHerePoint && (
                             <div
                                 style={{
                                     position: 'absolute',
