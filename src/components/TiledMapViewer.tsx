@@ -225,6 +225,23 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
 
         return (
             <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+                <style>{`
+                    @keyframes tiled-map-current-location-ring {
+                        0% { opacity: 0.9; stroke-width: 8px; }
+                        70% { opacity: 0.05; stroke-width: 18px; }
+                        100% { opacity: 0; stroke-width: 18px; }
+                    }
+                    @keyframes tiled-map-current-location-core {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0.55; }
+                    }
+                    .tiled-map-current-location-ring {
+                        animation: tiled-map-current-location-ring 1.6s ease-out infinite;
+                    }
+                    .tiled-map-current-location-core {
+                        animation: tiled-map-current-location-core 1.1s ease-in-out infinite;
+                    }
+                `}</style>
                 <div
                     style={{
                         position: 'absolute',
@@ -535,6 +552,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                                 radius={14}
                                 bubblingMouseEvents={false}
                                 pathOptions={{
+                                    className: 'tiled-map-current-location-ring',
                                     color: 'rgba(14, 165, 233, 0.25)',
                                     fillOpacity: 0,
                                     weight: 8
@@ -548,6 +566,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                                 radius={8}
                                 bubblingMouseEvents={false}
                                 pathOptions={{
+                                    className: 'tiled-map-current-location-core',
                                     color: 'rgba(245, 245, 245, 0.96)',
                                     fillColor: '#0ea5e9',
                                     fillOpacity: 1,

@@ -266,6 +266,17 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
 
     return (
         <div ref={viewportRef} style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+            <style>{`
+                @keyframes map-current-location-pulse {
+                    0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.95; }
+                    70% { transform: translate(-50%, -50%) scale(1.7); opacity: 0; }
+                    100% { transform: translate(-50%, -50%) scale(1.7); opacity: 0; }
+                }
+                @keyframes map-current-location-blink {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.55; }
+                }
+            `}</style>
             <TransformWrapper
                 minScale={fitToViewportOnInit ? 0.01 : 1}
                 maxScale={maxScale}
@@ -610,23 +621,41 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                         })}
 
                                         {currentLocationPoint && (
-                                            <div
-                                                aria-hidden="true"
-                                                style={{
-                                                    position: 'absolute',
-                                                    left: `${clamp01(currentLocationPoint.x) * 100}%`,
-                                                    top: `${clamp01(currentLocationPoint.y) * 100}%`,
-                                                    transform: 'translate(-50%, -50%)',
-                                                    width: 18,
-                                                    height: 18,
-                                                    borderRadius: 999,
-                                                    background: '#0ea5e9',
-                                                    border: '3px solid rgba(245, 245, 245, 0.96)',
-                                                    boxShadow: '0 0 0 8px rgba(14, 165, 233, 0.18)',
-                                                    pointerEvents: 'none',
-                                                    zIndex: 3
-                                                }}
-                                            />
+                                            <>
+                                                <div
+                                                    aria-hidden="true"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: `${clamp01(currentLocationPoint.x) * 100}%`,
+                                                        top: `${clamp01(currentLocationPoint.y) * 100}%`,
+                                                        width: 18,
+                                                        height: 18,
+                                                        borderRadius: 999,
+                                                        background: 'rgba(14, 165, 233, 0.22)',
+                                                        pointerEvents: 'none',
+                                                        zIndex: 2,
+                                                        animation: 'map-current-location-pulse 1.6s ease-out infinite'
+                                                    }}
+                                                />
+                                                <div
+                                                    aria-hidden="true"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: `${clamp01(currentLocationPoint.x) * 100}%`,
+                                                        top: `${clamp01(currentLocationPoint.y) * 100}%`,
+                                                        transform: 'translate(-50%, -50%)',
+                                                        width: 18,
+                                                        height: 18,
+                                                        borderRadius: 999,
+                                                        background: '#0ea5e9',
+                                                        border: '3px solid rgba(245, 245, 245, 0.96)',
+                                                        boxShadow: '0 0 0 8px rgba(14, 165, 233, 0.18)',
+                                                        pointerEvents: 'none',
+                                                        zIndex: 3,
+                                                        animation: 'map-current-location-blink 1.1s ease-in-out infinite'
+                                                    }}
+                                                />
+                                            </>
                                         )}
                                 </div>
                             </div>
