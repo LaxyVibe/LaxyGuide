@@ -263,35 +263,7 @@ function transformCornerBilinearPoint(transform: GeoCalibrationCornerTransform, 
     };
 }
 
-export function transformNormalizedPoint(transform: GeoCalibration['transform'], point: NormalizedPoint): GeoPoint {
-    if ('topLeft' in transform) {
-        return transformCornerBilinearPoint(transform, point);
-    }
-    return {
-        lat: transform.lat[0] * point.x + transform.lat[1] * point.y + transform.lat[2],
-        lng: transform.lng[0] * point.x + transform.lng[1] * point.y + transform.lng[2]
-    };
-}
-
-export function transformLatLngToNormalized(transform: GeoCalibration['transform'], point: GeoPoint): NormalizedPoint | null {
-    if ('topLeft' in transform) {
-        // Approximate inverse for bilinear mapping via local affine approximation around center.
-        const latTransform: GeoCalibrationTransform = {
-            lat: [
-                (transform.topRight.lat - transform.topLeft.lat + transform.bottomRight.lat - transform.bottomLeft.lat) / 2,
-                (transform.bottomLeft.lat - transform.topLeft.lat + transform.bottomRight.lat - transform.topRight.lat) / 2,
-                (transform.topLeft.lat + transform.topRight.lat + transform.bottomLeft.lat + transform.bottomRight.lat) / 4
-            ],
-            lng: [
-                (transform.topRight.lng - transform.topLeft.lng + transform.bottomRight.lng - transform.bottomLeft.lng) / 2,
-                (transform.bottomLeft.lng - transform.topLeft.lng + transform.bottomRight.lng - transform.topRight.lng) / 2,
-                (transform.topLeft.lng + transform.topRight.lng + transform.bottomLeft.lng + transform.bottomRight.lng) / 4
-            ]
-        };
-
-        return transformLatLngToNormalized(latTransform, point);
-    }
-
+function invertAffineTransform(transform: GeoCalibrationTransform, point: GeoPoint): NormalizedPoint | null {
     const a = transform.lat[0];
     const b = transform.lat[1];
     const c = transform.lat[2];
@@ -306,6 +278,124 @@ export function transformLatLngToNormalized(transform: GeoCalibration['transform
     const y = (a * (point.lng - f) - (point.lat - c) * d) / determinant;
 
     return { x, y };
+}
+
+function invertCornerBilinearTransform(transform: GeoCalibrationCornerTransform, point: GeoPoint): NormalizedPoint | null {
+    const approxAffine: GeoCalibrationTransform = {
+        lat: [
+            (transform.topRight.lat - transform.topLeft.lat + transform.bottomRight.lat - transform.bottomLeft.lat) / 2,
+            (transform.bottomLeft.lat - transform.topLeft.lat + transform.bottomRight.lat - transform.topRight.lat) / 2,
+            (transform.topLeft.lat + transform.topRight.lat + transform.bottomLeft.lat + transform.bottomRight.lat) / 4
+        ],
+        lng: [
+            (transform.topRight.lng - transform.topLeft.lng + transform.bottomRight.lng - transform.bottomLeft.lng) / 2,
+            (transform.bottomLeft.lng - transform.topLeft.lng + transform.bottomRight.lng - transform.topRight.lng) / 2,
+            (transform.topLeft.lng + transform.topRight.lng + transform.bottomLeft.lng + transform.bottomRight.lng) / 4
+        ]
+    };
+
+    const lat0 = transform.topLeft.lat;
+    const latX = transform.topRight.lat - transform.topLeft.lat;
+    const latY = transform.bottomLeft.lat - transform.topLeft.lat;
+    const latXY = transform.bottomRight.lat - transform.topRight.lat - transform.bottomLeft.lat + transform.topLeft.lat;
+    const lng0 = transform.topLeft.lng;
+    const lngX = transform.topRight.lng - transform.topLeft.lng;
+    const lngY = transform.bottomLeft.lng - transform.topLeft.lng;
+    const lngXY = transform.bottomRight.lng - transform.topRight.lng - transform.bottomLeft.lng + transform.topLeft.lng;
+
+    let guess = invertAffineTransform(approxAffine, point) ?? { x: 0.5, y: 0.5 };
+    let x = Math.max(0, Math.min(1, guess.x));
+    let y = Math.max(0, Math.min(1, guess.y));
+
+    for (let iteration = 0; iteration < 16; iteration++) {
+        const currentLat = lat0 + latX * x + latY * y + latXY * x * y;
+        const currentLng = lng0 + lngX * x + lngY * y + lngXY * x * y;
+        const residualLat = currentLat - point.lat;
+        const residualLng = currentLng - point.lng;
+
+        if (Math.abs(residualLat) < 1e-10 && Math.abs(residualLng) < 1e-10) {
+            return { x, y };
+        }
+
+        const jacobianXX = latX + latXY * y;
+        const jacobianXY = latY + latXY * x;
+        const jacobianYX = lngX + lngXY * y;
+        const jacobianYY = lngY + lngXY * x;
+        const determinant = jacobianXX * jacobianYY - jacobianXY * jacobianYX;
+
+        if (Math.abs(determinant) < 1e-12) break;
+
+        const deltaX = (residualLat * jacobianYY - residualLng * jacobianXY) / determinant;
+        const deltaY = (jacobianXX * residualLng - jacobianYX * residualLat) / determinant;
+
+        x = Math.max(-0.25, Math.min(1.25, x - deltaX));
+        y = Math.max(-0.25, Math.min(1.25, y - deltaY));
+
+        if (Math.abs(deltaX) < 1e-10 && Math.abs(deltaY) < 1e-10) {
+            return { x, y };
+        }
+    }
+
+    let best = { x, y, distanceSquared: Number.POSITIVE_INFINITY };
+    for (let gridY = 0; gridY <= 8; gridY++) {
+        for (let gridX = 0; gridX <= 8; gridX++) {
+            const sampleX = gridX / 8;
+            const sampleY = gridY / 8;
+            const samplePoint = transformCornerBilinearPoint(transform, { x: sampleX, y: sampleY });
+            const distanceSquared = (samplePoint.lat - point.lat) ** 2 + (samplePoint.lng - point.lng) ** 2;
+            if (distanceSquared < best.distanceSquared) {
+                best = { x: sampleX, y: sampleY, distanceSquared };
+            }
+        }
+    }
+
+    guess = { x: best.x, y: best.y };
+    x = guess.x;
+    y = guess.y;
+
+    for (let iteration = 0; iteration < 16; iteration++) {
+        const currentLat = lat0 + latX * x + latY * y + latXY * x * y;
+        const currentLng = lng0 + lngX * x + lngY * y + lngXY * x * y;
+        const residualLat = currentLat - point.lat;
+        const residualLng = currentLng - point.lng;
+
+        if (Math.abs(residualLat) < 1e-10 && Math.abs(residualLng) < 1e-10) {
+            return { x, y };
+        }
+
+        const jacobianXX = latX + latXY * y;
+        const jacobianXY = latY + latXY * x;
+        const jacobianYX = lngX + lngXY * y;
+        const jacobianYY = lngY + lngXY * x;
+        const determinant = jacobianXX * jacobianYY - jacobianXY * jacobianYX;
+
+        if (Math.abs(determinant) < 1e-12) break;
+
+        const deltaX = (residualLat * jacobianYY - residualLng * jacobianXY) / determinant;
+        const deltaY = (jacobianXX * residualLng - jacobianYX * residualLat) / determinant;
+
+        x = Math.max(-0.25, Math.min(1.25, x - deltaX));
+        y = Math.max(-0.25, Math.min(1.25, y - deltaY));
+    }
+
+    return invertAffineTransform(approxAffine, point);
+}
+
+export function transformNormalizedPoint(transform: GeoCalibration['transform'], point: NormalizedPoint): GeoPoint {
+    if ('topLeft' in transform) {
+        return transformCornerBilinearPoint(transform, point);
+    }
+    return {
+        lat: transform.lat[0] * point.x + transform.lat[1] * point.y + transform.lat[2],
+        lng: transform.lng[0] * point.x + transform.lng[1] * point.y + transform.lng[2]
+    };
+}
+
+export function transformLatLngToNormalized(transform: GeoCalibration['transform'], point: GeoPoint): NormalizedPoint | null {
+    if ('topLeft' in transform) {
+        return invertCornerBilinearTransform(transform, point);
+    }
+    return invertAffineTransform(transform, point);
 }
 
 export function getGeoCalibrationPointLabel(index: number) {
