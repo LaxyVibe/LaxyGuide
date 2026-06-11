@@ -22,8 +22,16 @@ const normalizeTraversableRegion = (region: unknown, index: number): Traversable
             }))
             .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
         : [];
+    const polygonNormalized = Array.isArray(item.polygonNormalized)
+        ? item.polygonNormalized
+            .map((point) => ({
+                x: Number(point?.x),
+                y: Number(point?.y)
+            }))
+            .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
+        : undefined;
 
-    return { id, polygon };
+    return { id, polygon, polygonNormalized };
 };
 
 function normalizeRuntimePins(file: Partial<MapPinsFile>, fallbackGuideId?: string, calibration?: GeoCalibration | null): RuntimeMapPin[] {
@@ -134,7 +142,10 @@ export function loadDrawRuntimeFromLocalStorage(guideId: string): DrawRuntimeDat
 
         const calibration = rawCalibration ? loadCalibrationFromLocalStorage(guideId) : null;
         const traversableRegions = (rawTraversableRegions ? loadTraversableRegionsFromLocalStorage(guideId)?.regions : [])
-            ?.filter((region) => Array.isArray(region.polygon) && region.polygon.length >= 3) ?? [];
+            ?.filter((region) => (
+                (Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3)
+                || (Array.isArray(region.polygon) && region.polygon.length >= 3)
+            )) ?? [];
         const pins = rawPins
             ? normalizeRuntimePins(JSON.parse(rawPins) as MapPinsFile, guideId, calibration)
             : [];

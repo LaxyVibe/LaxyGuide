@@ -110,9 +110,20 @@ export interface MapPinsFile {
     pins: MapPin[];
 }
 
+export interface TraversableRegionPoint {
+    lat: number;
+    lng: number;
+}
+
+export interface TraversableRegionNormalizedPoint {
+    x: number;
+    y: number;
+}
+
 export interface TraversableRegion {
     id: string;
-    polygon: Array<{ lat: number; lng: number }>;
+    polygon: TraversableRegionPoint[];
+    polygonNormalized?: TraversableRegionNormalizedPoint[];
 }
 
 export interface TraversableRegionsFile {
