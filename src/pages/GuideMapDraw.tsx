@@ -20,7 +20,7 @@ import { downloadJson, fetchPinsFile } from '../utils/mapPins';
 import { getNextNumericId } from '../utils/pinIdUtils';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { buildCornerBilinearCalibration, transformNormalizedPoint, type GeoPoint } from '../utils/geoTransform';
-import { normalizeTraversableRegionsForRuntime, projectNormalizedPointToSimpleMap } from '../utils/traversableRegions';
+import { projectNormalizedPointToSimpleMap, projectSimpleMapPointToNormalizedUnclamped } from '../utils/traversableRegions';
 
 type CornerKey = 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft';
 type DrawLayerMode = 'pins' | 'traversable';
@@ -156,32 +156,35 @@ function createEmptyTraversableRegionsFile(guideId: string): TraversableRegionsF
 
 function normalizeTraversableRegionsFileForEditor(
     file: TraversableRegionsFile,
-    calibration: GeoCalibration | null,
     mapPixelWidth?: number,
     mapPixelHeight?: number,
     mapTileMaxZoom?: number
 ) {
-    if (!calibration || !mapPixelWidth || !mapPixelHeight) return file;
-
-    const runtimeRegions = normalizeTraversableRegionsForRuntime(
-        file.regions,
-        calibration,
-        mapPixelWidth,
-        mapPixelHeight,
-        mapTileMaxZoom ?? 5
-    );
+    if (!mapPixelWidth || !mapPixelHeight) return file;
+    const zoom = mapTileMaxZoom ?? 5;
 
     return {
         ...file,
-        regions: runtimeRegions.normalizedRegions.map((region) => ({
-            id: region.id,
-            polygon: region.polygon.map((point) => projectNormalizedPointToSimpleMap(
-                point,
-                mapPixelWidth,
-                mapPixelHeight,
-                mapTileMaxZoom ?? 5
-            ))
-        }))
+        regions: file.regions.map((region) => {
+            const polygonNormalized = Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
+                ? region.polygonNormalized
+                    .map((point) => ({ x: Number(point.x), y: Number(point.y) }))
+                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
+                : (region.polygon ?? [])
+                    .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, zoom))
+                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+
+            return {
+                ...region,
+                polygonNormalized,
+                polygon: polygonNormalized.map((point) => projectNormalizedPointToSimpleMap(
+                    point,
+                    mapPixelWidth,
+                    mapPixelHeight,
+                    zoom
+                ))
+            };
+        })
     };
 }
 
@@ -242,7 +245,6 @@ const GuideMapDraw: React.FC = () => {
                 ?? createEmptyTraversableRegionsFile(guideId);
             const localTraversableFile = normalizeTraversableRegionsFileForEditor(
                 rawTraversableFile,
-                storedCalibration,
                 data?.mapPixelWidth,
                 data?.mapPixelHeight,
                 data?.mapTileMaxZoom
@@ -453,11 +455,20 @@ const GuideMapDraw: React.FC = () => {
     const handleTraversableRegionPolygonChange = React.useCallback(
         (regionId: string, polygon: Array<{ lat: number; lng: number }> | undefined) => {
             if (!guideId) return;
+            if (!data?.mapPixelWidth || !data?.mapPixelHeight) return;
             setTraversableRegionsFile((prev) => {
                 const base = prev ?? createEmptyTraversableRegionsFile(guideId);
+                const polygonNormalized = (polygon ?? [])
+                    .map((point) => projectSimpleMapPointToNormalizedUnclamped(
+                        point,
+                        data.mapPixelWidth!,
+                        data.mapPixelHeight!,
+                        data.mapTileMaxZoom ?? 5
+                    ))
+                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
                 const nextRegions = base.regions.map((region) => (
                     region.id === regionId
-                        ? { ...region, polygon: polygon ?? [] }
+                        ? { ...region, polygon: polygon ?? [], polygonNormalized }
                         : region
                 ));
                 const next: TraversableRegionsFile = {
@@ -470,7 +481,7 @@ const GuideMapDraw: React.FC = () => {
                 return next;
             });
         },
-        [guideId]
+        [data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, guideId]
     );
 
     const handleMoveSelectedPin = React.useCallback((point: { x: number; y: number }) => {
@@ -535,7 +546,8 @@ const GuideMapDraw: React.FC = () => {
         const nextId = getNextNumericId(currentRegions.map((region) => region.id));
         const nextRegion: TraversableRegion = {
             id: nextId,
-            polygon: []
+            polygon: [],
+            polygonNormalized: []
         };
 
         const next: TraversableRegionsFile = {
@@ -616,10 +628,12 @@ const GuideMapDraw: React.FC = () => {
             mapTileCorners,
             calibration,
             traversableRegions: traversableRegions
-                .filter((region) => Array.isArray(region.polygon) && region.polygon.length >= 3)
+                .filter((region) => Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3)
                 .map((region) => ({
                     id: region.id,
-                    polygon: region.polygon
+                    polygon: calibration
+                        ? (region.polygonNormalized ?? []).map((point) => transformNormalizedPoint(calibration.transform, point))
+                        : []
                 })),
             pins: pins.map((pin) => ({
                 id: pin.id,
@@ -653,14 +667,16 @@ const GuideMapDraw: React.FC = () => {
             }
         }
         for (const region of traversableRegions) {
-            for (const point of region.polygon ?? []) {
-                if (Number.isFinite(point.lat) && Number.isFinite(point.lng)) {
-                    points.push({ lat: point.lat, lng: point.lng });
+            if (!geoCalibration) continue;
+            for (const point of region.polygonNormalized ?? []) {
+                const geoPoint = transformNormalizedPoint(geoCalibration.transform, point);
+                if (Number.isFinite(geoPoint.lat) && Number.isFinite(geoPoint.lng)) {
+                    points.push(geoPoint);
                 }
             }
         }
         return points;
-    }, [pins, traversableRegions]);
+    }, [geoCalibration, pins, traversableRegions]);
 
     const completedCorners = CORNER_ORDER.filter((key) => Boolean(calibrationDraftCorners[key])).length;
     const canFinish = CORNER_ORDER.every((key) => Boolean(calibrationDraftCorners[key]));
