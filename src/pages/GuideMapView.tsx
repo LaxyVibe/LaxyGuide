@@ -431,6 +431,7 @@ const GuideMapView: React.FC = () => {
                             mapPixelHeight={mapPixelHeight}
                             pins={pins}
                             currentLocationPoint={displayedHerePoint}
+                            traversableRegions={traversableRegions}
                             traversableRegionsNormalized={traversableRegionsNormalized}
                             highlightedPinId={focusedPin?.id}
                             pinDisplayNameById={pinDisplayNameById}
