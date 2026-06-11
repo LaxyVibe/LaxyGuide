@@ -20,6 +20,7 @@ import { downloadJson, fetchPinsFile } from '../utils/mapPins';
 import { getNextNumericId } from '../utils/pinIdUtils';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { buildCornerBilinearCalibration, transformNormalizedPoint, type GeoPoint } from '../utils/geoTransform';
+import { normalizeTraversableRegionsForRuntime, projectNormalizedPointToSimpleMap } from '../utils/traversableRegions';
 
 type CornerKey = 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft';
 type DrawLayerMode = 'pins' | 'traversable';
@@ -153,6 +154,37 @@ function createEmptyTraversableRegionsFile(guideId: string): TraversableRegionsF
     };
 }
 
+function normalizeTraversableRegionsFileForEditor(
+    file: TraversableRegionsFile,
+    calibration: GeoCalibration | null,
+    mapPixelWidth?: number,
+    mapPixelHeight?: number,
+    mapTileMaxZoom?: number
+) {
+    if (!calibration || !mapPixelWidth || !mapPixelHeight) return file;
+
+    const runtimeRegions = normalizeTraversableRegionsForRuntime(
+        file.regions,
+        calibration,
+        mapPixelWidth,
+        mapPixelHeight,
+        mapTileMaxZoom ?? 5
+    );
+
+    return {
+        ...file,
+        regions: runtimeRegions.normalizedRegions.map((region) => ({
+            id: region.id,
+            polygon: region.polygon.map((point) => projectNormalizedPointToSimpleMap(
+                point,
+                mapPixelWidth,
+                mapPixelHeight,
+                mapTileMaxZoom ?? 5
+            ))
+        }))
+    };
+}
+
 function getTraversableRegionTitle(regionId: string) {
     return `Region ${regionId}`;
 }
@@ -191,6 +223,7 @@ const GuideMapDraw: React.FC = () => {
     const [calibrationOverlayOpacity, setCalibrationOverlayOpacity] = useState(0.62);
     const [calibrationTileImageUrl, setCalibrationTileImageUrl] = useState<string | null>(null);
     const [geoCalibration, setGeoCalibration] = useState<GeoCalibration | null>(null);
+    const calibrationHydratedRef = useRef(false);
 
     useEffect(() => {
         let cancelled = false;
@@ -200,11 +233,23 @@ const GuideMapDraw: React.FC = () => {
             if (!guideId) {
                 setPinsFile(null);
                 setTraversableRegionsFile(null);
+                calibrationHydratedRef.current = false;
                 return;
             }
 
-            const localTraversableFile = loadTraversableRegionsFromLocalStorage(guideId)
+            const storedCalibration = loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null;
+            const rawTraversableFile = loadTraversableRegionsFromLocalStorage(guideId)
                 ?? createEmptyTraversableRegionsFile(guideId);
+            const localTraversableFile = normalizeTraversableRegionsFileForEditor(
+                rawTraversableFile,
+                storedCalibration,
+                data?.mapPixelWidth,
+                data?.mapPixelHeight,
+                data?.mapTileMaxZoom
+            );
+            if (JSON.stringify(localTraversableFile) !== JSON.stringify(rawTraversableFile)) {
+                saveTraversableRegionsToLocalStorage(guideId, localTraversableFile);
+            }
 
             const url = data?.mapPinsUrl;
             if (!url) {
@@ -213,6 +258,8 @@ const GuideMapDraw: React.FC = () => {
                 const localPins = localFile?.pins ?? [];
                 setPinsFile({ version: 2, guideId, pins: localPins });
                 setTraversableRegionsFile(localTraversableFile);
+                setGeoCalibration(storedCalibration);
+                calibrationHydratedRef.current = true;
                 setSelectedPinId((prev) => {
                     if (prev && localPins.some((pin) => pin.id === prev)) return prev;
                     return localPins[0]?.id ?? null;
@@ -241,7 +288,8 @@ const GuideMapDraw: React.FC = () => {
 
                 setPinsFile(mergedFile);
                 setTraversableRegionsFile(localTraversableFile);
-                setGeoCalibration(loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null);
+                setGeoCalibration(storedCalibration);
+                calibrationHydratedRef.current = true;
                 setSelectedPinId((prev) => {
                     if (prev && mergedPins.some((pin) => pin.id === prev)) return prev;
                     return mergedPins[0]?.id ?? null;
@@ -254,7 +302,8 @@ const GuideMapDraw: React.FC = () => {
                 if (cancelled) return;
                 setPinsFile({ version: 2, guideId, pins: [] });
                 setTraversableRegionsFile(localTraversableFile);
-                setGeoCalibration(loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null);
+                setGeoCalibration(storedCalibration);
+                calibrationHydratedRef.current = true;
                 setPinsError(e instanceof Error ? e.message : String(e));
                 setSelectedTraversableRegionId((prev) => {
                     if (prev && localTraversableFile.regions.some((region) => region.id === prev)) return prev;
@@ -271,6 +320,7 @@ const GuideMapDraw: React.FC = () => {
 
     useEffect(() => {
         if (!guideId) return;
+        if (!calibrationHydratedRef.current) return;
         saveCalibrationToLocalStorage(guideId, geoCalibration);
     }, [guideId, geoCalibration]);
 
@@ -674,6 +724,7 @@ const GuideMapDraw: React.FC = () => {
         });
 
         setGeoCalibration(result.calibration);
+        saveCalibrationToLocalStorage(guideId, result.calibration);
         setShowCalibrateWizard(false);
         setFabMenuOpen(false);
     };

@@ -1,5 +1,5 @@
-import type { TraversableRegion } from '../types';
-import { haversineDistanceMeters, type GeoPoint } from './geoTransform';
+import type { GeoCalibration, TraversableRegion } from '../types';
+import { haversineDistanceMeters, transformLatLngToNormalized, transformNormalizedPoint, type GeoPoint } from './geoTransform';
 
 const toRad = (value: number) => (value * Math.PI) / 180;
 
@@ -11,6 +11,11 @@ export interface NormalizedTraversablePoint {
 export interface NormalizedTraversableRegion {
     id: string;
     polygon: NormalizedTraversablePoint[];
+}
+
+export interface RuntimeTraversableRegionSet {
+    geoRegions: TraversableRegion[];
+    normalizedRegions: NormalizedTraversableRegion[];
 }
 
 const isValidPolygon = (polygon: Array<{ lat: number; lng: number }> | undefined): polygon is Array<{ lat: number; lng: number }> => {
@@ -53,6 +58,35 @@ function nearestPointOnSegment(point: GeoPoint, start: GeoPoint, end: GeoPoint):
     return {
         lat: start.lat + (end.lat - start.lat) * t,
         lng: start.lng + (end.lng - start.lng) * t
+    };
+}
+
+function nearestPointOnSegmentWithRatio(point: GeoPoint, start: GeoPoint, end: GeoPoint) {
+    const scaleX = Math.cos(toRad((point.lat + start.lat + end.lat) / 3));
+    const ax = start.lng * scaleX;
+    const ay = start.lat;
+    const bx = end.lng * scaleX;
+    const by = end.lat;
+    const px = point.lng * scaleX;
+    const py = point.lat;
+
+    const dx = bx - ax;
+    const dy = by - ay;
+    const lengthSq = dx * dx + dy * dy;
+    if (lengthSq <= Number.EPSILON) {
+        return {
+            point: { lat: start.lat, lng: start.lng },
+            t: 0
+        };
+    }
+
+    const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lengthSq));
+    return {
+        point: {
+            lat: start.lat + (end.lat - start.lat) * t,
+            lng: start.lng + (end.lng - start.lng) * t
+        },
+        t
     };
 }
 
@@ -103,10 +137,23 @@ export function projectSimpleMapPointToNormalized(
     mapPixelHeight: number,
     mapTileMaxZoom: number
 ): NormalizedTraversablePoint {
+    const projected = projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, mapTileMaxZoom);
+    return {
+        x: clamp01(projected.x),
+        y: clamp01(projected.y)
+    };
+}
+
+export function projectSimpleMapPointToNormalizedUnclamped(
+    point: { lat: number; lng: number },
+    mapPixelWidth: number,
+    mapPixelHeight: number,
+    mapTileMaxZoom: number
+): NormalizedTraversablePoint {
     const scale = 256 * 2 ** mapTileMaxZoom;
     return {
-        x: clamp01((point.lng * scale) / mapPixelWidth),
-        y: clamp01((-point.lat * scale) / mapPixelHeight)
+        x: (point.lng * scale) / mapPixelWidth,
+        y: (-point.lat * scale) / mapPixelHeight
     };
 }
 
@@ -122,6 +169,128 @@ export function projectTraversableRegionsToNormalized(
             polygon: region.polygon.map((point) => projectSimpleMapPointToNormalized(point, mapPixelWidth, mapPixelHeight, mapTileMaxZoom))
         }))
         .filter((region): region is NormalizedTraversableRegion => isValidNormalizedPolygon(region.polygon));
+}
+
+export function projectNormalizedPointToSimpleMap(
+    point: NormalizedTraversablePoint,
+    mapPixelWidth: number,
+    mapPixelHeight: number,
+    mapTileMaxZoom: number
+) {
+    const scale = 256 * 2 ** mapTileMaxZoom;
+    return {
+        lat: -(point.y * mapPixelHeight) / scale,
+        lng: (point.x * mapPixelWidth) / scale
+    };
+}
+
+function isNormalizedPointPlausible(point: NormalizedTraversablePoint | null) {
+    return !!point
+        && Number.isFinite(point.x)
+        && Number.isFinite(point.y)
+        && point.x >= -0.25
+        && point.x <= 1.25
+        && point.y >= -0.25
+        && point.y <= 1.25;
+}
+
+function inferTraversableRegionCoordinateSpace(
+    region: TraversableRegion,
+    calibration: GeoCalibration | null,
+    mapPixelWidth: number,
+    mapPixelHeight: number,
+    mapTileMaxZoom: number
+) {
+    const scale = 256 * 2 ** mapTileMaxZoom;
+    const maxSimpleLng = mapPixelWidth / scale;
+    const minSimpleLat = -mapPixelHeight / scale;
+    const lngPadding = Math.max(0.05, maxSimpleLng * 0.2);
+    const latPadding = Math.max(0.05, Math.abs(minSimpleLat) * 0.2);
+
+    const looksSimple = region.polygon.every((point) => (
+        Number.isFinite(point.lat)
+        && Number.isFinite(point.lng)
+        && point.lng >= -lngPadding
+        && point.lng <= maxSimpleLng + lngPadding
+        && point.lat >= minSimpleLat - latPadding
+        && point.lat <= latPadding
+    ));
+
+    if (looksSimple) return 'simple';
+    if (!calibration) return 'simple';
+
+    const geoProjected = region.polygon
+        .map((point) => transformLatLngToNormalized(calibration.transform, point))
+        .filter((point): point is NormalizedTraversablePoint => isNormalizedPointPlausible(point));
+
+    if (geoProjected.length >= Math.max(3, Math.ceil(region.polygon.length * 0.75))) {
+        return 'geo';
+    }
+
+    return 'simple';
+}
+
+export function normalizeTraversableRegionsForRuntime(
+    regions: TraversableRegion[],
+    calibration: GeoCalibration | null,
+    mapPixelWidth: number,
+    mapPixelHeight: number,
+    mapTileMaxZoom: number
+): RuntimeTraversableRegionSet {
+    const normalizedRegions: NormalizedTraversableRegion[] = [];
+    const geoRegions: TraversableRegion[] = [];
+
+    for (const region of regions) {
+        if (!isValidPolygon(region.polygon)) continue;
+
+        const coordinateSpace = inferTraversableRegionCoordinateSpace(
+            region,
+            calibration,
+            mapPixelWidth,
+            mapPixelHeight,
+            mapTileMaxZoom
+        );
+
+        if (coordinateSpace === 'geo' && calibration) {
+            const normalizedPolygon = region.polygon
+                .map((point) => transformLatLngToNormalized(calibration.transform, point))
+                .filter((point): point is NormalizedTraversablePoint => isNormalizedPointPlausible(point));
+
+            if (normalizedPolygon.length < 3) continue;
+
+            normalizedRegions.push({
+                id: region.id,
+                polygon: normalizedPolygon
+            });
+            geoRegions.push({
+                id: region.id,
+                polygon: region.polygon
+            });
+            continue;
+        }
+
+        const normalizedPolygon = region.polygon
+            .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, mapTileMaxZoom))
+            .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+
+        if (normalizedPolygon.length < 3) continue;
+
+        normalizedRegions.push({
+            id: region.id,
+            polygon: normalizedPolygon
+        });
+        if (calibration) {
+            geoRegions.push({
+                id: region.id,
+                polygon: normalizedPolygon.map((point) => transformNormalizedPoint(calibration.transform, point))
+            });
+        }
+    }
+
+    return {
+        geoRegions,
+        normalizedRegions
+    };
 }
 
 export function hasTraversableRegions(regions: TraversableRegion[]) {
@@ -151,6 +320,47 @@ export function clampPointToTraversableRegions(point: GeoPoint, regions: Travers
     }
 
     return nearest?.point ?? null;
+}
+
+export function clampPointToTraversableRegionsWithNormalized(
+    point: GeoPoint,
+    geoRegions: TraversableRegion[],
+    normalizedRegions: NormalizedTraversableRegion[]
+) {
+    let nearest: {
+        geoPoint: GeoPoint;
+        normalizedPoint: NormalizedTraversablePoint;
+        distanceMeters: number;
+    } | null = null;
+
+    for (const geoRegion of geoRegions) {
+        if (!isValidPolygon(geoRegion.polygon)) continue;
+
+        const normalizedRegion = normalizedRegions.find((region) => region.id === geoRegion.id);
+        if (!normalizedRegion || !isValidNormalizedPolygon(normalizedRegion.polygon)) continue;
+        if (normalizedRegion.polygon.length !== geoRegion.polygon.length) continue;
+
+        for (let i = 0; i < geoRegion.polygon.length; i++) {
+            const geoStart = geoRegion.polygon[i];
+            const geoEnd = geoRegion.polygon[(i + 1) % geoRegion.polygon.length];
+            const normalizedStart = normalizedRegion.polygon[i];
+            const normalizedEnd = normalizedRegion.polygon[(i + 1) % normalizedRegion.polygon.length];
+            const candidate = nearestPointOnSegmentWithRatio(point, geoStart, geoEnd);
+            const distanceMeters = haversineDistanceMeters(point, candidate.point);
+            if (!nearest || distanceMeters < nearest.distanceMeters) {
+                nearest = {
+                    geoPoint: candidate.point,
+                    normalizedPoint: {
+                        x: normalizedStart.x + (normalizedEnd.x - normalizedStart.x) * candidate.t,
+                        y: normalizedStart.y + (normalizedEnd.y - normalizedStart.y) * candidate.t
+                    },
+                    distanceMeters
+                };
+            }
+        }
+    }
+
+    return nearest;
 }
 
 export function hasNormalizedTraversableRegions(regions: NormalizedTraversableRegion[]) {
