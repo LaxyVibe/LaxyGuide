@@ -610,7 +610,7 @@ const GuideMapDraw: React.FC = () => {
     }, [deleteTarget, handleDeletePinRegion, handleDeleteTraversableRegion]);
 
     const handleBackToView = () => {
-        const to = guideId ? `/${guideId}/map?${searchParams.toString()}` : `/?${searchParams.toString()}`;
+        const to = guideId ? `/${guideId}/map/view?${searchParams.toString()}` : `/?${searchParams.toString()}`;
         if ('startViewTransition' in document) {
             document.startViewTransition(() => navigate(to));
         } else {
