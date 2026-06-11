@@ -195,7 +195,14 @@ export function normalizeTraversableRegionsForRuntime(
             id: region.id,
             polygon: normalizedPolygon
         });
-        if (calibration) {
+        if (Array.isArray(region.geoPolygon) && region.geoPolygon.length >= 3) {
+            geoRegions.push({
+                id: region.id,
+                polygon: region.geoPolygon,
+                polygonNormalized: normalizedPolygon,
+                geoPolygon: region.geoPolygon
+            });
+        } else if (calibration) {
             geoRegions.push({
                 id: region.id,
                 polygon: normalizedPolygon.map((point) => transformNormalizedPoint(calibration.transform, point)),

@@ -124,6 +124,7 @@ export interface TraversableRegion {
     id: string;
     polygon: TraversableRegionPoint[];
     polygonNormalized?: TraversableRegionNormalizedPoint[];
+    geoPolygon?: TraversableRegionPoint[];
 }
 
 export interface TraversableRegionsFile {

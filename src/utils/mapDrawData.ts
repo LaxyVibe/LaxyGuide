@@ -30,8 +30,16 @@ const normalizeTraversableRegion = (region: unknown, index: number): Traversable
             }))
             .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
         : undefined;
+    const geoPolygon = Array.isArray(item.geoPolygon)
+        ? item.geoPolygon
+            .map((point) => ({
+                lat: Number(point?.lat),
+                lng: Number(point?.lng)
+            }))
+            .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
+        : undefined;
 
-    return { id, polygon, polygonNormalized };
+    return { id, polygon, polygonNormalized, geoPolygon };
 };
 
 function normalizeRuntimePins(file: Partial<MapPinsFile>, fallbackGuideId?: string, calibration?: GeoCalibration | null): RuntimeMapPin[] {

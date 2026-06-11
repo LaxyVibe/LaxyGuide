@@ -468,7 +468,7 @@ const GuideMapDraw: React.FC = () => {
                     .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
                 const nextRegions = base.regions.map((region) => (
                     region.id === regionId
-                        ? { ...region, polygon: polygon ?? [], polygonNormalized }
+                        ? { ...region, polygon: polygon ?? [], polygonNormalized, geoPolygon: undefined }
                         : region
                 ));
                 const next: TraversableRegionsFile = {
@@ -547,7 +547,8 @@ const GuideMapDraw: React.FC = () => {
         const nextRegion: TraversableRegion = {
             id: nextId,
             polygon: [],
-            polygonNormalized: []
+            polygonNormalized: [],
+            geoPolygon: []
         };
 
         const next: TraversableRegionsFile = {
@@ -618,6 +619,32 @@ const GuideMapDraw: React.FC = () => {
         }
     };
 
+    const handleSave = React.useCallback(() => {
+        if (!guideId) return;
+
+        setTraversableRegionsFile((prev) => {
+            const base = prev ?? createEmptyTraversableRegionsFile(guideId);
+            const next: TraversableRegionsFile = {
+                ...base,
+                guideId,
+                version: 1,
+                regions: base.regions.map((region) => ({
+                    ...region,
+                    geoPolygon: geoCalibration && Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
+                        ? region.polygonNormalized.map((point) => transformNormalizedPoint(geoCalibration.transform, point))
+                        : undefined
+                }))
+            };
+            saveTraversableRegionsToLocalStorage(guideId, next);
+            return next;
+        });
+
+        if (geoCalibration) {
+            saveCalibrationToLocalStorage(guideId, geoCalibration);
+        }
+        setFabMenuOpen(false);
+    }, [geoCalibration, guideId]);
+
     const handleExport = () => {
         if (!guideId) return;
         const calibration = geoCalibration ?? data?.geoCalibration ?? null;
@@ -628,12 +655,17 @@ const GuideMapDraw: React.FC = () => {
             mapTileCorners,
             calibration,
             traversableRegions: traversableRegions
-                .filter((region) => Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3)
+                .filter((region) => (
+                    (Array.isArray(region.geoPolygon) && region.geoPolygon.length >= 3)
+                    || (Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3)
+                ))
                 .map((region) => ({
                     id: region.id,
-                    polygon: calibration
-                        ? (region.polygonNormalized ?? []).map((point) => transformNormalizedPoint(calibration.transform, point))
-                        : []
+                    polygon: Array.isArray(region.geoPolygon) && region.geoPolygon.length >= 3
+                        ? region.geoPolygon
+                        : (calibration
+                            ? (region.polygonNormalized ?? []).map((point) => transformNormalizedPoint(calibration.transform, point))
+                            : [])
                 })),
             pins: pins.map((pin) => ({
                 id: pin.id,
@@ -786,91 +818,110 @@ const GuideMapDraw: React.FC = () => {
                     </button>
                 }
                 rightSlot={
-                    <div style={{ position: 'relative', width: 44, height: 44 }}>
-                        {/* Main FAB Button */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <button
-                            onClick={() => setFabMenuOpen((prev) => !prev)}
-                            aria-label="Menu"
+                            onClick={handleSave}
+                            aria-label="Save draw data"
+                            title="Save"
                             style={{
-                                width: 44,
-                                height: 44,
+                                height: 40,
+                                minWidth: 82,
                                 borderRadius: 999,
                                 border: 'none',
-                                background: fabMenuOpen ? '#2563eb' : 'rgba(33, 36, 39, 0.15)',
-                                color: fabMenuOpen ? '#fff' : 'var(--neutral-800)',
+                                background: '#16a34a',
+                                color: 'rgba(245, 245, 245, 0.98)',
                                 fontWeight: 900,
-                                fontSize: 24,
-                                lineHeight: 1,
-                                padding: 0,
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                transition: 'all 0.2s ease'
+                                fontSize: 14,
+                                padding: '0 16px',
+                                cursor: 'pointer'
                             }}
                         >
-                            ⋮
+                            Save
                         </button>
-
-                        {/* FAB Menu */}
-                        {fabMenuOpen && (
-                            <div
+                        <div style={{ position: 'relative', width: 44, height: 44 }}>
+                            <button
+                                onClick={() => setFabMenuOpen((prev) => !prev)}
+                                aria-label="Menu"
                                 style={{
-                                    position: 'absolute',
-                                    right: 0,
-                                    top: 50,
+                                    width: 44,
+                                    height: 44,
+                                    borderRadius: 999,
+                                    border: 'none',
+                                    background: fabMenuOpen ? '#2563eb' : 'rgba(33, 36, 39, 0.15)',
+                                    color: fabMenuOpen ? '#fff' : 'var(--neutral-800)',
+                                    fontWeight: 900,
+                                    fontSize: 24,
+                                    lineHeight: 1,
+                                    padding: 0,
+                                    cursor: 'pointer',
                                     display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: 8,
-                                    zIndex: 2000
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'all 0.2s ease'
                                 }}
                             >
-                                <button
-                                    onClick={handleExport}
-                                    aria-label="Export draw data"
-                                    title="Export"
+                                ⋮
+                            </button>
+
+                            {fabMenuOpen && (
+                                <div
                                     style={{
-                                        height: 44,
-                                        minWidth: 110,
-                                        borderRadius: 12,
-                                        border: 'none',
-                                        background: '#2563eb',
-                                        color: 'rgba(245, 245, 245, 0.98)',
-                                        fontWeight: 900,
-                                        fontSize: 13,
-                                        padding: '0 14px',
-                                        cursor: 'pointer',
-                                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-                                        whiteSpace: 'nowrap'
+                                        position: 'absolute',
+                                        right: 0,
+                                        top: 50,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 8,
+                                        zIndex: 2000
                                     }}
                                 >
-                                    Export
-                                </button>
-                                <button
-                                    onClick={handleOpenCalibrationEditor}
-                                    disabled={!calibrationTileImageUrl}
-                                    aria-label="Calibrate map"
-                                    title="Calibrate"
-                                    style={{
-                                        height: 44,
-                                        minWidth: 110,
-                                        borderRadius: 12,
-                                        border: 'none',
-                                        background: 'rgba(168, 85, 247, 0.16)',
-                                        color: calibrationTileImageUrl ? '#7c3aed' : 'rgba(124, 58, 237, 0.45)',
-                                        fontWeight: 900,
-                                        fontSize: 13,
-                                        padding: '0 14px',
-                                        cursor: calibrationTileImageUrl ? 'pointer' : 'not-allowed',
-                                        opacity: calibrationTileImageUrl ? 1 : 0.5,
-                                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-                                        whiteSpace: 'nowrap'
-                                    }}
-                                >
-                                    Calibrate
-                                </button>
-                            </div>
-                        )}
+                                    <button
+                                        onClick={handleExport}
+                                        aria-label="Export draw data"
+                                        title="Export"
+                                        style={{
+                                            height: 44,
+                                            minWidth: 110,
+                                            borderRadius: 12,
+                                            border: 'none',
+                                            background: '#2563eb',
+                                            color: 'rgba(245, 245, 245, 0.98)',
+                                            fontWeight: 900,
+                                            fontSize: 13,
+                                            padding: '0 14px',
+                                            cursor: 'pointer',
+                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+                                            whiteSpace: 'nowrap'
+                                        }}
+                                    >
+                                        Export
+                                    </button>
+                                    <button
+                                        onClick={handleOpenCalibrationEditor}
+                                        disabled={!calibrationTileImageUrl}
+                                        aria-label="Calibrate map"
+                                        title="Calibrate"
+                                        style={{
+                                            height: 44,
+                                            minWidth: 110,
+                                            borderRadius: 12,
+                                            border: 'none',
+                                            background: 'rgba(168, 85, 247, 0.16)',
+                                            color: calibrationTileImageUrl ? '#7c3aed' : 'rgba(124, 58, 237, 0.45)',
+                                            fontWeight: 900,
+                                            fontSize: 13,
+                                            padding: '0 14px',
+                                            cursor: calibrationTileImageUrl ? 'pointer' : 'not-allowed',
+                                            opacity: calibrationTileImageUrl ? 1 : 0.5,
+                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+                                            whiteSpace: 'nowrap'
+                                        }}
+                                    >
+                                        Calibrate
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 }
             />

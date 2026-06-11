@@ -12,8 +12,8 @@ import {
     loadTraversableRegionsFromLocalStorage
 } from '../utils/mapDrawData';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
-import type { GeoCalibration, MapPin, MapPinsFile, POI, RuntimeMapPin, TraversableRegion } from '../types';
-import { fetchPinsFile, findNearestPin } from '../utils/mapPins';
+import type { GeoCalibration, MapPin, POI, RuntimeMapPin, TraversableRegion } from '../types';
+import { findNearestPin } from '../utils/mapPins';
 import {
     clampPointToNormalizedTraversableRegions,
     clampPointToTraversableRegionsWithNormalized,
@@ -45,24 +45,6 @@ const getGeolocationErrorMessage = (error: GeolocationPositionError | null, fall
             return error.message?.trim() || fallback;
     }
 };
-
-function mergePinsWithDrawOverrides(basePins: MapPin[], drawPins: MapPin[]) {
-    const drawById = new Map(drawPins.map((pin) => [pin.id, pin]));
-    const baseIds = new Set(basePins.map((pin) => pin.id));
-
-    const merged = basePins.map((pin) => {
-        const drawPin = drawById.get(pin.id);
-        if (!drawPin) return pin;
-        return {
-            ...pin,
-            x: Number.isFinite(drawPin.x) ? drawPin.x : pin.x,
-            y: Number.isFinite(drawPin.y) ? drawPin.y : pin.y
-        };
-    });
-
-    const drawOnlyPins = drawPins.filter((pin) => !baseIds.has(pin.id));
-    return [...merged, ...drawOnlyPins];
-}
 
 const GuideMapView: React.FC = () => {
     const { guideId } = useParams<{ guideId: string }>();
@@ -103,53 +85,24 @@ const GuideMapView: React.FC = () => {
     }, [data?.geoCalibration, guideId]);
 
     useEffect(() => {
-        let cancelled = false;
+        setPinsError(null);
+        if (!guideId) {
+            setPins([]);
+            setRuntimePins([]);
+            return;
+        }
 
-        const run = async () => {
-            setPinsError(null);
-            if (!guideId) {
-                setPins([]);
-                setRuntimePins([]);
-                return;
-            }
-
-            const localDrawPins = loadDrawPinsFromLocalStorage(guideId)?.pins ?? [];
-
-            const buildRuntimePins = (nextPins: MapPin[], calibration: GeoCalibration | null) => nextPins.map((pin) => ({
-                id: pin.id,
-                x: pin.x,
-                y: pin.y,
-                geoPosition: calibration
-                    ? transformNormalizedPoint(calibration.transform, { x: pin.x, y: pin.y })
-                    : undefined
-            }));
-
-            if (!data?.mapPinsUrl) {
-                if (cancelled) return;
-                setPins(localDrawPins);
-                setRuntimePins(buildRuntimePins(localDrawPins, geoCalibration));
-                return;
-            }
-
-            try {
-                const file: MapPinsFile = await fetchPinsFile(data.mapPinsUrl);
-                if (cancelled) return;
-                const mergedPins = mergePinsWithDrawOverrides(file.pins ?? [], localDrawPins);
-                setPins(mergedPins);
-                setRuntimePins(buildRuntimePins(mergedPins, geoCalibration));
-            } catch (e) {
-                if (cancelled) return;
-                setPins(localDrawPins);
-                setRuntimePins(buildRuntimePins(localDrawPins, geoCalibration));
-                setPinsError(e instanceof Error ? e.message : String(e));
-            }
-        };
-
-        run();
-        return () => {
-            cancelled = true;
-        };
-    }, [data?.mapPinsUrl, geoCalibration, guideId]);
+        const localDrawPins = loadDrawPinsFromLocalStorage(guideId)?.pins ?? [];
+        setPins(localDrawPins);
+        setRuntimePins(localDrawPins.map((pin) => ({
+            id: pin.id,
+            x: pin.x,
+            y: pin.y,
+            geoPosition: geoCalibration
+                ? transformNormalizedPoint(geoCalibration.transform, { x: pin.x, y: pin.y })
+                : undefined
+        })));
+    }, [geoCalibration, guideId]);
 
     useEffect(() => {
         if (!locationTrackingEnabled) return;
