@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, us
 import {
     CircleMarker,
     MapContainer,
+    Polygon,
     TileLayer,
     Tooltip,
     useMapEvents
@@ -14,6 +15,7 @@ type TiledMapViewerProps = Pick<
     MapViewerProps,
     | 'pins'
     | 'currentLocationPoint'
+    | 'traversableRegionsNormalized'
     | 'highlightedPinId'
     | 'pinDisplayNameById'
     | 'focusedPinCard'
@@ -70,6 +72,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
             mapTileMaxZoom = 5,
             pins,
             currentLocationPoint,
+            traversableRegionsNormalized = [],
             highlightedPinId,
             pinDisplayNameById,
             focusedPinCard,
@@ -351,6 +354,27 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                         mapPixelHeight={mapPixelHeight}
                         mapTileMaxZoom={mapTileMaxZoom}
                     />
+
+                    {ready && traversableRegionsNormalized
+                        .filter((region) => region.polygon.length >= 3)
+                        .map((region) => (
+                            <Polygon
+                                key={region.id}
+                                positions={region.polygon.map((point) => (
+                                    L.CRS.Simple.pointToLatLng(
+                                        mapPointFromNormalized(point, mapPixelWidth, mapPixelHeight),
+                                        mapTileMaxZoom
+                                    )
+                                ))}
+                                pathOptions={{
+                                    color: 'rgba(22, 163, 74, 0.95)',
+                                    fillColor: 'rgba(34, 197, 94, 0.3)',
+                                    fillOpacity: 0.2,
+                                    weight: 2
+                                }}
+                                interactive={false}
+                            />
+                        ))}
 
                     {ready && pins.map((pin) => {
                         const isHighlighted = pin.id === highlightedPinId;
