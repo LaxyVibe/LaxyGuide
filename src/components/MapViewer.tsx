@@ -3,6 +3,11 @@ import { TransformComponent, TransformWrapper, type ReactZoomPanPinchContentRef 
 import type { MapPin } from '../types';
 import TiledMapViewer from './TiledMapViewer';
 
+interface NormalizedPolygonRegion {
+    id: string;
+    polygon: Array<{ x: number; y: number }>;
+}
+
 export interface MapViewerProps {
     imageUrl: string;
     mapTileUrlTemplate?: string;
@@ -11,6 +16,7 @@ export interface MapViewerProps {
     mapTileMaxZoom?: number;
     pins: MapPin[];
     currentLocationPoint?: { x: number; y: number } | null;
+    traversableRegionsNormalized?: NormalizedPolygonRegion[];
     highlightedPinId?: string;
     pinDisplayNameById?: Record<string, string>;
     fitToViewportOnInit?: boolean;
@@ -54,6 +60,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             mapTileMaxZoom,
             pins,
             currentLocationPoint,
+            traversableRegionsNormalized = [],
             highlightedPinId,
             pinDisplayNameById,
             fitToViewportOnInit = false,
@@ -245,6 +252,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                 mapTileMaxZoom={mapTileMaxZoom}
                 pins={pins}
                 currentLocationPoint={currentLocationPoint}
+                traversableRegionsNormalized={traversableRegionsNormalized}
                 highlightedPinId={highlightedPinId}
                 pinDisplayNameById={pinDisplayNameById}
                 fitToViewportOnInit={fitToViewportOnInit}
@@ -399,6 +407,34 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                             pointerEvents: 'none'
                                         }}
                                     />
+
+                                        {traversableRegionsNormalized.length > 0 && (
+                                            <svg
+                                                aria-hidden="true"
+                                                viewBox="0 0 100 100"
+                                                preserveAspectRatio="none"
+                                                style={{
+                                                    position: 'absolute',
+                                                    inset: 0,
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    pointerEvents: 'none',
+                                                    zIndex: 1
+                                                }}
+                                            >
+                                                {traversableRegionsNormalized
+                                                    .filter((region) => region.polygon.length >= 3)
+                                                    .map((region) => (
+                                                        <polygon
+                                                            key={region.id}
+                                                            points={region.polygon.map((point) => `${clamp01(point.x) * 100},${clamp01(point.y) * 100}`).join(' ')}
+                                                            fill="rgba(34, 197, 94, 0.16)"
+                                                            stroke="rgba(22, 163, 74, 0.95)"
+                                                            strokeWidth="0.5"
+                                                        />
+                                                    ))}
+                                            </svg>
+                                        )}
 
                                         {pins.map(pin => {
                                             const isHighlighted = pin.id === highlightedPinId;

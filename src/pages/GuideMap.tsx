@@ -14,7 +14,6 @@ import type { DrawRuntimeData, GeoCalibration, MapPin, MapPinsFile, POI, Runtime
 import { fetchPinsFile, findNearestPin, loadPinsFromLocalStorage } from '../utils/mapPins';
 import { transformNormalizedPoint } from '../utils/geoTransform';
 import {
-    clampPointToTraversableRegions,
     clampPointToTraversableRegionsWithNormalized,
     hasTraversableRegions,
     clampPointToNormalizedTraversableRegions,
@@ -331,13 +330,6 @@ const GuideMap: React.FC = () => {
     const traversableRegionsNormalized = runtimeTraversableRegions.normalizedRegions;
     const traversableRegionsGeo = runtimeTraversableRegions.geoRegions;
 
-    const displayedHere = useMemo(() => {
-        if (!here) return null;
-        if (!hasTraversableRegions(traversableRegionsGeo)) return here;
-        if (isPointInsideTraversableRegions(here, traversableRegionsGeo)) return here;
-        return clampPointToTraversableRegions(here, traversableRegionsGeo) ?? here;
-    }, [here, traversableRegionsGeo]);
-
     const projectedHerePoint = useMemo(() => {
         if (!here || !geoCalibration) return null;
         const normalized = transformLatLngToNormalized(geoCalibration.transform, here);
@@ -347,16 +339,6 @@ const GuideMap: React.FC = () => {
 
     const displayedHerePoint = useMemo(() => {
         if (!here || !geoCalibration) return null;
-
-        if (hasTraversableRegions(traversableRegionsGeo) && !isPointInsideTraversableRegions(here, traversableRegionsGeo)) {
-            const clamped = clampPointToTraversableRegionsWithNormalized(here, traversableRegionsGeo, traversableRegionsNormalized);
-            if (clamped) {
-                return {
-                    x: Math.max(0, Math.min(1, clamped.normalizedPoint.x)),
-                    y: Math.max(0, Math.min(1, clamped.normalizedPoint.y))
-                };
-            }
-        }
 
         if (projectedHerePoint) {
             if (!hasNormalizedTraversableRegions(traversableRegionsNormalized)) {
@@ -382,18 +364,23 @@ const GuideMap: React.FC = () => {
             }
         }
 
-        if (displayedHere) {
-            const normalized = transformLatLngToNormalized(geoCalibration.transform, displayedHere);
-            if (normalized && Number.isFinite(normalized.x) && Number.isFinite(normalized.y)) {
+        if (hasTraversableRegions(traversableRegionsGeo) && !isPointInsideTraversableRegions(here, traversableRegionsGeo)) {
+            const clamped = clampPointToTraversableRegionsWithNormalized(here, traversableRegionsGeo, traversableRegionsNormalized);
+            if (clamped) {
                 return {
-                    x: Math.max(0, Math.min(1, normalized.x)),
-                    y: Math.max(0, Math.min(1, normalized.y))
+                    x: Math.max(0, Math.min(1, clamped.normalizedPoint.x)),
+                    y: Math.max(0, Math.min(1, clamped.normalizedPoint.y))
                 };
             }
         }
 
         return null;
-    }, [displayedHere, geoCalibration, here, projectedHerePoint, traversableRegionsGeo, traversableRegionsNormalized]);
+    }, [geoCalibration, here, projectedHerePoint, traversableRegionsGeo, traversableRegionsNormalized]);
+
+    const displayedHere = useMemo(() => {
+        if (!geoCalibration || !displayedHerePoint) return here;
+        return transformNormalizedPoint(geoCalibration.transform, displayedHerePoint);
+    }, [displayedHerePoint, geoCalibration, here]);
 
     const nearest = useMemo(() => {
         if (!displayedHere || runtimePins.length === 0) return null;
@@ -632,6 +619,7 @@ const GuideMap: React.FC = () => {
                             mapPixelHeight={mapPixelHeight}
                             pins={pins}
                             currentLocationPoint={displayedHerePoint}
+                            traversableRegionsNormalized={traversableRegionsNormalized}
                             highlightedPinId={focusedPin?.id}
                             pinDisplayNameById={pinDisplayNameById}
                             fitToViewportOnInit={false}
