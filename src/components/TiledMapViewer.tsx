@@ -15,6 +15,7 @@ type TiledMapViewerProps = Pick<
     MapViewerProps,
     | 'pins'
     | 'currentLocationPoint'
+    | 'traversableRegions'
     | 'traversableRegionsNormalized'
     | 'highlightedPinId'
     | 'pinDisplayNameById'
@@ -72,6 +73,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
             mapTileMaxZoom = 5,
             pins,
             currentLocationPoint,
+            traversableRegions = [],
             traversableRegionsNormalized = [],
             highlightedPinId,
             pinDisplayNameById,
@@ -355,7 +357,23 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                         mapTileMaxZoom={mapTileMaxZoom}
                     />
 
-                    {ready && traversableRegionsNormalized
+                    {ready && traversableRegions
+                        .filter((region) => Array.isArray(region.polygon) && region.polygon.length >= 3)
+                        .map((region) => (
+                            <Polygon
+                                key={region.id}
+                                positions={region.polygon.map((point) => [point.lat, point.lng] as [number, number])}
+                                pathOptions={{
+                                    color: 'rgba(22, 163, 74, 0.95)',
+                                    fillColor: 'rgba(34, 197, 94, 0.3)',
+                                    fillOpacity: 0.2,
+                                    weight: 2
+                                }}
+                                interactive={false}
+                            />
+                        ))}
+
+                    {ready && traversableRegions.length === 0 && traversableRegionsNormalized
                         .filter((region) => region.polygon.length >= 3)
                         .map((region) => (
                             <Polygon

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { TransformComponent, TransformWrapper, type ReactZoomPanPinchContentRef } from 'react-zoom-pan-pinch';
-import type { MapPin } from '../types';
+import type { MapPin, TraversableRegion } from '../types';
 import TiledMapViewer from './TiledMapViewer';
 
 interface NormalizedPolygonRegion {
@@ -16,6 +16,7 @@ export interface MapViewerProps {
     mapTileMaxZoom?: number;
     pins: MapPin[];
     currentLocationPoint?: { x: number; y: number } | null;
+    traversableRegions?: TraversableRegion[];
     traversableRegionsNormalized?: NormalizedPolygonRegion[];
     highlightedPinId?: string;
     pinDisplayNameById?: Record<string, string>;
@@ -60,6 +61,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             mapTileMaxZoom,
             pins,
             currentLocationPoint,
+            traversableRegions = [],
             traversableRegionsNormalized = [],
             highlightedPinId,
             pinDisplayNameById,
@@ -252,6 +254,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                 mapTileMaxZoom={mapTileMaxZoom}
                 pins={pins}
                 currentLocationPoint={currentLocationPoint}
+                traversableRegions={traversableRegions}
                 traversableRegionsNormalized={traversableRegionsNormalized}
                 highlightedPinId={highlightedPinId}
                 pinDisplayNameById={pinDisplayNameById}
