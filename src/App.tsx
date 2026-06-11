@@ -7,7 +7,6 @@ import BasicInfo from './pages/BasicInfo';
 import POIListing from './pages/POIListing';
 import POISearch from './pages/POISearch';
 import POIDetail from './pages/POIDetail';
-import GuideMap from './pages/GuideMap';
 import GuideMapCapture from './pages/GuideMapCapture';
 import GuideMapDraw from './pages/GuideMapDraw';
 import GuideMapView from './pages/GuideMapView';
@@ -88,7 +87,7 @@ function App() {
             <Route path="/:guideId/map/capture" element={<GuideMapCapture />} />
             <Route path="/:guideId/map/draw" element={<GuideMapDraw />} />
             <Route path="/:guideId/map/view" element={<GuideMapView />} />
-            <Route path="/:guideId/map" element={<GuideMap />} />
+            <Route path="/:guideId/map" element={<GuideMapView />} />
             <Route path="/:guideId/:poiId" element={<POIDetail />} />
           </Routes>
         </Router>

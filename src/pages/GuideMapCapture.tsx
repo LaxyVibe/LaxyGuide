@@ -121,7 +121,7 @@ const GuideMapCapture: React.FC = () => {
     }, [fabOpen]);
 
     const handleSwapToView = () => {
-        const to = guideId ? `/${guideId}/map?${searchParams.toString()}` : `/?${searchParams.toString()}`;
+        const to = guideId ? `/${guideId}/map/view?${searchParams.toString()}` : `/?${searchParams.toString()}`;
         if ('startViewTransition' in document) {
             document.startViewTransition(() => navigate(to));
         } else {
