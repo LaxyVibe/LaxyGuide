@@ -21,7 +21,7 @@ import {
     hasNormalizedTraversableRegions,
     isPointInsideTraversableRegions,
     isPointInsideNormalizedTraversableRegions,
-    projectTraversableRegionsToNormalized
+    normalizeTraversableRegionsForRuntime
 } from '../utils/traversableRegions';
 
 const TARGET_GUIDE_ID = 'JPN-USAA-TEM-001';
@@ -86,7 +86,7 @@ const GuideMap: React.FC = () => {
         && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
     const useLocalBundleForForcedGuide = isCloudForcedGuide && isLocalDevHost;
     const fallbackGuideCalibration = data?.geoCalibration ?? null;
-    const effectiveCalibration = localDrawRuntime?.calibration ?? fallbackGuideCalibration;
+    const effectiveCalibration = localDrawRuntime?.calibration ?? loadCalibrationFromLocalStorage(guideId ?? '') ?? fallbackGuideCalibration;
 
     useEffect(() => {
         if (!guideId) {
@@ -220,8 +220,12 @@ const GuideMap: React.FC = () => {
         }
 
         if (localDrawRuntime) {
-            setGeoCalibration(effectiveCalibration);
-            setTraversableRegions(localDrawRuntime.traversableRegions);
+            setGeoCalibration(localDrawRuntime.calibration ?? loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null);
+            setTraversableRegions(
+                localDrawRuntime.traversableRegions.length > 0
+                    ? localDrawRuntime.traversableRegions
+                    : (loadTraversableRegionsFromLocalStorage(guideId)?.regions ?? [])
+            );
             return;
         }
 
@@ -308,25 +312,24 @@ const GuideMap: React.FC = () => {
         return () => navigator.geolocation.clearWatch(watchId);
     }, [locationTrackingEnabled]);
 
-    const traversableRegionsNormalized = useMemo(() => {
-        if (!data?.mapPixelWidth || !data?.mapPixelHeight) return [];
-        return projectTraversableRegionsToNormalized(
+    const runtimeTraversableRegions = useMemo(() => {
+        if (!data?.mapPixelWidth || !data?.mapPixelHeight) {
+            return {
+                normalizedRegions: [],
+                geoRegions: []
+            };
+        }
+        return normalizeTraversableRegionsForRuntime(
             traversableRegions,
+            geoCalibration,
             data.mapPixelWidth,
             data.mapPixelHeight,
             data.mapTileMaxZoom ?? 5
         );
-    }, [data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, traversableRegions]);
+    }, [data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, geoCalibration, traversableRegions]);
 
-    const traversableRegionsGeo = useMemo(() => {
-        if (!geoCalibration) return [];
-        return traversableRegionsNormalized
-            .map((region) => ({
-                id: region.id,
-                polygon: region.polygon.map((point) => transformNormalizedPoint(geoCalibration.transform, point))
-            }))
-            .filter((region) => region.polygon.length >= 3);
-    }, [geoCalibration, traversableRegionsNormalized]);
+    const traversableRegionsNormalized = runtimeTraversableRegions.normalizedRegions;
+    const traversableRegionsGeo = runtimeTraversableRegions.geoRegions;
 
     const displayedHere = useMemo(() => {
         if (!here) return null;
