@@ -166,13 +166,17 @@ function normalizeTraversableRegionsFileForEditor(
     return {
         ...file,
         regions: file.regions.map((region) => {
-            const polygonNormalized = Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
+            const normalizedFromRawPolygon = (region.polygon ?? [])
+                    .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, zoom))
+                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+            const normalizedFromSavedField = Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
                 ? region.polygonNormalized
                     .map((point) => ({ x: Number(point.x), y: Number(point.y) }))
                     .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
-                : (region.polygon ?? [])
-                    .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, zoom))
-                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+                : [];
+            const polygonNormalized = normalizedFromRawPolygon.length >= 3
+                ? normalizedFromRawPolygon
+                : normalizedFromSavedField;
 
             return {
                 ...region,

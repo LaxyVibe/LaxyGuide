@@ -94,6 +94,18 @@ function isValidNormalizedPolygon(polygon: NormalizedTraversablePoint[] | undefi
     return Array.isArray(polygon) && polygon.length >= 3;
 }
 
+function hasDistinctNormalizedVertices(polygon: NormalizedTraversablePoint[]) {
+    return polygon.some((point, index) => (
+        polygon.slice(index + 1).some((other) => Math.abs(point.x - other.x) > 1e-10 || Math.abs(point.y - other.y) > 1e-10)
+    ));
+}
+
+function hasDistinctGeoVertices(polygon: Array<{ lat: number; lng: number }>) {
+    return polygon.some((point, index) => (
+        polygon.slice(index + 1).some((other) => Math.abs(point.lat - other.lat) > 1e-10 || Math.abs(point.lng - other.lng) > 1e-10)
+    ));
+}
+
 function isPointInNormalizedPolygon(point: NormalizedTraversablePoint, polygon: NormalizedTraversablePoint[]) {
     let inside = false;
 
@@ -187,7 +199,7 @@ export function projectSimpleMapPointToNormalizedUnclamped(
     mapPixelHeight: number,
     mapTileMaxZoom: number
 ): NormalizedTraversablePoint {
-    const scale = 256 * 2 ** mapTileMaxZoom;
+    const scale = 2 ** mapTileMaxZoom;
     return {
         x: (point.lng * scale) / mapPixelWidth,
         y: (-point.lat * scale) / mapPixelHeight
@@ -200,7 +212,7 @@ export function projectNormalizedPointToSimpleMap(
     mapPixelHeight: number,
     mapTileMaxZoom: number
 ) {
-    const scale = 256 * 2 ** mapTileMaxZoom;
+    const scale = 2 ** mapTileMaxZoom;
     return {
         lat: -(point.y * mapPixelHeight) / scale,
         lng: (point.x * mapPixelWidth) / scale
@@ -218,13 +230,19 @@ export function normalizeTraversableRegionsForRuntime(
     const geoRegions: TraversableRegion[] = [];
 
     for (const region of regions) {
-        const normalizedPolygon = Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
+        const normalizedFromRawPolygon = region.polygon
+            .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, mapTileMaxZoom))
+            .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+        const normalizedFromSavedField = Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
             ? region.polygonNormalized
                 .map((point) => ({ x: Number(point.x), y: Number(point.y) }))
                 .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
-            : region.polygon
-                .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, mapTileMaxZoom))
-                .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+            : [];
+        const normalizedPolygon = normalizedFromRawPolygon.length >= 3 && hasDistinctNormalizedVertices(normalizedFromRawPolygon)
+            ? normalizedFromRawPolygon
+            : normalizedFromSavedField.length >= 3 && hasDistinctNormalizedVertices(normalizedFromSavedField)
+                ? normalizedFromSavedField
+                : [];
 
         if (normalizedPolygon.length < 3) continue;
 
@@ -232,17 +250,23 @@ export function normalizeTraversableRegionsForRuntime(
             id: region.id,
             polygon: normalizedPolygon
         });
-        if (Array.isArray(region.geoPolygon) && region.geoPolygon.length >= 3) {
+
+        const savedGeoPolygon = Array.isArray(region.geoPolygon) && region.geoPolygon.length >= 3
+            ? region.geoPolygon
+            : undefined;
+        if (savedGeoPolygon && hasDistinctGeoVertices(savedGeoPolygon)) {
             geoRegions.push({
                 id: region.id,
-                polygon: region.geoPolygon,
+                polygon: savedGeoPolygon,
                 polygonNormalized: normalizedPolygon,
-                geoPolygon: region.geoPolygon
+                geoPolygon: savedGeoPolygon
             });
         } else if (calibration) {
+            const derivedGeoPolygon = normalizedPolygon.map((point) => transformNormalizedPoint(calibration.transform, point));
+            if (!hasDistinctGeoVertices(derivedGeoPolygon)) continue;
             geoRegions.push({
                 id: region.id,
-                polygon: normalizedPolygon.map((point) => transformNormalizedPoint(calibration.transform, point)),
+                polygon: derivedGeoPolygon,
                 polygonNormalized: normalizedPolygon
             });
         }

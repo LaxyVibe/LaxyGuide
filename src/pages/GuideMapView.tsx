@@ -47,6 +47,25 @@ const getGeolocationErrorMessage = (error: GeolocationPositionError | null, fall
     }
 };
 
+const GEOLOCATION_DENIED_HELP = [
+    'Chrome denied location access for this page.',
+    'Check Chrome site settings for localhost and set Location to Allow.',
+    'Also check macOS System Settings > Privacy & Security > Location Services and make sure Google Chrome is enabled.'
+].join(' ');
+
+async function readGeolocationPermissionState(): Promise<PermissionState | 'unsupported' | null> {
+    if (!('permissions' in navigator) || typeof navigator.permissions?.query !== 'function') {
+        return 'unsupported';
+    }
+
+    try {
+        const status = await navigator.permissions.query({ name: 'geolocation' });
+        return status.state;
+    } catch {
+        return 'unsupported';
+    }
+}
+
 const GuideMapView: React.FC = () => {
     const { guideId } = useParams<{ guideId: string }>();
     const navigate = useNavigate();
@@ -73,6 +92,8 @@ const GuideMapView: React.FC = () => {
     const [locationTrackingEnabled, setLocationTrackingEnabled] = useState(false);
     const [locationStatus, setLocationStatus] = useState<string | null>(null);
     const [shouldCenterOnCurrentLocation, setShouldCenterOnCurrentLocation] = useState(false);
+    const [showDebugInfo, setShowDebugInfo] = useState(false);
+    const [geolocationPermissionState, setGeolocationPermissionState] = useState<PermissionState | 'unsupported' | null>(null);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
 
     useEffect(() => {
@@ -120,6 +141,20 @@ const GuideMapView: React.FC = () => {
         );
         return () => navigator.geolocation.clearWatch(watchId);
     }, [locationTrackingEnabled]);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        readGeolocationPermissionState().then((state) => {
+            if (!cancelled) {
+                setGeolocationPermissionState(state);
+            }
+        });
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     const runtimeTraversableRegions = useMemo(() => {
         if (!data?.mapPixelWidth || !data?.mapPixelHeight) {
@@ -295,21 +330,45 @@ const GuideMapView: React.FC = () => {
             return;
         }
 
+        if (!window.isSecureContext) {
+            const message = 'Location requires a secure context. Use localhost, 127.0.0.1, or HTTPS.';
+            setLocationStatus(message);
+            setShouldCenterOnCurrentLocation(false);
+            window.alert(message);
+            return;
+        }
+
         setLocationStatus('Requesting GPS permission...');
         setShouldCenterOnCurrentLocation(true);
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setHere({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-                setLocationTrackingEnabled(true);
-            },
-            (error) => {
-                const message = getGeolocationErrorMessage(error, t('map.locationDenied'));
-                setLocationStatus(message);
+        readGeolocationPermissionState().then((state) => {
+            setGeolocationPermissionState(state);
+
+            if (state === 'denied') {
+                setLocationStatus(GEOLOCATION_DENIED_HELP);
                 setShouldCenterOnCurrentLocation(false);
-                window.alert(message);
-            },
-            { enableHighAccuracy: true, maximumAge: 0, timeout: 12000 }
-        );
+                window.alert(GEOLOCATION_DENIED_HELP);
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    setHere({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+                    setLocationTrackingEnabled(true);
+                    readGeolocationPermissionState().then((nextState) => setGeolocationPermissionState(nextState));
+                },
+                (error) => {
+                    const baseMessage = getGeolocationErrorMessage(error, t('map.locationDenied'));
+                    const message = error?.code === error.PERMISSION_DENIED
+                        ? `${baseMessage} ${GEOLOCATION_DENIED_HELP}`
+                        : baseMessage;
+                    setLocationStatus(message);
+                    setShouldCenterOnCurrentLocation(false);
+                    readGeolocationPermissionState().then((nextState) => setGeolocationPermissionState(nextState));
+                    window.alert(message);
+                },
+                { enableHighAccuracy: true, maximumAge: 0, timeout: 12000 }
+            );
+        });
     }, [t]);
 
     if (transLoading || guideLoading) return <Loading />;
@@ -372,6 +431,25 @@ const GuideMapView: React.FC = () => {
                 }
                 rightSlot={
                     <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                        <button
+                            onClick={() => setShowDebugInfo((prev) => !prev)}
+                            aria-label="Debug"
+                            title="Debug"
+                            style={{
+                                height: 42,
+                                minWidth: 78,
+                                borderRadius: 999,
+                                border: 'none',
+                                background: showDebugInfo ? 'rgba(22, 163, 74, 0.16)' : 'rgba(33, 36, 39, 0.1)',
+                                color: showDebugInfo ? '#15803d' : 'var(--neutral-800)',
+                                fontWeight: 900,
+                                fontSize: 14,
+                                padding: '0 16px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Debug
+                        </button>
                         <button
                             onClick={handleOpenDraw}
                             aria-label="Draw"
@@ -483,6 +561,92 @@ const GuideMapView: React.FC = () => {
                                 <div style={{ color: 'var(--neutral-700)' }}>
                                     {Math.round(nearest.distanceMeters)}m
                                 </div>
+                            </div>
+                        )}
+
+                        {showDebugInfo && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: 16,
+                                    right: 16,
+                                    top: 16,
+                                    maxHeight: '46dvh',
+                                    overflow: 'auto',
+                                    background: 'rgba(255, 255, 255, 0.97)',
+                                    color: 'var(--neutral-800)',
+                                    padding: '12px 14px',
+                                    borderRadius: 14,
+                                    border: '1px solid rgba(33, 36, 39, 0.12)',
+                                    boxShadow: '0 12px 24px rgba(0, 0, 0, 0.16)',
+                                    zIndex: 1200,
+                                    fontSize: 12,
+                                    lineHeight: 1.45
+                                }}
+                            >
+                                <div style={{ fontWeight: 900, fontSize: 13, marginBottom: 8 }}>
+                                    Debug Info
+                                </div>
+                                <div style={{ marginBottom: 8 }}>
+                                    <strong>Secure context:</strong>{' '}
+                                    {window.isSecureContext ? 'yes' : 'no'}
+                                </div>
+                                <div style={{ marginBottom: 8 }}>
+                                    <strong>Geolocation permission:</strong>{' '}
+                                    {geolocationPermissionState ?? 'checking'}
+                                </div>
+                                <div style={{ marginBottom: 8 }}>
+                                    <strong>現在地 raw GPS:</strong>{' '}
+                                    {here
+                                        ? `${here.lat.toFixed(6)}, ${here.lng.toFixed(6)}`
+                                        : 'not available'}
+                                </div>
+                                <div style={{ marginBottom: 8 }}>
+                                    <strong>現在地 displayed GPS:</strong>{' '}
+                                    {displayedHere
+                                        ? `${displayedHere.lat.toFixed(6)}, ${displayedHere.lng.toFixed(6)}`
+                                        : 'not available'}
+                                </div>
+                                <div style={{ marginBottom: 8 }}>
+                                    <strong>現在地 displayed normalized:</strong>{' '}
+                                    {displayedHerePoint
+                                        ? `${displayedHerePoint.x.toFixed(4)}, ${displayedHerePoint.y.toFixed(4)}`
+                                        : 'not available'}
+                                </div>
+                                <div style={{ marginBottom: 8 }}>
+                                    <strong>Traversable regions:</strong> {traversableRegionsGeo.length}
+                                </div>
+                                {traversableRegionsGeo.length === 0 ? (
+                                    <div style={{ color: 'var(--neutral-600)' }}>
+                                        No traversable geo polygons loaded.
+                                    </div>
+                                ) : (
+                                    traversableRegionsGeo.map((region) => (
+                                        <div
+                                            key={region.id}
+                                            style={{
+                                                marginTop: 10,
+                                                paddingTop: 10,
+                                                borderTop: '1px solid rgba(33, 36, 39, 0.1)'
+                                            }}
+                                        >
+                                            <div style={{ fontWeight: 900, marginBottom: 6 }}>
+                                                Region {region.id}
+                                            </div>
+                                            <div
+                                                style={{
+                                                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                                    whiteSpace: 'pre-wrap',
+                                                    wordBreak: 'break-word'
+                                                }}
+                                            >
+                                                {(region.polygon ?? [])
+                                                    .map((point, index) => `${index + 1}. ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}`)
+                                                    .join('\n')}
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         )}
 
