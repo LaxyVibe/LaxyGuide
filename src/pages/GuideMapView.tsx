@@ -21,7 +21,8 @@ import {
     hasTraversableRegions,
     isPointInsideNormalizedTraversableRegions,
     isPointInsideTraversableRegions,
-    normalizeTraversableRegionsForRuntime
+    normalizeTraversableRegionsForRuntime,
+    projectGeoPointIntoNormalizedRegion
 } from '../utils/traversableRegions';
 
 const truncateSummary = (text: string, maxChars = 100): string => {
@@ -145,6 +146,21 @@ const GuideMapView: React.FC = () => {
 
     const displayedHerePoint = useMemo(() => {
         if (!here || !geoCalibration) return null;
+
+        if (hasTraversableRegions(traversableRegionsGeo)) {
+            for (const geoRegion of traversableRegionsGeo) {
+                if (!isPointInsideTraversableRegions(here, [geoRegion])) continue;
+                const normalizedRegion = traversableRegionsNormalized.find((region) => region.id === geoRegion.id);
+                if (!normalizedRegion) continue;
+                const mapped = projectGeoPointIntoNormalizedRegion(here, geoRegion, normalizedRegion);
+                if (mapped && Number.isFinite(mapped.x) && Number.isFinite(mapped.y)) {
+                    return {
+                        x: Math.max(0, Math.min(1, mapped.x)),
+                        y: Math.max(0, Math.min(1, mapped.y))
+                    };
+                }
+            }
+        }
 
         if (projectedHerePoint) {
             if (!hasNormalizedTraversableRegions(traversableRegionsNormalized)) {
