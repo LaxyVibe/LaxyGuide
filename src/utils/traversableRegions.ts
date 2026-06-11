@@ -129,6 +129,43 @@ function nearestNormalizedPointOnSegment(
     };
 }
 
+function toPlanarGeoPoint(point: GeoPoint, referenceLat: number) {
+    const scaleX = Math.cos(toRad(referenceLat));
+    return {
+        x: point.lng * scaleX,
+        y: point.lat
+    };
+}
+
+function isPointOnGeoSegment(point: GeoPoint, start: GeoPoint, end: GeoPoint) {
+    const referenceLat = (point.lat + start.lat + end.lat) / 3;
+    const p = toPlanarGeoPoint(point, referenceLat);
+    const a = toPlanarGeoPoint(start, referenceLat);
+    const b = toPlanarGeoPoint(end, referenceLat);
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const lengthSq = dx * dx + dy * dy;
+    if (lengthSq <= Number.EPSILON) {
+        return {
+            onSegment: Math.hypot(p.x - a.x, p.y - a.y) <= 1e-10,
+            t: 0
+        };
+    }
+
+    const t = ((p.x - a.x) * dx + (p.y - a.y) * dy) / lengthSq;
+    if (t < -1e-9 || t > 1 + 1e-9) {
+        return { onSegment: false, t };
+    }
+
+    const projectedX = a.x + dx * t;
+    const projectedY = a.y + dy * t;
+    const distance = Math.hypot(p.x - projectedX, p.y - projectedY);
+    return {
+        onSegment: distance <= 1e-10,
+        t: Math.max(0, Math.min(1, t))
+    };
+}
+
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 
 export function projectSimpleMapPointToNormalized(
@@ -285,6 +322,75 @@ export function clampPointToTraversableRegionsWithNormalized(
     }
 
     return nearest;
+}
+
+export function projectGeoPointIntoNormalizedRegion(
+    point: GeoPoint,
+    geoRegion: TraversableRegion,
+    normalizedRegion: NormalizedTraversableRegion
+) {
+    if (!isValidPolygon(geoRegion.polygon)) return null;
+    if (!isValidNormalizedPolygon(normalizedRegion.polygon)) return null;
+    if (geoRegion.polygon.length !== normalizedRegion.polygon.length) return null;
+
+    const referenceLat = geoRegion.polygon.reduce((sum, vertex) => sum + vertex.lat, 0) / geoRegion.polygon.length;
+    const source = geoRegion.polygon.map((vertex) => toPlanarGeoPoint(vertex, referenceLat));
+    const target = normalizedRegion.polygon;
+    const sample = toPlanarGeoPoint(point, referenceLat);
+
+    for (let i = 0; i < source.length; i++) {
+        const vertex = source[i];
+        if (Math.hypot(sample.x - vertex.x, sample.y - vertex.y) <= 1e-10) {
+            return {
+                x: target[i].x,
+                y: target[i].y
+            };
+        }
+    }
+
+    for (let i = 0; i < source.length; i++) {
+        const next = (i + 1) % source.length;
+        const onEdge = isPointOnGeoSegment(point, geoRegion.polygon[i], geoRegion.polygon[next]);
+        if (onEdge.onSegment) {
+            return {
+                x: target[i].x + (target[next].x - target[i].x) * onEdge.t,
+                y: target[i].y + (target[next].y - target[i].y) * onEdge.t
+            };
+        }
+    }
+
+    const vectors = source.map((vertex) => ({
+        x: vertex.x - sample.x,
+        y: vertex.y - sample.y
+    }));
+    const distances = vectors.map((vector) => Math.hypot(vector.x, vector.y));
+    if (distances.some((distance) => distance <= 1e-10)) return null;
+
+    const tanHalfAngles: number[] = [];
+    for (let i = 0; i < source.length; i++) {
+        const next = (i + 1) % source.length;
+        const ri = vectors[i];
+        const rj = vectors[next];
+        const cross = ri.x * rj.y - ri.y * rj.x;
+        const dot = ri.x * rj.x + ri.y * rj.y;
+        tanHalfAngles[i] = cross / (distances[i] * distances[next] + dot);
+    }
+
+    const weights = source.map((_, i) => {
+        const prev = (i - 1 + source.length) % source.length;
+        return (tanHalfAngles[prev] + tanHalfAngles[i]) / distances[i];
+    });
+
+    const weightSum = weights.reduce((sum, value) => sum + value, 0);
+    if (!Number.isFinite(weightSum) || Math.abs(weightSum) <= Number.EPSILON) return null;
+
+    return target.reduce(
+        (acc, vertex, index) => ({
+            x: acc.x + (weights[index] / weightSum) * vertex.x,
+            y: acc.y + (weights[index] / weightSum) * vertex.y
+        }),
+        { x: 0, y: 0 }
+    );
 }
 
 export function hasNormalizedTraversableRegions(regions: NormalizedTraversableRegion[]) {
