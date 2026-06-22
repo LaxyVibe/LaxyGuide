@@ -3,7 +3,8 @@
     "origin": [
       "https://laxyguide-v3.netlify.app",
       "https://laxy.travel",
-      "http://localhost:5173"
+      "http://localhost:5173",
+      "http://localhost:8888"
     ],
     "method": [
       "GET",

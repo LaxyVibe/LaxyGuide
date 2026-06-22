@@ -378,10 +378,24 @@ const GuideMapDraw: React.FC = () => {
         };
 
         const run = async () => {
-            const template = resolvedMapTileBundle?.manifest.tilePathTemplate || data?.mapTileUrlTemplate;
-            const maxZoom = resolvedMapTileBundle?.manifest.mapTileMaxZoom ?? data?.mapTileMaxZoom;
-            const pixelWidth = resolvedMapTileBundle?.manifest.mapPixelWidth ?? data?.mapPixelWidth;
-            const pixelHeight = resolvedMapTileBundle?.manifest.mapPixelHeight ?? data?.mapPixelHeight;
+            const shouldUseHostedBundle = hasHostedMapBundle;
+            if (shouldUseHostedBundle && !resolvedMapTileBundle) {
+                clearCurrentImage();
+                return;
+            }
+
+            const template = shouldUseHostedBundle
+                ? resolvedMapTileBundle?.manifest.tilePathTemplate
+                : data?.mapTileUrlTemplate;
+            const maxZoom = shouldUseHostedBundle
+                ? resolvedMapTileBundle?.manifest.mapTileMaxZoom
+                : data?.mapTileMaxZoom;
+            const pixelWidth = shouldUseHostedBundle
+                ? resolvedMapTileBundle?.manifest.mapPixelWidth
+                : data?.mapPixelWidth;
+            const pixelHeight = shouldUseHostedBundle
+                ? resolvedMapTileBundle?.manifest.mapPixelHeight
+                : data?.mapPixelHeight;
 
             if (!template || !Number.isFinite(pixelWidth) || !Number.isFinite(pixelHeight)) {
                 clearCurrentImage();
@@ -419,7 +433,14 @@ const GuideMapDraw: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [data?.mapTileMaxZoom, data?.mapPixelWidth, data?.mapPixelHeight, data?.mapTileUrlTemplate, resolvedMapTileBundle]);
+    }, [
+        data?.mapTileMaxZoom,
+        data?.mapPixelWidth,
+        data?.mapPixelHeight,
+        data?.mapTileUrlTemplate,
+        hasHostedMapBundle,
+        resolvedMapTileBundle
+    ]);
 
     useEffect(() => {
         return () => {

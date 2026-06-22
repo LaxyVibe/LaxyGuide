@@ -2,6 +2,7 @@ import './polyfills';
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
+import * as L from 'leaflet'
 import './index.css'
 import 'leaflet/dist/leaflet.css'
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
@@ -43,6 +44,12 @@ ReactGA.initialize("G-0XXLM0RLW1");
 setVh()
 window.addEventListener('resize', setVh, { passive: true })
 window.addEventListener('orientationchange', setVh, { passive: true })
+
+if (typeof window !== 'undefined') {
+  const mutableLeaflet = { ...L } as typeof L & Record<string, unknown>;
+  (window as typeof window & { L?: typeof mutableLeaflet }).L = mutableLeaflet;
+  await import('@geoman-io/leaflet-geoman-free');
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

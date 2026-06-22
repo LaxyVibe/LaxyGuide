@@ -34,6 +34,10 @@ export async function ensureLeafletGeomanLoaded(): Promise<void> {
 
     if (!loadPromise) {
         loadPromise = (async () => {
+            // In local Netlify dev we preload Geoman during app bootstrap to avoid
+            // a late dynamic chunk request against the proxied Vite server.
+            const preloaded = (window as typeof window & { L?: typeof globalLeaflet }).L;
+            if ((preloaded as any)?.PM || (preloaded as any)?.pm) return;
             await import('@geoman-io/leaflet-geoman-free');
         })();
     }

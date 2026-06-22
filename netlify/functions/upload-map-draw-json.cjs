@@ -1,3 +1,4 @@
+const crypto = require('node:crypto');
 const { GoogleAuth } = require('google-auth-library');
 
 const ALLOWED_GUIDE_ID = 'JPN-USAA-TEM-001';
@@ -54,31 +55,55 @@ function getServiceAccountCredentials(env = process.env) {
 }
 
 async function verifyFirebaseIdToken(idToken, projectId) {
-  const [{ decodeProtectedHeader, importX509, jwtVerify }, certsResponse] = await Promise.all([
-    import('jose'),
-    fetch(FIREBASE_X509_URL, { method: 'GET', cache: 'no-store' })
-  ]);
+  const certsResponse = await fetch(FIREBASE_X509_URL, { method: 'GET', cache: 'no-store' });
 
   if (!certsResponse.ok) {
     throw new Error(`Failed to fetch Firebase signing certs (${certsResponse.status})`);
   }
 
   const certs = await certsResponse.json();
-  const protectedHeader = decodeProtectedHeader(idToken);
+  const segments = String(idToken || '').split('.');
+  if (segments.length !== 3) {
+    throw new Error('Invalid bearer token');
+  }
+
+  const [encodedHeader, encodedPayload, encodedSignature] = segments;
+  const protectedHeader = JSON.parse(Buffer.from(encodedHeader, 'base64url').toString('utf8'));
+  const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
   const certificate = certs?.[protectedHeader.kid];
 
   if (!certificate) {
     throw new Error('Invalid bearer token');
   }
 
-  const key = await importX509(certificate, 'RS256');
-  const { payload } = await jwtVerify(idToken, key, {
-    algorithms: ['RS256'],
-    issuer: `https://securetoken.google.com/${projectId}`,
-    audience: projectId
-  });
+  if (protectedHeader.alg !== 'RS256') {
+    throw new Error('Invalid bearer token');
+  }
 
+  const verifier = crypto.createVerify('RSA-SHA256');
+  verifier.update(`${encodedHeader}.${encodedPayload}`);
+  verifier.end();
+
+  const signature = Buffer.from(encodedSignature, 'base64url');
+  const isValidSignature = verifier.verify(certificate, signature);
+  if (!isValidSignature) {
+    throw new Error('Invalid bearer token');
+  }
+
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  if (payload.aud !== projectId) {
+    throw new Error('Invalid bearer token');
+  }
+  if (payload.iss !== `https://securetoken.google.com/${projectId}`) {
+    throw new Error('Invalid bearer token');
+  }
   if (typeof payload.sub !== 'string' || payload.sub.length === 0) {
+    throw new Error('Invalid bearer token');
+  }
+  if (typeof payload.exp !== 'number' || payload.exp <= nowSeconds) {
+    throw new Error('Invalid bearer token');
+  }
+  if (typeof payload.iat !== 'number' || payload.iat > nowSeconds + 300) {
     throw new Error('Invalid bearer token');
   }
 
