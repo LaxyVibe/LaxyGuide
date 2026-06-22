@@ -106,7 +106,11 @@ Set these in Netlify site environment settings:
 - `VITE_FIREBASE_API_KEY`
 - `VITE_FIREBASE_AUTH_DOMAIN`
 - `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_STORAGE_BUCKET`
+- `VITE_FIREBASE_MESSAGING_SENDER_ID`
 - `VITE_FIREBASE_APP_ID`
+
+The app now includes the `laxy-guide-dev` web config as a built-in default for `/map/draw`, and these env vars override it when present.
 
 ### Backend Environment Variables
 
