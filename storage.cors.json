@@ -1,0 +1,20 @@
+[
+  {
+    "origin": [
+      "https://laxyguide-v3.netlify.app",
+      "https://laxy.travel",
+      "http://localhost:5173"
+    ],
+    "method": [
+      "GET",
+      "HEAD",
+      "OPTIONS"
+    ],
+    "responseHeader": [
+      "Content-Type",
+      "Content-Length",
+      "ETag"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]

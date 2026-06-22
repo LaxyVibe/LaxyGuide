@@ -12,15 +12,28 @@ type FirebaseWebConfig = {
     apiKey: string;
     authDomain: string;
     projectId: string;
+    storageBucket: string;
+    messagingSenderId: string;
     appId: string;
+};
+
+const DEFAULT_FIREBASE_WEB_CONFIG: FirebaseWebConfig = {
+    apiKey: 'AIzaSyA7V8lxX_z7nmuE-fGsFEIenzsBPDCNw64',
+    authDomain: 'laxy-guide-dev.firebaseapp.com',
+    projectId: 'laxy-guide-dev',
+    storageBucket: 'laxy-guide-dev.firebasestorage.app',
+    messagingSenderId: '434671355332',
+    appId: '1:434671355332:web:7b9645abcc18f9c1fe5091'
 };
 
 function getFirebaseWebConfig(): FirebaseWebConfig {
     return {
-        apiKey: import.meta.env.VITE_FIREBASE_API_KEY ?? '',
-        authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ?? '',
-        projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ?? '',
-        appId: import.meta.env.VITE_FIREBASE_APP_ID ?? ''
+        apiKey: import.meta.env.VITE_FIREBASE_API_KEY ?? DEFAULT_FIREBASE_WEB_CONFIG.apiKey,
+        authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ?? DEFAULT_FIREBASE_WEB_CONFIG.authDomain,
+        projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ?? DEFAULT_FIREBASE_WEB_CONFIG.projectId,
+        storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ?? DEFAULT_FIREBASE_WEB_CONFIG.storageBucket,
+        messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID ?? DEFAULT_FIREBASE_WEB_CONFIG.messagingSenderId,
+        appId: import.meta.env.VITE_FIREBASE_APP_ID ?? DEFAULT_FIREBASE_WEB_CONFIG.appId
     };
 }
 
