@@ -3,13 +3,14 @@ import {
     CircleMarker,
     MapContainer,
     Polygon,
-    TileLayer,
     Tooltip,
     useMapEvents
 } from 'react-leaflet';
 import * as L from 'leaflet';
 import type { MapPin } from '../types';
 import type { MapViewerHandle, MapViewerProps } from './MapViewer';
+import MapTileLayer from './MapTileLayer';
+import type { ResolvedMapTileBundle } from '../utils/mapTileBundle';
 
 type TiledMapViewerProps = Pick<
     MapViewerProps,
@@ -33,7 +34,8 @@ type TiledMapViewerProps = Pick<
     | 'pinLongPressMs'
     | 'showCenterCursor'
 > & {
-    mapTileUrlTemplate: string;
+    mapTileUrlTemplate?: string;
+    mapTileBundle?: ResolvedMapTileBundle;
     mapPixelWidth: number;
     mapPixelHeight: number;
     mapTileMaxZoom?: number;
@@ -68,6 +70,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
     (
         {
             mapTileUrlTemplate,
+            mapTileBundle,
             mapPixelWidth,
             mapPixelHeight,
             mapTileMaxZoom = 5,
@@ -339,15 +342,13 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                     style={{ width: '100%', height: '100%' }}
                     ref={setMap}
                 >
-                    <TileLayer
-                        url={mapTileUrlTemplate}
-                        noWrap={true}
+                    <MapTileLayer
+                        mapTileUrlTemplate={mapTileUrlTemplate}
+                        mapTileBundle={mapTileBundle}
                         bounds={imageBounds}
-                        maxNativeZoom={mapTileMaxZoom}
-                        maxZoom={mapMaxZoom}
-                        minZoom={mapMinZoom}
-                        keepBuffer={2}
-                        errorTileUrl=""
+                        mapTileMaxZoom={mapTileMaxZoom}
+                        mapMinZoom={mapMinZoom}
+                        mapMaxZoom={mapMaxZoom}
                     />
 
                     <MapClickBridge

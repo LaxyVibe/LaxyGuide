@@ -33,6 +33,7 @@ export interface GuideData {
     guideUnderlayImage: string;
     mapImage?: string;
     mapTileUrlTemplate?: string;
+    mapTileBundleUrl?: string;
     mapTileMaxZoom?: number;
     mapPixelWidth?: number;
     mapPixelHeight?: number;
@@ -145,6 +146,32 @@ export interface DrawRuntimeData {
     calibration: GeoCalibration | null;
     traversableRegions: TraversableRegion[];
     pins: RuntimeMapPin[];
+}
+
+export interface MapDrawExportTraversableRegion {
+    id: string;
+    polygon: TraversableRegionPoint[];
+}
+
+export interface MapDrawExportPin {
+    id: string;
+    pinDisplayPosition: {
+        x: number;
+        y: number;
+        geoPosition?: { lat: number; lng: number };
+    };
+    region: {
+        polygon: TraversableRegionPoint[];
+    };
+}
+
+export interface MapDrawExportPayload {
+    version: 3;
+    guideId: string;
+    mapTileCorners: GeoCalibrationCornerTransform | null;
+    calibration: GeoCalibration | null;
+    traversableRegions: MapDrawExportTraversableRegion[];
+    pins: MapDrawExportPin[];
 }
 
 export type Language = 'en-US' | 'ja-JP' | 'ko-KR' | 'zh-TW' | 'zh-CN' | 'fr-FR';

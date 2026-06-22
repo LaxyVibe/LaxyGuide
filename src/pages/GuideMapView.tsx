@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import GlobalHeader from '../components/GlobalHeader';
 import Loading from '../components/Loading';
+import MapAssetLoadingBar from '../components/MapAssetLoadingBar';
 import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
 import { useGuideData } from '../hooks/useGuideData';
+import { useMapTileBundle } from '../hooks/useMapTileBundle';
 import { useTranslation } from '../hooks/useTranslation';
 import { transformLatLngToNormalized, transformNormalizedPoint } from '../utils/geoTransform';
 import {
@@ -95,6 +97,18 @@ const GuideMapView: React.FC = () => {
     const [showDebugInfo, setShowDebugInfo] = useState(false);
     const [geolocationPermissionState, setGeolocationPermissionState] = useState<PermissionState | 'unsupported' | null>(null);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
+    const hasHostedMapBundle = Boolean(data?.mapTileBundleUrl);
+    const {
+        bundle: resolvedMapTileBundle,
+        loading: mapTileBundleLoading,
+        error: mapTileBundleError
+    } = useMapTileBundle({
+        bundleUrl: data?.mapTileBundleUrl,
+        guideId,
+        mapPixelWidth: data?.mapPixelWidth,
+        mapPixelHeight: data?.mapPixelHeight,
+        mapTileMaxZoom: data?.mapTileMaxZoom
+    });
 
     useEffect(() => {
         if (!guideId) {
@@ -371,15 +385,28 @@ const GuideMapView: React.FC = () => {
         });
     }, [t]);
 
+    const mapTileBundle = resolvedMapTileBundle;
+    const shouldWaitForTileBundle = hasHostedMapBundle && mapTileBundleLoading;
+
     if (transLoading || guideLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
     if (!data) return <div>{t('common.noData')}</div>;
 
-    const mapTileUrlTemplate = data.mapTileUrlTemplate;
-    const mapTileMaxZoom = data.mapTileMaxZoom;
-    const mapPixelWidth = data.mapPixelWidth;
-    const mapPixelHeight = data.mapPixelHeight;
-    const mapImage = data.mapImage;
+    const mapTileUrlTemplate = hasHostedMapBundle
+        ? mapTileBundle?.manifest.tilePathTemplate
+        : data.mapTileUrlTemplate;
+    const mapTileMaxZoom = hasHostedMapBundle
+        ? mapTileBundle?.manifest.mapTileMaxZoom
+        : data.mapTileMaxZoom;
+    const mapPixelWidth = hasHostedMapBundle
+        ? mapTileBundle?.manifest.mapPixelWidth
+        : data.mapPixelWidth;
+    const mapPixelHeight = hasHostedMapBundle
+        ? mapTileBundle?.manifest.mapPixelHeight
+        : data.mapPixelHeight;
+    const mapImage = hasHostedMapBundle
+        ? mapTileBundle?.mapImageUrl
+        : data.mapImage;
 
     const handleBackToGuideLanding = () => {
         const to = guideId ? `/${guideId}?${searchParams.toString()}` : `/?${searchParams.toString()}`;
@@ -494,7 +521,9 @@ const GuideMapView: React.FC = () => {
             />
 
             <div className="scroll-content" style={{ position: 'relative' }}>
-                {!mapTileUrlTemplate || !mapPixelWidth || !mapPixelHeight ? (
+                {shouldWaitForTileBundle ? (
+                    <MapAssetLoadingBar />
+                ) : !mapTileUrlTemplate || !mapPixelWidth || !mapPixelHeight ? (
                     <div style={{ padding: 24, textAlign: 'center', color: 'var(--neutral-600)', fontWeight: 700 }}>
                         {t('map.noImage')}
                     </div>
@@ -504,6 +533,7 @@ const GuideMapView: React.FC = () => {
                             ref={mapRef}
                             imageUrl={mapImage || ''}
                             mapTileUrlTemplate={mapTileUrlTemplate}
+                            mapTileBundle={mapTileBundle ?? undefined}
                             mapTileMaxZoom={mapTileMaxZoom}
                             mapPixelWidth={mapPixelWidth}
                             mapPixelHeight={mapPixelHeight}
@@ -666,6 +696,27 @@ const GuideMapView: React.FC = () => {
                                 }}
                             >
                                 {t('common.error')}: {pinsError}
+                            </div>
+                        )}
+
+                        {mapTileBundleError && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: 16,
+                                    right: 16,
+                                    bottom: pinsError
+                                        ? (locationStatus ? 152 : 84)
+                                        : (locationStatus ? 84 : 16),
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-700)',
+                                    padding: '10px 12px',
+                                    borderRadius: 12,
+                                    fontWeight: 700,
+                                    fontSize: 12
+                                }}
+                            >
+                                {t('common.error')}: {mapTileBundleError}
                             </div>
                         )}
 

@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import GlobalHeader from '../components/GlobalHeader';
 import Loading from '../components/Loading';
+import MapAssetLoadingBar from '../components/MapAssetLoadingBar';
 import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
 import { useGuideData } from '../hooks/useGuideData';
+import { useMapTileBundle } from '../hooks/useMapTileBundle';
 import { useTranslation } from '../hooks/useTranslation';
 import { transformLatLngToNormalized } from '../utils/geoTransform';
 import { loadCalibrationFromLocalStorage, loadDrawRuntimeFromLocalStorage, loadTraversableRegionsFromLocalStorage } from '../utils/mapDrawData';
@@ -86,6 +88,19 @@ const GuideMap: React.FC = () => {
     const useLocalBundleForForcedGuide = isCloudForcedGuide && isLocalDevHost;
     const fallbackGuideCalibration = data?.geoCalibration ?? null;
     const effectiveCalibration = localDrawRuntime?.calibration ?? loadCalibrationFromLocalStorage(guideId ?? '') ?? fallbackGuideCalibration;
+    const shouldDisableTiles = !!mapImageOverride;
+    const hasHostedMapBundle = Boolean(data?.mapTileBundleUrl) && !shouldDisableTiles;
+    const {
+        bundle: resolvedMapTileBundle,
+        loading: mapTileBundleLoading,
+        error: mapTileBundleError
+    } = useMapTileBundle({
+        bundleUrl: shouldDisableTiles ? undefined : data?.mapTileBundleUrl,
+        guideId,
+        mapPixelWidth: data?.mapPixelWidth,
+        mapPixelHeight: data?.mapPixelHeight,
+        mapTileMaxZoom: data?.mapTileMaxZoom
+    });
 
     useEffect(() => {
         if (!guideId) {
@@ -492,16 +507,30 @@ const GuideMap: React.FC = () => {
         );
     }, [t]);
 
-    const mapImage = isCloudForcedGuide
-        ? (mapImageOverride || data?.mapImage)
-        : (mapImageOverride || data?.mapImage);
-    const shouldDisableTiles = !!mapImageOverride;
-    const mapTileUrlTemplate = shouldDisableTiles ? undefined : data?.mapTileUrlTemplate;
-    const mapTileMaxZoom = shouldDisableTiles ? undefined : data?.mapTileMaxZoom;
-    const mapPixelWidth = shouldDisableTiles ? undefined : data?.mapPixelWidth;
-    const mapPixelHeight = shouldDisableTiles ? undefined : data?.mapPixelHeight;
+    const mapTileBundle = shouldDisableTiles ? null : resolvedMapTileBundle;
+    const mapImage = shouldDisableTiles
+        ? mapImageOverride
+        : (hasHostedMapBundle ? mapTileBundle?.mapImageUrl : data?.mapImage);
+    const mapTileUrlTemplate = shouldDisableTiles
+        ? undefined
+        : (hasHostedMapBundle ? mapTileBundle?.manifest.tilePathTemplate : data?.mapTileUrlTemplate);
+    const mapTileMaxZoom = shouldDisableTiles
+        ? undefined
+        : (hasHostedMapBundle ? mapTileBundle?.manifest.mapTileMaxZoom : data?.mapTileMaxZoom);
+    const mapPixelWidth = shouldDisableTiles
+        ? undefined
+        : (hasHostedMapBundle ? mapTileBundle?.manifest.mapPixelWidth : data?.mapPixelWidth);
+    const mapPixelHeight = shouldDisableTiles
+        ? undefined
+        : (hasHostedMapBundle ? mapTileBundle?.manifest.mapPixelHeight : data?.mapPixelHeight);
+    const shouldWaitForTileBundle = hasHostedMapBundle && mapTileBundleLoading;
+    const canRenderMap = Boolean(mapImage || (mapTileUrlTemplate && mapPixelWidth && mapPixelHeight));
 
-    if (transLoading || guideLoading || (isCloudForcedGuide && (cloudInitStatus === 'idle' || cloudInitStatus === 'loading'))) {
+    if (
+        transLoading
+        || guideLoading
+        || (isCloudForcedGuide && (cloudInitStatus === 'idle' || cloudInitStatus === 'loading'))
+    ) {
         return <Loading />;
     }
     if (error) return <div>{t('common.error')}: {error}</div>;
@@ -587,7 +616,9 @@ const GuideMap: React.FC = () => {
                     position: 'relative'
                 }}
             >
-                {!mapImage ? (
+                {shouldWaitForTileBundle ? (
+                    <MapAssetLoadingBar />
+                ) : !canRenderMap ? (
                     isCloudForcedGuide && cloudInitStatus === 'error' ? (
                         <div
                             style={{
@@ -612,8 +643,9 @@ const GuideMap: React.FC = () => {
                     <>
                         <MapViewer
                             ref={mapRef}
-                            imageUrl={mapImage}
+                            imageUrl={mapImage || ''}
                             mapTileUrlTemplate={mapTileUrlTemplate}
+                            mapTileBundle={mapTileBundle ?? undefined}
                             mapTileMaxZoom={mapTileMaxZoom}
                             mapPixelWidth={mapPixelWidth}
                             mapPixelHeight={mapPixelHeight}
@@ -691,6 +723,25 @@ const GuideMap: React.FC = () => {
                                 }}
                             >
                                 {t('common.error')}: {pinsError}
+                            </div>
+                        )}
+
+                        {mapTileBundleError && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: 16,
+                                    right: 16,
+                                    bottom: pinsError ? 72 : 16,
+                                    background: 'rgba(245, 245, 245, 0.95)',
+                                    color: 'var(--neutral-700)',
+                                    padding: '10px 12px',
+                                    borderRadius: 12,
+                                    fontWeight: 700,
+                                    fontSize: 12
+                                }}
+                            >
+                                {t('common.error')}: {mapTileBundleError}
                             </div>
                         )}
 

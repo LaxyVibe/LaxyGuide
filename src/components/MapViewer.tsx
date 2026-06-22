@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } 
 import { TransformComponent, TransformWrapper, type ReactZoomPanPinchContentRef } from 'react-zoom-pan-pinch';
 import type { MapPin, TraversableRegion } from '../types';
 import TiledMapViewer from './TiledMapViewer';
+import type { ResolvedMapTileBundle } from '../utils/mapTileBundle';
 
 interface NormalizedPolygonRegion {
     id: string;
@@ -11,6 +12,7 @@ interface NormalizedPolygonRegion {
 export interface MapViewerProps {
     imageUrl: string;
     mapTileUrlTemplate?: string;
+    mapTileBundle?: ResolvedMapTileBundle;
     mapPixelWidth?: number;
     mapPixelHeight?: number;
     mapTileMaxZoom?: number;
@@ -56,6 +58,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
         {
             imageUrl,
             mapTileUrlTemplate,
+            mapTileBundle,
             mapPixelWidth,
             mapPixelHeight,
             mapTileMaxZoom,
@@ -237,18 +240,19 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
         [onMapClick]
     );
 
-    const shouldUseTiles = !!mapTileUrlTemplate
+    const shouldUseTiles = (!!mapTileBundle || !!mapTileUrlTemplate)
         && Number.isFinite(mapPixelWidth)
         && Number.isFinite(mapPixelHeight)
         && mapPixelWidth! > 0
         && mapPixelHeight! > 0
-        && !imageUrl.startsWith('data:image/');
+        && (Boolean(mapTileBundle) || !imageUrl.startsWith('data:image/'));
 
     if (shouldUseTiles) {
         return (
             <TiledMapViewer
                 ref={ref}
                 mapTileUrlTemplate={mapTileUrlTemplate!}
+                mapTileBundle={mapTileBundle}
                 mapPixelWidth={mapPixelWidth!}
                 mapPixelHeight={mapPixelHeight!}
                 mapTileMaxZoom={mapTileMaxZoom}

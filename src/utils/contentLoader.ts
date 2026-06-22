@@ -10,6 +10,7 @@ interface GuideFrontmatter {
         guideUnderlayImage?: string;
         mapImage?: string;
         mapTileUrlTemplate?: string;
+        mapTileBundleUrl?: string;
         mapTileMaxZoom?: number;
         mapPixelWidth?: number;
         mapPixelHeight?: number;
@@ -108,6 +109,7 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
     const guideUnderlayImage = guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage;
     const mapImage = guideLangData.mapImage || guideDefaultData.mapImage;
     const mapTileUrlTemplate = guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate;
+    const mapTileBundleUrl = guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl;
     const mapTileMaxZoomRaw = guideLangData.mapTileMaxZoom ?? guideDefaultData.mapTileMaxZoom;
     const mapPixelWidthRaw = guideLangData.mapPixelWidth ?? guideDefaultData.mapPixelWidth;
     const mapPixelHeightRaw = guideLangData.mapPixelHeight ?? guideDefaultData.mapPixelHeight;
@@ -171,6 +173,7 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
         guideUnderlayImage: guideUnderlayImage || '',
         mapImage,
         mapTileUrlTemplate,
+        mapTileBundleUrl,
         mapTileMaxZoom,
         mapPixelWidth,
         mapPixelHeight,

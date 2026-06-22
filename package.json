@@ -6,19 +6,22 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "test": "npm run test:ga",
-    "test:ga": "node --test tests/ga-config.test.mjs",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs tests/*.test.ts",
+    "test:ga": "node --experimental-strip-types --test tests/ga-config.test.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
+    "map-bundle:usaa": "node scripts/build-map-tile-bundle.mjs JPN-USAA-TEM-001",
     "tiles:clean:usaa": "rm -rf public/maps/JPN-USAA-TEM-001",
     "tiles:gen:usaa": "gdal2tiles --xyz -p raster -r lanczos --tilesize=256 --tiledriver=WEBP --webp-quality=85 -z 0-5 src/assets/map/usaa.webp public/maps/JPN-USAA-TEM-001",
-    "tiles:usaa": "npm run tiles:clean:usaa && npm run tiles:gen:usaa"
+    "tiles:usaa": "npm run tiles:clean:usaa && npm run tiles:gen:usaa && npm run map-bundle:usaa"
   },
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "^2.19.2",
     "@hugeicons/react": "^1.1.1",
     "buffer": "^6.0.3",
     "cloudinary": "^2.9.0",
+    "firebase": "^12.15.0",
+    "firebase-admin": "^14.0.0",
     "googleapis": "^166.0.0",
     "gray-matter": "^4.0.3",
     "jszip": "^3.10.1",
