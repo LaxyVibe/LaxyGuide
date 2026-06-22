@@ -38,7 +38,7 @@
                         new ol.layer.Tile({
                             title: 'Overlay',
                             // opacity: 0.7,
-                            extent: [0, -2546,2771, 0],
+                            extent: [0, -3625,3984, 0],
                             source: new ol.source.TileImage({
                                 attributions: '',
                                 minZoom: 0,
@@ -47,7 +47,7 @@
                                     extent: [0,-8192,8192,0],
                                     origin: [0,0],
                                     resolutions: [32,16,8,4,2,1],
-                                    sizes: [[1,1],[1,1],[2,2],[3,3],[6,5],[11,10]],
+                                    sizes: [[1,1],[1,1],[2,2],[4,4],[8,8],[16,15]],
                                     tileSize: [256, 256]
                                 }),
                                 tileUrlFunction: function(tileCoord) {
@@ -62,7 +62,7 @@
                 }),
             ],
             view: new ol.View({
-                center: [1385.5, -1273],
+                center: [1992, -1812.5],
                 resolution: 32,
             })
         });
