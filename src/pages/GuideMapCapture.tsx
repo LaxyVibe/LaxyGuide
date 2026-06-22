@@ -7,6 +7,7 @@ import MapViewer, { type MapViewerHandle } from '../components/MapViewer';
 import MapIOPanelDialog from '../components/MapIOPanelDialog';
 import PinPolygonEditor from '../components/PinPolygonEditor';
 import { useGuideData } from '../hooks/useGuideData';
+import { useMapTileBundle } from '../hooks/useMapTileBundle';
 import { useTranslation } from '../hooks/useTranslation';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { MapPin, MapPinsFile } from '../types';
@@ -33,6 +34,13 @@ const GuideMapCapture: React.FC = () => {
     const lang = getLanguageFromQuery(searchParams);
     const { t, loading: transLoading } = useTranslation(lang);
     const { data, loading: guideLoading, error } = useGuideData(guideId, lang);
+    const { bundle: resolvedMapTileBundle } = useMapTileBundle({
+        bundleUrl: data?.mapTileBundleUrl,
+        guideId,
+        mapPixelWidth: data?.mapPixelWidth,
+        mapPixelHeight: data?.mapPixelHeight,
+        mapTileMaxZoom: data?.mapTileMaxZoom
+    });
 
     const [activeId, setActiveId] = useState('');
     const [pinsFile, setPinsFile] = useState<MapPinsFile | null>(null);
@@ -87,7 +95,7 @@ const GuideMapCapture: React.FC = () => {
     const pins = pinsFile?.pins ?? [];
     const selectedPin = useMemo(() => pins.find(p => p.id === activeId), [pins, activeId]);
     const selectedLatLngs = selectedPin?.latLngs || [];
-    const mapImage = mapImageOverride || data?.mapImage;
+    const mapImage = mapImageOverride || resolvedMapTileBundle?.mapImageUrl || data?.mapImage;
 
     const canExport = Boolean(guideId) && Boolean(pinsFile) && Boolean(mapImage) && Boolean(saveName.trim()) && !exportingCloud;
     const canImport = Boolean(guideId) && Boolean(selectedBundlePublicId) && !importingCloud;
