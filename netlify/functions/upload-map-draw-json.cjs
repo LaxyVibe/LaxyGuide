@@ -1,10 +1,10 @@
-const { cert, getApp, getApps, initializeApp } = require('firebase-admin/app');
-const { getAuth } = require('firebase-admin/auth');
-const { getStorage } = require('firebase-admin/storage');
+const { GoogleAuth } = require('google-auth-library');
 
 const ALLOWED_GUIDE_ID = 'JPN-USAA-TEM-001';
 const BUCKET_NAME = 'laxy-guide-dev.firebasestorage.app';
 const OBJECT_PATH = 'maps/JPN-USAA-TEM-001-map-draw.json';
+const FIREBASE_X509_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
+const STORAGE_UPLOAD_SCOPE = 'https://www.googleapis.com/auth/devstorage.read_write';
 
 function json(statusCode, body) {
   return {
@@ -37,7 +37,7 @@ function extractBearerToken(headers = {}) {
   return match ? match[1].trim() : '';
 }
 
-function getFirebaseAdminApp(env = process.env) {
+function getServiceAccountCredentials(env = process.env) {
   const projectId = env.FIREBASE_PROJECT_ID || env.VITE_FIREBASE_PROJECT_ID;
   const clientEmail = env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const privateKey = normalizePrivateKey(env.GOOGLE_PRIVATE_KEY);
@@ -46,36 +46,85 @@ function getFirebaseAdminApp(env = process.env) {
     throw new Error('Firebase admin environment variables are not configured');
   }
 
-  if (getApps().length > 0) {
-    return getApp();
+  return {
+    projectId,
+    clientEmail,
+    privateKey
+  };
+}
+
+async function verifyFirebaseIdToken(idToken, projectId) {
+  const [{ decodeProtectedHeader, importX509, jwtVerify }, certsResponse] = await Promise.all([
+    import('jose'),
+    fetch(FIREBASE_X509_URL, { method: 'GET', cache: 'no-store' })
+  ]);
+
+  if (!certsResponse.ok) {
+    throw new Error(`Failed to fetch Firebase signing certs (${certsResponse.status})`);
   }
 
-  return initializeApp({
-    credential: cert({
-      projectId,
-      clientEmail,
-      privateKey
-    }),
-    storageBucket: BUCKET_NAME
+  const certs = await certsResponse.json();
+  const protectedHeader = decodeProtectedHeader(idToken);
+  const certificate = certs?.[protectedHeader.kid];
+
+  if (!certificate) {
+    throw new Error('Invalid bearer token');
+  }
+
+  const key = await importX509(certificate, 'RS256');
+  const { payload } = await jwtVerify(idToken, key, {
+    algorithms: ['RS256'],
+    issuer: `https://securetoken.google.com/${projectId}`,
+    audience: projectId
   });
+
+  if (typeof payload.sub !== 'string' || payload.sub.length === 0) {
+    throw new Error('Invalid bearer token');
+  }
+
+  return payload;
 }
 
 function createRuntime(env = process.env) {
-  const app = getFirebaseAdminApp(env);
-  const auth = getAuth(app);
-  const bucket = getStorage(app).bucket(BUCKET_NAME);
+  const credentials = getServiceAccountCredentials(env);
 
   return {
-    verifyIdToken: (idToken) => auth.verifyIdToken(idToken),
+    verifyIdToken: (idToken) => verifyFirebaseIdToken(idToken, credentials.projectId),
     saveObject: async (payload) => {
-      const file = bucket.file(OBJECT_PATH);
-      await file.save(JSON.stringify(payload, null, 2), {
-        resumable: false,
-        contentType: 'application/json',
-        metadata: {
-          cacheControl: 'no-store'
-        }
+      const auth = new GoogleAuth({
+        credentials: {
+          client_email: credentials.clientEmail,
+          private_key: credentials.privateKey
+        },
+        scopes: [STORAGE_UPLOAD_SCOPE]
       });
+
+      const client = await auth.getClient();
+      const accessTokenResponse = await client.getAccessToken();
+      const accessToken = typeof accessTokenResponse === 'string'
+        ? accessTokenResponse
+        : accessTokenResponse?.token;
+
+      if (!accessToken) {
+        throw new Error('Failed to obtain Google Cloud access token');
+      }
+
+      const uploadUrl = `https://storage.googleapis.com/upload/storage/v1/b/${encodeURIComponent(BUCKET_NAME)}/o?uploadType=media&name=${encodeURIComponent(OBJECT_PATH)}`;
+      const response = await fetch(uploadUrl, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-store'
+        },
+        body: JSON.stringify(payload, null, 2)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => '');
+        throw new Error(`Storage upload failed (${response.status})${errorText ? `: ${errorText}` : ''}`);
+      }
+
       return OBJECT_PATH;
     }
   };
