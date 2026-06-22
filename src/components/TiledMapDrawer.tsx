@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CircleMarker, FeatureGroup, MapContainer, Polygon, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet';
+import { CircleMarker, FeatureGroup, MapContainer, Polygon, Tooltip, useMap, useMapEvents } from 'react-leaflet';
 import * as L from 'leaflet';
 import type { MapPin, TraversableRegion } from '../types';
 import { ensureLeafletGeomanLoaded } from '../utils/ensureLeafletGeoman';
+import MapTileLayer from './MapTileLayer';
+import type { ResolvedMapTileBundle } from '../utils/mapTileBundle';
 
 type LatLng = { lat: number; lng: number };
 type EditLayerMode = 'pins' | 'traversable';
 
 export interface TiledMapDrawerProps {
-    mapTileUrlTemplate: string;
+    mapTileUrlTemplate?: string;
+    mapTileBundle?: ResolvedMapTileBundle;
     mapPixelWidth: number;
     mapPixelHeight: number;
     mapTileMaxZoom?: number;
@@ -285,6 +288,7 @@ const DrawController: React.FC<{
 
 const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
     mapTileUrlTemplate,
+    mapTileBundle,
     mapPixelWidth,
     mapPixelHeight,
     mapTileMaxZoom = 5,
@@ -341,15 +345,13 @@ const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
         >
             <FitBoundsOnInit bounds={imageBounds} />
 
-            <TileLayer
-                url={mapTileUrlTemplate}
-                noWrap={true}
+            <MapTileLayer
+                mapTileUrlTemplate={mapTileUrlTemplate}
+                mapTileBundle={mapTileBundle}
                 bounds={imageBounds}
-                maxNativeZoom={mapTileMaxZoom}
-                maxZoom={mapMaxZoom}
-                minZoom={mapMinZoom}
-                keepBuffer={2}
-                errorTileUrl=""
+                mapTileMaxZoom={mapTileMaxZoom}
+                mapMinZoom={mapMinZoom}
+                mapMaxZoom={mapMaxZoom}
             />
 
             <MapClickBridge

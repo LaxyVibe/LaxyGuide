@@ -4,10 +4,14 @@ import { MapPin as MapPinIcon, Plus, Trash2 } from 'lucide-react';
 import GeoCalibrationOverlayEditor from '../components/GeoCalibrationOverlayEditor';
 import GlobalHeader from '../components/GlobalHeader';
 import Loading from '../components/Loading';
+import MapAssetLoadingBar from '../components/MapAssetLoadingBar';
 import TiledMapDrawer from '../components/TiledMapDrawer';
 import { useGuideData } from '../hooks/useGuideData';
+import { useMapTileBundle } from '../hooks/useMapTileBundle';
 import { useTranslation } from '../hooks/useTranslation';
 import type { GeoCalibration, MapPin, MapPinsFile, TraversableRegion, TraversableRegionsFile } from '../types';
+import { ensureFirebaseUser, isFirebaseAuthConfigured, subscribeToFirebaseAuth } from '../utils/firebaseAuth';
+import { buildMapDrawExportPayload } from '../utils/mapDrawExport';
 import {
     loadCalibrationFromLocalStorage,
     loadDrawPinsFromLocalStorage,
@@ -16,7 +20,9 @@ import {
     saveDrawPinsToLocalStorage,
     saveTraversableRegionsToLocalStorage
 } from '../utils/mapDrawData';
-import { downloadJson, fetchPinsFile } from '../utils/mapPins';
+import { uploadMapDrawJson } from '../utils/mapDrawUpload';
+import { fetchPinsFile } from '../utils/mapPins';
+import { resolveBundledTileUrl, type ResolvedMapTileBundle } from '../utils/mapTileBundle';
 import { getNextNumericId } from '../utils/pinIdUtils';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { buildCornerBilinearCalibration, transformNormalizedPoint, type GeoPoint } from '../utils/geoTransform';
@@ -43,20 +49,10 @@ const CORNER_IMAGE_COORDINATES: Record<CornerKey, { x: number; y: number }> = {
 };
 
 const TILE_SIZE = 256;
+const MAP_DRAW_UPLOAD_GUIDE_ID = 'JPN-USAA-TEM-001';
 
 function getCalibrationDraftCorners(calibration: GeoCalibration | null): Partial<Record<CornerKey, GeoPoint>> {
     if (!calibration) return {};
-
-    return {
-        topLeft: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.topLeft),
-        topRight: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.topRight),
-        bottomRight: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.bottomRight),
-        bottomLeft: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.bottomLeft)
-    };
-}
-
-function getCalibrationCornerGeoPoints(calibration: GeoCalibration | null) {
-    if (!calibration) return null;
 
     return {
         topLeft: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.topLeft),
@@ -104,8 +100,31 @@ function loadImageElement(src: string) {
     });
 }
 
+function resolveTileUrlForCalibration(
+    mapTileMaxZoom: number,
+    x: number,
+    y: number,
+    options: {
+        mapTileUrlTemplate?: string;
+        mapTileBundle?: ResolvedMapTileBundle | null;
+    }
+) {
+    if (options.mapTileBundle) {
+        return resolveBundledTileUrl(options.mapTileBundle, mapTileMaxZoom, x, y) || null;
+    }
+
+    if (!options.mapTileUrlTemplate) {
+        return null;
+    }
+
+    return buildTileUrl(options.mapTileUrlTemplate, mapTileMaxZoom, x, y);
+}
+
 async function buildCalibrationImageFromTiles(
-    mapTileUrlTemplate: string,
+    options: {
+        mapTileUrlTemplate?: string;
+        mapTileBundle?: ResolvedMapTileBundle | null;
+    },
     mapTileMaxZoom: number,
     mapPixelWidth: number,
     mapPixelHeight: number
@@ -122,7 +141,8 @@ async function buildCalibrationImageFromTiles(
 
     for (let y = 0; y < rows; y++) {
         for (let x = 0; x < columns; x++) {
-            const tileUrl = buildTileUrl(mapTileUrlTemplate, mapTileMaxZoom, x, y);
+            const tileUrl = resolveTileUrlForCalibration(mapTileMaxZoom, x, y, options);
+            if (!tileUrl) continue;
             tasks.push(
                 loadImageElement(tileUrl).then((image) => {
                     context.drawImage(image, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -230,7 +250,24 @@ const GuideMapDraw: React.FC = () => {
     const [calibrationOverlayOpacity, setCalibrationOverlayOpacity] = useState(0.62);
     const [calibrationTileImageUrl, setCalibrationTileImageUrl] = useState<string | null>(null);
     const [geoCalibration, setGeoCalibration] = useState<GeoCalibration | null>(null);
+    const [mapDrawExporting, setMapDrawExporting] = useState(false);
+    const [mapDrawExportStatus, setMapDrawExportStatus] = useState<string | null>(null);
+    const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
     const calibrationHydratedRef = useRef(false);
+    const canUploadMapDraw = guideId?.toUpperCase() === MAP_DRAW_UPLOAD_GUIDE_ID;
+    const firebaseAuthConfigured = isFirebaseAuthConfigured();
+    const hasHostedMapBundle = Boolean(data?.mapTileBundleUrl);
+    const {
+        bundle: resolvedMapTileBundle,
+        loading: mapTileBundleLoading,
+        error: mapTileBundleError
+    } = useMapTileBundle({
+        bundleUrl: data?.mapTileBundleUrl,
+        guideId,
+        mapPixelWidth: data?.mapPixelWidth,
+        mapPixelHeight: data?.mapPixelHeight,
+        mapTileMaxZoom: data?.mapTileMaxZoom
+    });
 
     useEffect(() => {
         let cancelled = false;
@@ -341,10 +378,10 @@ const GuideMapDraw: React.FC = () => {
         };
 
         const run = async () => {
-            const template = data?.mapTileUrlTemplate;
-            const maxZoom = data?.mapTileMaxZoom;
-            const pixelWidth = data?.mapPixelWidth;
-            const pixelHeight = data?.mapPixelHeight;
+            const template = resolvedMapTileBundle?.manifest.tilePathTemplate || data?.mapTileUrlTemplate;
+            const maxZoom = resolvedMapTileBundle?.manifest.mapTileMaxZoom ?? data?.mapTileMaxZoom;
+            const pixelWidth = resolvedMapTileBundle?.manifest.mapPixelWidth ?? data?.mapPixelWidth;
+            const pixelHeight = resolvedMapTileBundle?.manifest.mapPixelHeight ?? data?.mapPixelHeight;
 
             if (!template || !Number.isFinite(pixelWidth) || !Number.isFinite(pixelHeight)) {
                 clearCurrentImage();
@@ -355,7 +392,10 @@ const GuideMapDraw: React.FC = () => {
 
             try {
                 const nextUrl = await buildCalibrationImageFromTiles(
-                    template,
+                    {
+                        mapTileUrlTemplate: template,
+                        mapTileBundle: resolvedMapTileBundle
+                    },
                     maxZoom ?? 5,
                     pixelWidth!,
                     pixelHeight!
@@ -379,7 +419,7 @@ const GuideMapDraw: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [data?.mapTileUrlTemplate, data?.mapTileMaxZoom, data?.mapPixelWidth, data?.mapPixelHeight]);
+    }, [data?.mapTileMaxZoom, data?.mapPixelWidth, data?.mapPixelHeight, data?.mapTileUrlTemplate, resolvedMapTileBundle]);
 
     useEffect(() => {
         return () => {
@@ -421,6 +461,23 @@ const GuideMapDraw: React.FC = () => {
             setMovePinMode(false);
         }
     }, [drawLayerMode]);
+
+    useEffect(() => {
+        if (!canUploadMapDraw || !firebaseAuthConfigured) {
+            setSignedInEmail(null);
+            return;
+        }
+
+        return subscribeToFirebaseAuth((user) => {
+            setSignedInEmail(user?.email ?? null);
+        });
+    }, [canUploadMapDraw, firebaseAuthConfigured]);
+
+    useEffect(() => {
+        if (!canUploadMapDraw) {
+            setMapDrawExportStatus(null);
+        }
+    }, [canUploadMapDraw]);
 
     const pinDisplayNameById = useMemo(() => {
         const byNumber = new Map((data?.pois ?? []).map((poi) => [poi.number, poi.title]));
@@ -649,44 +706,50 @@ const GuideMapDraw: React.FC = () => {
         setFabMenuOpen(false);
     }, [geoCalibration, guideId]);
 
-    const handleExport = () => {
-        if (!guideId) return;
-        const calibration = geoCalibration ?? data?.geoCalibration ?? null;
-        const mapTileCorners = getCalibrationCornerGeoPoints(calibration);
-        const payload = {
-            version: 3,
-            guideId,
-            mapTileCorners,
-            calibration,
-            traversableRegions: traversableRegions
-                .filter((region) => (
-                    (Array.isArray(region.geoPolygon) && region.geoPolygon.length >= 3)
-                    || (Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3)
-                ))
-                .map((region) => ({
-                    id: region.id,
-                    polygon: Array.isArray(region.geoPolygon) && region.geoPolygon.length >= 3
-                        ? region.geoPolygon
-                        : (calibration
-                            ? (region.polygonNormalized ?? []).map((point) => transformNormalizedPoint(calibration.transform, point))
-                            : [])
-                })),
-            pins: pins.map((pin) => ({
-                id: pin.id,
-                pinDisplayPosition: {
-                    x: pin.x,
-                    y: pin.y,
-                    geoPosition: calibration
-                        ? transformNormalizedPoint(calibration.transform, { x: pin.x, y: pin.y })
-                        : undefined
-                },
-                region: {
-                    polygon: pin.polygon ?? []
-                }
-            }))
-        };
-        downloadJson(`${guideId}-draw-map-regions.json`, payload);
-    };
+    const handleExport = React.useCallback(async () => {
+        if (!guideId || !canUploadMapDraw) return;
+
+        if (!firebaseAuthConfigured) {
+            setMapDrawExportStatus(t('map.drawAuthNotConfigured', 'Firebase auth is not configured'));
+            setFabMenuOpen(false);
+            return;
+        }
+
+        setFabMenuOpen(false);
+        setMapDrawExporting(true);
+
+        try {
+            setMapDrawExportStatus(t('map.drawSigningIn', 'Signing in with Google...'));
+            const user = await ensureFirebaseUser();
+            const idToken = await user.getIdToken();
+
+            const payload = buildMapDrawExportPayload({
+                guideId,
+                calibration: geoCalibration ?? data?.geoCalibration ?? null,
+                traversableRegions,
+                pins
+            });
+
+            setMapDrawExportStatus(t('map.drawUploading', 'Uploading map draw JSON...'));
+            await uploadMapDrawJson({ guideId, payload, idToken });
+            setSignedInEmail(user.email ?? null);
+            setMapDrawExportStatus(t('map.drawUploaded', 'Map draw JSON uploaded'));
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            setMapDrawExportStatus(`${t('map.drawUploadFailed', 'Map draw upload failed')}: ${message}`);
+        } finally {
+            setMapDrawExporting(false);
+        }
+    }, [
+        canUploadMapDraw,
+        data?.geoCalibration,
+        firebaseAuthConfigured,
+        geoCalibration,
+        guideId,
+        pins,
+        t,
+        traversableRegions
+    ]);
 
     const calibrationSeedPoints = useMemo(() => {
         const points: GeoPoint[] = [];
@@ -781,6 +844,21 @@ const GuideMapDraw: React.FC = () => {
         setFabMenuOpen(false);
     };
 
+    const effectiveMapTileBundle = resolvedMapTileBundle;
+    const effectiveMapTileUrlTemplate = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.tilePathTemplate
+        : data?.mapTileUrlTemplate;
+    const effectiveMapTileMaxZoom = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.mapTileMaxZoom
+        : data?.mapTileMaxZoom;
+    const effectiveMapPixelWidth = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.mapPixelWidth
+        : data?.mapPixelWidth;
+    const effectiveMapPixelHeight = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.mapPixelHeight
+        : data?.mapPixelHeight;
+    const shouldWaitForTileBundle = hasHostedMapBundle && mapTileBundleLoading;
+
     if (transLoading || guideLoading) {
         return <Loading />;
     }
@@ -789,7 +867,7 @@ const GuideMapDraw: React.FC = () => {
         return <div>{t('common.error')}: {error}</div>;
     }
 
-    const canUseTiles = Boolean(data?.mapTileUrlTemplate && data?.mapPixelWidth && data?.mapPixelHeight);
+    const canUseTiles = Boolean(effectiveMapTileUrlTemplate && effectiveMapPixelWidth && effectiveMapPixelHeight);
 
     return (
         <div className="page">
@@ -879,27 +957,35 @@ const GuideMapDraw: React.FC = () => {
                                         zIndex: 2000
                                     }}
                                 >
-                                    <button
-                                        onClick={handleExport}
-                                        aria-label="Export draw data"
-                                        title="Export"
-                                        style={{
-                                            height: 44,
-                                            minWidth: 110,
-                                            borderRadius: 12,
-                                            border: 'none',
-                                            background: '#2563eb',
-                                            color: 'rgba(245, 245, 245, 0.98)',
-                                            fontWeight: 900,
-                                            fontSize: 13,
-                                            padding: '0 14px',
-                                            cursor: 'pointer',
-                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                    >
-                                        Export
-                                    </button>
+                                    {canUploadMapDraw && (
+                                        <button
+                                            onClick={handleExport}
+                                            disabled={mapDrawExporting}
+                                            aria-label={t('map.drawUpload', 'Upload to Firebase')}
+                                            title={signedInEmail
+                                                ? `${t('map.drawUpload', 'Upload to Firebase')} (${signedInEmail})`
+                                                : t('map.drawUpload', 'Upload to Firebase')}
+                                            style={{
+                                                height: 44,
+                                                minWidth: 110,
+                                                borderRadius: 12,
+                                                border: 'none',
+                                                background: '#2563eb',
+                                                color: 'rgba(245, 245, 245, 0.98)',
+                                                fontWeight: 900,
+                                                fontSize: 13,
+                                                padding: '0 14px',
+                                                cursor: mapDrawExporting ? 'not-allowed' : 'pointer',
+                                                opacity: mapDrawExporting ? 0.6 : 1,
+                                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+                                                whiteSpace: 'nowrap'
+                                            }}
+                                        >
+                                            {mapDrawExporting
+                                                ? t('map.drawUploadingButton', 'Uploading...')
+                                                : t('map.drawUploadButton', 'Upload')}
+                                        </button>
+                                    )}
                                     <button
                                         onClick={handleOpenCalibrationEditor}
                                         disabled={!calibrationTileImageUrl}
@@ -938,7 +1024,24 @@ const GuideMapDraw: React.FC = () => {
                     flexDirection: 'column'
                 }}
             >
-                {!canUseTiles ? (
+                {(mapDrawExportStatus || (canUploadMapDraw && signedInEmail)) && (
+                    <div
+                        style={{
+                            margin: '10px 16px 0',
+                            padding: '10px 12px',
+                            borderRadius: 12,
+                            background: 'rgba(37, 99, 235, 0.1)',
+                            color: '#1d4ed8',
+                            fontWeight: 800,
+                            fontSize: 12
+                        }}
+                    >
+                        {mapDrawExportStatus ?? `Signed in as ${signedInEmail}`}
+                    </div>
+                )}
+                {shouldWaitForTileBundle ? (
+                    <MapAssetLoadingBar />
+                ) : !canUseTiles ? (
                     <div style={{ padding: 24, textAlign: 'center', color: 'var(--neutral-600)', fontWeight: 700 }}>
                         {t('map.noImage')}
                     </div>
@@ -995,10 +1098,11 @@ const GuideMapDraw: React.FC = () => {
 
                         <div style={{ flex: 1, minHeight: 0 }}>
                             <TiledMapDrawer
-                                mapTileUrlTemplate={data!.mapTileUrlTemplate!}
-                                mapTileMaxZoom={data!.mapTileMaxZoom}
-                                mapPixelWidth={data!.mapPixelWidth!}
-                                mapPixelHeight={data!.mapPixelHeight!}
+                                mapTileUrlTemplate={effectiveMapTileUrlTemplate!}
+                                mapTileBundle={effectiveMapTileBundle ?? undefined}
+                                mapTileMaxZoom={effectiveMapTileMaxZoom}
+                                mapPixelWidth={effectiveMapPixelWidth!}
+                                mapPixelHeight={effectiveMapPixelHeight!}
                                 pins={pins}
                                 traversableRegions={traversableRegions}
                                 editLayerMode={drawLayerMode}
@@ -1571,6 +1675,26 @@ const GuideMapDraw: React.FC = () => {
                         }}
                     >
                         {t('common.error')}: {pinsError}
+                    </div>
+                )}
+
+                {mapTileBundleError && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: 16,
+                            right: 16,
+                            top: pinsError ? 72 : 16,
+                            background: 'rgba(245, 245, 245, 0.95)',
+                            color: 'var(--neutral-700)',
+                            padding: '10px 12px',
+                            borderRadius: 12,
+                            fontWeight: 700,
+                            fontSize: 12,
+                            zIndex: 1100
+                        }}
+                    >
+                        {t('common.error')}: {mapTileBundleError}
                     </div>
                 )}
             </div>

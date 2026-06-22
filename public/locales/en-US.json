@@ -81,7 +81,15 @@
         "gpsPointLabel": "GPS point",
         "noActivePin": "Add a pin first",
         "captureFailed": "Capture failed",
-        "locationDenied": "Location permission denied"
+        "locationDenied": "Location permission denied",
+        "drawUpload": "Upload to Firebase",
+        "drawUploadButton": "Upload",
+        "drawUploadingButton": "Uploading...",
+        "drawSigningIn": "Signing in with Google...",
+        "drawUploading": "Uploading map draw JSON...",
+        "drawUploaded": "Map draw JSON uploaded",
+        "drawUploadFailed": "Map draw upload failed",
+        "drawAuthNotConfigured": "Firebase auth is not configured"
     },
     "poiListing": {
         "title": "Artworks"

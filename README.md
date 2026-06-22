@@ -93,6 +93,28 @@ Set these in Netlify site environment settings:
 - `/.netlify/functions/cloudinary-sign` (POST): returns signed upload parameters.
 - `/.netlify/functions/cloudinary-list-bundles` (GET `?guideId=...`): returns available bundles.
 
+## Map Draw Firebase Export
+
+`/JPN-USAA-TEM-001/map/draw` now uploads its export JSON to Firebase Storage instead of downloading a local file.
+
+- Storage target: `gs://laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-draw.json`
+- Endpoint: `/.netlify/functions/upload-map-draw-json` (POST)
+- Auth: Firebase Google sign-in on the client, Firebase ID token verification plus email allowlist on the Netlify function
+
+### Frontend Environment Variables
+
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_APP_ID`
+
+### Backend Environment Variables
+
+- `FIREBASE_PROJECT_ID`
+- `MAP_DRAW_ADMIN_EMAILS`
+- `GOOGLE_SERVICE_ACCOUNT_EMAIL`
+- `GOOGLE_PRIVATE_KEY`
+
 ## GDAL2Tiles Map Slicing (USAA)
 
 The map viewer now supports local XYZ tiles for non-geographic guide maps.
@@ -113,18 +135,24 @@ This runs:
 
 - `npm run tiles:clean:usaa`
 - `npm run tiles:gen:usaa`
+- `npm run map-bundle:usaa`
 
 Output tiles are generated in:
 
 - `public/maps/JPN-USAA-TEM-001/{z}/{x}/{y}.webp`
+
+Uploadable ZIP bundle is generated in:
+
+- `public/bundles/JPN-USAA-TEM-001/map-tiles.zip`
 
 ### Guide Metadata Fields
 
 The USAA guide frontmatter can provide:
 
 - `mapTileUrlTemplate`
+- `mapTileBundleUrl`
 - `mapTileMaxZoom`
 - `mapPixelWidth`
 - `mapPixelHeight`
 
-When these are present, the map viewer prefers tiled rendering and keeps the original image URL as fallback.
+When `mapTileBundleUrl` is present, the map viewer downloads the ZIP, extracts the tiles in-browser, and serves them to Leaflet from blob URLs. The original image URL remains available as a fallback for non-tiled rendering and calibration overlays.
