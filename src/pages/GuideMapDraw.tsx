@@ -10,7 +10,7 @@ import { useGuideData } from '../hooks/useGuideData';
 import { useMapTileBundle } from '../hooks/useMapTileBundle';
 import { useTranslation } from '../hooks/useTranslation';
 import type { GeoCalibration, MapAuthoringDocument, MapPin, MapPinsFile, TraversableRegion, TraversableRegionsFile } from '../types';
-import { ensureFirebaseUser, isFirebaseAuthConfigured, subscribeToFirebaseAuth } from '../utils/firebaseAuth';
+import { getCurrentFirebaseUser, isFirebaseAuthConfigured, subscribeToFirebaseAuth } from '../utils/firebaseAuth';
 import {
     createBootstrapMapAuthoringDocument,
     fetchMapAuthoringJson,
@@ -24,6 +24,7 @@ import { getNextNumericId } from '../utils/pinIdUtils';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { buildCornerBilinearCalibration, transformNormalizedPoint, type GeoPoint } from '../utils/geoTransform';
 import { projectNormalizedPointToSimpleMap, projectSimpleMapPointToNormalizedUnclamped } from '../utils/traversableRegions';
+import './GuideMapDraw.css';
 
 type CornerKey = 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft';
 type DrawLayerMode = 'pins' | 'traversable';
@@ -479,6 +480,15 @@ const GuideMapDraw: React.FC = () => {
         return out;
     }, [pins, data?.pois]);
 
+    const selectedPin = useMemo(
+        () => pins.find((pin) => pin.id === selectedPinId) ?? null,
+        [pins, selectedPinId]
+    );
+    const selectedTraversableRegion = useMemo(
+        () => traversableRegions.find((region) => region.id === selectedTraversableRegionId) ?? null,
+        [selectedTraversableRegionId, traversableRegions]
+    );
+
     const handlePolygonChange = React.useCallback(
         (pinId: string, polygon: Array<{ lat: number; lng: number }> | undefined) => {
             if (!guideId) return;
@@ -677,8 +687,10 @@ const GuideMapDraw: React.FC = () => {
         setMapDrawExporting(true);
 
         try {
-            setMapDrawExportStatus(t('map.drawSigningIn', 'Signing in with Google...'));
-            const user = await ensureFirebaseUser();
+            const user = getCurrentFirebaseUser();
+            if (!user) {
+                throw new Error(t('map.drawSessionExpired', 'Your sign-in session expired. Please reopen the editor and sign in again.'));
+            }
             const idToken = await user.getIdToken();
 
             const nextTraversableRegions = (traversableRegionsFile?.regions ?? []).map((region) => ({
@@ -849,9 +861,9 @@ const GuideMapDraw: React.FC = () => {
     const canUseTiles = Boolean(effectiveMapTileUrlTemplate && effectiveMapPixelWidth && effectiveMapPixelHeight);
 
     return (
-        <div className="page">
+        <div className="page map-draw-page">
             <GlobalHeader
-                title="Draw"
+                title="Map Authoring"
                 showBack={false}
                 showVersion={false}
                 style={{
@@ -879,97 +891,82 @@ const GuideMapDraw: React.FC = () => {
                     </button>
                 }
                 rightSlot={
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <button
-                            onClick={handleSave}
-                            disabled={mapDrawExporting || !canUploadMapDraw}
-                            aria-label="Save draw data"
-                            title={canUploadMapDraw ? 'Save to Firebase' : 'Save is only enabled for Firebase-backed guides'}
-                            style={{
-                                height: 40,
-                                minWidth: 82,
-                                borderRadius: 999,
-                                border: 'none',
-                                background: '#16a34a',
-                                color: 'rgba(245, 245, 245, 0.98)',
-                                fontWeight: 900,
-                                fontSize: 14,
-                                padding: '0 16px',
-                                cursor: mapDrawExporting || !canUploadMapDraw ? 'not-allowed' : 'pointer',
-                                opacity: mapDrawExporting || !canUploadMapDraw ? 0.6 : 1
-                            }}
-                        >
-                            {mapDrawExporting ? 'Saving...' : 'Save'}
-                        </button>
-                        <div style={{ position: 'relative', width: 44, height: 44 }}>
-                            <button
-                                onClick={() => setFabMenuOpen((prev) => !prev)}
-                                aria-label="Menu"
-                                style={{
-                                    width: 44,
-                                    height: 44,
-                                    borderRadius: 999,
-                                    border: 'none',
-                                    background: fabMenuOpen ? '#2563eb' : 'rgba(33, 36, 39, 0.15)',
-                                    color: fabMenuOpen ? '#fff' : 'var(--neutral-800)',
-                                    fontWeight: 900,
-                                    fontSize: 24,
-                                    lineHeight: 1,
-                                    padding: 0,
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    transition: 'all 0.2s ease'
-                                }}
-                            >
-                                ⋮
-                            </button>
-
-                            {fabMenuOpen && (
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        right: 0,
-                                        top: 50,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        gap: 8,
-                                        zIndex: 2000
-                                    }}
+                    <div className="map-draw-toolbar">
+                        <div className="map-draw-toolbar-desktop">
+                            <div className="map-draw-layer-switch map-draw-layer-switch--toolbar">
+                                <button
+                                    onClick={() => setDrawLayerMode('pins')}
+                                    className={`map-draw-layer-switch__button${drawLayerMode === 'pins' ? ' is-active' : ''}`}
                                 >
-                                    <button
-                                        onClick={handleOpenCalibrationEditor}
-                                        disabled={!calibrationTileImageUrl}
-                                        aria-label="Calibrate map"
-                                        title="Calibrate"
-                                        style={{
-                                            height: 44,
-                                            minWidth: 110,
-                                            borderRadius: 12,
-                                            border: 'none',
-                                            background: 'rgba(168, 85, 247, 0.16)',
-                                            color: calibrationTileImageUrl ? '#7c3aed' : 'rgba(124, 58, 237, 0.45)',
-                                            fontWeight: 900,
-                                            fontSize: 13,
-                                            padding: '0 14px',
-                                            cursor: calibrationTileImageUrl ? 'pointer' : 'not-allowed',
-                                            opacity: calibrationTileImageUrl ? 1 : 0.5,
-                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                    >
-                                        Calibrate
-                                    </button>
-                                </div>
-                            )}
+                                    POI Layer
+                                </button>
+                                <button
+                                    onClick={() => setDrawLayerMode('traversable')}
+                                    className={`map-draw-layer-switch__button map-draw-layer-switch__button--traversable${drawLayerMode === 'traversable' ? ' is-active' : ''}`}
+                                >
+                                    Traversable
+                                </button>
+                            </div>
+                            <button
+                                onClick={handleOpenCalibrationEditor}
+                                disabled={!calibrationTileImageUrl}
+                                aria-label="Calibrate map"
+                                title="Calibrate"
+                                className="map-draw-toolbar-button map-draw-toolbar-button--calibrate"
+                            >
+                                Calibrate
+                            </button>
+                            <button
+                                onClick={handleSave}
+                                disabled={mapDrawExporting || !canUploadMapDraw}
+                                aria-label="Save draw data"
+                                title={canUploadMapDraw ? 'Save to Firebase' : 'Save is only enabled for Firebase-backed guides'}
+                                className="map-draw-toolbar-button map-draw-toolbar-button--save"
+                            >
+                                {mapDrawExporting ? 'Saving...' : 'Save'}
+                            </button>
+                        </div>
+
+                        <div className="map-draw-toolbar-mobile">
+                            <button
+                                onClick={handleSave}
+                                disabled={mapDrawExporting || !canUploadMapDraw}
+                                aria-label="Save draw data"
+                                title={canUploadMapDraw ? 'Save to Firebase' : 'Save is only enabled for Firebase-backed guides'}
+                                className="map-draw-toolbar-button map-draw-toolbar-button--save"
+                            >
+                                {mapDrawExporting ? 'Saving...' : 'Save'}
+                            </button>
+                            <div style={{ position: 'relative', width: 44, height: 44 }}>
+                                <button
+                                    onClick={() => setFabMenuOpen((prev) => !prev)}
+                                    aria-label="Menu"
+                                    className="map-draw-toolbar-menu-button"
+                                >
+                                    ⋮
+                                </button>
+
+                                {fabMenuOpen && (
+                                    <div className="map-draw-toolbar-menu">
+                                        <button
+                                            onClick={handleOpenCalibrationEditor}
+                                            disabled={!calibrationTileImageUrl}
+                                            aria-label="Calibrate map"
+                                            title="Calibrate"
+                                            className="map-draw-toolbar-menu-item"
+                                        >
+                                            Calibrate
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 }
             />
 
             <div
-                className="scroll-content"
+                className="scroll-content map-draw-scroll"
                 style={{
                     position: 'relative',
                     display: 'flex',
@@ -978,6 +975,7 @@ const GuideMapDraw: React.FC = () => {
             >
                 {(mapDrawExportStatus || (canUploadMapDraw && signedInEmail)) && (
                     <div
+                        className="map-draw-status-banner map-draw-mobile-only"
                         style={{
                             margin: '10px 16px 0',
                             padding: '10px 12px',
@@ -999,8 +997,93 @@ const GuideMapDraw: React.FC = () => {
                     </div>
                 ) : (
                     <>
+                        <div className="map-draw-workspace">
+                            <aside className="map-draw-desktop-sidebar map-draw-desktop-only">
+                                <div className="map-draw-desktop-card">
+                                    <div className="map-draw-desktop-card__header">
+                                        <div>
+                                            <div className="map-draw-desktop-label">POI Pins</div>
+                                            <div className="map-draw-desktop-title">Authoring targets</div>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                handleAddPin();
+                                                setFabMenuOpen(false);
+                                            }}
+                                            className="map-draw-desktop-action map-draw-desktop-action--primary"
+                                        >
+                                            Add Pin
+                                        </button>
+                                    </div>
+                                    <div className="map-draw-desktop-list">
+                                        {pins.length === 0 ? (
+                                            <div className="map-draw-desktop-empty">Add a pin to start drawing POI regions.</div>
+                                        ) : pins.map((pin) => {
+                                            const isSelected = pin.id === selectedPinId;
+                                            const title = pinDisplayNameById[pin.id] || pin.id;
+                                            const hasPolygon = Array.isArray(pin.polygon) && pin.polygon.length >= 3;
+                                            return (
+                                                <button
+                                                    key={pin.id}
+                                                    onClick={() => {
+                                                        setDrawLayerMode('pins');
+                                                        setSelectedPinId(isSelected ? null : pin.id);
+                                                    }}
+                                                    className={`map-draw-desktop-list-button${isSelected ? ' is-selected is-pins' : ''}`}
+                                                >
+                                                    <span>{title}</span>
+                                                    <span className={`map-draw-desktop-indicator${hasPolygon ? ' is-complete' : ''}`} aria-hidden="true" />
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                <div className="map-draw-desktop-card">
+                                    <div className="map-draw-desktop-card__header">
+                                        <div>
+                                            <div className="map-draw-desktop-label">Traversable Areas</div>
+                                            <div className="map-draw-desktop-title">Walkable geometry</div>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                handleAddTraversableRegion();
+                                                setFabMenuOpen(false);
+                                            }}
+                                            className="map-draw-desktop-action map-draw-desktop-action--secondary"
+                                        >
+                                            Add Region
+                                        </button>
+                                    </div>
+                                    <div className="map-draw-desktop-list">
+                                        {traversableRegions.length === 0 ? (
+                                            <div className="map-draw-desktop-empty">Create a traversable region to define where GPS can snap.</div>
+                                        ) : traversableRegions.map((region) => {
+                                            const isSelected = region.id === selectedTraversableRegionId;
+                                            const hasPolygon = Array.isArray(region.polygon) && region.polygon.length >= 3;
+                                            return (
+                                                <button
+                                                    key={region.id}
+                                                    onClick={() => {
+                                                        setDrawLayerMode('traversable');
+                                                        setSelectedTraversableRegionId(isSelected ? null : region.id);
+                                                    }}
+                                                    className={`map-draw-desktop-list-button${isSelected ? ' is-selected is-traversable' : ''}`}
+                                                >
+                                                    <span>{getTraversableRegionTitle(region.id)}</span>
+                                                    <span className={`map-draw-desktop-indicator${hasPolygon ? ' is-complete' : ''}`} aria-hidden="true" />
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </aside>
+
+                            <div className="map-draw-stage-shell">
+                                <div className="map-draw-canvas-stage">
                         {!showCalibrateWizard && (
                             <div
+                                className="map-draw-mobile-only"
                                 style={{
                                     position: 'absolute',
                                     left: '50%',
@@ -1048,7 +1131,7 @@ const GuideMapDraw: React.FC = () => {
                             </div>
                         )}
 
-                        <div style={{ flex: 1, minHeight: 0 }}>
+                        <div className="map-draw-canvas-body" style={{ flex: 1, minHeight: 0 }}>
                             <TiledMapDrawer
                                 mapTileUrlTemplate={effectiveMapTileUrlTemplate!}
                                 mapTileBundle={effectiveMapTileBundle ?? undefined}
@@ -1075,6 +1158,7 @@ const GuideMapDraw: React.FC = () => {
 
                         {drawLayerMode === 'pins' && movePinMode && (
                             <div
+                                className="map-draw-mobile-only"
                                 style={{
                                     position: 'absolute',
                                     left: 16,
@@ -1095,6 +1179,7 @@ const GuideMapDraw: React.FC = () => {
 
                         {!showCalibrateWizard && drawLayerMode === 'pins' && (
                             <button
+                                className="map-draw-mobile-only"
                                 onClick={() => {
                                     handleAddPin();
                                     setFabMenuOpen(false);
@@ -1126,6 +1211,7 @@ const GuideMapDraw: React.FC = () => {
 
                         {selectedPinId && drawLayerMode === 'pins' && !showCalibrateWizard && (
                             <button
+                                className="map-draw-mobile-only"
                                 onClick={() => {
                                     setMovePinMode((prev) => !prev);
                                     setFabMenuOpen(false);
@@ -1157,6 +1243,7 @@ const GuideMapDraw: React.FC = () => {
 
                         {selectedPinId && drawLayerMode === 'pins' && !showCalibrateWizard && (
                             <button
+                                className="map-draw-mobile-only"
                                 onClick={() => {
                                     setDeleteTarget({ kind: 'pin-region', pinId: selectedPinId });
                                     setFabMenuOpen(false);
@@ -1188,6 +1275,7 @@ const GuideMapDraw: React.FC = () => {
 
                         {!showCalibrateWizard && drawLayerMode === 'traversable' && (
                             <button
+                                className="map-draw-mobile-only"
                                 onClick={() => {
                                     handleAddTraversableRegion();
                                     setFabMenuOpen(false);
@@ -1219,6 +1307,7 @@ const GuideMapDraw: React.FC = () => {
 
                         {selectedTraversableRegionId && drawLayerMode === 'traversable' && !showCalibrateWizard && (
                             <button
+                                className="map-draw-mobile-only"
                                 onClick={() => {
                                     setDeleteTarget({ kind: 'traversable-region', regionId: selectedTraversableRegionId });
                                     setFabMenuOpen(false);
@@ -1477,6 +1566,7 @@ const GuideMapDraw: React.FC = () => {
                         )}
 
                         <div
+                            className="map-draw-mobile-only"
                             style={{
                                 position: 'absolute',
                                 left: 0,
@@ -1606,6 +1696,92 @@ const GuideMapDraw: React.FC = () => {
                                         </div>
                                     )}
                             </div>
+                        </div>
+                                </div>
+                            </div>
+
+                            <aside className="map-draw-desktop-sidebar map-draw-desktop-sidebar--secondary map-draw-desktop-only">
+                                <div className="map-draw-desktop-card">
+                                    <div className="map-draw-desktop-label">Workspace Status</div>
+                                    <div className="map-draw-desktop-title">Session and publish state</div>
+                                    <div className="map-draw-desktop-note">
+                                        {signedInEmail ? `Signed in as ${signedInEmail}` : 'Protected authoring route'}
+                                    </div>
+                                    <div className={`map-draw-desktop-status${mapDrawExportStatus ? ' is-active' : ''}`}>
+                                        {mapDrawExportStatus ?? 'Ready to edit. Save writes the current authoring JSON to Firebase.'}
+                                    </div>
+                                </div>
+
+                                <div className="map-draw-desktop-card">
+                                    <div className="map-draw-desktop-label">Current Tool</div>
+                                    <div className="map-draw-desktop-title">
+                                        {drawLayerMode === 'pins' ? 'POI region editing' : 'Traversable region editing'}
+                                    </div>
+                                    <div className="map-draw-desktop-note">
+                                        {drawLayerMode === 'pins'
+                                            ? 'Select a POI, draw its region on the map, and adjust the display pin when needed.'
+                                            : 'Select a region, redraw its polygon, and save to update GPS snapping boundaries.'}
+                                    </div>
+                                    {drawLayerMode === 'pins' && selectedPin && (
+                                        <div className="map-draw-desktop-selection">
+                                            <div className="map-draw-desktop-selection__title">{pinDisplayNameById[selectedPin.id] || selectedPin.id}</div>
+                                            <div className="map-draw-desktop-selection__meta">
+                                                {Array.isArray(selectedPin.polygon) && selectedPin.polygon.length >= 3
+                                                    ? 'Region polygon complete'
+                                                    : 'Region polygon not drawn yet'}
+                                            </div>
+                                            <div className="map-draw-desktop-actions">
+                                                <button
+                                                    onClick={() => setMovePinMode((prev) => !prev)}
+                                                    className={`map-draw-desktop-action${movePinMode ? ' is-warning' : ''}`}
+                                                >
+                                                    {movePinMode ? 'Tap map to place pin' : 'Move Pin Display'}
+                                                </button>
+                                                <button
+                                                    onClick={() => setDeleteTarget({ kind: 'pin-region', pinId: selectedPin.id })}
+                                                    className="map-draw-desktop-action map-draw-desktop-action--danger"
+                                                >
+                                                    Delete POI Region
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {drawLayerMode === 'traversable' && selectedTraversableRegion && (
+                                        <div className="map-draw-desktop-selection">
+                                            <div className="map-draw-desktop-selection__title">{getTraversableRegionTitle(selectedTraversableRegion.id)}</div>
+                                            <div className="map-draw-desktop-selection__meta">
+                                                {Array.isArray(selectedTraversableRegion.polygon) && selectedTraversableRegion.polygon.length >= 3
+                                                    ? 'Polygon complete'
+                                                    : 'Polygon not drawn yet'}
+                                            </div>
+                                            <div className="map-draw-desktop-actions">
+                                                <button
+                                                    onClick={() => setDeleteTarget({ kind: 'traversable-region', regionId: selectedTraversableRegion.id })}
+                                                    className="map-draw-desktop-action map-draw-desktop-action--danger"
+                                                >
+                                                    Delete Region
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {drawLayerMode === 'pins' && !selectedPin && (
+                                        <div className="map-draw-desktop-empty">Choose a POI pin in the left panel to author its shape.</div>
+                                    )}
+                                    {drawLayerMode === 'traversable' && !selectedTraversableRegion && (
+                                        <div className="map-draw-desktop-empty">Choose a traversable region in the left panel to redraw it.</div>
+                                    )}
+                                </div>
+
+                                <div className="map-draw-desktop-card">
+                                    <div className="map-draw-desktop-label">Calibration</div>
+                                    <div className="map-draw-desktop-title">
+                                        {geoCalibration ? `${geoCalibration.points.length} points saved` : 'No calibration saved'}
+                                    </div>
+                                    <div className="map-draw-desktop-note">
+                                        Use Calibrate to align the tiled map with real-world GPS coordinates before exporting mobile results.
+                                    </div>
+                                </div>
+                            </aside>
                         </div>
                     </>
                 )}

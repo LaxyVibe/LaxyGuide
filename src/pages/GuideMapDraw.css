@@ -1,0 +1,434 @@
+.map-draw-page {
+    background:
+        radial-gradient(circle at top left, rgba(163, 217, 221, 0.18), transparent 34%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%);
+}
+
+.map-draw-toolbar {
+    display: flex;
+    align-items: center;
+}
+
+.map-draw-toolbar-desktop {
+    display: none;
+}
+
+.map-draw-toolbar-mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-draw-toolbar-button,
+.map-draw-toolbar-menu-button,
+.map-draw-toolbar-menu-item,
+.map-draw-layer-switch__button,
+.map-draw-desktop-action,
+.map-draw-desktop-list-button {
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+.map-draw-toolbar-button,
+.map-draw-toolbar-menu-button {
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--neutral-800);
+    font-weight: 900;
+    font-size: 12px;
+    border-radius: 14px;
+    min-height: 44px;
+    padding: 0 14px;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.map-draw-toolbar-button:disabled,
+.map-draw-toolbar-menu-button:disabled,
+.map-draw-toolbar-menu-item:disabled,
+.map-draw-layer-switch__button:disabled,
+.map-draw-desktop-action:disabled,
+.map-draw-desktop-list-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.56;
+    box-shadow: none;
+}
+
+.map-draw-toolbar-button:not(:disabled):hover,
+.map-draw-toolbar-menu-button:not(:disabled):hover,
+.map-draw-toolbar-menu-item:not(:disabled):hover,
+.map-draw-layer-switch__button:not(:disabled):hover,
+.map-draw-desktop-action:not(:disabled):hover,
+.map-draw-desktop-list-button:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+.map-draw-toolbar-button--save {
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    border-color: rgba(29, 78, 216, 0.6);
+    color: #fff;
+}
+
+.map-draw-toolbar-button--calibrate {
+    background: rgba(255, 255, 255, 0.94);
+}
+
+.map-draw-toolbar-menu-button {
+    width: 44px;
+    padding: 0;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.map-draw-toolbar-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 160px;
+    padding: 8px;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.18);
+    display: grid;
+    gap: 6px;
+    z-index: 2200;
+}
+
+.map-draw-toolbar-menu-item {
+    border: none;
+    border-radius: 12px;
+    background: rgba(148, 163, 184, 0.12);
+    color: var(--neutral-800);
+    font-weight: 800;
+    font-size: 12px;
+    text-align: left;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.map-draw-mobile-only {
+    display: initial;
+}
+
+.map-draw-desktop-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .map-draw-scroll {
+        background: transparent;
+    }
+}
+
+@media (min-width: 769px) {
+    .map-draw-page .global-header {
+        padding: 18px 24px;
+        background: rgba(250, 250, 250, 0.72);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .map-draw-page .global-header h1 {
+        font-size: 1.1rem;
+        letter-spacing: 0.01em;
+    }
+
+    .map-draw-scroll {
+        min-height: 0;
+        overflow: hidden;
+        padding: 18px 20px 20px;
+        gap: 16px;
+        background: transparent;
+    }
+
+    .map-draw-toolbar {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .map-draw-toolbar-mobile,
+    .map-draw-mobile-only {
+        display: none !important;
+    }
+
+    .map-draw-toolbar-desktop,
+    .map-draw-desktop-only {
+        display: flex;
+    }
+
+    .map-draw-toolbar-desktop {
+        align-items: center;
+        gap: 10px;
+    }
+
+    .map-draw-layer-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.26);
+        background: rgba(255, 255, 255, 0.74);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .map-draw-layer-switch__button {
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+        color: var(--neutral-700);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.01em;
+        padding: 9px 14px;
+        cursor: pointer;
+    }
+
+    .map-draw-layer-switch__button.is-active {
+        background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.24);
+    }
+
+    .map-draw-layer-switch__button--traversable.is-active {
+        background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+        box-shadow: 0 10px 20px rgba(22, 163, 74, 0.24);
+    }
+
+    .map-draw-workspace {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(260px, 290px) minmax(0, 1fr) minmax(300px, 340px);
+        gap: 18px;
+        align-items: stretch;
+    }
+
+    .map-draw-stage-shell {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+    }
+
+    .map-draw-canvas-stage {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 28px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.16)),
+            rgba(226, 232, 240, 0.5);
+        box-shadow:
+            0 24px 60px rgba(15, 23, 42, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .map-draw-canvas-body {
+        min-height: 0;
+        min-width: 0;
+    }
+
+    .map-draw-desktop-sidebar {
+        min-height: 0;
+        min-width: 0;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+        padding-right: 2px;
+    }
+
+    .map-draw-desktop-card {
+        display: grid;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 22px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow:
+            0 14px 34px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+    }
+
+    .map-draw-desktop-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .map-draw-desktop-label {
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #64748b;
+    }
+
+    .map-draw-desktop-title {
+        font-size: 1rem;
+        font-weight: 900;
+        color: var(--neutral-900);
+        line-height: 1.2;
+    }
+
+    .map-draw-desktop-note {
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--neutral-700);
+    }
+
+    .map-draw-desktop-list {
+        display: grid;
+        gap: 8px;
+    }
+
+    .map-draw-desktop-list-button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: rgba(248, 250, 252, 0.96);
+        color: var(--neutral-800);
+        cursor: pointer;
+        text-align: left;
+        font-weight: 800;
+        font-size: 13px;
+    }
+
+    .map-draw-desktop-list-button.is-selected.is-pins {
+        border-color: rgba(37, 99, 235, 0.44);
+        background: rgba(219, 234, 254, 0.92);
+        color: #1d4ed8;
+        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.12);
+    }
+
+    .map-draw-desktop-list-button.is-selected.is-traversable {
+        border-color: rgba(22, 163, 74, 0.38);
+        background: rgba(220, 252, 231, 0.92);
+        color: #15803d;
+        box-shadow: 0 12px 24px rgba(22, 163, 74, 0.12);
+    }
+
+    .map-draw-desktop-indicator {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        border-radius: 999px;
+        background: rgba(100, 116, 139, 0.32);
+    }
+
+    .map-draw-desktop-indicator.is-complete {
+        background: #22c55e;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
+    }
+
+    .map-draw-desktop-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 13px;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--neutral-800);
+        font-size: 12px;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .map-draw-desktop-action--primary {
+        background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+        border-color: rgba(29, 78, 216, 0.6);
+        color: #fff;
+    }
+
+    .map-draw-desktop-action--secondary {
+        background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+        border-color: rgba(21, 128, 61, 0.58);
+        color: #fff;
+    }
+
+    .map-draw-desktop-action--danger {
+        background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+        border-color: rgba(185, 28, 28, 0.58);
+        color: #fff;
+    }
+
+    .map-draw-desktop-action.is-warning {
+        background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+        border-color: rgba(217, 119, 6, 0.58);
+        color: #fff;
+    }
+
+    .map-draw-desktop-empty {
+        padding: 14px 15px;
+        border-radius: 16px;
+        border: 1px dashed rgba(148, 163, 184, 0.4);
+        background: rgba(248, 250, 252, 0.86);
+        color: var(--neutral-600);
+        font-size: 12px;
+        line-height: 1.5;
+        font-weight: 700;
+    }
+
+    .map-draw-desktop-status {
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: rgba(226, 232, 240, 0.72);
+        color: var(--neutral-700);
+        font-size: 12px;
+        line-height: 1.5;
+        font-weight: 800;
+    }
+
+    .map-draw-desktop-status.is-active {
+        background: rgba(219, 234, 254, 0.9);
+        color: #1d4ed8;
+    }
+
+    .map-draw-desktop-selection {
+        display: grid;
+        gap: 12px;
+        padding: 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: rgba(248, 250, 252, 0.96);
+    }
+
+    .map-draw-desktop-selection__title {
+        font-size: 14px;
+        line-height: 1.35;
+        font-weight: 900;
+        color: var(--neutral-900);
+    }
+
+    .map-draw-desktop-selection__meta {
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--neutral-600);
+        font-weight: 700;
+    }
+
+    .map-draw-desktop-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
