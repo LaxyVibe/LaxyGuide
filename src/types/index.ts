@@ -148,6 +148,15 @@ export interface DrawRuntimeData {
     pins: RuntimeMapPin[];
 }
 
+export interface MapAuthoringDocument {
+    version: number;
+    guideId: string;
+    updatedAt: string;
+    calibration: GeoCalibration | null;
+    pins: MapPin[];
+    traversableRegions: TraversableRegion[];
+}
+
 export interface MapDrawExportTraversableRegion {
     id: string;
     polygon: TraversableRegionPoint[];

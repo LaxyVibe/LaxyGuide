@@ -1,5 +1,5 @@
 import type { MapPin, MapPinsFile, RuntimeMapPin } from '../types';
-import { haversineDistanceMeters } from './geoTransform';
+import { haversineDistanceMeters } from './geoTransform.ts';
 
 const STORAGE_PREFIX = 'mapPins:';
 const LATEST_VERSION = 2;
