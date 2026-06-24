@@ -316,6 +316,33 @@ textarea:focus {
    Wraps the PWA in a phone shell when viewed on wide screens
    ============================================================ */
 @media (min-width: 769px) {
+    body.desktop-authoring-route {
+        display: block;
+        overflow: hidden;
+        background:
+            radial-gradient(circle at top left, rgba(70, 178, 187, 0.18), transparent 28%),
+            linear-gradient(180deg, #0f172a 0%, #111827 100%);
+    }
+
+    body.desktop-authoring-route #root {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        overflow: hidden;
+        zoom: 1;
+        transform: none;
+        box-shadow: none;
+    }
+
+    body.desktop-authoring-route #root::before,
+    body.desktop-authoring-route #root::after {
+        content: none;
+    }
+
+    body.desktop-authoring-route .desktop-ripples {
+        display: none;
+    }
+
     html {
         height: 100vh;
         overflow: hidden;

@@ -66,6 +66,14 @@ function getFirebaseAuthInstance() {
     return getAuth(getFirebaseAppInstance());
 }
 
+export function getCurrentFirebaseUser(): User | null {
+    if (!isFirebaseAuthConfigured()) {
+        return null;
+    }
+
+    return getFirebaseAuthInstance().currentUser;
+}
+
 export function subscribeToFirebaseAuth(callback: (user: User | null) => void): Unsubscribe {
     if (!isFirebaseAuthConfigured()) {
         callback(null);
