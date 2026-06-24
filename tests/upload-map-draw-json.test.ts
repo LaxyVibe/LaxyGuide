@@ -24,7 +24,8 @@ function createEvent(overrides: Partial<{
 }
 
 const env = {
-    MAP_DRAW_ADMIN_EMAILS: 'admin@example.com'
+    MAP_DRAW_ADMIN_EMAILS: 'admin@example.com',
+    MAP_DRAW_ENABLED_GUIDES: 'JPN-USAA-TEM-001'
 };
 
 test('upload handler returns 401 when bearer token is missing', async () => {
@@ -47,7 +48,7 @@ test('upload handler returns 401 when token verification fails', async () => {
             verifyIdToken: async () => {
                 throw new Error('invalid token');
             },
-            saveObject: async () => OBJECT_PATH
+            saveObject: async () => OBJECT_PATH('JPN-USAA-TEM-001')
         })
     });
 
@@ -61,7 +62,7 @@ test('upload handler returns 403 for non-allowlisted users', async () => {
         env,
         runtimeFactory: () => ({
             verifyIdToken: async () => ({ email: 'viewer@example.com' }),
-            saveObject: async () => OBJECT_PATH
+            saveObject: async () => OBJECT_PATH('JPN-USAA-TEM-001')
         })
     });
 
@@ -75,7 +76,7 @@ test('upload handler returns 400 for unsupported guide ids', async () => {
         env,
         runtimeFactory: () => ({
             verifyIdToken: async () => ({ email: 'admin@example.com' }),
-            saveObject: async () => OBJECT_PATH
+            saveObject: async () => OBJECT_PATH('JPN-USAA-TEM-001')
         })
     });
 
@@ -87,19 +88,21 @@ test('upload handler returns 400 for unsupported guide ids', async () => {
     }));
 
     assert.equal(response.statusCode, 400);
-    assert.match(response.body, /Only JPN-USAA-TEM-001 uploads are supported/);
+    assert.match(response.body, /not enabled for map authoring/);
 });
 
 test('upload handler writes the fixed Storage object for valid USAA uploads', async () => {
+    let savedGuideId = '';
     let savedPayload: unknown = null;
 
     const handler = createHandler({
         env,
         runtimeFactory: () => ({
             verifyIdToken: async () => ({ email: 'admin@example.com' }),
-            saveObject: async (payload: unknown) => {
+            saveObject: async (guideId: string, payload: unknown) => {
+                savedGuideId = guideId;
                 savedPayload = payload;
-                return OBJECT_PATH;
+                return OBJECT_PATH(guideId);
             }
         })
     });
@@ -116,10 +119,11 @@ test('upload handler writes the fixed Storage object for valid USAA uploads', as
     }));
 
     assert.equal(response.statusCode, 200);
+    assert.equal(savedGuideId, 'JPN-USAA-TEM-001');
     assert.deepEqual(savedPayload, {
         version: 3,
         guideId: 'JPN-USAA-TEM-001',
         pins: []
     });
-    assert.match(response.body, new RegExp(OBJECT_PATH));
+    assert.match(response.body, new RegExp(OBJECT_PATH('JPN-USAA-TEM-001')));
 });

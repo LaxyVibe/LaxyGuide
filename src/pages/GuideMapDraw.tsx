@@ -9,18 +9,15 @@ import TiledMapDrawer from '../components/TiledMapDrawer';
 import { useGuideData } from '../hooks/useGuideData';
 import { useMapTileBundle } from '../hooks/useMapTileBundle';
 import { useTranslation } from '../hooks/useTranslation';
-import type { GeoCalibration, MapPin, MapPinsFile, TraversableRegion, TraversableRegionsFile } from '../types';
+import type { GeoCalibration, MapAuthoringDocument, MapPin, MapPinsFile, TraversableRegion, TraversableRegionsFile } from '../types';
 import { ensureFirebaseUser, isFirebaseAuthConfigured, subscribeToFirebaseAuth } from '../utils/firebaseAuth';
-import { buildMapDrawExportPayload } from '../utils/mapDrawExport';
 import {
-    loadCalibrationFromLocalStorage,
-    loadDrawPinsFromLocalStorage,
-    loadTraversableRegionsFromLocalStorage,
-    saveCalibrationToLocalStorage,
-    saveDrawPinsToLocalStorage,
-    saveTraversableRegionsToLocalStorage
+    createBootstrapMapAuthoringDocument,
+    fetchMapAuthoringJson,
+    isMapAuthoringEnabledGuide,
+    normalizeMapAuthoringDocument,
+    saveMapAuthoringJson
 } from '../utils/mapDrawData';
-import { uploadMapDrawJson } from '../utils/mapDrawUpload';
 import { fetchPinsFile } from '../utils/mapPins';
 import { resolveBundledTileUrl, type ResolvedMapTileBundle } from '../utils/mapTileBundle';
 import { getNextNumericId } from '../utils/pinIdUtils';
@@ -49,7 +46,6 @@ const CORNER_IMAGE_COORDINATES: Record<CornerKey, { x: number; y: number }> = {
 };
 
 const TILE_SIZE = 256;
-const MAP_DRAW_UPLOAD_GUIDE_ID = 'JPN-USAA-TEM-001';
 
 function getCalibrationDraftCorners(calibration: GeoCalibration | null): Partial<Record<CornerKey, GeoPoint>> {
     if (!calibration) return {};
@@ -60,27 +56,6 @@ function getCalibrationDraftCorners(calibration: GeoCalibration | null): Partial
         bottomRight: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.bottomRight),
         bottomLeft: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.bottomLeft)
     };
-}
-
-function mergePinsWithDrawOverrides(basePins: MapPin[], drawPins: MapPin[]): MapPin[] {
-    const drawById = new Map(drawPins.map((pin) => [pin.id, pin]));
-    const baseIds = new Set(basePins.map((pin) => pin.id));
-
-    // Update polygons on existing base pins, then append draw-only pins
-    // (created via the + button) so they survive page reloads.
-    const merged = basePins.map((pin) => {
-        const drawPin = drawById.get(pin.id);
-        if (!drawPin) return pin;
-        return {
-            ...pin,
-            x: Number.isFinite(drawPin.x) ? drawPin.x : pin.x,
-            y: Number.isFinite(drawPin.y) ? drawPin.y : pin.y,
-            polygon: drawPin.polygon
-        };
-    });
-
-    const drawOnlyPins = drawPins.filter((pin) => !baseIds.has(pin.id));
-    return [...merged, ...drawOnlyPins];
 }
 
 function buildTileUrl(template: string, z: number, x: number, y: number) {
@@ -253,8 +228,7 @@ const GuideMapDraw: React.FC = () => {
     const [mapDrawExporting, setMapDrawExporting] = useState(false);
     const [mapDrawExportStatus, setMapDrawExportStatus] = useState<string | null>(null);
     const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
-    const calibrationHydratedRef = useRef(false);
-    const canUploadMapDraw = guideId?.toUpperCase() === MAP_DRAW_UPLOAD_GUIDE_ID;
+    const canUploadMapDraw = isMapAuthoringEnabledGuide(guideId);
     const firebaseAuthConfigured = isFirebaseAuthConfigured();
     const hasHostedMapBundle = Boolean(data?.mapTileBundleUrl);
     const {
@@ -272,86 +246,88 @@ const GuideMapDraw: React.FC = () => {
     useEffect(() => {
         let cancelled = false;
 
+        const loadBootstrapDocument = async (nextGuideId: string): Promise<MapAuthoringDocument> => {
+            let pinsFile: MapPinsFile | null = null;
+
+            if (data?.mapPinsUrl) {
+                try {
+                    pinsFile = await fetchPinsFile(data.mapPinsUrl);
+                } catch (error) {
+                    if (!cancelled) {
+                        setPinsError(error instanceof Error ? error.message : String(error));
+                    }
+                }
+            }
+
+            return createBootstrapMapAuthoringDocument({
+                guideId: nextGuideId,
+                calibration: data?.geoCalibration ?? null,
+                pins: pinsFile ?? { version: 2, guideId: nextGuideId, pins: [] },
+                traversableRegions: createEmptyTraversableRegionsFile(nextGuideId)
+            });
+        };
+
+        const applyAuthoringDocument = (document: MapAuthoringDocument) => {
+            const normalizedDocument = normalizeMapAuthoringDocument(document, document.guideId);
+            const nextPinsFile: MapPinsFile = {
+                version: 2,
+                guideId: normalizedDocument.guideId,
+                pins: normalizedDocument.pins
+            };
+            const nextTraversableFile = normalizeTraversableRegionsFileForEditor(
+                {
+                    version: 1,
+                    guideId: normalizedDocument.guideId,
+                    regions: normalizedDocument.traversableRegions
+                },
+                data?.mapPixelWidth,
+                data?.mapPixelHeight,
+                data?.mapTileMaxZoom
+            );
+
+            setPinsFile(nextPinsFile);
+            setTraversableRegionsFile(nextTraversableFile);
+            setGeoCalibration(normalizedDocument.calibration ?? null);
+            setSelectedPinId((prev) => {
+                if (prev && nextPinsFile.pins.some((pin) => pin.id === prev)) return prev;
+                return nextPinsFile.pins[0]?.id ?? null;
+            });
+            setSelectedTraversableRegionId((prev) => {
+                if (prev && nextTraversableFile.regions.some((region) => region.id === prev)) return prev;
+                return nextTraversableFile.regions[0]?.id ?? null;
+            });
+        };
+
         const run = async () => {
             setPinsError(null);
             if (!guideId) {
                 setPinsFile(null);
                 setTraversableRegionsFile(null);
-                calibrationHydratedRef.current = false;
-                return;
-            }
-
-            const storedCalibration = loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null;
-            const rawTraversableFile = loadTraversableRegionsFromLocalStorage(guideId)
-                ?? createEmptyTraversableRegionsFile(guideId);
-            const localTraversableFile = normalizeTraversableRegionsFileForEditor(
-                rawTraversableFile,
-                data?.mapPixelWidth,
-                data?.mapPixelHeight,
-                data?.mapTileMaxZoom
-            );
-            if (JSON.stringify(localTraversableFile) !== JSON.stringify(rawTraversableFile)) {
-                saveTraversableRegionsToLocalStorage(guideId, localTraversableFile);
-            }
-
-            const url = data?.mapPinsUrl;
-            if (!url) {
-                // No server file — restore any pins saved locally (e.g. via the + button).
-                const localFile = loadDrawPinsFromLocalStorage(guideId);
-                const localPins = localFile?.pins ?? [];
-                setPinsFile({ version: 2, guideId, pins: localPins });
-                setTraversableRegionsFile(localTraversableFile);
-                setGeoCalibration(storedCalibration);
-                calibrationHydratedRef.current = true;
-                setSelectedPinId((prev) => {
-                    if (prev && localPins.some((pin) => pin.id === prev)) return prev;
-                    return localPins[0]?.id ?? null;
-                });
-                setSelectedTraversableRegionId((prev) => {
-                    if (prev && localTraversableFile.regions.some((region) => region.id === prev)) return prev;
-                    return localTraversableFile.regions[0]?.id ?? null;
-                });
+                setGeoCalibration(null);
                 return;
             }
 
             try {
-                const baseFile = await fetchPinsFile(url);
+                const remoteDocument = canUploadMapDraw
+                    ? await fetchMapAuthoringJson(guideId)
+                    : null;
                 if (cancelled) return;
 
-                const drawLocalFile = loadDrawPinsFromLocalStorage(guideId);
-                const mergedPins = drawLocalFile
-                    ? mergePinsWithDrawOverrides(baseFile.pins ?? [], drawLocalFile.pins ?? [])
-                    : (baseFile.pins ?? []);
+                if (remoteDocument) {
+                    applyAuthoringDocument(remoteDocument);
+                    return;
+                }
 
-                const mergedFile: MapPinsFile = {
-                    version: 2,
-                    guideId,
-                    pins: mergedPins
-                };
-
-                setPinsFile(mergedFile);
-                setTraversableRegionsFile(localTraversableFile);
-                setGeoCalibration(storedCalibration);
-                calibrationHydratedRef.current = true;
-                setSelectedPinId((prev) => {
-                    if (prev && mergedPins.some((pin) => pin.id === prev)) return prev;
-                    return mergedPins[0]?.id ?? null;
-                });
-                setSelectedTraversableRegionId((prev) => {
-                    if (prev && localTraversableFile.regions.some((region) => region.id === prev)) return prev;
-                    return localTraversableFile.regions[0]?.id ?? null;
-                });
+                const bootstrapDocument = await loadBootstrapDocument(guideId);
+                if (cancelled) return;
+                applyAuthoringDocument(bootstrapDocument);
             } catch (e) {
-                if (cancelled) return;
-                setPinsFile({ version: 2, guideId, pins: [] });
-                setTraversableRegionsFile(localTraversableFile);
-                setGeoCalibration(storedCalibration);
-                calibrationHydratedRef.current = true;
-                setPinsError(e instanceof Error ? e.message : String(e));
-                setSelectedTraversableRegionId((prev) => {
-                    if (prev && localTraversableFile.regions.some((region) => region.id === prev)) return prev;
-                    return localTraversableFile.regions[0]?.id ?? null;
-                });
+                if (!cancelled) {
+                    setPinsError(e instanceof Error ? e.message : String(e));
+                    const bootstrapDocument = await loadBootstrapDocument(guideId);
+                    if (cancelled) return;
+                    applyAuthoringDocument(bootstrapDocument);
+                }
             }
         };
 
@@ -359,13 +335,7 @@ const GuideMapDraw: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [guideId, data?.mapPinsUrl]);
-
-    useEffect(() => {
-        if (!guideId) return;
-        if (!calibrationHydratedRef.current) return;
-        saveCalibrationToLocalStorage(guideId, geoCalibration);
-    }, [guideId, geoCalibration]);
+    }, [canUploadMapDraw, data?.geoCalibration, data?.mapPinsUrl, data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, guideId]);
 
     useEffect(() => {
         let cancelled = false;
@@ -527,7 +497,6 @@ const GuideMapDraw: React.FC = () => {
                     version: 2,
                     pins: nextPins
                 };
-                saveDrawPinsToLocalStorage(guideId, next);
                 return next;
             });
         },
@@ -559,7 +528,6 @@ const GuideMapDraw: React.FC = () => {
                     version: 1,
                     regions: nextRegions
                 };
-                saveTraversableRegionsToLocalStorage(guideId, next);
                 return next;
             });
         },
@@ -586,7 +554,6 @@ const GuideMapDraw: React.FC = () => {
                 guideId,
                 pins: nextPins
             };
-            saveDrawPinsToLocalStorage(guideId, next);
             return next;
         });
 
@@ -613,7 +580,6 @@ const GuideMapDraw: React.FC = () => {
         };
 
         setPinsFile(next);
-        saveDrawPinsToLocalStorage(guideId, next);
         setSelectedPinId(nextId);
     }, [guideId, pinsFile]);
 
@@ -640,7 +606,6 @@ const GuideMapDraw: React.FC = () => {
         };
 
         setTraversableRegionsFile(next);
-        saveTraversableRegionsToLocalStorage(guideId, next);
         setSelectedTraversableRegionId(nextId);
     }, [guideId, traversableRegionsFile]);
 
@@ -655,7 +620,6 @@ const GuideMapDraw: React.FC = () => {
             regions: nextRegions
         };
         setTraversableRegionsFile(next);
-        saveTraversableRegionsToLocalStorage(guideId, next);
         setSelectedTraversableRegionId((prev) => (prev === regionId ? (nextRegions[0]?.id ?? null) : prev));
     }, [guideId, traversableRegionsFile]);
 
@@ -675,7 +639,6 @@ const GuideMapDraw: React.FC = () => {
                 guideId,
                 pins: nextPins
             };
-            saveDrawPinsToLocalStorage(guideId, next);
             return next;
         });
     }, [guideId]);
@@ -701,33 +664,7 @@ const GuideMapDraw: React.FC = () => {
         }
     };
 
-    const handleSave = React.useCallback(() => {
-        if (!guideId) return;
-
-        setTraversableRegionsFile((prev) => {
-            const base = prev ?? createEmptyTraversableRegionsFile(guideId);
-            const next: TraversableRegionsFile = {
-                ...base,
-                guideId,
-                version: 1,
-                regions: base.regions.map((region) => ({
-                    ...region,
-                    geoPolygon: geoCalibration && Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
-                        ? region.polygonNormalized.map((point) => transformNormalizedPoint(geoCalibration.transform, point))
-                        : undefined
-                }))
-            };
-            saveTraversableRegionsToLocalStorage(guideId, next);
-            return next;
-        });
-
-        if (geoCalibration) {
-            saveCalibrationToLocalStorage(guideId, geoCalibration);
-        }
-        setFabMenuOpen(false);
-    }, [geoCalibration, guideId]);
-
-    const handleExport = React.useCallback(async () => {
+    const handleSave = React.useCallback(async () => {
         if (!guideId || !canUploadMapDraw) return;
 
         if (!firebaseAuthConfigured) {
@@ -744,17 +681,37 @@ const GuideMapDraw: React.FC = () => {
             const user = await ensureFirebaseUser();
             const idToken = await user.getIdToken();
 
-            const payload = buildMapDrawExportPayload({
-                guideId,
-                calibration: geoCalibration ?? data?.geoCalibration ?? null,
-                traversableRegions,
-                pins
-            });
+            const nextTraversableRegions = (traversableRegionsFile?.regions ?? []).map((region) => ({
+                ...region,
+                geoPolygon: geoCalibration && Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
+                    ? region.polygonNormalized.map((point) => transformNormalizedPoint(geoCalibration.transform, point))
+                    : region.geoPolygon
+            }));
+            const payload = normalizeMapAuthoringDocument(
+                {
+                    guideId,
+                    calibration: geoCalibration ?? null,
+                    pins: pinsFile?.pins ?? [],
+                    traversableRegions: nextTraversableRegions
+                },
+                guideId
+            );
 
-            setMapDrawExportStatus(t('map.drawUploading', 'Uploading map draw JSON...'));
-            await uploadMapDrawJson({ guideId, payload, idToken });
+            setMapDrawExportStatus(t('map.drawUploading', 'Saving map authoring JSON...'));
+            await saveMapAuthoringJson({ guideId, payload, idToken });
+            setTraversableRegionsFile(normalizeTraversableRegionsFileForEditor(
+                {
+                    version: 1,
+                    guideId,
+                    regions: payload.traversableRegions
+                },
+                data?.mapPixelWidth,
+                data?.mapPixelHeight,
+                data?.mapTileMaxZoom
+            ));
+            setGeoCalibration(payload.calibration);
             setSignedInEmail(user.email ?? null);
-            setMapDrawExportStatus(t('map.drawUploaded', 'Map draw JSON uploaded'));
+            setMapDrawExportStatus(t('map.drawUploaded', 'Map authoring JSON saved'));
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
             setMapDrawExportStatus(`${t('map.drawUploadFailed', 'Map draw upload failed')}: ${message}`);
@@ -763,13 +720,15 @@ const GuideMapDraw: React.FC = () => {
         }
     }, [
         canUploadMapDraw,
-        data?.geoCalibration,
+        data?.mapPixelHeight,
+        data?.mapPixelWidth,
+        data?.mapTileMaxZoom,
         firebaseAuthConfigured,
         geoCalibration,
         guideId,
-        pins,
+        pinsFile?.pins,
         t,
-        traversableRegions
+        traversableRegionsFile?.regions
     ]);
 
     const calibrationSeedPoints = useMemo(() => {
@@ -860,7 +819,6 @@ const GuideMapDraw: React.FC = () => {
         });
 
         setGeoCalibration(result.calibration);
-        saveCalibrationToLocalStorage(guideId, result.calibration);
         setShowCalibrateWizard(false);
         setFabMenuOpen(false);
     };
@@ -924,8 +882,9 @@ const GuideMapDraw: React.FC = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <button
                             onClick={handleSave}
+                            disabled={mapDrawExporting || !canUploadMapDraw}
                             aria-label="Save draw data"
-                            title="Save"
+                            title={canUploadMapDraw ? 'Save to Firebase' : 'Save is only enabled for Firebase-backed guides'}
                             style={{
                                 height: 40,
                                 minWidth: 82,
@@ -936,10 +895,11 @@ const GuideMapDraw: React.FC = () => {
                                 fontWeight: 900,
                                 fontSize: 14,
                                 padding: '0 16px',
-                                cursor: 'pointer'
+                                cursor: mapDrawExporting || !canUploadMapDraw ? 'not-allowed' : 'pointer',
+                                opacity: mapDrawExporting || !canUploadMapDraw ? 0.6 : 1
                             }}
                         >
-                            Save
+                            {mapDrawExporting ? 'Saving...' : 'Save'}
                         </button>
                         <div style={{ position: 'relative', width: 44, height: 44 }}>
                             <button
@@ -978,35 +938,6 @@ const GuideMapDraw: React.FC = () => {
                                         zIndex: 2000
                                     }}
                                 >
-                                    {canUploadMapDraw && (
-                                        <button
-                                            onClick={handleExport}
-                                            disabled={mapDrawExporting}
-                                            aria-label={t('map.drawUpload', 'Upload to Firebase')}
-                                            title={signedInEmail
-                                                ? `${t('map.drawUpload', 'Upload to Firebase')} (${signedInEmail})`
-                                                : t('map.drawUpload', 'Upload to Firebase')}
-                                            style={{
-                                                height: 44,
-                                                minWidth: 110,
-                                                borderRadius: 12,
-                                                border: 'none',
-                                                background: '#2563eb',
-                                                color: 'rgba(245, 245, 245, 0.98)',
-                                                fontWeight: 900,
-                                                fontSize: 13,
-                                                padding: '0 14px',
-                                                cursor: mapDrawExporting ? 'not-allowed' : 'pointer',
-                                                opacity: mapDrawExporting ? 0.6 : 1,
-                                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-                                                whiteSpace: 'nowrap'
-                                            }}
-                                        >
-                                            {mapDrawExporting
-                                                ? t('map.drawUploadingButton', 'Uploading...')
-                                                : t('map.drawUploadButton', 'Upload')}
-                                        </button>
-                                    )}
                                     <button
                                         onClick={handleOpenCalibrationEditor}
                                         disabled={!calibrationTileImageUrl}

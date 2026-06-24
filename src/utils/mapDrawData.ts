@@ -1,11 +1,31 @@
-import type { DrawRuntimeData, GeoCalibration, MapPinsFile, RuntimeMapPin, TraversableRegion, TraversableRegionsFile } from '../types';
-import { normalizeGeoCalibration, transformNormalizedPoint } from './geoTransform';
-import { normalizePinsFile } from './mapPins';
+import type {
+    DrawRuntimeData,
+    GeoCalibration,
+    MapAuthoringDocument,
+    MapPinsFile,
+    RuntimeMapPin,
+    TraversableRegion,
+    TraversableRegionsFile
+} from '../types';
+import { normalizeGeoCalibration, transformNormalizedPoint } from './geoTransform.ts';
+import { normalizePinsFile } from './mapPins.ts';
 
-const DRAW_PINS_PREFIX = 'mapPins_draw_';
-const CALIBRATION_PREFIX = 'mapCalibration_draw_';
-const TRAVERSABLE_REGIONS_PREFIX = 'mapTraversableRegions_draw_';
+export const MAP_AUTHORING_DOCUMENT_VERSION = 1;
+export const MAP_AUTHORING_ENABLED_GUIDE_IDS = ['JPN-USAA-TEM-001'] as const;
 const TRAVERSABLE_REGIONS_VERSION = 1;
+
+const MAP_AUTHORING_ENDPOINT = '/.netlify/functions/get-map-draw-json';
+const MAP_AUTHORING_SAVE_ENDPOINT = '/.netlify/functions/upload-map-draw-json';
+
+const readJson = async <T>(resp: Response): Promise<T> => {
+    const data = await resp.json().catch(() => null);
+    if (!resp.ok) {
+        const message = (data as { error?: string } | null)?.error || `Request failed (${resp.status})`;
+        throw new Error(message);
+    }
+
+    return data as T;
+};
 
 const normalizeTraversableRegion = (region: unknown, index: number): TraversableRegion | null => {
     if (!region || typeof region !== 'object') return null;
@@ -54,53 +74,11 @@ function normalizeRuntimePins(file: Partial<MapPinsFile>, fallbackGuideId?: stri
     }));
 }
 
-export function getDrawPinsStorageKey(guideId: string) {
-    return `${DRAW_PINS_PREFIX}${guideId}`;
-}
+export function isMapAuthoringEnabledGuide(guideId?: string | null): boolean {
+    if (!guideId) return false;
 
-export function loadDrawPinsFromLocalStorage(guideId: string): MapPinsFile | null {
-    try {
-        const raw = localStorage.getItem(getDrawPinsStorageKey(guideId));
-        if (!raw) return null;
-        const parsed = JSON.parse(raw) as MapPinsFile;
-        if (!parsed || !Array.isArray(parsed.pins)) return null;
-        return normalizePinsFile(parsed, guideId);
-    } catch {
-        return null;
-    }
-}
-
-export function saveDrawPinsToLocalStorage(guideId: string, file: MapPinsFile) {
-    localStorage.setItem(
-        getDrawPinsStorageKey(guideId),
-        JSON.stringify(normalizePinsFile(file, guideId))
-    );
-}
-
-export function getCalibrationStorageKey(guideId: string) {
-    return `${CALIBRATION_PREFIX}${guideId}`;
-}
-
-export function loadCalibrationFromLocalStorage(guideId: string): GeoCalibration | null {
-    try {
-        const raw = localStorage.getItem(getCalibrationStorageKey(guideId));
-        if (!raw) return null;
-        return normalizeGeoCalibration(JSON.parse(raw));
-    } catch {
-        return null;
-    }
-}
-
-export function saveCalibrationToLocalStorage(guideId: string, calibration: GeoCalibration | null) {
-    if (!calibration) {
-        localStorage.removeItem(getCalibrationStorageKey(guideId));
-        return;
-    }
-    localStorage.setItem(getCalibrationStorageKey(guideId), JSON.stringify(calibration));
-}
-
-export function getTraversableRegionsStorageKey(guideId: string) {
-    return `${TRAVERSABLE_REGIONS_PREFIX}${guideId}`;
+    const normalizedGuideId = guideId.trim().toUpperCase();
+    return MAP_AUTHORING_ENABLED_GUIDE_IDS.some((item) => item.toUpperCase() === normalizedGuideId);
 }
 
 export function normalizeTraversableRegionsFile(file: Partial<TraversableRegionsFile>, fallbackGuideId?: string): TraversableRegionsFile {
@@ -121,55 +99,155 @@ export function normalizeTraversableRegionsFile(file: Partial<TraversableRegions
     };
 }
 
-export function loadTraversableRegionsFromLocalStorage(guideId: string): TraversableRegionsFile | null {
-    try {
-        const raw = localStorage.getItem(getTraversableRegionsStorageKey(guideId));
-        if (!raw) return null;
-        return normalizeTraversableRegionsFile(JSON.parse(raw), guideId);
-    } catch {
-        return null;
-    }
+export function normalizeMapAuthoringDocument(
+    document: Partial<MapAuthoringDocument> | null | undefined,
+    fallbackGuideId?: string
+): MapAuthoringDocument {
+    const guideId = typeof document?.guideId === 'string' && document.guideId.trim()
+        ? document.guideId.trim()
+        : (fallbackGuideId ?? '');
+    const calibration = normalizeGeoCalibration(document?.calibration) ?? null;
+    const pins = normalizePinsFile(
+        {
+            version: 2,
+            guideId,
+            pins: Array.isArray(document?.pins) ? document.pins : []
+        },
+        guideId
+    ).pins;
+    const traversableRegions = normalizeTraversableRegionsFile(
+        {
+            version: TRAVERSABLE_REGIONS_VERSION,
+            guideId,
+            regions: Array.isArray(document?.traversableRegions) ? document.traversableRegions : []
+        },
+        guideId
+    ).regions;
+    const updatedAt = typeof document?.updatedAt === 'string' && document.updatedAt.trim()
+        ? document.updatedAt
+        : new Date().toISOString();
+
+    return {
+        version: MAP_AUTHORING_DOCUMENT_VERSION,
+        guideId,
+        updatedAt,
+        calibration,
+        pins,
+        traversableRegions
+    };
 }
 
-export function saveTraversableRegionsToLocalStorage(guideId: string, file: TraversableRegionsFile) {
-    localStorage.setItem(
-        getTraversableRegionsStorageKey(guideId),
-        JSON.stringify(normalizeTraversableRegionsFile(file, guideId))
+export function createBootstrapMapAuthoringDocument(params: {
+    guideId: string;
+    calibration?: GeoCalibration | null;
+    pins?: MapPinsFile | null;
+    traversableRegions?: TraversableRegionsFile | null;
+}): MapAuthoringDocument {
+    return normalizeMapAuthoringDocument(
+        {
+            guideId: params.guideId,
+            updatedAt: new Date().toISOString(),
+            calibration: params.calibration ?? null,
+            pins: params.pins?.pins ?? [],
+            traversableRegions: params.traversableRegions?.regions ?? []
+        },
+        params.guideId
     );
 }
 
-export function loadDrawRuntimeFromLocalStorage(guideId: string): DrawRuntimeData | null {
-    try {
-        const rawPins = localStorage.getItem(getDrawPinsStorageKey(guideId));
-        const rawCalibration = localStorage.getItem(getCalibrationStorageKey(guideId));
-        const rawTraversableRegions = localStorage.getItem(getTraversableRegionsStorageKey(guideId));
+export function buildRuntimePinsFromAuthoringDocument(document: MapAuthoringDocument): RuntimeMapPin[] {
+    return normalizeRuntimePins(
+        {
+            version: 2,
+            guideId: document.guideId,
+            pins: document.pins
+        },
+        document.guideId,
+        document.calibration
+    );
+}
 
-        if (!rawPins && !rawCalibration && !rawTraversableRegions) {
-            return null;
-        }
+export function buildDrawRuntimeFromAuthoringDocument(document: MapAuthoringDocument): DrawRuntimeData {
+    return {
+        guideId: document.guideId,
+        calibration: document.calibration,
+        traversableRegions: document.traversableRegions.filter((region) => (
+            (Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3)
+            || (Array.isArray(region.polygon) && region.polygon.length >= 3)
+        )),
+        pins: buildRuntimePinsFromAuthoringDocument(document)
+    };
+}
 
-        const calibration = rawCalibration ? loadCalibrationFromLocalStorage(guideId) : null;
-        const traversableRegions = (rawTraversableRegions ? loadTraversableRegionsFromLocalStorage(guideId)?.regions : [])
-            ?.filter((region) => (
-                (Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3)
-                || (Array.isArray(region.polygon) && region.polygon.length >= 3)
-            )) ?? [];
-        const pins = rawPins
-            ? normalizeRuntimePins(JSON.parse(rawPins) as MapPinsFile, guideId, calibration)
-            : [];
+export async function fetchMapAuthoringJson(guideId: string): Promise<MapAuthoringDocument | null> {
+    const params = new URLSearchParams({ guideId });
+    const resp = await fetch(`${MAP_AUTHORING_ENDPOINT}?${params.toString()}`, {
+        method: 'GET',
+        cache: 'no-store'
+    });
 
-        return {
-            guideId,
-            calibration,
-            traversableRegions,
-            pins
-        };
-    } catch {
-        return {
-            guideId,
-            calibration: null,
-            traversableRegions: [],
-            pins: []
-        };
+    if (resp.status === 404) {
+        return null;
     }
+
+    const data = await readJson<Partial<MapAuthoringDocument>>(resp);
+    return normalizeMapAuthoringDocument(data, guideId);
+}
+
+export async function saveMapAuthoringJson(params: {
+    guideId: string;
+    payload: MapAuthoringDocument;
+    idToken: string;
+}): Promise<{ ok: true; path: string }> {
+    const payload = normalizeMapAuthoringDocument(
+        {
+            ...params.payload,
+            guideId: params.guideId,
+            updatedAt: new Date().toISOString()
+        },
+        params.guideId
+    );
+
+    const resp = await fetch(MAP_AUTHORING_SAVE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${params.idToken}`
+        },
+        body: JSON.stringify({
+            guideId: params.guideId,
+            payload
+        })
+    });
+
+    return readJson<{ ok: true; path: string }>(resp);
+}
+
+// Deprecated no-op exports kept temporarily so legacy, currently unused pages still compile.
+export function loadDrawPinsFromLocalStorage(_guideId: string): MapPinsFile | null {
+    return null;
+}
+
+export function saveDrawPinsToLocalStorage(_guideId: string, _file: MapPinsFile): void {
+    // Intentionally empty after Firebase cutover.
+}
+
+export function loadCalibrationFromLocalStorage(_guideId: string): GeoCalibration | null {
+    return null;
+}
+
+export function saveCalibrationToLocalStorage(_guideId: string, _calibration: GeoCalibration | null): void {
+    // Intentionally empty after Firebase cutover.
+}
+
+export function loadTraversableRegionsFromLocalStorage(_guideId: string): TraversableRegionsFile | null {
+    return null;
+}
+
+export function saveTraversableRegionsToLocalStorage(_guideId: string, _file: TraversableRegionsFile): void {
+    // Intentionally empty after Firebase cutover.
+}
+
+export function loadDrawRuntimeFromLocalStorage(_guideId: string): DrawRuntimeData | null {
+    return null;
 }

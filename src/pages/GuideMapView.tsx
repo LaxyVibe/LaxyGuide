@@ -9,13 +9,14 @@ import { useMapTileBundle } from '../hooks/useMapTileBundle';
 import { useTranslation } from '../hooks/useTranslation';
 import { transformLatLngToNormalized, transformNormalizedPoint } from '../utils/geoTransform';
 import {
-    loadCalibrationFromLocalStorage,
-    loadDrawPinsFromLocalStorage,
-    loadTraversableRegionsFromLocalStorage
+    buildRuntimePinsFromAuthoringDocument,
+    createBootstrapMapAuthoringDocument,
+    fetchMapAuthoringJson,
+    isMapAuthoringEnabledGuide
 } from '../utils/mapDrawData';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
-import type { GeoCalibration, MapPin, POI, RuntimeMapPin, TraversableRegion } from '../types';
-import { findNearestPin } from '../utils/mapPins';
+import type { GeoCalibration, MapPin, MapPinsFile, POI, RuntimeMapPin, TraversableRegion } from '../types';
+import { fetchPinsFile, findNearestPin } from '../utils/mapPins';
 import {
     clampPointToNormalizedTraversableRegions,
     clampPointToTraversableRegionsWithNormalized,
@@ -96,7 +97,9 @@ const GuideMapView: React.FC = () => {
     const [shouldCenterOnCurrentLocation, setShouldCenterOnCurrentLocation] = useState(false);
     const [showDebugInfo, setShowDebugInfo] = useState(false);
     const [geolocationPermissionState, setGeolocationPermissionState] = useState<PermissionState | 'unsupported' | null>(null);
+    const [authoringLoading, setAuthoringLoading] = useState(true);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
+    const canUseRemoteAuthoring = isMapAuthoringEnabledGuide(guideId);
     const hasHostedMapBundle = Boolean(data?.mapTileBundleUrl);
     const {
         bundle: resolvedMapTileBundle,
@@ -111,34 +114,81 @@ const GuideMapView: React.FC = () => {
     });
 
     useEffect(() => {
-        if (!guideId) {
-            setGeoCalibration(data?.geoCalibration ?? null);
-            setTraversableRegions([]);
-            return;
-        }
-        setGeoCalibration(loadCalibrationFromLocalStorage(guideId) ?? data?.geoCalibration ?? null);
-        setTraversableRegions(loadTraversableRegionsFromLocalStorage(guideId)?.regions ?? []);
-    }, [data?.geoCalibration, guideId]);
+        let cancelled = false;
 
-    useEffect(() => {
-        setPinsError(null);
-        if (!guideId) {
-            setPins([]);
-            setRuntimePins([]);
-            return;
-        }
+        const loadBootstrapDocument = async (nextGuideId: string) => {
+            let pinsFile: MapPinsFile | null = null;
 
-        const localDrawPins = loadDrawPinsFromLocalStorage(guideId)?.pins ?? [];
-        setPins(localDrawPins);
-        setRuntimePins(localDrawPins.map((pin) => ({
-            id: pin.id,
-            x: pin.x,
-            y: pin.y,
-            geoPosition: geoCalibration
-                ? transformNormalizedPoint(geoCalibration.transform, { x: pin.x, y: pin.y })
-                : undefined
-        })));
-    }, [geoCalibration, guideId]);
+            if (data?.mapPinsUrl) {
+                try {
+                    pinsFile = await fetchPinsFile(data.mapPinsUrl);
+                } catch (error) {
+                    if (!cancelled) {
+                        setPinsError(error instanceof Error ? error.message : String(error));
+                    }
+                }
+            }
+
+            return createBootstrapMapAuthoringDocument({
+                guideId: nextGuideId,
+                calibration: data?.geoCalibration ?? null,
+                pins: pinsFile ?? { version: 2, guideId: nextGuideId, pins: [] },
+                traversableRegions: {
+                    version: 1,
+                    guideId: nextGuideId,
+                    regions: []
+                }
+            });
+        };
+
+        const run = async () => {
+            setPinsError(null);
+            setAuthoringLoading(true);
+
+            if (!guideId) {
+                setPins([]);
+                setRuntimePins([]);
+                setGeoCalibration(data?.geoCalibration ?? null);
+                setTraversableRegions([]);
+                setAuthoringLoading(false);
+                return;
+            }
+
+            try {
+                const remoteDocument = canUseRemoteAuthoring
+                    ? await fetchMapAuthoringJson(guideId)
+                    : null;
+                if (cancelled) return;
+
+                const document = remoteDocument ?? await loadBootstrapDocument(guideId);
+                if (cancelled) return;
+
+                setGeoCalibration(document.calibration);
+                setTraversableRegions(document.traversableRegions);
+                setPins(document.pins);
+                setRuntimePins(buildRuntimePinsFromAuthoringDocument(document));
+            } catch (error) {
+                if (cancelled) return;
+                setPinsError(error instanceof Error ? error.message : String(error));
+                const bootstrapDocument = await loadBootstrapDocument(guideId);
+                if (cancelled) return;
+                setGeoCalibration(bootstrapDocument.calibration);
+                setTraversableRegions(bootstrapDocument.traversableRegions);
+                setPins(bootstrapDocument.pins);
+                setRuntimePins(buildRuntimePinsFromAuthoringDocument(bootstrapDocument));
+            } finally {
+                if (!cancelled) {
+                    setAuthoringLoading(false);
+                }
+            }
+        };
+
+        run();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [canUseRemoteAuthoring, data?.geoCalibration, data?.mapPinsUrl, guideId]);
 
     useEffect(() => {
         if (!locationTrackingEnabled) return;
@@ -388,7 +438,7 @@ const GuideMapView: React.FC = () => {
     const mapTileBundle = resolvedMapTileBundle;
     const shouldWaitForTileBundle = hasHostedMapBundle && mapTileBundleLoading;
 
-    if (transLoading || guideLoading) return <Loading />;
+    if (transLoading || guideLoading || authoringLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
     if (!data) return <div>{t('common.noData')}</div>;
 
