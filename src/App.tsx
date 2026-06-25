@@ -7,7 +7,6 @@ import BasicInfo from './pages/BasicInfo';
 import POIListing from './pages/POIListing';
 import POISearch from './pages/POISearch';
 import POIDetail from './pages/POIDetail';
-import GuideMapCapture from './pages/GuideMapCapture';
 import GuideMapDraw from './pages/GuideMapDraw';
 import GuideMapView from './pages/GuideMapView';
 import GuideListing from './pages/GuideListing';
@@ -64,7 +63,7 @@ const ProtectedGuideMapDrawRoute: React.FC = () => {
   const [authMessage, setAuthMessage] = useState<string | null>(null);
 
   const backToMapView = () => {
-    const to = guideId ? `/${guideId}/map/view${location.search}` : '/';
+    const to = guideId ? `/${guideId}/map${location.search}` : '/';
     if ('startViewTransition' in document) {
       document.startViewTransition(() => navigate(to));
     } else {
@@ -239,9 +238,7 @@ function App() {
             <Route path="/:guideId/basic-info" element={<BasicInfo />} />
             <Route path="/:guideId/list" element={<POIListing />} />
             <Route path="/:guideId/search" element={<POISearch />} />
-            <Route path="/:guideId/map/capture" element={<GuideMapCapture />} />
             <Route path="/:guideId/map/draw" element={<ProtectedGuideMapDrawRoute />} />
-            <Route path="/:guideId/map/view" element={<GuideMapView />} />
             <Route path="/:guideId/map" element={<GuideMapView />} />
             <Route path="/:guideId/:poiId" element={<POIDetail />} />
           </Routes>

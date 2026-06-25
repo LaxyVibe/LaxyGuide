@@ -106,7 +106,7 @@ const HubLanding: React.FC = () => {
             iconSrc: isHubGuide ? mapIcon : undefined,
             onClick: () => {
                 trackHubAction('Hub Map');
-                navigate(`/${guideId}/map/view?${baseQuery}`);
+                navigate(`/${guideId}/map?${baseQuery}`);
             }
         },
         {
