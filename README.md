@@ -121,7 +121,7 @@ The app now includes the `laxy-guide-dev` web config as a built-in default for `
 
 ## Decap Content Firebase Publish
 
-`/laxy-admin` now includes a manual `Publish to Firebase Storage` action for mirroring `v2` markdown content from GitHub into Firebase Storage.
+The v3 app reads guide and POI content from Firebase Storage, while `v2` remains the editing/export branch.
 
 - Source of truth remains `src/content/guides/*.md` and `src/content/pois/*.md` on the `v2` branch.
 - Export target:
@@ -129,11 +129,11 @@ The app now includes the `laxy-guide-dev` web config as a built-in default for `
   - `gs://laxy-guide-dev.firebasestorage.app/pois/<filename>.md`
 - Manifest target:
   - `gs://laxy-guide-dev.firebasestorage.app/content-manifest.json`
+- Runtime app reads guide and POI content from the published manifest plus those Firebase-hosted markdown files.
 - Endpoint:
   - `/.netlify/functions/export-content-markdown` (POST)
 - Auth:
   - simplest: shared secret via `CONTENT_EXPORT_SHARED_SECRET`
-  - optional: Firebase Google sign-in in the admin UI
   - optional: Firebase ID token verification plus email allowlist via `CONTENT_EXPORT_ADMIN_EMAILS` or fallback `MAP_DRAW_ADMIN_EMAILS`
 
 ### Additional Environment Variables
@@ -143,6 +143,10 @@ The app now includes the `laxy-guide-dev` web config as a built-in default for `
 - `GITHUB_CONTENT_READ_TOKEN`
 - `CONTENT_EXPORT_GITHUB_REPO` (optional, defaults to `LaxyVibe/LaxyGuide`)
 - `CONTENT_EXPORT_GITHUB_BRANCH` (optional, defaults to `v2`)
+
+### Frontend Runtime Variable
+
+- `VITE_CONTENT_MANIFEST_URL` (optional, defaults to `https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/content-manifest.json`)
 
 ### Curl Trigger
 

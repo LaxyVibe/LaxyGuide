@@ -5,6 +5,7 @@ const {
   getAllowedEmails,
   json
 } = require('./map-draw-storage.cjs');
+const matter = require('gray-matter');
 
 const DEFAULT_CONTENT_BRANCH = 'v2';
 const DEFAULT_GITHUB_REPO = 'LaxyVibe/LaxyGuide';
@@ -124,6 +125,121 @@ function filterMarkdownEntries(entries) {
       size: entry.size
     }))
     .sort((left, right) => left.name.localeCompare(right.name));
+}
+
+function isFrontmatterRecord(value) {
+  return !!value && typeof value === 'object' && !Array.isArray(value);
+}
+
+function getLocalizedBlocks(frontmatter) {
+  return Object.entries(frontmatter || {})
+    .filter(([, value]) => isFrontmatterRecord(value))
+    .map(([language, value]) => ({
+      language,
+      value
+    }));
+}
+
+function extractGuideManifestMetadata(markdown, entry, bucketName, objectPath) {
+  const parsed = matter(markdown);
+  const blocks = getLocalizedBlocks(parsed.data);
+  const summaries = {};
+  const languages = [];
+  let guideId = '';
+
+  for (const block of blocks) {
+    const code = typeof block.value.code === 'string' ? block.value.code.trim() : '';
+    const title = typeof block.value.title === 'string' ? block.value.title.trim() : '';
+    const guideUnderlayImage = typeof block.value.guideUnderlayImage === 'string'
+      ? block.value.guideUnderlayImage.trim()
+      : '';
+
+    if (!guideId && code) {
+      guideId = code;
+    }
+
+    if (title) {
+      languages.push(block.language);
+      summaries[block.language] = {
+        title,
+        guideUnderlayImage
+      };
+    }
+  }
+
+  if (!guideId) {
+    throw new Error(`Guide metadata is missing code in ${entry.path}`);
+  }
+
+  if (languages.length === 0) {
+    throw new Error(`Guide metadata is missing localized titles in ${entry.path}`);
+  }
+
+  return {
+    guideId,
+    fileName: entry.name,
+    objectPath,
+    publicUrl: buildPublicObjectUrl(bucketName, objectPath),
+    sha: entry.sha,
+    languages,
+    summaries
+  };
+}
+
+function extractPoiManifestMetadata(markdown, entry, bucketName, objectPath) {
+  const parsed = matter(markdown);
+  const blocks = getLocalizedBlocks(parsed.data);
+  const languages = [];
+  let guideId = '';
+  let number = '';
+
+  for (const block of blocks) {
+    const blockGuideId = typeof block.value.guide === 'string' ? block.value.guide.trim() : '';
+    const blockNumber = typeof block.value.number === 'string' ? block.value.number.trim() : '';
+    const title = typeof block.value.title === 'string' ? block.value.title.trim() : '';
+
+    if (!guideId && blockGuideId) {
+      guideId = blockGuideId;
+    }
+
+    if (!number && blockNumber) {
+      number = blockNumber;
+    }
+
+    if (title) {
+      languages.push(block.language);
+    }
+  }
+
+  if (!guideId) {
+    throw new Error(`POI metadata is missing guide in ${entry.path}`);
+  }
+
+  if (!number) {
+    throw new Error(`POI metadata is missing number in ${entry.path}`);
+  }
+
+  if (languages.length === 0) {
+    throw new Error(`POI metadata is missing localized titles in ${entry.path}`);
+  }
+
+  return {
+    guideId,
+    number,
+    fileName: entry.name,
+    objectPath,
+    publicUrl: buildPublicObjectUrl(bucketName, objectPath),
+    sha: entry.sha,
+    languages
+  };
+}
+
+function extractManifestMetadata(directoryKey, markdown, entry, bucketName, objectPath) {
+  if (directoryKey === 'guides') {
+    return extractGuideManifestMetadata(markdown, entry, bucketName, objectPath);
+  }
+
+  return extractPoiManifestMetadata(markdown, entry, bucketName, objectPath);
 }
 
 function getExistingBlobSha(metadata) {
@@ -313,6 +429,8 @@ function createHandler(options = {}) {
           const objectPath = `${directory.destinationPrefix}/${entry.name}`;
 
           try {
+            const markdown = await runtime.downloadTextFile(entry.path, branch);
+            const manifestEntry = extractManifestMetadata(directory.key, markdown, entry, bucketName, objectPath);
             const existingMetadata = await runtime.getObjectMetadata(objectPath);
             const existingBlobSha = getExistingBlobSha(existingMetadata);
 
@@ -320,16 +438,10 @@ function createHandler(options = {}) {
               addCollectionResult(collectionSummary, bucketName, objectPath, entry, 'skipped', {
                 reason: 'unchanged'
               });
-              manifest[directory.key].push({
-                fileName: entry.name,
-                objectPath,
-                publicUrl: buildPublicObjectUrl(bucketName, objectPath),
-                sha: entry.sha
-              });
+              manifest[directory.key].push(manifestEntry);
               continue;
             }
 
-            const markdown = await runtime.downloadTextFile(entry.path, branch);
             await runtime.uploadTextObject(objectPath, markdown, {
               contentType: 'text/markdown; charset=utf-8',
               cacheControl: 'no-cache',
@@ -343,12 +455,7 @@ function createHandler(options = {}) {
             });
 
             addCollectionResult(collectionSummary, bucketName, objectPath, entry, 'uploaded');
-            manifest[directory.key].push({
-              fileName: entry.name,
-              objectPath,
-              publicUrl: buildPublicObjectUrl(bucketName, objectPath),
-              sha: entry.sha
-            });
+            manifest[directory.key].push(manifestEntry);
           } catch (error) {
             const message = error && error.message ? error.message : String(error);
             addCollectionResult(collectionSummary, bucketName, objectPath, entry, 'failed', {

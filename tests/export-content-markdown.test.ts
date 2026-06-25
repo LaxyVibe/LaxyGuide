@@ -9,6 +9,41 @@ const {
     MANIFEST_OBJECT_PATH
 } = require('../netlify/functions/export-content-markdown.cjs');
 
+const MARKDOWN_BY_PATH: Record<string, string> = {
+    'src/content/guides/guide-a.md': `---
+en-US:
+  title: Guide A English
+  code: GUIDE-A
+  guideUnderlayImage: https://example.com/guide-a-en.jpg
+ja-JP:
+  title: Guide A Japanese
+  code: GUIDE-A
+  guideUnderlayImage: https://example.com/guide-a-ja.jpg
+---`,
+    'src/content/guides/guide-b.md': `---
+en-US:
+  title: Guide B English
+  code: GUIDE-B
+  guideUnderlayImage: https://example.com/guide-b-en.jpg
+---`,
+    'src/content/pois/poi-a.md': `---
+en-US:
+  guide: GUIDE-A
+  number: '001'
+  title: POI A English
+ja-JP:
+  guide: GUIDE-A
+  number: '001'
+  title: POI A Japanese
+---`,
+    'src/content/pois/poi-fail.md': `---
+en-US:
+  guide: GUIDE-X
+  number: '777'
+  title: Broken POI
+---`
+};
+
 function createEvent(overrides: Partial<{
     httpMethod: string;
     headers: Record<string, string>;
@@ -171,7 +206,7 @@ test('content export handler exports markdown, skips unchanged files, and writes
             },
             downloadTextFile: async (filePath: string, branch: string) => {
                 downloadCalls.push({ filePath, branch });
-                return `raw:${filePath}`;
+                return MARKDOWN_BY_PATH[filePath];
             },
             uploadTextObject: async (objectPath: string, text: string, options: Record<string, unknown>) => {
                 uploadedTextObjects.push({ objectPath, text, options });
@@ -194,6 +229,7 @@ test('content export handler exports markdown, skips unchanged files, and writes
     ]);
     assert.deepEqual(downloadCalls, [
         { filePath: 'src/content/guides/guide-a.md', branch: DEFAULT_CONTENT_BRANCH },
+        { filePath: 'src/content/guides/guide-b.md', branch: DEFAULT_CONTENT_BRANCH },
         { filePath: 'src/content/pois/poi-a.md', branch: DEFAULT_CONTENT_BRANCH }
     ]);
 
@@ -201,8 +237,8 @@ test('content export handler exports markdown, skips unchanged files, and writes
         'guides/guide-a.md',
         'pois/poi-a.md'
     ]);
-    assert.equal(uploadedTextObjects[0].text, 'raw:src/content/guides/guide-a.md');
-    assert.equal(uploadedTextObjects[1].text, 'raw:src/content/pois/poi-a.md');
+    assert.equal(uploadedTextObjects[0].text, MARKDOWN_BY_PATH['src/content/guides/guide-a.md']);
+    assert.equal(uploadedTextObjects[1].text, MARKDOWN_BY_PATH['src/content/pois/poi-a.md']);
     assert.equal(uploadedTextObjects[0].options.contentType, 'text/markdown; charset=utf-8');
     assert.equal(uploadedTextObjects[0].options.cacheControl, 'no-cache');
 
@@ -220,21 +256,54 @@ test('content export handler exports markdown, skips unchanged files, and writes
 
     assert.deepEqual(uploadedJsonObjects[0].payload.guides, [
         {
+            guideId: 'GUIDE-A',
             fileName: 'guide-a.md',
             objectPath: 'guides/guide-a.md',
             publicUrl: 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/guide-a.md',
-            sha: 'guide-a-sha'
+            sha: 'guide-a-sha',
+            languages: ['en-US', 'ja-JP'],
+            summaries: {
+                'en-US': {
+                    title: 'Guide A English',
+                    guideUnderlayImage: 'https://example.com/guide-a-en.jpg'
+                },
+                'ja-JP': {
+                    title: 'Guide A Japanese',
+                    guideUnderlayImage: 'https://example.com/guide-a-ja.jpg'
+                }
+            }
         },
         {
+            guideId: 'GUIDE-B',
             fileName: 'guide-b.md',
             objectPath: 'guides/guide-b.md',
             publicUrl: 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/guide-b.md',
-            sha: 'guide-b-sha'
+            sha: 'guide-b-sha',
+            languages: ['en-US'],
+            summaries: {
+                'en-US': {
+                    title: 'Guide B English',
+                    guideUnderlayImage: 'https://example.com/guide-b-en.jpg'
+                }
+            }
+        }
+    ]);
+    assert.deepEqual(uploadedJsonObjects[0].payload.pois, [
+        {
+            guideId: 'GUIDE-A',
+            number: '001',
+            fileName: 'poi-a.md',
+            objectPath: 'pois/poi-a.md',
+            publicUrl: 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/poi-a.md',
+            sha: 'poi-a-sha',
+            languages: ['en-US', 'ja-JP']
         }
     ]);
 });
 
 test('content export handler reports partial failures clearly', async () => {
+    let manifestPayload: Record<string, unknown> | null = null;
+
     const handler = createHandler({
         env: {
             MAP_DRAW_ADMIN_EMAILS: 'publisher@example.com'
@@ -253,11 +322,14 @@ test('content export handler reports partial failures clearly', async () => {
                 ];
             },
             getObjectMetadata: async () => null,
-            downloadTextFile: async () => 'raw:src/content/pois/poi-fail.md',
+            downloadTextFile: async () => MARKDOWN_BY_PATH['src/content/pois/poi-fail.md'],
             uploadTextObject: async () => {
                 throw new Error('Storage upload failed (500): broken');
             },
-            uploadJsonObject: async () => ({ objectPath: MANIFEST_OBJECT_PATH })
+            uploadJsonObject: async (objectPath: string, payload: Record<string, unknown>) => {
+                manifestPayload = payload;
+                return { objectPath, payload };
+            }
         })
     });
 
@@ -269,4 +341,6 @@ test('content export handler reports partial failures clearly', async () => {
     assert.equal(body.pois.failedCount, 1);
     assert.match(body.pois.failed[0].error, /Storage upload failed/);
     assert.equal(body.manifest.success, true);
+    assert.deepEqual(manifestPayload?.guides, []);
+    assert.deepEqual(manifestPayload?.pois, []);
 });
