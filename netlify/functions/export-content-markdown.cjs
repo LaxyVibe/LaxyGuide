@@ -112,7 +112,11 @@ async function parseGitHubError(response) {
 
 function filterMarkdownEntries(entries) {
   return entries
-    .filter((entry) => entry?.type === 'file' && typeof entry.name === 'string' && entry.name.endsWith('.md'))
+    .filter((entry) => {
+      const hasMarkdownName = typeof entry?.name === 'string' && entry.name.endsWith('.md');
+      const hasSupportedType = entry?.type === undefined || entry?.type === 'file';
+      return hasMarkdownName && hasSupportedType;
+    })
     .map((entry) => ({
       name: entry.name,
       path: entry.path,
