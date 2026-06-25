@@ -10,7 +10,9 @@ import { useTranslation } from '../hooks/useTranslation';
 import { transformLatLngToNormalized, transformNormalizedPoint } from '../utils/geoTransform';
 import {
     buildRuntimePinsFromAuthoringDocument,
-    createBootstrapMapAuthoringDocument
+    createBootstrapMapAuthoringDocument,
+    fetchMapAuthoringJson,
+    isMapAuthoringEnabledGuide
 } from '../utils/mapDrawData';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import type { GeoCalibration, MapPin, MapPinsFile, POI, RuntimeMapPin, TraversableRegion } from '../types';
@@ -97,6 +99,7 @@ const GuideMapView: React.FC = () => {
     const [geolocationPermissionState, setGeolocationPermissionState] = useState<PermissionState | 'unsupported' | null>(null);
     const [authoringLoading, setAuthoringLoading] = useState(true);
     const mapRef = React.useRef<MapViewerHandle | null>(null);
+    const canUseRemoteAuthoring = isMapAuthoringEnabledGuide(guideId);
     const hasHostedMapBundle = Boolean(data?.mapTileBundleUrl);
     const {
         bundle: resolvedMapTileBundle,
@@ -152,9 +155,12 @@ const GuideMapView: React.FC = () => {
             }
 
             try {
-                // The public map page should render from client-readable guide map data
-                // without probing the optional authoring backend document first.
-                const document = await loadBootstrapDocument(guideId);
+                const remoteDocument = canUseRemoteAuthoring
+                    ? await fetchMapAuthoringJson(guideId)
+                    : null;
+                if (cancelled) return;
+
+                const document = remoteDocument ?? await loadBootstrapDocument(guideId);
                 if (cancelled) return;
 
                 setGeoCalibration(document.calibration);
@@ -182,7 +188,7 @@ const GuideMapView: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [data?.geoCalibration, data?.mapPinsUrl, guideId]);
+    }, [canUseRemoteAuthoring, data?.geoCalibration, data?.mapPinsUrl, guideId]);
 
     useEffect(() => {
         if (!locationTrackingEnabled) return;

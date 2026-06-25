@@ -255,6 +255,79 @@ test('loadGuideData fetches only the selected guide markdown and its POIs with l
     });
 });
 
+test('loadGuideData derives the hosted Firebase map tile bundle for authoring-enabled guides', async () => {
+    const calls = new Map<string, number>();
+    const hostedGuideMarkdownUrl = 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/JPN-USAA-TEM-001.md';
+    const hostedPoiUrl = 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/JPN-USAA-TEM-001-001.md';
+
+    await withFetchMock(calls, async () => {
+        const guide = await loadGuideData('JPN-USAA-TEM-001', 'en-US');
+        assert.ok(guide);
+        assert.equal(
+            guide.mapTileBundleUrl,
+            'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-tiles.zip'
+        );
+        assert.equal(guide.mapPinsUrl, '/maps/JPN-USAA-TEM-001.json');
+    }, {
+        [manifestUrl]: {
+            body: JSON.stringify({
+                repo: 'LaxyVibe/LaxyGuide',
+                branch: 'v2',
+                commitSha: 'commit-456',
+                bucketName: 'laxy-guide-dev.firebasestorage.app',
+                exportedAt: '2026-06-25T00:00:00.000Z',
+                guides: [
+                    {
+                        guideId: 'JPN-USAA-TEM-001',
+                        fileName: 'JPN-USAA-TEM-001.md',
+                        objectPath: 'guides/JPN-USAA-TEM-001.md',
+                        publicUrl: hostedGuideMarkdownUrl,
+                        sha: 'usaa-guide-sha',
+                        languages: ['en-US'],
+                        summaries: {
+                            'en-US': {
+                                title: 'Usa Jingu',
+                                guideUnderlayImage: 'https://example.com/usaa.jpg'
+                            }
+                        }
+                    }
+                ],
+                pois: [
+                    {
+                        guideId: 'JPN-USAA-TEM-001',
+                        number: '001',
+                        fileName: 'JPN-USAA-TEM-001-001.md',
+                        objectPath: 'pois/JPN-USAA-TEM-001-001.md',
+                        publicUrl: hostedPoiUrl,
+                        sha: 'usaa-poi-sha',
+                        languages: ['en-US']
+                    }
+                ]
+            })
+        },
+        [hostedGuideMarkdownUrl]: {
+            body: `---
+en-US:
+  title: Usa Jingu
+  code: JPN-USAA-TEM-001
+  guideUnderlayImage: https://example.com/usaa.jpg
+  mapImage: /maps/JPN-USAA-TEM-001.webp
+  mapPinsUrl: /maps/JPN-USAA-TEM-001.json
+---`
+        },
+        [hostedPoiUrl]: {
+            body: `---
+en-US:
+  guide: JPN-USAA-TEM-001
+  number: '001'
+  title: Main Gate
+  hero: https://example.com/main-gate.jpg
+  content: Welcome
+---`
+        }
+    });
+});
+
 test('loadGuideData returns null when the guide is missing from the manifest', async () => {
     const calls = new Map<string, number>();
 

@@ -1,7 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildRuntimePinsFromAuthoringDocument, normalizeMapAuthoringDocument } from '../src/utils/mapDrawData.ts';
+import {
+    buildRuntimePinsFromAuthoringDocument,
+    fetchMapAuthoringJson,
+    normalizeMapAuthoringDocument
+} from '../src/utils/mapDrawData.ts';
+import {
+    getMapAuthoringObjectPath,
+    getMapAuthoringPublicUrl,
+    getMapTileBundleObjectPath,
+    getMapTileBundlePublicUrl
+} from '../src/utils/mapStorage.ts';
 import type { MapAuthoringDocument } from '../src/types/index.ts';
+
+const originalFetch = globalThis.fetch;
 
 test('normalizeMapAuthoringDocument preserves full pin and traversable fidelity', () => {
     const document = normalizeMapAuthoringDocument({
@@ -110,4 +122,50 @@ test('buildRuntimePinsFromAuthoringDocument preserves geo projection', () => {
     assert.equal(runtimePins.length, 1);
     assert.equal(runtimePins[0].geoPosition?.lat, 34.25);
     assert.equal(runtimePins[0].geoPosition?.lng, 139.25);
+});
+
+test('getMapAuthoringPublicUrl points at the public Firebase Storage object', () => {
+    assert.equal(getMapAuthoringObjectPath('JPN-USAA-TEM-001'), 'maps/JPN-USAA-TEM-001-map-authoring.json');
+    assert.equal(
+        getMapAuthoringPublicUrl('JPN-USAA-TEM-001'),
+        'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-authoring.json'
+    );
+    assert.equal(getMapTileBundleObjectPath('JPN-USAA-TEM-001'), 'maps/JPN-USAA-TEM-001-map-tiles.zip');
+    assert.equal(
+        getMapTileBundlePublicUrl('JPN-USAA-TEM-001'),
+        'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-tiles.zip'
+    );
+});
+
+test('fetchMapAuthoringJson reads the public Firebase Storage object directly', async () => {
+    const calls: string[] = [];
+    globalThis.fetch = (async (input: string | URL | Request) => {
+        const url = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
+        calls.push(url);
+
+        return new Response(JSON.stringify({
+            version: 1,
+            guideId: 'JPN-USAA-TEM-001',
+            updatedAt: '2026-06-25T10:10:00.000Z',
+            calibration: null,
+            pins: [],
+            traversableRegions: []
+        }), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }) as typeof fetch;
+
+    try {
+        const document = await fetchMapAuthoringJson('JPN-USAA-TEM-001');
+        assert.ok(document);
+        assert.equal(document.guideId, 'JPN-USAA-TEM-001');
+        assert.deepEqual(calls, [
+            'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-authoring.json'
+        ]);
+    } finally {
+        globalThis.fetch = originalFetch;
+    }
 });

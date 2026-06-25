@@ -8,13 +8,13 @@ import type {
     TraversableRegionsFile
 } from '../types';
 import { normalizeGeoCalibration, transformNormalizedPoint } from './geoTransform.ts';
+import { getMapAuthoringPublicUrl } from './mapStorage.ts';
 import { normalizePinsFile } from './mapPins.ts';
 
 export const MAP_AUTHORING_DOCUMENT_VERSION = 1;
 export const MAP_AUTHORING_ENABLED_GUIDE_IDS = ['JPN-USAA-TEM-001'] as const;
 const TRAVERSABLE_REGIONS_VERSION = 1;
 
-const MAP_AUTHORING_ENDPOINT = '/.netlify/functions/get-map-draw-json';
 const MAP_AUTHORING_SAVE_ENDPOINT = '/.netlify/functions/upload-map-draw-json';
 
 const readJson = async <T>(resp: Response): Promise<T> => {
@@ -180,8 +180,7 @@ export function buildDrawRuntimeFromAuthoringDocument(document: MapAuthoringDocu
 }
 
 export async function fetchMapAuthoringJson(guideId: string): Promise<MapAuthoringDocument | null> {
-    const params = new URLSearchParams({ guideId });
-    const resp = await fetch(`${MAP_AUTHORING_ENDPOINT}?${params.toString()}`, {
+    const resp = await fetch(getMapAuthoringPublicUrl(guideId), {
         method: 'GET',
         cache: 'no-store'
     });
