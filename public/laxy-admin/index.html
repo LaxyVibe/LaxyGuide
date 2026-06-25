@@ -11,10 +11,252 @@
   </script>
   <!-- Include the script that builds the page and powers Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
   <script>
     // Initialize CMS immediately after it loads
     window.addEventListener('load', function () {
+      const DEFAULT_FIREBASE_WEB_CONFIG = {
+        apiKey: 'AIzaSyA7V8lxX_z7nmuE-fGsFEIenzsBPDCNw64',
+        authDomain: 'laxy-guide-dev.firebaseapp.com',
+        projectId: 'laxy-guide-dev',
+        storageBucket: 'laxy-guide-dev.firebasestorage.app',
+        messagingSenderId: '434671355332',
+        appId: '1:434671355332:web:7b9645abcc18f9c1fe5091'
+      };
+
+      function getFirebaseConfig() {
+        return window.LAXY_FIREBASE_CONFIG || DEFAULT_FIREBASE_WEB_CONFIG;
+      }
+
+      function ensureFirebaseApp() {
+        if (!window.firebase) {
+          throw new Error('Firebase SDK failed to load');
+        }
+
+        if (!window.firebase.apps.length) {
+          window.firebase.initializeApp(getFirebaseConfig());
+        }
+
+        return window.firebase.app();
+      }
+
+      function getFirebaseAuth() {
+        ensureFirebaseApp();
+        return window.firebase.auth();
+      }
+
+      function ensureFirebaseUser() {
+        const auth = getFirebaseAuth();
+
+        if (auth.currentUser) {
+          return Promise.resolve(auth.currentUser);
+        }
+
+        const provider = new window.firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        return auth.signInWithPopup(provider).then(function (result) {
+          return result.user;
+        });
+      }
+
+      function parseJsonSafely(rawText) {
+        try {
+          return rawText ? JSON.parse(rawText) : null;
+        } catch {
+          return null;
+        }
+      }
+
+      function formatCollectionSummary(label, section) {
+        if (!section) {
+          return `${label}: unavailable`;
+        }
+
+        const lines = [
+          `${label}: ${section.uploadedCount || 0} uploaded, ${section.skippedCount || 0} skipped, ${section.failedCount || 0} failed`
+        ];
+
+        const failedEntries = Array.isArray(section.failed) ? section.failed.slice(0, 5) : [];
+        failedEntries.forEach(function (entry) {
+          lines.push(`  - ${entry.fileName}: ${entry.error || 'Unknown error'}`);
+        });
+
+        return lines.join('\n');
+      }
+
+      function formatPublishSummary(payload) {
+        if (!payload) {
+          return 'No publish summary returned.';
+        }
+
+        const lines = [
+          `Branch: ${payload.branch || 'unknown'}`,
+          `Commit: ${payload.commitSha || 'unknown'}`,
+          `Exported at: ${payload.exportedAt || 'unknown'}`,
+          '',
+          formatCollectionSummary('Guides', payload.guides),
+          formatCollectionSummary('POIs', payload.pois),
+          '',
+          `Manifest: ${payload.manifest && payload.manifest.publicUrl ? payload.manifest.publicUrl : 'not available'}`
+        ];
+
+        if (payload.manifest && payload.manifest.error) {
+          lines.push(`Manifest error: ${payload.manifest.error}`);
+        }
+
+        return lines.join('\n');
+      }
+
+      function renderPublishPanel() {
+        if (document.getElementById('laxy-content-publish-panel')) {
+          return;
+        }
+
+        const panel = document.createElement('div');
+        panel.id = 'laxy-content-publish-panel';
+        Object.assign(panel.style, {
+          position: 'fixed',
+          top: '16px',
+          right: '16px',
+          width: 'min(360px, calc(100vw - 32px))',
+          zIndex: '2147483647',
+          borderRadius: '12px',
+          background: 'rgba(15, 23, 42, 0.96)',
+          color: '#f8fafc',
+          boxShadow: '0 18px 40px rgba(15, 23, 42, 0.35)',
+          padding: '14px',
+          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+        });
+
+        const title = document.createElement('div');
+        title.textContent = 'Firebase Publish';
+        Object.assign(title.style, {
+          fontSize: '15px',
+          fontWeight: '700',
+          marginBottom: '6px'
+        });
+
+        const meta = document.createElement('div');
+        meta.textContent = 'Google admin sign-in required to publish.';
+        Object.assign(meta.style, {
+          fontSize: '12px',
+          lineHeight: '1.45',
+          color: 'rgba(226, 232, 240, 0.92)',
+          marginBottom: '10px'
+        });
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = 'Publish to Firebase Storage';
+        Object.assign(button.style, {
+          width: '100%',
+          border: 'none',
+          borderRadius: '10px',
+          padding: '10px 12px',
+          fontSize: '14px',
+          fontWeight: '700',
+          cursor: 'pointer',
+          background: '#22c55e',
+          color: '#052e16'
+        });
+
+        const output = document.createElement('pre');
+        output.textContent = '';
+        Object.assign(output.style, {
+          display: 'none',
+          marginTop: '10px',
+          marginBottom: '0',
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word',
+          fontSize: '12px',
+          lineHeight: '1.45',
+          color: '#dbeafe',
+          background: 'rgba(15, 23, 42, 0.45)',
+          padding: '10px',
+          borderRadius: '10px',
+          maxHeight: '240px',
+          overflow: 'auto'
+        });
+
+        panel.appendChild(title);
+        panel.appendChild(meta);
+        panel.appendChild(button);
+        panel.appendChild(output);
+        document.body.appendChild(panel);
+
+        let isPublishing = false;
+
+        function setPublishingState(nextState) {
+          isPublishing = nextState;
+          button.disabled = nextState;
+          button.textContent = nextState ? 'Publishing…' : 'Publish to Firebase Storage';
+          button.style.opacity = nextState ? '0.7' : '1';
+          button.style.cursor = nextState ? 'progress' : 'pointer';
+        }
+
+        try {
+          const auth = getFirebaseAuth();
+          auth.onAuthStateChanged(function (user) {
+            meta.textContent = user && user.email
+              ? `Signed in as ${user.email}`
+              : 'Google admin sign-in required to publish.';
+          });
+        } catch (error) {
+          meta.textContent = error && error.message ? error.message : 'Firebase Auth is unavailable.';
+        }
+
+        button.addEventListener('click', async function () {
+          if (isPublishing) {
+            return;
+          }
+
+          setPublishingState(true);
+          output.style.display = 'none';
+          output.textContent = '';
+
+          try {
+            const user = await ensureFirebaseUser();
+            if (!user) {
+              throw new Error('Google sign-in did not return a user');
+            }
+
+            const idToken = await user.getIdToken();
+            const response = await fetch('/.netlify/functions/export-content-markdown', {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json'
+              },
+              body: '{}'
+            });
+
+            const rawText = await response.text();
+            const payload = parseJsonSafely(rawText);
+
+            if (!response.ok && response.status !== 207) {
+              throw new Error((payload && payload.error) || `Publish failed (${response.status})`);
+            }
+
+            const finishedWithIssues = response.status === 207 || (payload && payload.ok === false);
+            meta.textContent = finishedWithIssues
+              ? 'Publish completed with issues. Review the summary below.'
+              : 'Publish completed successfully.';
+            output.textContent = formatPublishSummary(payload);
+            output.style.display = 'block';
+          } catch (error) {
+            meta.textContent = error && error.message ? error.message : 'Publish failed.';
+            output.textContent = '';
+            output.style.display = 'none';
+          } finally {
+            setPublishingState(false);
+          }
+        });
+      }
+
       if (window.CMS) {
+        renderPublishPanel();
+
         // Custom TTML Widget
         const TTMLControl = window.createClass({
           getInitialState: function () {

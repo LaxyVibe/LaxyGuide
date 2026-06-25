@@ -119,6 +119,30 @@ The app now includes the `laxy-guide-dev` web config as a built-in default for `
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL`
 - `GOOGLE_PRIVATE_KEY`
 
+## Decap Content Firebase Publish
+
+`/laxy-admin` now includes a manual `Publish to Firebase Storage` action for mirroring `v2` markdown content from GitHub into Firebase Storage.
+
+- Source of truth remains `src/content/guides/*.md` and `src/content/pois/*.md` on the `v2` branch.
+- Export target:
+  - `gs://laxy-guide-dev.firebasestorage.app/guides/<filename>.md`
+  - `gs://laxy-guide-dev.firebasestorage.app/pois/<filename>.md`
+- Manifest target:
+  - `gs://laxy-guide-dev.firebasestorage.app/content-manifest.json`
+- Endpoint:
+  - `/.netlify/functions/export-content-markdown` (POST)
+- Auth:
+  - Firebase Google sign-in in the admin UI
+  - Firebase ID token verification on the Netlify function
+  - email allowlist via `CONTENT_EXPORT_ADMIN_EMAILS` or fallback `MAP_DRAW_ADMIN_EMAILS`
+
+### Additional Environment Variables
+
+- `CONTENT_EXPORT_ADMIN_EMAILS`
+- `GITHUB_CONTENT_READ_TOKEN`
+- `CONTENT_EXPORT_GITHUB_REPO` (optional, defaults to `LaxyVibe/LaxyGuide`)
+- `CONTENT_EXPORT_GITHUB_BRANCH` (optional, defaults to `v2`)
+
 ## GDAL2Tiles Map Slicing (USAA)
 
 The map viewer now supports local XYZ tiles for non-geographic guide maps.

@@ -59,6 +59,18 @@ function getBucketName(env = process.env) {
   return env.FIREBASE_STORAGE_BUCKET || env.VITE_FIREBASE_STORAGE_BUCKET || DEFAULT_BUCKET_NAME;
 }
 
+function encodeStorageObjectPath(objectPath) {
+  return String(objectPath || '')
+    .split('/')
+    .filter(Boolean)
+    .map((segment) => encodeURIComponent(segment))
+    .join('/');
+}
+
+function buildPublicObjectUrl(bucketName, objectPath) {
+  return `https://storage.googleapis.com/${encodeURIComponent(bucketName)}/${encodeStorageObjectPath(objectPath)}`;
+}
+
 function getObjectPath(guideId) {
   return `maps/${String(guideId).trim()}-map-authoring.json`;
 }
@@ -152,64 +164,200 @@ async function getAccessToken(credentials) {
   return accessToken;
 }
 
-function createRuntime(env = process.env) {
+function createMultipartUploadBody({ objectPath, mediaBuffer, mediaType, cacheControl, metadata }) {
+  const boundary = `laxyguide-${crypto.randomUUID()}`;
+  const objectMetadata = {
+    name: objectPath,
+    contentType: mediaType
+  };
+
+  if (cacheControl) {
+    objectMetadata.cacheControl = cacheControl;
+  }
+
+  if (metadata && Object.keys(metadata).length > 0) {
+    objectMetadata.metadata = metadata;
+  }
+
+  const preamble = [
+    `--${boundary}`,
+    'Content-Type: application/json; charset=UTF-8',
+    '',
+    JSON.stringify(objectMetadata),
+    `--${boundary}`,
+    `Content-Type: ${mediaType}`,
+    '',
+    ''
+  ].join('\r\n');
+
+  const epilogue = `\r\n--${boundary}--`;
+
+  return {
+    body: Buffer.concat([
+      Buffer.from(preamble, 'utf8'),
+      mediaBuffer,
+      Buffer.from(epilogue, 'utf8')
+    ]),
+    boundary
+  };
+}
+
+async function uploadObject({ accessToken, bucketName, objectPath, mediaBuffer, contentType, cacheControl, metadata }) {
+  const { body, boundary } = createMultipartUploadBody({
+    objectPath,
+    mediaBuffer,
+    mediaType: contentType,
+    cacheControl,
+    metadata
+  });
+
+  const uploadUrl = `https://storage.googleapis.com/upload/storage/v1/b/${encodeURIComponent(bucketName)}/o?uploadType=multipart`;
+  const response = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': `multipart/related; boundary=${boundary}`,
+      'Cache-Control': 'no-store'
+    },
+    body
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`Storage upload failed (${response.status})${errorText ? `: ${errorText}` : ''}`);
+  }
+
+  return response.json();
+}
+
+async function getObjectMetadata({ accessToken, bucketName, objectPath }) {
+  const metadataUrl = `https://storage.googleapis.com/storage/v1/b/${encodeURIComponent(bucketName)}/o/${encodeStorageObjectPath(objectPath)}`;
+  const response = await fetch(metadataUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Cache-Control': 'no-store'
+    }
+  });
+
+  if (response.status === 404) {
+    return null;
+  }
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`Storage metadata read failed (${response.status})${errorText ? `: ${errorText}` : ''}`);
+  }
+
+  return response.json();
+}
+
+async function readJsonObject({ accessToken, bucketName, objectPath }) {
+  const downloadUrl = `https://storage.googleapis.com/storage/v1/b/${encodeURIComponent(bucketName)}/o/${encodeStorageObjectPath(objectPath)}?alt=media`;
+  const response = await fetch(downloadUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Cache-Control': 'no-store'
+    }
+  });
+
+  if (response.status === 404) {
+    return null;
+  }
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`Storage read failed (${response.status})${errorText ? `: ${errorText}` : ''}`);
+  }
+
+  return response.json();
+}
+
+function createStorageAdminRuntime(env = process.env) {
   const credentials = getServiceAccountCredentials(env);
   const bucketName = getBucketName(env);
 
-  return {
+  const runtime = {
+    bucketName,
     verifyIdToken: (idToken) => verifyFirebaseIdToken(idToken, credentials.projectId),
-    saveObject: async (guideId, payload) => {
+    uploadObject: async (objectPath, content, options = {}) => {
       const accessToken = await getAccessToken(credentials);
-      const objectPath = getObjectPath(guideId);
-      const uploadUrl = `https://storage.googleapis.com/upload/storage/v1/b/${encodeURIComponent(bucketName)}/o?uploadType=media&name=${encodeURIComponent(objectPath)}`;
-      const response = await fetch(uploadUrl, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-store'
-        },
-        body: JSON.stringify(payload, null, 2)
+      const mediaBuffer = Buffer.isBuffer(content)
+        ? content
+        : Buffer.from(typeof content === 'string' ? content : JSON.stringify(content), 'utf8');
+
+      const metadata = await uploadObject({
+        accessToken,
+        bucketName,
+        objectPath,
+        mediaBuffer,
+        contentType: options.contentType || 'application/octet-stream',
+        cacheControl: options.cacheControl,
+        metadata: options.metadata
       });
 
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => '');
-        throw new Error(`Storage upload failed (${response.status})${errorText ? `: ${errorText}` : ''}`);
-      }
+      return {
+        metadata,
+        objectPath,
+        publicUrl: buildPublicObjectUrl(bucketName, objectPath)
+      };
+    },
+    uploadJsonObject: async (objectPath, payload, options = {}) => {
+      return runtime.uploadObject(objectPath, JSON.stringify(payload, null, 2), {
+        ...options,
+        contentType: options.contentType || 'application/json; charset=utf-8'
+      });
+    },
+    getObjectMetadata: async (objectPath) => {
+      const accessToken = await getAccessToken(credentials);
+      return getObjectMetadata({
+        accessToken,
+        bucketName,
+        objectPath
+      });
+    },
+    readJsonObject: async (objectPath) => {
+      const accessToken = await getAccessToken(credentials);
+      return readJsonObject({
+        accessToken,
+        bucketName,
+        objectPath
+      });
+    }
+  };
 
+  return runtime;
+}
+
+function createRuntime(env = process.env) {
+  const storageRuntime = createStorageAdminRuntime(env);
+  const uploadObjectWrapper = storageRuntime;
+
+  return {
+    verifyIdToken: storageRuntime.verifyIdToken,
+    saveObject: async (guideId, payload) => {
+      const objectPath = getObjectPath(guideId);
+      await uploadObjectWrapper.uploadJsonObject(objectPath, payload, {
+        cacheControl: 'no-store'
+      });
       return objectPath;
     },
     readObject: async (guideId) => {
-      const accessToken = await getAccessToken(credentials);
-      const objectPath = getObjectPath(guideId);
-      const downloadUrl = `https://storage.googleapis.com/storage/v1/b/${encodeURIComponent(bucketName)}/o/${encodeURIComponent(objectPath)}?alt=media`;
-      const response = await fetch(downloadUrl, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Cache-Control': 'no-store'
-        }
-      });
-
-      if (response.status === 404) {
-        return null;
-      }
-
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => '');
-        throw new Error(`Storage read failed (${response.status})${errorText ? `: ${errorText}` : ''}`);
-      }
-
-      return response.json();
+      return storageRuntime.readJsonObject(getObjectPath(guideId));
     }
   };
 }
 
 module.exports = {
+  DEFAULT_BUCKET_NAME,
   DEFAULT_ENABLED_GUIDE_ID,
+  buildPublicObjectUrl,
   createRuntime,
+  createStorageAdminRuntime,
   extractBearerToken,
   getAllowedEmails,
+  getBucketName,
   getEnabledGuides,
   getGuideIdFromEvent,
   getObjectPath,
