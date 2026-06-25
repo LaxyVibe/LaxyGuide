@@ -1,8 +1,14 @@
 import matter from 'gray-matter';
-import type { GeoCalibration, GuideData, POI } from '../types';
-import { normalizeGeoCalibration } from './geoTransform';
+import type {
+    ContentManifest,
+    GeoCalibration,
+    GuideData,
+    GuideManifestEntry,
+    POI,
+    PoiManifestEntry
+} from '../types/index.ts';
+import { normalizeGeoCalibration } from './geoTransform.ts';
 
-// Define interfaces for the raw frontmatter structure
 interface GuideFrontmatter {
     [key: string]: {
         title?: string;
@@ -35,142 +41,252 @@ interface POIFrontmatter {
     } | string | undefined;
 }
 
+type LocalizedRecord = Record<string, unknown>;
+
+type EnvLikeImportMeta = ImportMeta & {
+    env?: Record<string, string | undefined>;
+};
+
 export interface GuideSummary {
     id: string;
     title: string;
     image: string;
 }
 
-export async function loadAllGuides(lang: string): Promise<GuideSummary[]> {
-    const guideFiles = import.meta.glob('/src/content/guides/*.md', { eager: true, query: '?raw', import: 'default' });
-    const guides: GuideSummary[] = [];
+const DEFAULT_CONTENT_MANIFEST_URL = 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/content-manifest.json';
 
-    for (const path in guideFiles) {
-        const content = guideFiles[path] as string;
-        const parsed = matter(content);
-        const data = parsed.data as GuideFrontmatter;
+let manifestPromise: Promise<ContentManifest> | null = null;
+const markdownCache = new Map<string, Promise<string>>();
 
-        // Get guide details with fallback to en-US
-        const guideLangData = (data[lang] as any) || {};
-        const guideDefaultData = (data['en-US'] as any) || {};
+function getContentManifestUrl(): string {
+    const env = (import.meta as EnvLikeImportMeta).env;
+    return String(env?.VITE_CONTENT_MANIFEST_URL || DEFAULT_CONTENT_MANIFEST_URL).trim() || DEFAULT_CONTENT_MANIFEST_URL;
+}
 
-        const title = guideLangData.title || guideDefaultData.title;
-        const code = guideLangData.code || guideDefaultData.code;
-        const image = guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage;
+function getErrorMessage(error: unknown, fallback: string): string {
+    return error instanceof Error && error.message ? error.message : fallback;
+}
 
-        if (code && title) {
-            guides.push({
-                id: code,
-                title,
-                image: image || ''
-            });
-        }
+function toLocalizedRecord(value: unknown): LocalizedRecord {
+    return value && typeof value === 'object' && !Array.isArray(value)
+        ? value as LocalizedRecord
+        : {};
+}
+
+async function fetchJson<T>(url: string, context: string): Promise<T> {
+    let response: Response;
+    try {
+        response = await fetch(url, {
+            method: 'GET',
+            cache: 'no-store'
+        });
+    } catch (error) {
+        throw new Error(`${context} request failed: ${getErrorMessage(error, 'Network error')}`);
     }
 
-    return guides;
+    if (!response.ok) {
+        throw new Error(`${context} request failed (${response.status})`);
+    }
+
+    try {
+        return await response.json() as T;
+    } catch (error) {
+        throw new Error(`${context} response was not valid JSON: ${getErrorMessage(error, 'Invalid JSON')}`);
+    }
+}
+
+async function fetchText(url: string, context: string): Promise<string> {
+    let response: Response;
+    try {
+        response = await fetch(url, {
+            method: 'GET',
+            cache: 'no-store'
+        });
+    } catch (error) {
+        throw new Error(`${context} request failed: ${getErrorMessage(error, 'Network error')}`);
+    }
+
+    if (!response.ok) {
+        throw new Error(`${context} request failed (${response.status})`);
+    }
+
+    return response.text();
+}
+
+function isGuideManifestEntry(entry: GuideManifestEntry): boolean {
+    return typeof entry.guideId === 'string'
+        && Array.isArray(entry.languages)
+        && entry.languages.length > 0
+        && !!entry.summaries
+        && typeof entry.publicUrl === 'string';
+}
+
+function isPoiManifestEntry(entry: PoiManifestEntry): boolean {
+    return typeof entry.guideId === 'string'
+        && typeof entry.number === 'string'
+        && Array.isArray(entry.languages)
+        && entry.languages.length > 0
+        && typeof entry.publicUrl === 'string';
+}
+
+async function loadManifest(): Promise<ContentManifest> {
+    if (!manifestPromise) {
+        const url = getContentManifestUrl();
+        manifestPromise = fetchJson<ContentManifest>(url, 'Content manifest')
+            .then((manifest) => {
+                if (!manifest || !Array.isArray(manifest.guides) || !Array.isArray(manifest.pois)) {
+                    throw new Error('Content manifest response is missing guides or pois arrays');
+                }
+
+                manifest.guides = manifest.guides.filter(isGuideManifestEntry);
+                manifest.pois = manifest.pois.filter(isPoiManifestEntry);
+                return manifest;
+            })
+            .catch((error) => {
+                manifestPromise = null;
+                throw error;
+            });
+    }
+
+    return manifestPromise;
+}
+
+async function loadMarkdown(url: string, context: string): Promise<string> {
+    const cached = markdownCache.get(url);
+    if (cached) {
+        return cached;
+    }
+
+    const request = fetchText(url, context).catch((error) => {
+        markdownCache.delete(url);
+        throw error;
+    });
+
+    markdownCache.set(url, request);
+    return request;
+}
+
+function getGuideSummaryForLanguage(entry: GuideManifestEntry, lang: string) {
+    return entry.summaries[lang] || entry.summaries['en-US'] || Object.values(entry.summaries)[0];
+}
+
+function findGuideEntry(manifest: ContentManifest, guideId: string): GuideManifestEntry | undefined {
+    return manifest.guides.find((entry) => entry.guideId.toLowerCase() === guideId.toLowerCase());
+}
+
+function findPoiEntries(manifest: ContentManifest, guideId: string): PoiManifestEntry[] {
+    return manifest.pois.filter((entry) => entry.guideId.toLowerCase() === guideId.toLowerCase());
+}
+
+export async function loadAllGuides(lang: string): Promise<GuideSummary[]> {
+    const manifest = await loadManifest();
+
+    return manifest.guides
+        .map((entry) => {
+            const summary = getGuideSummaryForLanguage(entry, lang);
+            if (!summary || !summary.title) {
+                return null;
+            }
+
+            return {
+                id: entry.guideId,
+                title: summary.title,
+                image: summary.guideUnderlayImage || ''
+            };
+        })
+        .filter((guide): guide is GuideSummary => guide !== null);
 }
 
 export async function loadGuideData(guideId: string, lang: string): Promise<GuideData | null> {
-    // 1. Load Guide Files
-    const guideFiles = import.meta.glob('/src/content/guides/*.md', { eager: true, query: '?raw', import: 'default' });
-    let guideContent: string | null = null;
+    const manifest = await loadManifest();
+    const guideEntry = findGuideEntry(manifest, guideId);
 
-    // Find the guide file that matches the guideId (case-insensitive for safety)
-    for (const path in guideFiles) {
-        const content = guideFiles[path] as string;
-        const parsed = matter(content);
-        const data = parsed.data as GuideFrontmatter;
-
-        // Check if any language version has the matching code
-        const hasMatchingCode = Object.values(data).some(langData =>
-            langData && typeof langData === 'object' && 'code' in langData &&
-            langData.code?.toLowerCase() === guideId.toLowerCase()
-        );
-
-        if (hasMatchingCode) {
-            guideContent = content;
-            break;
-        }
-    }
-
-    if (!guideContent) {
-        console.error(`No guide file found for guideId: ${guideId}`);
+    if (!guideEntry) {
+        console.error(`No guide manifest entry found for guideId: ${guideId}`);
         return null;
     }
 
-    const guideParsed = matter(guideContent);
+    const guideMarkdown = await loadMarkdown(guideEntry.publicUrl, `Guide markdown (${guideEntry.guideId})`);
+    const guideParsed = matter(guideMarkdown);
     const guideData = guideParsed.data as GuideFrontmatter;
 
-    // Get guide details with fallback to en-US
-    const guideLangData = (guideData[lang] as any) || {};
-    const guideDefaultData = (guideData['en-US'] as any) || {};
+    const guideLangData = toLocalizedRecord(guideData[lang]);
+    const guideDefaultData = toLocalizedRecord(guideData['en-US']);
 
-    const guideTitle = guideLangData.title || guideDefaultData.title;
-    const guideUnderlayImage = guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage;
-    const mapImage = guideLangData.mapImage || guideDefaultData.mapImage;
-    const mapTileUrlTemplate = guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate;
-    const mapTileBundleUrl = guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl;
+    const guideTitle = String(guideLangData.title || guideDefaultData.title || '');
+    const guideUnderlayImage = String(guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage || '');
+    const mapImage = typeof (guideLangData.mapImage || guideDefaultData.mapImage) === 'string'
+        ? String(guideLangData.mapImage || guideDefaultData.mapImage)
+        : undefined;
+    const mapTileUrlTemplate = typeof (guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate) === 'string'
+        ? String(guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate)
+        : undefined;
+    const mapTileBundleUrl = typeof (guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl) === 'string'
+        ? String(guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl)
+        : undefined;
     const mapTileMaxZoomRaw = guideLangData.mapTileMaxZoom ?? guideDefaultData.mapTileMaxZoom;
     const mapPixelWidthRaw = guideLangData.mapPixelWidth ?? guideDefaultData.mapPixelWidth;
     const mapPixelHeightRaw = guideLangData.mapPixelHeight ?? guideDefaultData.mapPixelHeight;
-    const mapPinsUrl = guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl;
+    const mapPinsUrl = typeof (guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl) === 'string'
+        ? String(guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl)
+        : undefined;
     const geoCalibration = normalizeGeoCalibration(guideLangData.geoCalibration ?? guideDefaultData.geoCalibration);
 
     const mapTileMaxZoom = Number.isFinite(Number(mapTileMaxZoomRaw)) ? Number(mapTileMaxZoomRaw) : undefined;
     const mapPixelWidth = Number.isFinite(Number(mapPixelWidthRaw)) ? Number(mapPixelWidthRaw) : undefined;
     const mapPixelHeight = Number.isFinite(Number(mapPixelHeightRaw)) ? Number(mapPixelHeightRaw) : undefined;
 
-    // 2. Load POI Files
-    const poiFiles = import.meta.glob('/src/content/pois/*.md', { eager: true, query: '?raw', import: 'default' });
+    const poiEntries = findPoiEntries(manifest, guideEntry.guideId);
+    const poiContents = await Promise.all(
+        poiEntries.map(async (entry) => ({
+            entry,
+            markdown: await loadMarkdown(entry.publicUrl, `POI markdown (${entry.guideId}/${entry.number})`)
+        }))
+    );
+
     const pois: POI[] = [];
 
-    for (const path in poiFiles) {
-        const poiContent = poiFiles[path] as string;
-        const poiParsed = matter(poiContent);
+    for (const item of poiContents) {
+        const poiParsed = matter(item.markdown);
         const poiData = poiParsed.data as POIFrontmatter;
 
-        const poiLangData = (poiData[lang] as any) || {};
-        const poiDefaultData = (poiData['en-US'] as any) || {};
-
-        // Merge data: default first, then localized override
+        const poiLangData = toLocalizedRecord(poiData[lang]);
+        const poiDefaultData = toLocalizedRecord(poiData['en-US']);
         const mergedPoi = { ...poiDefaultData, ...poiLangData };
 
         if (!mergedPoi.number) continue;
 
-        // Filter by guideId
-        // If the POI doesn't have a guide field, or it matches the guideId
-        const poiGuide = mergedPoi.guide;
-        if (poiGuide && poiGuide.toLowerCase() !== guideId.toLowerCase()) {
+        const poiGuide = typeof mergedPoi.guide === 'string' ? mergedPoi.guide : item.entry.guideId;
+        if (poiGuide && poiGuide.toLowerCase() !== guideEntry.guideId.toLowerCase()) {
             continue;
         }
 
         pois.push({
             number: String(mergedPoi.number),
-            title: mergedPoi.title || '',
-            hero: mergedPoi.hero || '',
+            title: typeof mergedPoi.title === 'string' ? mergedPoi.title : '',
+            hero: typeof mergedPoi.hero === 'string' ? mergedPoi.hero : '',
             withAudio: (!!mergedPoi.audio || !!mergedPoi.ttml) && (mergedPoi.displayAudio !== false),
-            metadata: mergedPoi.metadata || [],
-            content: mergedPoi.content || '',
-            audio: mergedPoi.audio,
-            subtitle: mergedPoi.subtitle,
-            ttml: mergedPoi.ttml,
+            metadata: Array.isArray(mergedPoi.metadata) ? mergedPoi.metadata : [],
+            content: typeof mergedPoi.content === 'string' ? mergedPoi.content : '',
+            audio: typeof mergedPoi.audio === 'string' ? mergedPoi.audio : undefined,
+            subtitle: typeof mergedPoi.subtitle === 'string' ? mergedPoi.subtitle : undefined,
+            ttml: typeof mergedPoi.ttml === 'string' ? mergedPoi.ttml : undefined,
             displayAudio: mergedPoi.displayAudio !== false
         });
     }
 
-    // 3. Sort POIs by number
     pois.sort((a, b) => {
         const numA = parseInt(a.number, 10);
         const numB = parseInt(b.number, 10);
-        if (!isNaN(numA) && !isNaN(numB)) {
+        if (!Number.isNaN(numA) && !Number.isNaN(numB)) {
             return numA - numB;
         }
         return a.number.localeCompare(b.number);
     });
 
     return {
-        guideTitle: guideTitle || '',
-        guideUnderlayImage: guideUnderlayImage || '',
+        guideTitle,
+        guideUnderlayImage,
         mapImage,
         mapTileUrlTemplate,
         mapTileBundleUrl,
@@ -184,27 +300,12 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
 }
 
 export async function getGuideAvailableLanguages(guideId: string): Promise<string[]> {
-    const guideFiles = import.meta.glob('/src/content/guides/*.md', { eager: true, query: '?raw', import: 'default' });
+    const manifest = await loadManifest();
+    const guideEntry = findGuideEntry(manifest, guideId);
+    return guideEntry?.languages || ['en-US'];
+}
 
-    for (const path in guideFiles) {
-        const content = guideFiles[path] as string;
-        const parsed = matter(content);
-        const data = parsed.data as GuideFrontmatter;
-
-        // Check if any language version has the matching code
-        const hasMatchingCode = Object.values(data).some(langData =>
-            langData && typeof langData === 'object' && 'code' in langData &&
-            langData.code?.toLowerCase() === guideId.toLowerCase()
-        );
-
-        if (hasMatchingCode) {
-            // Return all language keys that have content (are objects with title)
-            return Object.keys(data).filter(key => {
-                const langData = data[key];
-                return langData && typeof langData === 'object' && 'title' in langData;
-            });
-        }
-    }
-
-    return ['en-US']; // Default fallback
+export function resetContentLoaderCachesForTests(): void {
+    manifestPromise = null;
+    markdownCache.clear();
 }

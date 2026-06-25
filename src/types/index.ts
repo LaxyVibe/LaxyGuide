@@ -42,6 +42,41 @@ export interface GuideData {
     pois: POI[];
 }
 
+export interface GuideManifestSummary {
+    title: string;
+    guideUnderlayImage?: string;
+}
+
+export interface GuideManifestEntry {
+    guideId: string;
+    fileName: string;
+    objectPath: string;
+    publicUrl: string;
+    sha: string;
+    languages: string[];
+    summaries: Record<string, GuideManifestSummary>;
+}
+
+export interface PoiManifestEntry {
+    guideId: string;
+    number: string;
+    fileName: string;
+    objectPath: string;
+    publicUrl: string;
+    sha: string;
+    languages: string[];
+}
+
+export interface ContentManifest {
+    repo: string;
+    branch: string;
+    commitSha: string;
+    bucketName: string;
+    exportedAt: string;
+    guides: GuideManifestEntry[];
+    pois: PoiManifestEntry[];
+}
+
 export interface GeoCalibrationPoint {
     id: string;
     x: number;
