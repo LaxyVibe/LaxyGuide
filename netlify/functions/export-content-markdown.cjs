@@ -54,6 +54,33 @@ function getContentExportAllowedEmails(env = process.env) {
   return getAllowedEmails(env.CONTENT_EXPORT_ADMIN_EMAILS || env.MAP_DRAW_ADMIN_EMAILS || '');
 }
 
+function getContentExportSharedSecret(env = process.env) {
+  return String(env.CONTENT_EXPORT_SHARED_SECRET || '').trim();
+}
+
+function extractSharedSecret(event = {}) {
+  const headers = event.headers || {};
+  return String(
+    headers['x-content-export-secret']
+    || headers['X-Content-Export-Secret']
+    || headers['x-export-secret']
+    || headers['X-Export-Secret']
+    || event.queryStringParameters?.secret
+    || ''
+  ).trim();
+}
+
+function timingSafeEqual(left, right) {
+  const leftBuffer = Buffer.from(String(left || ''), 'utf8');
+  const rightBuffer = Buffer.from(String(right || ''), 'utf8');
+
+  if (leftBuffer.length !== rightBuffer.length) {
+    return false;
+  }
+
+  return require('node:crypto').timingSafeEqual(leftBuffer, rightBuffer);
+}
+
 function encodeGitHubPath(contentPath) {
   return String(contentPath || '')
     .split('/')
@@ -213,25 +240,38 @@ function createHandler(options = {}) {
       return json(405, { error: 'Method Not Allowed' });
     }
 
-    const bearerToken = extractBearerToken(event.headers);
-    if (!bearerToken) {
-      return json(401, { error: 'Missing bearer token' });
-    }
-
-    const allowedEmails = getContentExportAllowedEmails(env);
-    if (allowedEmails.size === 0) {
-      return json(500, { error: 'CONTENT_EXPORT_ADMIN_EMAILS or MAP_DRAW_ADMIN_EMAILS must be configured' });
-    }
-
     try {
-      const runtime = runtimeFactory(env);
-      const decodedToken = await runtime.verifyIdToken(bearerToken);
-      const email = String(decodedToken.email || '').trim().toLowerCase();
+      const sharedSecret = getContentExportSharedSecret(env);
+      const presentedSecret = extractSharedSecret(event);
+      let authMode = 'firebase';
+      let runtime = null;
 
-      if (!email || !allowedEmails.has(email)) {
-        return json(403, { error: 'User is not allowed to publish content to Firebase Storage' });
+      if (sharedSecret) {
+        if (!presentedSecret || !timingSafeEqual(sharedSecret, presentedSecret)) {
+          return json(401, { error: 'Invalid shared secret' });
+        }
+        authMode = 'shared-secret';
+      } else {
+        const bearerToken = extractBearerToken(event.headers);
+        if (!bearerToken) {
+          return json(401, { error: 'Missing bearer token' });
+        }
+
+        const allowedEmails = getContentExportAllowedEmails(env);
+        if (allowedEmails.size === 0) {
+          return json(500, { error: 'CONTENT_EXPORT_ADMIN_EMAILS or MAP_DRAW_ADMIN_EMAILS must be configured' });
+        }
+
+        runtime = runtimeFactory(env);
+        const decodedToken = await runtime.verifyIdToken(bearerToken);
+        const email = String(decodedToken.email || '').trim().toLowerCase();
+
+        if (!email || !allowedEmails.has(email)) {
+          return json(403, { error: 'User is not allowed to publish content to Firebase Storage' });
+        }
       }
 
+      runtime = runtime || runtimeFactory(env);
       const branch = getContentExportBranch(env);
       const branchHead = await runtime.getBranchHead(branch);
       const exportedAt = new Date().toISOString();
@@ -239,6 +279,7 @@ function createHandler(options = {}) {
 
       const summary = {
         ok: true,
+        authMode,
         branch,
         commitSha: branchHead.commitSha,
         bucketName,
@@ -351,4 +392,6 @@ exports.DEFAULT_CONTENT_BRANCH = DEFAULT_CONTENT_BRANCH;
 exports.MANIFEST_OBJECT_PATH = MANIFEST_OBJECT_PATH;
 exports.createContentExportRuntime = createContentExportRuntime;
 exports.createHandler = createHandler;
+exports.extractSharedSecret = extractSharedSecret;
+exports.getContentExportSharedSecret = getContentExportSharedSecret;
 exports.handler = createHandler();
