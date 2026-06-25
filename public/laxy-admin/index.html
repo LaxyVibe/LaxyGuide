@@ -25,38 +25,78 @@
         appId: '1:434671355332:web:7b9645abcc18f9c1fe5091'
       };
 
-      function getFirebaseConfig() {
-        return window.LAXY_FIREBASE_CONFIG || DEFAULT_FIREBASE_WEB_CONFIG;
+      let firebaseConfigPromise = null;
+
+      function loadFirebaseConfig() {
+        if (window.LAXY_FIREBASE_CONFIG) {
+          return Promise.resolve(window.LAXY_FIREBASE_CONFIG);
+        }
+
+        if (!firebaseConfigPromise) {
+          firebaseConfigPromise = fetch('/.netlify/functions/firebase-web-config', {
+            method: 'GET',
+            headers: {
+              'Cache-Control': 'no-store'
+            }
+          })
+            .then(function (response) {
+              if (!response.ok) {
+                throw new Error(`Failed to load Firebase config (${response.status})`);
+              }
+
+              return response.json();
+            })
+            .then(function (config) {
+              window.LAXY_FIREBASE_CONFIG = config;
+              return config;
+            })
+            .catch(function () {
+              window.LAXY_FIREBASE_CONFIG = DEFAULT_FIREBASE_WEB_CONFIG;
+              return window.LAXY_FIREBASE_CONFIG;
+            });
+        }
+
+        return firebaseConfigPromise;
       }
 
       function ensureFirebaseApp() {
-        if (!window.firebase) {
-          throw new Error('Firebase SDK failed to load');
-        }
+        return loadFirebaseConfig().then(function (config) {
+          if (!window.firebase) {
+            throw new Error('Firebase SDK failed to load');
+          }
 
-        if (!window.firebase.apps.length) {
-          window.firebase.initializeApp(getFirebaseConfig());
-        }
+          const existingApp = window.firebase.apps && window.firebase.apps.length > 0
+            ? window.firebase.apps[0]
+            : null;
 
-        return window.firebase.app();
+          if (existingApp) {
+            return existingApp;
+          }
+
+          return window.firebase.initializeApp(config);
+        });
       }
 
       function getFirebaseAuth() {
-        ensureFirebaseApp();
-        return window.firebase.auth();
+        if (!window.firebase) {
+          throw new Error('Firebase SDK failed to load');
+        }
+        return ensureFirebaseApp().then(function () {
+          return window.firebase.auth();
+        });
       }
 
       function ensureFirebaseUser() {
-        const auth = getFirebaseAuth();
+        return getFirebaseAuth().then(function (auth) {
+          if (auth.currentUser) {
+            return auth.currentUser;
+          }
 
-        if (auth.currentUser) {
-          return Promise.resolve(auth.currentUser);
-        }
-
-        const provider = new window.firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
-        return auth.signInWithPopup(provider).then(function (result) {
-          return result.user;
+          const provider = new window.firebase.auth.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: 'select_account' });
+          return auth.signInWithPopup(provider).then(function (result) {
+            return result.user;
+          });
         });
       }
 
@@ -195,15 +235,18 @@
           button.style.cursor = nextState ? 'progress' : 'pointer';
         }
 
-        try {
-          const auth = getFirebaseAuth();
-          auth.onAuthStateChanged(function (user) {
-            meta.textContent = user && user.email
-              ? `Signed in as ${user.email}`
-              : 'Google admin sign-in required to publish.';
+        loadFirebaseAuthState();
+
+        function loadFirebaseAuthState() {
+          getFirebaseAuth().then(function (auth) {
+            auth.onAuthStateChanged(function (user) {
+              meta.textContent = user && user.email
+                ? `Signed in as ${user.email} (${auth.app.options.projectId})`
+                : 'Google admin sign-in required to publish.';
+            });
+          }).catch(function (error) {
+            meta.textContent = error && error.message ? error.message : 'Firebase Auth is unavailable.';
           });
-        } catch (error) {
-          meta.textContent = error && error.message ? error.message : 'Firebase Auth is unavailable.';
         }
 
         button.addEventListener('click', async function () {
@@ -221,7 +264,7 @@
               throw new Error('Google sign-in did not return a user');
             }
 
-            const idToken = await user.getIdToken();
+            const idToken = await user.getIdToken(true);
             const response = await fetch('/.netlify/functions/export-content-markdown', {
               method: 'POST',
               headers: {
