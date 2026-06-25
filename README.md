@@ -132,16 +132,26 @@ The app now includes the `laxy-guide-dev` web config as a built-in default for `
 - Endpoint:
   - `/.netlify/functions/export-content-markdown` (POST)
 - Auth:
-  - Firebase Google sign-in in the admin UI
-  - Firebase ID token verification on the Netlify function
-  - email allowlist via `CONTENT_EXPORT_ADMIN_EMAILS` or fallback `MAP_DRAW_ADMIN_EMAILS`
+  - simplest: shared secret via `CONTENT_EXPORT_SHARED_SECRET`
+  - optional: Firebase Google sign-in in the admin UI
+  - optional: Firebase ID token verification plus email allowlist via `CONTENT_EXPORT_ADMIN_EMAILS` or fallback `MAP_DRAW_ADMIN_EMAILS`
 
 ### Additional Environment Variables
 
+- `CONTENT_EXPORT_SHARED_SECRET`
 - `CONTENT_EXPORT_ADMIN_EMAILS`
 - `GITHUB_CONTENT_READ_TOKEN`
 - `CONTENT_EXPORT_GITHUB_REPO` (optional, defaults to `LaxyVibe/LaxyGuide`)
 - `CONTENT_EXPORT_GITHUB_BRANCH` (optional, defaults to `v2`)
+
+### Curl Trigger
+
+If `CONTENT_EXPORT_SHARED_SECRET` is set in Netlify, you can trigger the export directly:
+
+```bash
+curl -X POST "https://laxyguide-v3.netlify.app/.netlify/functions/export-content-markdown" \
+  -H "x-content-export-secret: YOUR_SHARED_SECRET"
+```
 
 ## GDAL2Tiles Map Slicing (USAA)
 

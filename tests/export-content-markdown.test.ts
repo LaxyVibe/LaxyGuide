@@ -52,6 +52,21 @@ test('content export handler returns 401 when bearer token is missing', async ()
     assert.match(response.body, /Missing bearer token/);
 });
 
+test('content export handler returns 401 when shared secret mode is enabled but missing', async () => {
+    const handler = createHandler({
+        env: {
+            CONTENT_EXPORT_SHARED_SECRET: 'super-secret'
+        },
+        runtimeFactory: () => {
+            throw new Error('runtime should not be created');
+        }
+    });
+
+    const response = await handler(createEvent({ headers: {} }));
+    assert.equal(response.statusCode, 401);
+    assert.match(response.body, /Invalid shared secret/);
+});
+
 test('content export handler returns 403 for non-allowlisted users', async () => {
     const handler = createHandler({
         env: {
@@ -66,6 +81,40 @@ test('content export handler returns 403 for non-allowlisted users', async () =>
     const response = await handler(createEvent());
     assert.equal(response.statusCode, 403);
     assert.match(response.body, /not allowed/i);
+});
+
+test('content export handler allows shared-secret auth without Firebase verification', async () => {
+    let verifyCalled = false;
+
+    const handler = createHandler({
+        env: {
+            CONTENT_EXPORT_SHARED_SECRET: 'super-secret'
+        },
+        runtimeFactory: () => ({
+            bucketName: 'laxy-guide-dev.firebasestorage.app',
+            verifyIdToken: async () => {
+                verifyCalled = true;
+                throw new Error('should not verify firebase token in shared secret mode');
+            },
+            getBranchHead: async (branch: string) => ({ branch, commitSha: 'commit-secret' }),
+            listDirectory: async () => [],
+            getObjectMetadata: async () => null,
+            downloadTextFile: async () => '',
+            uploadTextObject: async () => ({ objectPath: 'unused' }),
+            uploadJsonObject: async () => ({ objectPath: MANIFEST_OBJECT_PATH })
+        })
+    });
+
+    const response = await handler(createEvent({
+        headers: {
+            'x-content-export-secret': 'super-secret'
+        }
+    }));
+    const body = JSON.parse(response.body);
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(body.authMode, 'shared-secret');
+    assert.equal(verifyCalled, false);
 });
 
 test('content export handler exports markdown, skips unchanged files, and writes a manifest', async () => {
@@ -160,6 +209,7 @@ test('content export handler exports markdown, skips unchanged files, and writes
     assert.equal(uploadedJsonObjects.length, 1);
     assert.equal(uploadedJsonObjects[0].objectPath, MANIFEST_OBJECT_PATH);
     assert.equal(body.ok, true);
+    assert.equal(body.authMode, 'firebase');
     assert.equal(body.branch, DEFAULT_CONTENT_BRANCH);
     assert.equal(body.commitSha, 'commit-123');
     assert.equal(body.guides.uploadedCount, 1);
