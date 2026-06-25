@@ -8,6 +8,8 @@ import type {
     PoiManifestEntry
 } from '../types/index.ts';
 import { normalizeGeoCalibration } from './geoTransform.ts';
+import { isMapAuthoringEnabledGuide } from './mapDrawData.ts';
+import { getMapTileBundlePublicUrl } from './mapStorage.ts';
 
 interface GuideFrontmatter {
     [key: string]: {
@@ -221,9 +223,14 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
     const mapTileUrlTemplate = typeof (guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate) === 'string'
         ? String(guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate)
         : undefined;
-    const mapTileBundleUrl = typeof (guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl) === 'string'
+    const explicitMapTileBundleUrl = typeof (guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl) === 'string'
         ? String(guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl)
         : undefined;
+    const mapTileBundleUrl = explicitMapTileBundleUrl || (
+        isMapAuthoringEnabledGuide(guideEntry.guideId)
+            ? getMapTileBundlePublicUrl(guideEntry.guideId)
+            : undefined
+    );
     const mapTileMaxZoomRaw = guideLangData.mapTileMaxZoom ?? guideDefaultData.mapTileMaxZoom;
     const mapPixelWidthRaw = guideLangData.mapPixelWidth ?? guideDefaultData.mapPixelWidth;
     const mapPixelHeightRaw = guideLangData.mapPixelHeight ?? guideDefaultData.mapPixelHeight;
