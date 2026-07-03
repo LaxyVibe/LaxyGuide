@@ -1,5 +1,5 @@
 import type { GeoCalibration, TraversableRegion } from '../types';
-import { haversineDistanceMeters, transformNormalizedPoint, type GeoPoint } from './geoTransform';
+import { haversineDistanceMeters, transformNormalizedPoint, type GeoPoint } from './geoTransform.ts';
 
 const toRad = (value: number) => (value * Math.PI) / 180;
 
@@ -230,18 +230,18 @@ export function normalizeTraversableRegionsForRuntime(
     const geoRegions: TraversableRegion[] = [];
 
     for (const region of regions) {
-        const normalizedFromRawPolygon = region.polygon
-            .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, mapTileMaxZoom))
-            .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
         const normalizedFromSavedField = Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
             ? region.polygonNormalized
                 .map((point) => ({ x: Number(point.x), y: Number(point.y) }))
                 .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
             : [];
-        const normalizedPolygon = normalizedFromRawPolygon.length >= 3 && hasDistinctNormalizedVertices(normalizedFromRawPolygon)
-            ? normalizedFromRawPolygon
-            : normalizedFromSavedField.length >= 3 && hasDistinctNormalizedVertices(normalizedFromSavedField)
-                ? normalizedFromSavedField
+        const normalizedFromRawPolygon = region.polygon
+            .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, mapTileMaxZoom))
+            .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+        const normalizedPolygon = normalizedFromSavedField.length >= 3 && hasDistinctNormalizedVertices(normalizedFromSavedField)
+            ? normalizedFromSavedField
+            : normalizedFromRawPolygon.length >= 3 && hasDistinctNormalizedVertices(normalizedFromRawPolygon)
+                ? normalizedFromRawPolygon
                 : [];
 
         if (normalizedPolygon.length < 3) continue;

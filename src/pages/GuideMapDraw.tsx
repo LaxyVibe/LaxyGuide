@@ -23,7 +23,10 @@ import { resolveBundledTileUrl, type ResolvedMapTileBundle } from '../utils/mapT
 import { getNextNumericId } from '../utils/pinIdUtils';
 import { ensureLanguageParam, getLanguageFromQuery, setLanguageInQuery } from '../utils/languageUtils';
 import { buildCornerBilinearCalibration, transformNormalizedPoint, type GeoPoint } from '../utils/geoTransform';
-import { projectNormalizedPointToSimpleMap, projectSimpleMapPointToNormalizedUnclamped } from '../utils/traversableRegions';
+import {
+    normalizeTraversableRegionsForEditor,
+    updateTraversableRegionPolygonForEditor
+} from '../utils/mapDrawTraversableRegions.ts';
 import './GuideMapDraw.css';
 
 type CornerKey = 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft';
@@ -150,44 +153,6 @@ function createEmptyTraversableRegionsFile(guideId: string): TraversableRegionsF
     };
 }
 
-function normalizeTraversableRegionsFileForEditor(
-    file: TraversableRegionsFile,
-    mapPixelWidth?: number,
-    mapPixelHeight?: number,
-    mapTileMaxZoom?: number
-) {
-    if (!mapPixelWidth || !mapPixelHeight) return file;
-    const zoom = mapTileMaxZoom ?? 5;
-
-    return {
-        ...file,
-        regions: file.regions.map((region) => {
-            const normalizedFromRawPolygon = (region.polygon ?? [])
-                    .map((point) => projectSimpleMapPointToNormalizedUnclamped(point, mapPixelWidth, mapPixelHeight, zoom))
-                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
-            const normalizedFromSavedField = Array.isArray(region.polygonNormalized) && region.polygonNormalized.length >= 3
-                ? region.polygonNormalized
-                    .map((point) => ({ x: Number(point.x), y: Number(point.y) }))
-                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
-                : [];
-            const polygonNormalized = normalizedFromRawPolygon.length >= 3
-                ? normalizedFromRawPolygon
-                : normalizedFromSavedField;
-
-            return {
-                ...region,
-                polygonNormalized,
-                polygon: polygonNormalized.map((point) => projectNormalizedPointToSimpleMap(
-                    point,
-                    mapPixelWidth,
-                    mapPixelHeight,
-                    zoom
-                ))
-            };
-        })
-    };
-}
-
 function getTraversableRegionTitle(regionId: string) {
     return `Region ${regionId}`;
 }
@@ -243,6 +208,30 @@ const GuideMapDraw: React.FC = () => {
         mapPixelHeight: data?.mapPixelHeight,
         mapTileMaxZoom: data?.mapTileMaxZoom
     });
+    const effectiveMapTileBundle = resolvedMapTileBundle;
+    const effectiveMapTileUrlTemplate = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.tilePathTemplate
+        : data?.mapTileUrlTemplate;
+    const effectiveMapTileMaxZoom = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.mapTileMaxZoom
+        : data?.mapTileMaxZoom;
+    const effectiveMapPixelWidth = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.mapPixelWidth
+        : data?.mapPixelWidth;
+    const effectiveMapPixelHeight = hasHostedMapBundle
+        ? effectiveMapTileBundle?.manifest.mapPixelHeight
+        : data?.mapPixelHeight;
+    const editorMapGeometry = useMemo(() => {
+        if (!effectiveMapPixelWidth || !effectiveMapPixelHeight) {
+            return null;
+        }
+
+        return {
+            mapPixelWidth: effectiveMapPixelWidth,
+            mapPixelHeight: effectiveMapPixelHeight,
+            mapTileMaxZoom: effectiveMapTileMaxZoom ?? 5
+        };
+    }, [effectiveMapPixelHeight, effectiveMapPixelWidth, effectiveMapTileMaxZoom]);
 
     useEffect(() => {
         let cancelled = false;
@@ -275,15 +264,13 @@ const GuideMapDraw: React.FC = () => {
                 guideId: normalizedDocument.guideId,
                 pins: normalizedDocument.pins
             };
-            const nextTraversableFile = normalizeTraversableRegionsFileForEditor(
+            const nextTraversableFile = normalizeTraversableRegionsForEditor(
                 {
                     version: 1,
                     guideId: normalizedDocument.guideId,
                     regions: normalizedDocument.traversableRegions
                 },
-                data?.mapPixelWidth,
-                data?.mapPixelHeight,
-                data?.mapTileMaxZoom
+                editorMapGeometry
             );
 
             setPinsFile(nextPinsFile);
@@ -336,7 +323,7 @@ const GuideMapDraw: React.FC = () => {
         return () => {
             cancelled = true;
         };
-    }, [canUploadMapDraw, data?.geoCalibration, data?.mapPinsUrl, data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, guideId]);
+    }, [canUploadMapDraw, data?.geoCalibration, data?.mapPinsUrl, editorMapGeometry, guideId]);
 
     useEffect(() => {
         let cancelled = false;
@@ -516,32 +503,19 @@ const GuideMapDraw: React.FC = () => {
     const handleTraversableRegionPolygonChange = React.useCallback(
         (regionId: string, polygon: Array<{ lat: number; lng: number }> | undefined) => {
             if (!guideId) return;
-            if (!data?.mapPixelWidth || !data?.mapPixelHeight) return;
+            if (!editorMapGeometry) return;
             setTraversableRegionsFile((prev) => {
                 const base = prev ?? createEmptyTraversableRegionsFile(guideId);
-                const polygonNormalized = (polygon ?? [])
-                    .map((point) => projectSimpleMapPointToNormalizedUnclamped(
-                        point,
-                        data.mapPixelWidth!,
-                        data.mapPixelHeight!,
-                        data.mapTileMaxZoom ?? 5
-                    ))
-                    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
-                const nextRegions = base.regions.map((region) => (
-                    region.id === regionId
-                        ? { ...region, polygon: polygon ?? [], polygonNormalized, geoPolygon: undefined }
-                        : region
-                ));
-                const next: TraversableRegionsFile = {
-                    ...base,
+                return updateTraversableRegionPolygonForEditor({
+                    file: base,
                     guideId,
-                    version: 1,
-                    regions: nextRegions
-                };
-                return next;
+                    regionId,
+                    polygon,
+                    geometry: editorMapGeometry
+                });
             });
         },
-        [data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, guideId]
+        [editorMapGeometry, guideId]
     );
 
     const handleMoveSelectedPin = React.useCallback((point: { x: number; y: number }) => {
@@ -711,15 +685,13 @@ const GuideMapDraw: React.FC = () => {
 
             setMapDrawExportStatus(t('map.drawUploading', 'Saving map authoring JSON...'));
             await saveMapAuthoringJson({ guideId, payload, idToken });
-            setTraversableRegionsFile(normalizeTraversableRegionsFileForEditor(
+            setTraversableRegionsFile(normalizeTraversableRegionsForEditor(
                 {
                     version: 1,
                     guideId,
                     regions: payload.traversableRegions
                 },
-                data?.mapPixelWidth,
-                data?.mapPixelHeight,
-                data?.mapTileMaxZoom
+                editorMapGeometry
             ));
             setGeoCalibration(payload.calibration);
             setSignedInEmail(user.email ?? null);
@@ -732,9 +704,7 @@ const GuideMapDraw: React.FC = () => {
         }
     }, [
         canUploadMapDraw,
-        data?.mapPixelHeight,
-        data?.mapPixelWidth,
-        data?.mapTileMaxZoom,
+        editorMapGeometry,
         firebaseAuthConfigured,
         geoCalibration,
         guideId,
@@ -835,19 +805,6 @@ const GuideMapDraw: React.FC = () => {
         setFabMenuOpen(false);
     };
 
-    const effectiveMapTileBundle = resolvedMapTileBundle;
-    const effectiveMapTileUrlTemplate = hasHostedMapBundle
-        ? effectiveMapTileBundle?.manifest.tilePathTemplate
-        : data?.mapTileUrlTemplate;
-    const effectiveMapTileMaxZoom = hasHostedMapBundle
-        ? effectiveMapTileBundle?.manifest.mapTileMaxZoom
-        : data?.mapTileMaxZoom;
-    const effectiveMapPixelWidth = hasHostedMapBundle
-        ? effectiveMapTileBundle?.manifest.mapPixelWidth
-        : data?.mapPixelWidth;
-    const effectiveMapPixelHeight = hasHostedMapBundle
-        ? effectiveMapTileBundle?.manifest.mapPixelHeight
-        : data?.mapPixelHeight;
     const shouldWaitForTileBundle = hasHostedMapBundle && mapTileBundleLoading;
 
     if (transLoading || guideLoading) {
