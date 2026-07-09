@@ -3,6 +3,7 @@ import { TransformComponent, TransformWrapper, type ReactZoomPanPinchContentRef 
 import type { MapPin, TraversableRegion } from '../types';
 import TiledMapViewer from './TiledMapViewer';
 import type { ResolvedMapTileBundle } from '../utils/mapTileBundle';
+import { resolveResetViewTarget } from '../utils/mapResetView';
 
 interface NormalizedPolygonRegion {
     id: string;
@@ -91,6 +92,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
     const [imageLoaded, setImageLoaded] = useState(false);
     const didFitToViewportRef = useRef(false);
     const didCenterOnImageRef = useRef(false);
+    const resetScaleRef = useRef(initialScale);
 
     const [pressingPinId, setPressingPinId] = useState<string | null>(null);
     const [pressProgress, setPressProgress] = useState(0);
@@ -142,19 +144,11 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
         [clearLongPress, onPinLongPress, pinLongPressMs]
     );
 
-    useImperativeHandle(ref, () => ({
-        getViewportCenter: () => {
-            if (!viewportRef.current || !frameRef.current) return null;
-            const viewport = viewportRef.current.getBoundingClientRect();
-            const frame = frameRef.current.getBoundingClientRect();
-            if (frame.width <= 0 || frame.height <= 0) return null;
-            const cx = viewport.left + viewport.width / 2;
-            const cy = viewport.top + viewport.height / 2;
-            const x = clamp01((cx - frame.left) / frame.width);
-            const y = clamp01((cy - frame.top) / frame.height);
-            return { x, y };
-        },
-        centerOnPoint: (point, options) => {
+    const centerOnPointInternal = useCallback(
+        (
+            point: { x: number; y: number },
+            options?: { scale?: number; yOffsetPx?: number }
+        ) => {
             if (!viewportRef.current || !frameRef.current) return;
             const setTransform = transformRef.current?.setTransform;
             if (!setTransform) return;
@@ -172,13 +166,30 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             const targetX = viewportW / 2 - (edgeMarginPx + clamp01(point.x) * frameW) * scale;
             const targetY = viewportH / 2 - yOffsetPx - (edgeMarginPx + clamp01(point.y) * frameH) * scale;
             setTransform(targetX, targetY, scale, 200, 'easeOut');
-        }
-    }));
+        },
+        [edgeMarginPx, initialScale]
+    );
+
+    useImperativeHandle(ref, () => ({
+        getViewportCenter: () => {
+            if (!viewportRef.current || !frameRef.current) return null;
+            const viewport = viewportRef.current.getBoundingClientRect();
+            const frame = frameRef.current.getBoundingClientRect();
+            if (frame.width <= 0 || frame.height <= 0) return null;
+            const cx = viewport.left + viewport.width / 2;
+            const cy = viewport.top + viewport.height / 2;
+            const x = clamp01((cx - frame.left) / frame.width);
+            const y = clamp01((cy - frame.top) / frame.height);
+            return { x, y };
+        },
+        centerOnPoint: centerOnPointInternal
+    }), [centerOnPointInternal]);
 
     useEffect(() => {
         didFitToViewportRef.current = false;
         didCenterOnImageRef.current = false;
-    }, [imageUrl]);
+        resetScaleRef.current = initialScale;
+    }, [imageUrl, initialScale]);
 
     useEffect(() => {
         if (!centerOnImageOnInit) return;
@@ -199,6 +210,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
         const targetX = viewportW / 2 - (edgeMarginPx + frameW / 2) * scale;
         const targetY = viewportH / 2 - (edgeMarginPx + frameH / 2) * scale;
         setTransform(targetX, targetY, scale, 0, 'easeOut');
+        resetScaleRef.current = scale;
         didCenterOnImageRef.current = true;
     }, [centerOnImageOnInit, imageLoaded, initialScale, edgeMarginPx]);
 
@@ -224,8 +236,18 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
         const targetX = viewportW / 2 - (edgeMarginPx + frameW / 2) * fitScale;
         const targetY = viewportH / 2 - (edgeMarginPx + frameH / 2) * fitScale;
         setTransform(targetX, targetY, fitScale, 0, 'easeOut');
+        resetScaleRef.current = fitScale;
         didFitToViewportRef.current = true;
     }, [fitToViewportOnInit, imageLoaded, edgeMarginPx]);
+
+    const resetView = useCallback(() => {
+        const target = resolveResetViewTarget({
+            currentLocationPoint,
+            fallbackPoint: { x: 0.5, y: 0.5 },
+            resetLevel: resetScaleRef.current
+        });
+        centerOnPointInternal(target.point, { scale: target.level });
+    }, [centerOnPointInternal, currentLocationPoint]);
 
     const handleClick = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
@@ -357,7 +379,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                             </button>
                             <div style={{ height: 1, background: 'rgba(0, 0, 0, 0.12)' }} />
                             <button
-                                onClick={() => zpp.resetTransform()}
+                                onClick={resetView}
                                 aria-label="Reset zoom"
                                 title="Reset zoom"
                                 style={{

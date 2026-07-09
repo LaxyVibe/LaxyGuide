@@ -11,6 +11,7 @@ import type { MapPin } from '../types';
 import type { MapViewerHandle, MapViewerProps } from './MapViewer';
 import MapTileLayer from './MapTileLayer';
 import type { ResolvedMapTileBundle } from '../utils/mapTileBundle';
+import { resolveResetViewTarget } from '../utils/mapResetView';
 
 type TiledMapViewerProps = Pick<
     MapViewerProps,
@@ -105,7 +106,6 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
         const suppressClickRef = useRef(false);
 
         const initZoomRef = useRef<number>(mapTileMaxZoom);
-        const initCenterRef = useRef<L.LatLng | null>(null);
         const baseZoomRef = useRef<number>(mapTileMaxZoom);
 
         const mapMinZoom = useMemo(() => Math.max(0, mapTileMaxZoom - Math.ceil(Math.log2(Math.max(1, maxScale)))), [mapTileMaxZoom, maxScale]);
@@ -172,7 +172,6 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
 
             map.setView(imageBounds.getCenter(), desiredZoom, { animate: false });
             initZoomRef.current = desiredZoom;
-            initCenterRef.current = imageBounds.getCenter();
             setReady(true);
         }, [
             centerOnImageOnInit,
@@ -222,9 +221,17 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
 
         const resetView = useCallback(() => {
             if (!map) return;
-            if (!initCenterRef.current) return;
-            map.setView(initCenterRef.current, initZoomRef.current, { animate: true, duration: 0.2 });
-        }, [map]);
+            const target = resolveResetViewTarget({
+                currentLocationPoint,
+                fallbackPoint: { x: 0.5, y: 0.5 },
+                resetLevel: initZoomRef.current
+            });
+            const latLng = L.CRS.Simple.pointToLatLng(
+                mapPointFromNormalized(target.point, mapPixelWidth, mapPixelHeight),
+                mapTileMaxZoom
+            );
+            map.setView(latLng, target.level, { animate: true, duration: 0.2 });
+        }, [currentLocationPoint, map, mapPixelHeight, mapPixelWidth, mapTileMaxZoom]);
 
         const pinToLatLng = useCallback((pin: MapPin) => {
             const px = mapPointFromNormalized({ x: pin.x, y: pin.y }, mapPixelWidth, mapPixelHeight);
