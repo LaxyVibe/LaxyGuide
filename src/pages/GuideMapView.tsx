@@ -24,9 +24,12 @@ import {
     hasTraversableRegions,
     isPointInsideNormalizedTraversableRegions,
     isPointInsideTraversableRegions,
-    normalizeTraversableRegionsForRuntime,
     projectGeoPointIntoNormalizedRegion
 } from '../utils/traversableRegions';
+import {
+    buildGuideMapRuntimeTraversableRegionSet,
+    resolveGuideMapRuntimeGeometry
+} from '../utils/guideMapRuntime';
 
 const truncateSummary = (text: string, maxChars = 100): string => {
     const normalized = text.replace(/\s+/g, ' ').trim();
@@ -112,6 +115,16 @@ const GuideMapView: React.FC = () => {
         mapPixelHeight: data?.mapPixelHeight,
         mapTileMaxZoom: data?.mapTileMaxZoom
     });
+    const mapTileBundle = resolvedMapTileBundle;
+
+    const runtimeMapGeometry = useMemo(() => (
+        data
+            ? resolveGuideMapRuntimeGeometry({
+                guideData: data,
+                mapTileBundle
+            })
+            : {}
+    ), [data, mapTileBundle]);
 
     useEffect(() => {
         let cancelled = false;
@@ -221,17 +234,16 @@ const GuideMapView: React.FC = () => {
     }, []);
 
     const runtimeTraversableRegions = useMemo(() => {
-        if (!data?.mapPixelWidth || !data?.mapPixelHeight) {
+        if (!data) {
             return { normalizedRegions: [], geoRegions: [] };
         }
-        return normalizeTraversableRegionsForRuntime(
-            traversableRegions,
+        return buildGuideMapRuntimeTraversableRegionSet({
+            guideData: data,
+            mapTileBundle,
             geoCalibration,
-            data.mapPixelWidth,
-            data.mapPixelHeight,
-            data.mapTileMaxZoom ?? 5
-        );
-    }, [data?.mapPixelHeight, data?.mapPixelWidth, data?.mapTileMaxZoom, geoCalibration, traversableRegions]);
+            traversableRegions
+        });
+    }, [data, geoCalibration, mapTileBundle, traversableRegions]);
 
     const traversableRegionsNormalized = runtimeTraversableRegions.normalizedRegions;
     const traversableRegionsGeo = runtimeTraversableRegions.geoRegions;
@@ -435,28 +447,19 @@ const GuideMapView: React.FC = () => {
         });
     }, [t]);
 
-    const mapTileBundle = resolvedMapTileBundle;
     const shouldWaitForTileBundle = hasHostedMapBundle && mapTileBundleLoading;
 
     if (transLoading || guideLoading || authoringLoading) return <Loading />;
     if (error) return <div>{t('common.error')}: {error}</div>;
     if (!data) return <div>{t('common.noData')}</div>;
 
-    const mapTileUrlTemplate = hasHostedMapBundle
-        ? mapTileBundle?.manifest.tilePathTemplate
-        : data.mapTileUrlTemplate;
-    const mapTileMaxZoom = hasHostedMapBundle
-        ? mapTileBundle?.manifest.mapTileMaxZoom
-        : data.mapTileMaxZoom;
-    const mapPixelWidth = hasHostedMapBundle
-        ? mapTileBundle?.manifest.mapPixelWidth
-        : data.mapPixelWidth;
-    const mapPixelHeight = hasHostedMapBundle
-        ? mapTileBundle?.manifest.mapPixelHeight
-        : data.mapPixelHeight;
-    const mapImage = hasHostedMapBundle
-        ? mapTileBundle?.mapImageUrl
-        : data.mapImage;
+    const {
+        mapTileUrlTemplate,
+        mapTileMaxZoom,
+        mapPixelWidth,
+        mapPixelHeight,
+        mapImage
+    } = runtimeMapGeometry;
 
     const handleBackToGuideLanding = () => {
         const to = guideId ? `/${guideId}?${searchParams.toString()}` : `/?${searchParams.toString()}`;
