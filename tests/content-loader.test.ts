@@ -267,7 +267,9 @@ test('loadGuideData derives the hosted Firebase map tile bundle for authoring-en
             guide.mapTileBundleUrl,
             'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-tiles.zip'
         );
-        assert.equal(guide.mapPinsUrl, '/maps/JPN-USAA-TEM-001.json');
+        assert.equal(guide.mapImage, undefined);
+        assert.equal(guide.mapPinsUrl, undefined);
+        assert.equal(guide.geoCalibration, undefined);
     }, {
         [manifestUrl]: {
             body: JSON.stringify({
@@ -322,6 +324,84 @@ en-US:
   number: '001'
   title: Main Gate
   hero: https://example.com/main-gate.jpg
+  content: Welcome
+---`
+        }
+    });
+});
+
+test('loadGuideData derives the hosted Firebase bundle for BEPU when published markdown omits map fields', async () => {
+    const calls = new Map<string, number>();
+    const hostedGuideMarkdownUrl = 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/guides/jpn-bepu-mus-001.md';
+    const hostedPoiUrl = 'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/pois/jpn-bepu-mus-001-001.md';
+
+    await withFetchMock(calls, async () => {
+        const guide = await loadGuideData('JPN-BEPU-MUS-001', 'en-US');
+        assert.ok(guide);
+        assert.equal(guide.mapImage, undefined);
+        assert.equal(guide.mapTileUrlTemplate, undefined);
+        assert.equal(
+            guide.mapTileBundleUrl,
+            'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-BEPU-MUS-001-map-tiles.zip'
+        );
+        assert.equal(guide.mapTileMaxZoom, undefined);
+        assert.equal(guide.mapPixelWidth, undefined);
+        assert.equal(guide.mapPixelHeight, undefined);
+        assert.equal(guide.mapPinsUrl, undefined);
+        assert.equal(guide.geoCalibration, undefined);
+        assert.equal(guide.pois.length, 1);
+    }, {
+        [manifestUrl]: {
+            body: JSON.stringify({
+                repo: 'LaxyVibe/LaxyGuide',
+                branch: 'v2',
+                commitSha: 'commit-789',
+                bucketName: 'laxy-guide-dev.firebasestorage.app',
+                exportedAt: '2026-07-10T00:00:00.000Z',
+                guides: [
+                    {
+                        guideId: 'JPN-BEPU-MUS-001',
+                        fileName: 'jpn-bepu-mus-001.md',
+                        objectPath: 'guides/jpn-bepu-mus-001.md',
+                        publicUrl: hostedGuideMarkdownUrl,
+                        sha: 'bepu-guide-sha',
+                        languages: ['en-US'],
+                        summaries: {
+                            'en-US': {
+                                title: 'Beppu City Traditional Bamboo Crafts Center',
+                                guideUnderlayImage: 'https://example.com/bepu.jpg'
+                            }
+                        }
+                    }
+                ],
+                pois: [
+                    {
+                        guideId: 'JPN-BEPU-MUS-001',
+                        number: '001',
+                        fileName: 'jpn-bepu-mus-001-001.md',
+                        objectPath: 'pois/jpn-bepu-mus-001-001.md',
+                        publicUrl: hostedPoiUrl,
+                        sha: 'bepu-poi-sha',
+                        languages: ['en-US']
+                    }
+                ]
+            })
+        },
+        [hostedGuideMarkdownUrl]: {
+            body: `---
+en-US:
+  title: Beppu City Traditional Bamboo Crafts Center
+  code: JPN-BEPU-MUS-001
+  guideUnderlayImage: https://example.com/bepu.jpg
+---`
+        },
+        [hostedPoiUrl]: {
+            body: `---
+en-US:
+  guide: JPN-BEPU-MUS-001
+  number: '001'
+  title: Bamboo Center
+  hero: https://example.com/bamboo.jpg
   content: Welcome
 ---`
         }

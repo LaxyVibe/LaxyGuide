@@ -214,30 +214,41 @@ export async function loadGuideData(guideId: string, lang: string): Promise<Guid
 
     const guideLangData = toLocalizedRecord(guideData[lang]);
     const guideDefaultData = toLocalizedRecord(guideData['en-US']);
+    const isHostedAuthoringGuide = isMapAuthoringEnabledGuide(guideEntry.guideId);
 
     const guideTitle = String(guideLangData.title || guideDefaultData.title || '');
     const guideUnderlayImage = String(guideLangData.guideUnderlayImage || guideDefaultData.guideUnderlayImage || '');
-    const mapImage = typeof (guideLangData.mapImage || guideDefaultData.mapImage) === 'string'
-        ? String(guideLangData.mapImage || guideDefaultData.mapImage)
+    const mapImageValue = isHostedAuthoringGuide
+        ? undefined
+        : (guideLangData.mapImage || guideDefaultData.mapImage);
+    const mapImage = typeof mapImageValue === 'string'
+        ? String(mapImageValue)
         : undefined;
-    const mapTileUrlTemplate = typeof (guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate) === 'string'
-        ? String(guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate)
+    const mapTileUrlTemplateValue = isHostedAuthoringGuide
+        ? undefined
+        : (guideLangData.mapTileUrlTemplate || guideDefaultData.mapTileUrlTemplate);
+    const mapTileUrlTemplate = typeof mapTileUrlTemplateValue === 'string'
+        ? String(mapTileUrlTemplateValue)
         : undefined;
-    const explicitMapTileBundleUrl = typeof (guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl) === 'string'
-        ? String(guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl)
+    const explicitMapTileBundleValue = guideLangData.mapTileBundleUrl || guideDefaultData.mapTileBundleUrl;
+    const explicitMapTileBundleUrl = typeof explicitMapTileBundleValue === 'string'
+        ? String(explicitMapTileBundleValue)
         : undefined;
-    const mapTileBundleUrl = explicitMapTileBundleUrl || (
-        isMapAuthoringEnabledGuide(guideEntry.guideId)
-            ? getMapTileBundlePublicUrl(guideEntry.guideId)
-            : undefined
+    const mapTileBundleUrl = isHostedAuthoringGuide
+        ? getMapTileBundlePublicUrl(guideEntry.guideId)
+        : explicitMapTileBundleUrl;
+    const mapTileMaxZoomRaw = isHostedAuthoringGuide ? undefined : (guideLangData.mapTileMaxZoom ?? guideDefaultData.mapTileMaxZoom);
+    const mapPixelWidthRaw = isHostedAuthoringGuide ? undefined : (guideLangData.mapPixelWidth ?? guideDefaultData.mapPixelWidth);
+    const mapPixelHeightRaw = isHostedAuthoringGuide ? undefined : (guideLangData.mapPixelHeight ?? guideDefaultData.mapPixelHeight);
+    const mapPinsUrlValue = isHostedAuthoringGuide ? undefined : (guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl);
+    const mapPinsUrl = typeof mapPinsUrlValue === 'string'
+        ? String(mapPinsUrlValue)
+        : undefined;
+    const geoCalibration = normalizeGeoCalibration(
+        isHostedAuthoringGuide
+            ? undefined
+            : (guideLangData.geoCalibration ?? guideDefaultData.geoCalibration)
     );
-    const mapTileMaxZoomRaw = guideLangData.mapTileMaxZoom ?? guideDefaultData.mapTileMaxZoom;
-    const mapPixelWidthRaw = guideLangData.mapPixelWidth ?? guideDefaultData.mapPixelWidth;
-    const mapPixelHeightRaw = guideLangData.mapPixelHeight ?? guideDefaultData.mapPixelHeight;
-    const mapPinsUrl = typeof (guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl) === 'string'
-        ? String(guideLangData.mapPinsUrl || guideDefaultData.mapPinsUrl)
-        : undefined;
-    const geoCalibration = normalizeGeoCalibration(guideLangData.geoCalibration ?? guideDefaultData.geoCalibration);
 
     const mapTileMaxZoom = Number.isFinite(Number(mapTileMaxZoomRaw)) ? Number(mapTileMaxZoomRaw) : undefined;
     const mapPixelWidth = Number.isFinite(Number(mapPixelWidthRaw)) ? Number(mapPixelWidthRaw) : undefined;

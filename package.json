@@ -11,9 +11,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "map-bundle:usaa": "node scripts/build-map-tile-bundle.mjs JPN-USAA-TEM-001",
-    "tiles:clean:usaa": "rm -rf public/maps/JPN-USAA-TEM-001",
-    "tiles:gen:usaa": "gdal2tiles --xyz -p raster -r lanczos --tilesize=256 --tiledriver=WEBP --webp-quality=85 -z 0-5 src/assets/map/usaa.webp public/maps/JPN-USAA-TEM-001",
-    "tiles:usaa": "npm run tiles:clean:usaa && npm run tiles:gen:usaa && npm run map-bundle:usaa"
+    "tiles:gen:usaa": "node scripts/generate-map-tiles.mjs JPN-USAA-TEM-001",
+    "tiles:usaa": "node scripts/generate-map-tiles.mjs JPN-USAA-TEM-001 && npm run map-bundle:usaa"
   },
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "^2.19.2",

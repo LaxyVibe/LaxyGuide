@@ -12,7 +12,7 @@ import { getMapAuthoringPublicUrl } from './mapStorage.ts';
 import { normalizePinsFile } from './mapPins.ts';
 
 export const MAP_AUTHORING_DOCUMENT_VERSION = 1;
-export const MAP_AUTHORING_ENABLED_GUIDE_IDS = ['JPN-USAA-TEM-001'] as const;
+export const MAP_AUTHORING_ENABLED_GUIDE_IDS = ['JPN-USAA-TEM-001', 'JPN-BEPU-MUS-001'] as const;
 const TRAVERSABLE_REGIONS_VERSION = 1;
 
 const MAP_AUTHORING_SAVE_ENDPOINT = '/.netlify/functions/upload-map-draw-json';
