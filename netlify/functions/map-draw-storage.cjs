@@ -1,7 +1,7 @@
 const crypto = require('node:crypto');
 const { GoogleAuth } = require('google-auth-library');
 
-const DEFAULT_ENABLED_GUIDE_ID = 'JPN-USAA-TEM-001';
+const DEFAULT_ENABLED_GUIDE_IDS = ['JPN-USAA-TEM-001', 'JPN-BEPU-MUS-001'];
 const DEFAULT_BUCKET_NAME = 'laxy-guide-dev.firebasestorage.app';
 const FIREBASE_X509_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
 const STORAGE_SCOPE = 'https://www.googleapis.com/auth/devstorage.read_write';
@@ -37,7 +37,7 @@ function getEnabledGuides(rawValue) {
     .map((value) => value.trim().toUpperCase())
     .filter(Boolean);
 
-  return new Set(guides.length > 0 ? guides : [DEFAULT_ENABLED_GUIDE_ID]);
+  return new Set(guides.length > 0 ? guides : DEFAULT_ENABLED_GUIDE_IDS);
 }
 
 function isGuideEnabled(guideId, rawValue) {
@@ -351,7 +351,7 @@ function createRuntime(env = process.env) {
 
 module.exports = {
   DEFAULT_BUCKET_NAME,
-  DEFAULT_ENABLED_GUIDE_ID,
+  DEFAULT_ENABLED_GUIDE_IDS,
   buildPublicObjectUrl,
   createRuntime,
   createStorageAdminRuntime,

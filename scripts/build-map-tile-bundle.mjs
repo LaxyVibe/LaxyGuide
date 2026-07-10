@@ -1,12 +1,16 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { promisify } from 'node:util';
+import { execFile as execFileCallback } from 'node:child_process';
 import JSZip from 'jszip';
 import matter from 'gray-matter';
+import { getGuideMapConfig } from './guide-map-config.mjs';
 
 const repoRoot = process.cwd();
 const guidesDir = path.join(repoRoot, 'src', 'content', 'guides');
 const publicDir = path.join(repoRoot, 'public');
+const execFile = promisify(execFileCallback);
 
 async function listFilesRecursively(dirPath) {
     const entries = await fs.readdir(dirPath, { withFileTypes: true });
@@ -45,6 +49,66 @@ async function findGuideFrontmatter(guideId) {
     throw new Error(`Guide frontmatter not found for ${guideId}`);
 }
 
+async function fileExists(targetPath) {
+    try {
+        await fs.access(targetPath);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+async function readImageDimensions(imagePath) {
+    const { stdout } = await execFile('sips', ['-g', 'pixelWidth', '-g', 'pixelHeight', imagePath], {
+        cwd: repoRoot
+    });
+    const widthMatch = stdout.match(/pixelWidth:\s+(\d+)/);
+    const heightMatch = stdout.match(/pixelHeight:\s+(\d+)/);
+
+    const width = widthMatch ? Number(widthMatch[1]) : NaN;
+    const height = heightMatch ? Number(heightMatch[1]) : NaN;
+    if (!Number.isFinite(width) || !Number.isFinite(height)) {
+        throw new Error(`Could not read image dimensions for ${path.relative(repoRoot, imagePath)}`);
+    }
+
+    return { width, height };
+}
+
+async function getGuideMapMetadata(guideId) {
+    const config = getGuideMapConfig(guideId);
+    if (config) {
+        const sourceImagePath = path.join(repoRoot, config.sourceImagePath);
+        if (!await fileExists(sourceImagePath)) {
+            throw new Error(`Map source image not found for ${guideId}: ${config.sourceImagePath}`);
+        }
+
+        const dimensions = await readImageDimensions(sourceImagePath);
+
+        return {
+            mapPixelWidth: dimensions.width,
+            mapPixelHeight: dimensions.height,
+            mapTileMaxZoom: config.mapTileMaxZoom,
+            mapImageSource: `/${config.publicMapImagePath}`,
+            tileDir: path.join(publicDir, config.tileOutputDir),
+            bundleOutputDir: path.join(publicDir, config.bundleOutputDir)
+        };
+    }
+
+    if (!await fileExists(guidesDir)) {
+        throw new Error(`Guide metadata directory is missing: ${path.relative(repoRoot, guidesDir)}`);
+    }
+
+    const frontmatter = await findGuideFrontmatter(guideId);
+    return {
+        mapPixelWidth: ensureFiniteNumber(pickGuideAsset(frontmatter, 'mapPixelWidth'), 'mapPixelWidth'),
+        mapPixelHeight: ensureFiniteNumber(pickGuideAsset(frontmatter, 'mapPixelHeight'), 'mapPixelHeight'),
+        mapTileMaxZoom: ensureFiniteNumber(pickGuideAsset(frontmatter, 'mapTileMaxZoom'), 'mapTileMaxZoom'),
+        mapImageSource: pickGuideAsset(frontmatter, 'mapImage'),
+        tileDir: path.join(publicDir, 'maps', guideId),
+        bundleOutputDir: path.join(publicDir, 'bundles', guideId)
+    };
+}
+
 function pickGuideAsset(frontmatter, fieldName) {
     const localized = frontmatter['en-US'];
     if (localized && typeof localized === 'object' && fieldName in localized) {
@@ -68,18 +132,20 @@ function ensureFiniteNumber(value, label) {
 }
 
 async function buildBundle(guideId) {
-    const frontmatter = await findGuideFrontmatter(guideId);
-    const mapPixelWidth = ensureFiniteNumber(pickGuideAsset(frontmatter, 'mapPixelWidth'), 'mapPixelWidth');
-    const mapPixelHeight = ensureFiniteNumber(pickGuideAsset(frontmatter, 'mapPixelHeight'), 'mapPixelHeight');
-    const mapTileMaxZoom = ensureFiniteNumber(pickGuideAsset(frontmatter, 'mapTileMaxZoom'), 'mapTileMaxZoom');
-
-    const tileDir = path.join(publicDir, 'maps', guideId);
+    const metadata = await getGuideMapMetadata(guideId);
+    const {
+        mapPixelWidth,
+        mapPixelHeight,
+        mapTileMaxZoom,
+        tileDir,
+        bundleOutputDir
+    } = metadata;
     const tileFiles = await listFilesRecursively(tileDir);
     if (tileFiles.length === 0) {
         throw new Error(`No tile files found under ${path.relative(repoRoot, tileDir)}`);
     }
 
-    let mapImageSource = pickGuideAsset(frontmatter, 'mapImage');
+    let mapImageSource = metadata.mapImageSource;
     if (typeof mapImageSource !== 'string' || !mapImageSource.startsWith('/')) {
         const fallbacks = [
             path.join(publicDir, 'maps', `${guideId}.webp`),
@@ -124,9 +190,8 @@ async function buildBundle(guideId) {
 
     zip.file('manifest.json', JSON.stringify(manifest, null, 2));
 
-    const outputDir = path.join(publicDir, 'bundles', guideId);
-    const outputPath = path.join(outputDir, 'map-tiles.zip');
-    await fs.mkdir(outputDir, { recursive: true });
+    const outputPath = path.join(bundleOutputDir, 'map-tiles.zip');
+    await fs.mkdir(bundleOutputDir, { recursive: true });
 
     const bundleBuffer = await zip.generateAsync({
         type: 'nodebuffer',

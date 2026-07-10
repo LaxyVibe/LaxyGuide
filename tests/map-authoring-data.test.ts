@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
     buildRuntimePinsFromAuthoringDocument,
     fetchMapAuthoringJson,
+    isMapAuthoringEnabledGuide,
     normalizeMapAuthoringDocument
 } from '../src/utils/mapDrawData.ts';
 import {
@@ -122,6 +123,12 @@ test('buildRuntimePinsFromAuthoringDocument preserves geo projection', () => {
     assert.equal(runtimePins.length, 1);
     assert.equal(runtimePins[0].geoPosition?.lat, 34.25);
     assert.equal(runtimePins[0].geoPosition?.lng, 139.25);
+});
+
+test('isMapAuthoringEnabledGuide includes both USAA and BEPU', () => {
+    assert.equal(isMapAuthoringEnabledGuide('JPN-USAA-TEM-001'), true);
+    assert.equal(isMapAuthoringEnabledGuide('jpn-bepu-mus-001'), true);
+    assert.equal(isMapAuthoringEnabledGuide('JPN-OITA-MUS-003'), false);
 });
 
 test('getMapAuthoringPublicUrl points at the public Firebase Storage object', () => {
