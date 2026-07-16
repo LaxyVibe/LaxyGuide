@@ -3,7 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { promisify } from 'node:util';
 import { execFile as execFileCallback } from 'node:child_process';
-import { getGuideMapConfig } from './guide-map-config.mjs';
+import { getGuideMapConfig, getGuideMapSourceImagePath } from './guide-map-config.mjs';
 
 const execFile = promisify(execFileCallback);
 const repoRoot = process.cwd();
@@ -14,9 +14,17 @@ async function generateTiles(guideId) {
         throw new Error(`No local map config found for ${guideId}`);
     }
 
-    const sourceImagePath = path.join(repoRoot, config.sourceImagePath);
+    const configuredSourceImagePath = getGuideMapSourceImagePath(guideId, process.argv[3]);
+    if (!configuredSourceImagePath) {
+        throw new Error(`No source image path configured for ${guideId}. Pass one as the second argument.`);
+    }
+
+    const sourceImagePath = path.isAbsolute(configuredSourceImagePath)
+        ? configuredSourceImagePath
+        : path.join(repoRoot, configuredSourceImagePath);
     const tileOutputDir = path.join(repoRoot, 'public', config.tileOutputDir);
 
+    await fs.access(sourceImagePath);
     await fs.rm(tileOutputDir, { recursive: true, force: true });
     await fs.mkdir(path.dirname(tileOutputDir), { recursive: true });
 
@@ -41,7 +49,7 @@ async function generateTiles(guideId) {
 
 const guideId = process.argv[2];
 if (!guideId) {
-    console.error('Usage: node scripts/generate-map-tiles.mjs <GUIDE_ID>');
+    console.error('Usage: node scripts/generate-map-tiles.mjs <GUIDE_ID> [SOURCE_IMAGE_PATH]');
     process.exitCode = 1;
 } else {
     generateTiles(guideId)

@@ -27,40 +27,23 @@ import {
     normalizeTraversableRegionsForEditor,
     updateTraversableRegionPolygonForEditor
 } from '../utils/mapDrawTraversableRegions.ts';
+import {
+    CORNER_IMAGE_COORDINATES,
+    CORNER_LABEL,
+    CORNER_ORDER,
+    formatCalibrationCornerStatus,
+    getCalibrationDraftCorners,
+    type CalibrationDraftCorners
+} from '../utils/mapCalibration.ts';
 import './GuideMapDraw.css';
 
-type CornerKey = 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft';
 type DrawLayerMode = 'pins' | 'traversable';
 type DeleteTarget =
     | { kind: 'pin-region'; pinId: string }
     | { kind: 'traversable-region'; regionId: string }
     | null;
-const CORNER_ORDER: CornerKey[] = ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'];
-const CORNER_LABEL: Record<CornerKey, string> = {
-    topLeft: 'Top Left',
-    topRight: 'Top Right',
-    bottomRight: 'Bottom Right',
-    bottomLeft: 'Bottom Left'
-};
-const CORNER_IMAGE_COORDINATES: Record<CornerKey, { x: number; y: number }> = {
-    topLeft: { x: 0, y: 0 },
-    topRight: { x: 1, y: 0 },
-    bottomRight: { x: 1, y: 1 },
-    bottomLeft: { x: 0, y: 1 }
-};
 
 const TILE_SIZE = 256;
-
-function getCalibrationDraftCorners(calibration: GeoCalibration | null): Partial<Record<CornerKey, GeoPoint>> {
-    if (!calibration) return {};
-
-    return {
-        topLeft: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.topLeft),
-        topRight: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.topRight),
-        bottomRight: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.bottomRight),
-        bottomLeft: transformNormalizedPoint(calibration.transform, CORNER_IMAGE_COORDINATES.bottomLeft)
-    };
-}
 
 function buildTileUrl(template: string, z: number, x: number, y: number) {
     return template
@@ -185,8 +168,7 @@ const GuideMapDraw: React.FC = () => {
     const [fabMenuOpen, setFabMenuOpen] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState<DeleteTarget>(null);
     const [showCalibrateWizard, setShowCalibrateWizard] = useState(false);
-    const [calibrationDraftCorners, setCalibrationDraftCorners] = useState<Partial<Record<CornerKey, GeoPoint>>>({});
-    const [calibrationActiveCorner, setCalibrationActiveCorner] = useState<CornerKey | null>(null);
+    const [calibrationDraftCorners, setCalibrationDraftCorners] = useState<CalibrationDraftCorners>({});
     const [calibrationSeedVersion, setCalibrationSeedVersion] = useState(0);
     const [calibrationOverlayOpacity, setCalibrationOverlayOpacity] = useState(0.62);
     const [calibrationTileImageUrl, setCalibrationTileImageUrl] = useState<string | null>(null);
@@ -748,7 +730,6 @@ const GuideMapDraw: React.FC = () => {
     const handleOpenCalibrationEditor = React.useCallback(() => {
         const calibration = geoCalibration ?? data?.geoCalibration ?? null;
         setCalibrationDraftCorners(getCalibrationDraftCorners(calibration));
-        setCalibrationActiveCorner(null);
         setCalibrationSeedVersion((prev) => prev + 1);
         setShowCalibrateWizard(true);
         setFabMenuOpen(false);
@@ -756,18 +737,8 @@ const GuideMapDraw: React.FC = () => {
 
     const handleResetCalibrationEditor = React.useCallback(() => {
         setCalibrationDraftCorners({});
-        setCalibrationActiveCorner(null);
         setCalibrationSeedVersion((prev) => prev + 1);
     }, []);
-
-    const handleCalibrationMapPick = React.useCallback((point: GeoPoint) => {
-        if (!calibrationActiveCorner) return;
-        setCalibrationDraftCorners((prev) => ({
-            ...prev,
-            [calibrationActiveCorner]: point
-        }));
-        setCalibrationActiveCorner(null);
-    }, [calibrationActiveCorner]);
 
     const handleBuildCalibration = () => {
         if (!guideId) return;
@@ -1330,7 +1301,7 @@ const GuideMapDraw: React.FC = () => {
                                                 Calibrate Overlay ({completedCorners}/4)
                                             </div>
                                             <div style={{ marginTop: 2, fontSize: 12, color: 'var(--neutral-700)' }}>
-                                                Choose a corner with a re-position button, then click the real map to place it.
+                                                Drag the colored corner handles to align the overlay with the real map.
                                             </div>
                                         </div>
                                         <button
@@ -1363,35 +1334,29 @@ const GuideMapDraw: React.FC = () => {
                                                 </div>
                                             )}
                                             <div>Blue: top-left, cyan: top-right, green: bottom-right, orange: bottom-left.</div>
-                                            <div>
-                                                {calibrationActiveCorner
-                                                    ? <>Pending placement: <strong>{CORNER_LABEL[calibrationActiveCorner]}</strong>. Click anywhere on the map to place it.</>
-                                                    : 'No corner is armed. Click a re-position button first.'}
-                                            </div>
+                                            <div>Drag any corner handle to refine the warped overlay before saving.</div>
                                         </div>
                                     </div>
 
                                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                                        {(['topLeft', 'topRight', 'bottomLeft', 'bottomRight'] as CornerKey[]).map((key) => (
-                                            <button
+                                        {CORNER_ORDER.map((key) => (
+                                            <div
                                                 key={key}
-                                                onClick={() => setCalibrationActiveCorner((prev) => (prev === key ? null : key))}
                                                 style={{
                                                     padding: '6px 10px',
                                                     borderRadius: 9,
-                                                    border: 'none',
-                                                    background: calibrationActiveCorner === key ? 'rgba(37,99,235,0.96)' : 'rgba(33, 36, 39, 0.12)',
-                                                    color: calibrationActiveCorner === key ? '#fff' : 'var(--neutral-800)',
-                                                    fontWeight: 900,
+                                                    border: '1px solid rgba(33, 36, 39, 0.12)',
+                                                    background: 'rgba(33, 36, 39, 0.04)',
+                                                    color: 'var(--neutral-800)',
+                                                    fontWeight: 800,
                                                     fontSize: 11,
                                                     lineHeight: 1.2,
-                                                    cursor: 'pointer',
                                                     whiteSpace: 'nowrap',
                                                     flex: '0 0 auto'
                                                 }}
                                             >
-                                                {calibrationActiveCorner === key ? `Picking ${CORNER_LABEL[key]}` : CORNER_LABEL[key]}
-                                            </button>
+                                                {formatCalibrationCornerStatus(key, calibrationDraftCorners)}
+                                            </div>
                                         ))}
                                     </div>
 
@@ -1400,25 +1365,13 @@ const GuideMapDraw: React.FC = () => {
                                             imageUrl={calibrationTileImageUrl}
                                             corners={calibrationDraftCorners}
                                             onCornersChange={setCalibrationDraftCorners}
-                                            activeCorner={calibrationActiveCorner}
-                                            onMapPick={handleCalibrationMapPick}
                                             seedVersion={calibrationSeedVersion}
                                             seedPoints={calibrationSeedPoints}
                                             overlayOpacity={calibrationOverlayOpacity}
                                         />
                                     </div>
 
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-                                        <div style={{ display: 'grid', gap: 2, fontSize: 10, color: 'var(--neutral-700)', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', columnGap: 10 }}>
-                                            {CORNER_ORDER.map((key) => {
-                                                const point = calibrationDraftCorners[key];
-                                                return (
-                                                    <div key={key}>
-                                                        {CORNER_LABEL[key]}: {point ? `${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}` : 'Pending'}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 12, flexWrap: 'wrap' }}>
                                         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                                             <button
                                                 onClick={handleResetCalibrationEditor}

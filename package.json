@@ -10,6 +10,8 @@
     "test:ga": "node --experimental-strip-types --test tests/ga-config.test.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
+    "map-bundle": "node scripts/build-map-tile-bundle.mjs",
+    "tiles:gen": "node scripts/generate-map-tiles.mjs",
     "map-bundle:usaa": "node scripts/build-map-tile-bundle.mjs JPN-USAA-TEM-001",
     "tiles:gen:usaa": "node scripts/generate-map-tiles.mjs JPN-USAA-TEM-001",
     "tiles:usaa": "node scripts/generate-map-tiles.mjs JPN-USAA-TEM-001 && npm run map-bundle:usaa"

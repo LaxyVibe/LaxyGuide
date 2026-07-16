@@ -5,7 +5,7 @@ import { promisify } from 'node:util';
 import { execFile as execFileCallback } from 'node:child_process';
 import JSZip from 'jszip';
 import matter from 'gray-matter';
-import { getGuideMapConfig } from './guide-map-config.mjs';
+import { getGuideMapConfig, getGuideMapSourceImagePath } from './guide-map-config.mjs';
 
 const repoRoot = process.cwd();
 const guidesDir = path.join(repoRoot, 'src', 'content', 'guides');
@@ -74,12 +74,19 @@ async function readImageDimensions(imagePath) {
     return { width, height };
 }
 
-async function getGuideMapMetadata(guideId) {
+async function getGuideMapMetadata(guideId, sourceImageOverridePath) {
     const config = getGuideMapConfig(guideId);
     if (config) {
-        const sourceImagePath = path.join(repoRoot, config.sourceImagePath);
+        const configuredSourceImagePath = getGuideMapSourceImagePath(guideId, sourceImageOverridePath);
+        if (!configuredSourceImagePath) {
+            throw new Error(`No source image path configured for ${guideId}. Pass one as the second argument.`);
+        }
+
+        const sourceImagePath = path.isAbsolute(configuredSourceImagePath)
+            ? configuredSourceImagePath
+            : path.join(repoRoot, configuredSourceImagePath);
         if (!await fileExists(sourceImagePath)) {
-            throw new Error(`Map source image not found for ${guideId}: ${config.sourceImagePath}`);
+            throw new Error(`Map source image not found for ${guideId}: ${configuredSourceImagePath}`);
         }
 
         const dimensions = await readImageDimensions(sourceImagePath);
@@ -88,7 +95,7 @@ async function getGuideMapMetadata(guideId) {
             mapPixelWidth: dimensions.width,
             mapPixelHeight: dimensions.height,
             mapTileMaxZoom: config.mapTileMaxZoom,
-            mapImageSource: `/${config.publicMapImagePath}`,
+            mapImagePath: sourceImagePath,
             tileDir: path.join(publicDir, config.tileOutputDir),
             bundleOutputDir: path.join(publicDir, config.bundleOutputDir)
         };
@@ -132,7 +139,7 @@ function ensureFiniteNumber(value, label) {
 }
 
 async function buildBundle(guideId) {
-    const metadata = await getGuideMapMetadata(guideId);
+    const metadata = await getGuideMapMetadata(guideId, process.argv[3]);
     const {
         mapPixelWidth,
         mapPixelHeight,
@@ -140,27 +147,34 @@ async function buildBundle(guideId) {
         tileDir,
         bundleOutputDir
     } = metadata;
-    const tileFiles = await listFilesRecursively(tileDir);
+    const tileFiles = (await listFilesRecursively(tileDir)).filter((filePath) => path.extname(filePath).toLowerCase() === '.webp');
     if (tileFiles.length === 0) {
         throw new Error(`No tile files found under ${path.relative(repoRoot, tileDir)}`);
     }
 
-    let mapImageSource = metadata.mapImageSource;
-    if (typeof mapImageSource !== 'string' || !mapImageSource.startsWith('/')) {
-        const fallbacks = [
-            path.join(publicDir, 'maps', `${guideId}.webp`),
-            path.join(publicDir, 'maps', `${guideId}.png`),
-            path.join(publicDir, 'maps', `${guideId}.jpg`)
-        ];
-        mapImageSource = null;
-        for (const candidate of fallbacks) {
-            try {
-                await fs.access(candidate);
-                mapImageSource = `/${path.relative(publicDir, candidate).split(path.sep).join('/')}`;
-                break;
-            } catch {
-                continue;
+    let absoluteImagePath = metadata.mapImagePath ?? null;
+    if (!absoluteImagePath) {
+        let mapImageSource = metadata.mapImageSource;
+        if (typeof mapImageSource !== 'string' || !mapImageSource.startsWith('/')) {
+            const fallbacks = [
+                path.join(publicDir, 'maps', `${guideId}.webp`),
+                path.join(publicDir, 'maps', `${guideId}.png`),
+                path.join(publicDir, 'maps', `${guideId}.jpg`)
+            ];
+            mapImageSource = null;
+            for (const candidate of fallbacks) {
+                try {
+                    await fs.access(candidate);
+                    mapImageSource = `/${path.relative(publicDir, candidate).split(path.sep).join('/')}`;
+                    break;
+                } catch {
+                    continue;
+                }
             }
+        }
+
+        if (typeof mapImageSource === 'string' && mapImageSource.startsWith('/')) {
+            absoluteImagePath = path.join(publicDir, mapImageSource.slice(1));
         }
     }
 
@@ -181,8 +195,7 @@ async function buildBundle(guideId) {
         zip.file(zipPath, await fs.readFile(filePath));
     }
 
-    if (typeof mapImageSource === 'string' && mapImageSource.startsWith('/')) {
-        const absoluteImagePath = path.join(publicDir, mapImageSource.slice(1));
+    if (absoluteImagePath) {
         const imageFileName = `map-image${path.extname(absoluteImagePath).toLowerCase() || '.webp'}`;
         zip.file(imageFileName, await fs.readFile(absoluteImagePath));
         manifest.mapImageFile = imageFileName;
@@ -207,13 +220,17 @@ async function buildBundle(guideId) {
     };
 }
 
-const guideId = process.argv[2] || 'JPN-USAA-TEM-001';
-
-buildBundle(guideId)
-    .then(({ outputPath, tileCount, bytes }) => {
-        console.log(`Created ${path.relative(repoRoot, outputPath)} with ${tileCount} tiles (${bytes} bytes)`);
-    })
-    .catch((error) => {
-        console.error(error instanceof Error ? error.message : String(error));
-        process.exitCode = 1;
-    });
+const guideId = process.argv[2];
+if (!guideId) {
+    console.error('Usage: node scripts/build-map-tile-bundle.mjs <GUIDE_ID> [SOURCE_IMAGE_PATH]');
+    process.exitCode = 1;
+} else {
+    buildBundle(guideId)
+        .then(({ outputPath, tileCount, bytes }) => {
+            console.log(`Created ${path.relative(repoRoot, outputPath)} with ${tileCount} tiles (${bytes} bytes)`);
+        })
+        .catch((error) => {
+            console.error(error instanceof Error ? error.message : String(error));
+            process.exitCode = 1;
+        });
+}

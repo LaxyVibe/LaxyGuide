@@ -1,19 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { CircleMarker, MapContainer, Polygon, TileLayer, Tooltip, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, Marker, Polygon, TileLayer, Tooltip, useMap } from 'react-leaflet';
 import * as L from 'leaflet';
-
-type CornerKey = 'topLeft' | 'topRight' | 'bottomRight' | 'bottomLeft';
+import { CORNER_LABEL, CORNER_ORDER, type CalibrationDraftCorners, type CornerKey } from '../utils/mapCalibration.ts';
 
 type GeoPoint = { lat: number; lng: number };
-type CornerDraft = Partial<Record<CornerKey, GeoPoint>>;
-
-const CORNER_ORDER: CornerKey[] = ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'];
-const CORNER_LABEL: Record<CornerKey, string> = {
-    topLeft: 'Top Left',
-    topRight: 'Top Right',
-    bottomRight: 'Bottom Right',
-    bottomLeft: 'Bottom Left'
-};
 const HANDLE_COLOR: Record<CornerKey, string> = {
     topLeft: '#2563eb',
     topRight: '#0891b2',
@@ -21,12 +11,26 @@ const HANDLE_COLOR: Record<CornerKey, string> = {
     bottomLeft: '#d97706'
 };
 
+function createHandleIcon(color: string) {
+    return L.divIcon({
+        className: 'geo-calibration-overlay-editor__handle',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+        html: `<div style="width:18px;height:18px;border-radius:999px;border:3px solid #ffffff;background:${color};box-sizing:border-box;box-shadow:0 2px 8px rgba(0,0,0,0.28);cursor:grab;"></div>`
+    });
+}
+
+const HANDLE_ICONS: Record<CornerKey, L.DivIcon> = {
+    topLeft: createHandleIcon(HANDLE_COLOR.topLeft),
+    topRight: createHandleIcon(HANDLE_COLOR.topRight),
+    bottomRight: createHandleIcon(HANDLE_COLOR.bottomRight),
+    bottomLeft: createHandleIcon(HANDLE_COLOR.bottomLeft)
+};
+
 interface GeoCalibrationOverlayEditorProps {
     imageUrl: string;
-    corners: CornerDraft;
-    onCornersChange: (next: CornerDraft) => void;
-    activeCorner?: CornerKey | null;
-    onMapPick?: (point: GeoPoint) => void;
+    corners: CalibrationDraftCorners;
+    onCornersChange: (next: CalibrationDraftCorners) => void;
     seedVersion?: number;
     seedPoints?: GeoPoint[];
     overlayOpacity?: number;
@@ -100,7 +104,7 @@ function computeProjectiveMatrix(
     ];
 }
 
-function hasAllCorners(corners: CornerDraft): corners is Record<CornerKey, GeoPoint> {
+function hasAllCorners(corners: CalibrationDraftCorners): corners is Record<CornerKey, GeoPoint> {
     return CORNER_ORDER.every((key) => Boolean(corners[key]));
 }
 
@@ -122,7 +126,7 @@ function buildSeedCorners(bounds: L.LatLngBounds, tightenToViewport: boolean): R
 
 const ProjectiveImageOverlay: React.FC<{
     imageUrl: string;
-    corners: CornerDraft;
+    corners: CalibrationDraftCorners;
     overlayOpacity: number;
 }> = ({ imageUrl, corners, overlayOpacity }) => {
     const map = useMap();
@@ -238,8 +242,8 @@ const ProjectiveImageOverlay: React.FC<{
 };
 
 const SeedAndFitController: React.FC<{
-    corners: CornerDraft;
-    onCornersChange: (next: CornerDraft) => void;
+    corners: CalibrationDraftCorners;
+    onCornersChange: (next: CalibrationDraftCorners) => void;
     seedVersion: number;
     seedPoints: GeoPoint[];
 }> = ({ corners, onCornersChange, seedVersion, seedPoints }) => {
@@ -273,22 +277,10 @@ const SeedAndFitController: React.FC<{
     return null;
 };
 
-const MapPickBridge: React.FC<{ onMapPick?: (point: GeoPoint) => void }> = ({ onMapPick }) => {
-    useMapEvents({
-        click: (event) => {
-            onMapPick?.({ lat: event.latlng.lat, lng: event.latlng.lng });
-        }
-    });
-
-    return null;
-};
-
 const GeoCalibrationOverlayEditor: React.FC<GeoCalibrationOverlayEditorProps> = ({
     imageUrl,
     corners,
     onCornersChange,
-    activeCorner = null,
-    onMapPick,
     seedVersion = 0,
     seedPoints = [],
     overlayOpacity = 0.62
@@ -301,6 +293,16 @@ const GeoCalibrationOverlayEditor: React.FC<GeoCalibrationOverlayEditorProps> = 
             : []),
         [completeCorners]
     );
+
+    const handleCornerDrag = React.useCallback((key: CornerKey, latlng: L.LatLng) => {
+        onCornersChange({
+            ...corners,
+            [key]: {
+                lat: latlng.lat,
+                lng: latlng.lng
+            }
+        });
+    }, [corners, onCornersChange]);
 
     return (
         <div style={{ width: '100%', height: '100%', borderRadius: 14, overflow: 'hidden' }}>
@@ -326,8 +328,6 @@ const GeoCalibrationOverlayEditor: React.FC<GeoCalibrationOverlayEditorProps> = 
                     seedPoints={seedPoints}
                 />
 
-                <MapPickBridge onMapPick={onMapPick} />
-
                 <ProjectiveImageOverlay
                     imageUrl={imageUrl}
                     corners={corners}
@@ -349,21 +349,27 @@ const GeoCalibrationOverlayEditor: React.FC<GeoCalibrationOverlayEditorProps> = 
                     const point = corners[key];
                     if (!point) return null;
                     return (
-                        <CircleMarker
+                        <Marker
                             key={key}
-                            center={[point.lat, point.lng]}
-                            radius={key === activeCorner ? 11 : 8}
-                            pathOptions={{
-                                color: '#ffffff',
-                                fillColor: HANDLE_COLOR[key],
-                                fillOpacity: key === activeCorner ? 0.98 : 0.9,
-                                weight: key === activeCorner ? 4 : 3
+                            position={[point.lat, point.lng]}
+                            icon={HANDLE_ICONS[key]}
+                            draggable={true}
+                            bubblingMouseEvents={false}
+                            eventHandlers={{
+                                drag: (event) => {
+                                    const target = event.target as L.Marker;
+                                    handleCornerDrag(key, target.getLatLng());
+                                },
+                                dragend: (event) => {
+                                    const target = event.target as L.Marker;
+                                    handleCornerDrag(key, target.getLatLng());
+                                }
                             }}
                         >
                             <Tooltip permanent direction="top" offset={[0, -12]} opacity={0.95}>
-                                {CORNER_LABEL[key]}{key === activeCorner ? ' (Active)' : ''}
+                                {CORNER_LABEL[key]}
                             </Tooltip>
-                        </CircleMarker>
+                        </Marker>
                     );
                 })}
             </MapContainer>
