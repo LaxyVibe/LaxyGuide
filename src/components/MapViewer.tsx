@@ -281,7 +281,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             }
             : undefined
     );
-    const usePoiRegionInteraction = pins.length > 0 && normalizedPoiRegions.length === pins.length;
+    const showPoiMarkers = false;
 
     if (shouldUseTiles) {
         return (
@@ -480,7 +480,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                             </svg>
                                         )}
 
-                                        {usePoiRegionInteraction && (
+                                        {normalizedPoiRegions.length > 0 && (
                                             <svg
                                                 viewBox="0 0 100 100"
                                                 preserveAspectRatio="none"
@@ -527,10 +527,10 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                             return (
                                                 <div
                                                     key={pin.id}
-                                                    role={!usePoiRegionInteraction && onPinClick ? 'button' : undefined}
-                                                    aria-label={!usePoiRegionInteraction && onPinClick ? 'Select pin' : undefined}
+                                                    role={showPoiMarkers && onPinClick ? 'button' : undefined}
+                                                    aria-label={showPoiMarkers && onPinClick ? 'Select pin' : undefined}
                                                     onPointerDown={
-                                                        !usePoiRegionInteraction && onPinLongPress
+                                                        showPoiMarkers && onPinLongPress
                                                             ? (e) => {
                                                                 e.stopPropagation();
                                                                 onPinLongPressPrime?.(pin.id);
@@ -538,11 +538,11 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                             }
                                                             : undefined
                                                     }
-                                                    onPointerUp={!usePoiRegionInteraction && onPinLongPress ? clearLongPress : undefined}
-                                                    onPointerCancel={!usePoiRegionInteraction && onPinLongPress ? clearLongPress : undefined}
-                                                    onPointerLeave={!usePoiRegionInteraction && onPinLongPress ? clearLongPress : undefined}
+                                                    onPointerUp={showPoiMarkers && onPinLongPress ? clearLongPress : undefined}
+                                                    onPointerCancel={showPoiMarkers && onPinLongPress ? clearLongPress : undefined}
+                                                    onPointerLeave={showPoiMarkers && onPinLongPress ? clearLongPress : undefined}
                                                     onClick={
-                                                        !usePoiRegionInteraction && onPinClick
+                                                        showPoiMarkers && onPinClick
                                                             ? (e) => {
                                                                 e.stopPropagation();
                                                                 if (suppressClickRef.current) {
@@ -558,19 +558,19 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         left: `${pin.x * 100}%`,
                                                         top: `${pin.y * 100}%`,
                                                         transform: 'translate(-50%, -50%)',
-                                                        width: usePoiRegionInteraction ? 1 : size,
-                                                        height: usePoiRegionInteraction ? 1 : size,
+                                                        width: showPoiMarkers ? size : 1,
+                                                        height: showPoiMarkers ? size : 1,
                                                         overflow: 'visible',
                                                         borderRadius: 999,
-                                                        background: usePoiRegionInteraction
-                                                            ? 'transparent'
-                                                            : (isHighlighted ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.65)'),
-                                                        border: usePoiRegionInteraction
-                                                            ? 'none'
-                                                            : (isHighlighted ? '2px solid rgba(245, 245, 245, 0.95)' : '2px solid rgba(245, 245, 245, 0.75)'),
+                                                        background: showPoiMarkers
+                                                            ? (isHighlighted ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.65)')
+                                                            : 'transparent',
+                                                        border: showPoiMarkers
+                                                            ? (isHighlighted ? '2px solid rgba(245, 245, 245, 0.95)' : '2px solid rgba(245, 245, 245, 0.75)')
+                                                            : 'none',
                                                         boxShadow: 'none',
-                                                        cursor: !usePoiRegionInteraction && (onPinClick || onPinLongPress) ? 'pointer' : 'default',
-                                                        pointerEvents: usePoiRegionInteraction ? 'none' : undefined,
+                                                        cursor: showPoiMarkers && (onPinClick || onPinLongPress) ? 'pointer' : 'default',
+                                                        pointerEvents: showPoiMarkers ? undefined : 'none',
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'center',
@@ -580,9 +580,9 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         lineHeight: 1
                                                     }}
                                                 >
-                                                    {!usePoiRegionInteraction && showPinGpsCount ? gpsCount : null}
+                                                    {showPoiMarkers && showPinGpsCount ? gpsCount : null}
 
-                                                    {!showFocusCard && !usePoiRegionInteraction && (
+                                                    {!showFocusCard && showPoiMarkers && (
                                                         <div
                                                             aria-hidden="true"
                                                             style={{
@@ -699,7 +699,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         </div>
                                                     )}
 
-                                                    {isPressing && !usePoiRegionInteraction && (
+                                                    {isPressing && showPoiMarkers && (
                                                         <svg
                                                             width={ringSize}
                                                             height={ringSize}

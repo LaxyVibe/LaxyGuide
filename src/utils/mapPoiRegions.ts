@@ -168,10 +168,3 @@ export function buildNormalizedPoiRegions(
         return polygon.length >= 3 ? [{ id: pin.id, polygon }] : [];
     });
 }
-
-export function areAllPoiRegionsReady(
-    pins: MapPin[],
-    geometry?: MapPoiRegionGeometry | null
-) {
-    return pins.length > 0 && buildNormalizedPoiRegions(pins, geometry).length === pins.length;
-}
