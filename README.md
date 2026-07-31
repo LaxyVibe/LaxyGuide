@@ -208,3 +208,7 @@ the tiles in-browser, and serves them to Leaflet from blob URLs. Schema version
 current `t` language query parameter. Schema version 1 single-layer bundles
 remain supported. The original image URL remains available as a fallback for
 non-tiled rendering and calibration overlays.
+
+Hosted map bundle URLs include a `v` query parameter derived from Netlify's
+deploy commit or deploy ID. Each code deployment therefore bypasses stale
+Firebase/CDN responses after a map bundle is replaced at the same Storage path.

@@ -265,7 +265,7 @@ test('loadGuideData derives the hosted Firebase map tile bundle for authoring-en
         assert.ok(guide);
         assert.equal(
             guide.mapTileBundleUrl,
-            'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-tiles.zip'
+            'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-tiles.zip?v=layered-v2'
         );
         assert.equal(guide.mapImage, undefined);
         assert.equal(guide.mapPinsUrl, undefined);
@@ -342,7 +342,7 @@ test('loadGuideData derives the hosted Firebase bundle for BEPU when published m
         assert.equal(guide.mapTileUrlTemplate, undefined);
         assert.equal(
             guide.mapTileBundleUrl,
-            'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-BEPU-MUS-001-map-tiles.zip'
+            'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-BEPU-MUS-001-map-tiles.zip?v=layered-v2'
         );
         assert.equal(guide.mapTileMaxZoom, undefined);
         assert.equal(guide.mapPixelWidth, undefined);
