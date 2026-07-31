@@ -127,7 +127,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
             }),
             [mapPixelHeight, mapPixelWidth, mapTileMaxZoom, pins]
         );
-        const usePoiRegionInteraction = pins.length > 0 && normalizedPoiRegions.length === pins.length;
+        const showPoiMarkers = false;
 
         const clearLongPress = useCallback(() => {
             if (longPressTimeoutRef.current) {
@@ -421,7 +421,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                             />
                         ))}
 
-                    {ready && usePoiRegionInteraction && normalizedPoiRegions.map((region) => (
+                    {ready && normalizedPoiRegions.map((region) => (
                         <Polygon
                             key={`poi-region-${region.id}`}
                             positions={region.polygon.map((point) => (
@@ -459,21 +459,21 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                             <CircleMarker
                                 key={pin.id}
                                 center={pinToLatLng(pin)}
-                                radius={usePoiRegionInteraction ? 1 : (isHighlighted ? 10 : 7)}
-                                interactive={!usePoiRegionInteraction}
+                                radius={showPoiMarkers ? (isHighlighted ? 10 : 7) : 1}
+                                interactive={showPoiMarkers}
                                 bubblingMouseEvents={false}
                                 pathOptions={{
-                                    color: usePoiRegionInteraction
-                                        ? 'transparent'
-                                        : (isHighlighted ? 'rgba(245, 245, 245, 0.95)' : 'rgba(245, 245, 245, 0.75)'),
-                                    fillColor: usePoiRegionInteraction
-                                        ? 'transparent'
-                                        : (isHighlighted ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.65)'),
-                                    fillOpacity: usePoiRegionInteraction ? 0 : 1,
-                                    opacity: usePoiRegionInteraction ? 0 : 1,
-                                    weight: usePoiRegionInteraction ? 0 : 2
+                                    color: showPoiMarkers
+                                        ? (isHighlighted ? 'rgba(245, 245, 245, 0.95)' : 'rgba(245, 245, 245, 0.75)')
+                                        : 'transparent',
+                                    fillColor: showPoiMarkers
+                                        ? (isHighlighted ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.65)')
+                                        : 'transparent',
+                                    fillOpacity: showPoiMarkers ? 1 : 0,
+                                    opacity: showPoiMarkers ? 1 : 0,
+                                    weight: showPoiMarkers ? 2 : 0
                                 }}
-                                eventHandlers={usePoiRegionInteraction ? {} : {
+                                eventHandlers={showPoiMarkers ? {
                                     mousedown: (e) => {
                                         e.originalEvent.stopPropagation();
                                         onPinLongPressPrime?.(pin.id);
@@ -490,15 +490,15 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                                         }
                                         onPinClick(pin.id);
                                     }
-                                }}
+                                } : {}}
                             >
-                                {showPinGpsCount && !usePoiRegionInteraction && (
+                                {showPinGpsCount && showPoiMarkers && (
                                     <Tooltip permanent direction="top" offset={[0, -6]} opacity={0.92} interactive={false}>
                                         <div style={{ fontWeight: 900, fontSize: 10 }}>{gpsCount}</div>
                                     </Tooltip>
                                 )}
 
-                                {!showFocusCard && !usePoiRegionInteraction && (
+                                {!showFocusCard && showPoiMarkers && (
                                     <Tooltip permanent direction="bottom" offset={[0, 8]} opacity={0.95} interactive={true}>
                                         <div
                                             onMouseDown={(e) => {
@@ -627,7 +627,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                                     </Tooltip>
                                 )}
 
-                                {isPressing && !usePoiRegionInteraction && (
+                                {isPressing && showPoiMarkers && (
                                     <CircleMarker
                                         center={pinToLatLng(pin)}
                                         radius={isHighlighted ? 15 : 12}

@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import type { MapPinsFile } from '../src/types/index.ts';
 import {
-    areAllPoiRegionsReady,
     buildNormalizedPoiRegions,
     normalizePoiPinsForEditor,
     resolvePinPolygonNormalized,
@@ -91,15 +90,17 @@ test('resolvePinPolygonNormalized migrates a valid legacy Leaflet polygon', () =
     );
 });
 
-test('region interaction becomes ready only when every POI has a valid polygon', () => {
+test('each valid POI region is available independently while other POIs remain unfinished', () => {
     const completePins = [
         { id: '001', x: 0.3, y: 0.3, polygonNormalized: normalizedPolygon },
         { id: '002', x: 0.6, y: 0.6, polygonNormalized: normalizedPolygon }
     ];
 
-    assert.equal(areAllPoiRegionsReady(completePins, geometry), true);
-    assert.equal(areAllPoiRegionsReady([...completePins, { id: '003', x: 0.8, y: 0.8 }], geometry), false);
     assert.equal(buildNormalizedPoiRegions(completePins, geometry).length, 2);
+    assert.deepEqual(
+        buildNormalizedPoiRegions([...completePins, { id: '003', x: 0.8, y: 0.8 }], geometry).map((region) => region.id),
+        ['001', '002']
+    );
 });
 
 test('invalid and out-of-bounds polygons do not activate region interaction', () => {
@@ -115,7 +116,7 @@ test('invalid and out-of-bounds polygons do not activate region interaction', ()
     }];
 
     assert.equal(resolvePinPolygonNormalized(invalidPins[0], geometry).length, 0);
-    assert.equal(areAllPoiRegionsReady(invalidPins, geometry), false);
+    assert.equal(buildNormalizedPoiRegions(invalidPins, geometry).length, 0);
 
     assert.equal(resolvePinPolygonNormalized({
         id: '002',
