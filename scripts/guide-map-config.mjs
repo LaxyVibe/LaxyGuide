@@ -1,6 +1,9 @@
 export const guideMapConfig = {
     'JPN-USAA-TEM-001': {
-        sourceImagePath: 'src/assets/map/usaa.webp',
+        baseSourceImagePath: 'src/assets/map/JPN-USAA-TEM-001/map-base.png',
+        labelSourceImagePaths: {
+            'ja-JP': 'src/assets/map/JPN-USAA-TEM-001/map-labels.ja-JP.png'
+        },
         publicMapImagePath: 'maps/JPN-USAA-TEM-001.webp',
         tileOutputDir: 'maps/JPN-USAA-TEM-001',
         bundleOutputDir: 'bundles/JPN-USAA-TEM-001',
@@ -23,5 +26,6 @@ export function getGuideMapSourceImagePath(guideId, overrideSourceImagePath) {
         return normalizedOverride;
     }
 
-    return getGuideMapConfig(guideId)?.sourceImagePath ?? null;
+    const config = getGuideMapConfig(guideId);
+    return config?.baseSourceImagePath ?? config?.sourceImagePath ?? null;
 }

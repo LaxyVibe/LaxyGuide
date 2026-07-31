@@ -14,6 +14,7 @@ export interface MapViewerProps {
     imageUrl: string;
     mapTileUrlTemplate?: string;
     mapTileBundle?: ResolvedMapTileBundle;
+    mapLanguage?: string;
     mapPixelWidth?: number;
     mapPixelHeight?: number;
     mapTileMaxZoom?: number;
@@ -60,6 +61,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
             imageUrl,
             mapTileUrlTemplate,
             mapTileBundle,
+            mapLanguage,
             mapPixelWidth,
             mapPixelHeight,
             mapTileMaxZoom,
@@ -275,6 +277,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                 ref={ref}
                 mapTileUrlTemplate={mapTileUrlTemplate!}
                 mapTileBundle={mapTileBundle}
+                mapLanguage={mapLanguage}
                 mapPixelWidth={mapPixelWidth!}
                 mapPixelHeight={mapPixelHeight!}
                 mapTileMaxZoom={mapTileMaxZoom}

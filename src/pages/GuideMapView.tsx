@@ -587,6 +587,7 @@ const GuideMapView: React.FC = () => {
                             imageUrl={mapImage || ''}
                             mapTileUrlTemplate={mapTileUrlTemplate}
                             mapTileBundle={mapTileBundle ?? undefined}
+                            mapLanguage={lang}
                             mapTileMaxZoom={mapTileMaxZoom}
                             mapPixelWidth={mapPixelWidth}
                             mapPixelHeight={mapPixelHeight}

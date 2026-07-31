@@ -161,9 +161,14 @@ curl -X POST "https://laxyguide-v3.netlify.app/.netlify/functions/export-content
 
 The map viewer now supports local XYZ tiles for non-geographic guide maps.
 
-### Source Asset
+### Source Assets
 
-- `src/assets/map/usaa.webp`
+- `src/assets/map/JPN-USAA-TEM-001/map-base.png`
+- `src/assets/map/JPN-USAA-TEM-001/map-labels.ja-JP.png`
+
+Both source images use the same 4019 x 3625 pixel canvas. The base is shared by
+all languages. Label PNGs have transparent backgrounds and are selected by the
+active guide language.
 
 ### Generate Tiles
 
@@ -175,13 +180,13 @@ npm run tiles:usaa
 
 This runs:
 
-- `npm run tiles:clean:usaa`
-- `npm run tiles:gen:usaa`
+- the base and configured language label tile generators
 - `npm run map-bundle:usaa`
 
 Output tiles are generated in:
 
-- `public/maps/JPN-USAA-TEM-001/{z}/{x}/{y}.webp`
+- `public/maps/JPN-USAA-TEM-001/base/{z}/{x}/{y}.webp`
+- `public/maps/JPN-USAA-TEM-001/labels/ja-JP/{z}/{x}/{y}.webp`
 
 Uploadable ZIP bundle is generated in:
 
@@ -197,4 +202,9 @@ The USAA guide frontmatter can provide:
 - `mapPixelWidth`
 - `mapPixelHeight`
 
-When `mapTileBundleUrl` is present, the map viewer downloads the ZIP, extracts the tiles in-browser, and serves them to Leaflet from blob URLs. The original image URL remains available as a fallback for non-tiled rendering and calibration overlays.
+When `mapTileBundleUrl` is present, the map viewer downloads the ZIP, extracts
+the tiles in-browser, and serves them to Leaflet from blob URLs. Schema version
+2 bundles render the shared base first and overlay the label tiles matching the
+current `t` language query parameter. Schema version 1 single-layer bundles
+remain supported. The original image URL remains available as a fallback for
+non-tiled rendering and calibration overlays.

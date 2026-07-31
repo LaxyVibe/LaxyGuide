@@ -37,6 +37,7 @@ type TiledMapViewerProps = Pick<
 > & {
     mapTileUrlTemplate?: string;
     mapTileBundle?: ResolvedMapTileBundle;
+    mapLanguage?: string;
     mapPixelWidth: number;
     mapPixelHeight: number;
     mapTileMaxZoom?: number;
@@ -72,6 +73,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
         {
             mapTileUrlTemplate,
             mapTileBundle,
+            mapLanguage,
             mapPixelWidth,
             mapPixelHeight,
             mapTileMaxZoom = 5,
@@ -352,6 +354,7 @@ const TiledMapViewer = React.forwardRef<MapViewerHandle, TiledMapViewerProps>(
                     <MapTileLayer
                         mapTileUrlTemplate={mapTileUrlTemplate}
                         mapTileBundle={mapTileBundle}
+                        mapLanguage={mapLanguage}
                         bounds={imageBounds}
                         mapTileMaxZoom={mapTileMaxZoom}
                         mapMinZoom={mapMinZoom}

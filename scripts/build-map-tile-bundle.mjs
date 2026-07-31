@@ -97,6 +97,8 @@ async function getGuideMapMetadata(guideId, sourceImageOverridePath) {
             mapTileMaxZoom: config.mapTileMaxZoom,
             mapImagePath: sourceImagePath,
             tileDir: path.join(publicDir, config.tileOutputDir),
+            isLayeredMap: Boolean(config.baseSourceImagePath || config.labelSourceImagePaths),
+            labelSourceImagePaths: config.labelSourceImagePaths ?? {},
             bundleOutputDir: path.join(publicDir, config.bundleOutputDir)
         };
     }
@@ -147,9 +149,11 @@ async function buildBundle(guideId) {
         tileDir,
         bundleOutputDir
     } = metadata;
-    const tileFiles = (await listFilesRecursively(tileDir)).filter((filePath) => path.extname(filePath).toLowerCase() === '.webp');
-    if (tileFiles.length === 0) {
-        throw new Error(`No tile files found under ${path.relative(repoRoot, tileDir)}`);
+    const baseTileDir = metadata.isLayeredMap ? path.join(tileDir, 'base') : tileDir;
+    const baseTileFiles = (await listFilesRecursively(baseTileDir))
+        .filter((filePath) => path.extname(filePath).toLowerCase() === '.webp');
+    if (baseTileFiles.length === 0) {
+        throw new Error(`No base tile files found under ${path.relative(repoRoot, baseTileDir)}`);
     }
 
     let absoluteImagePath = metadata.mapImagePath ?? null;
@@ -180,19 +184,45 @@ async function buildBundle(guideId) {
 
     const zip = new JSZip();
     const manifest = {
-        schemaVersion: 1,
+        schemaVersion: metadata.isLayeredMap ? 2 : 1,
         guideId,
         createdAt: new Date().toISOString(),
         mapPixelWidth,
         mapPixelHeight,
         mapTileMaxZoom,
-        tilePathTemplate: 'tiles/{z}/{x}/{y}.webp'
+        tilePathTemplate: metadata.isLayeredMap
+            ? 'tiles/base/{z}/{x}/{y}.webp'
+            : 'tiles/{z}/{x}/{y}.webp'
     };
 
-    for (const filePath of tileFiles) {
-        const relativeToTileDir = path.relative(tileDir, filePath).split(path.sep).join('/');
-        const zipPath = path.posix.join('tiles', relativeToTileDir);
+    for (const filePath of baseTileFiles) {
+        const relativeToBaseTileDir = path.relative(baseTileDir, filePath).split(path.sep).join('/');
+        const zipPath = metadata.isLayeredMap
+            ? path.posix.join('tiles', 'base', relativeToBaseTileDir)
+            : path.posix.join('tiles', relativeToBaseTileDir);
         zip.file(zipPath, await fs.readFile(filePath));
+    }
+
+    const labelTilePathTemplates = {};
+    let labelTileCount = 0;
+    for (const language of Object.keys(metadata.labelSourceImagePaths ?? {})) {
+        const labelTileDir = path.join(tileDir, 'labels', language);
+        const labelTileFiles = (await listFilesRecursively(labelTileDir))
+            .filter((filePath) => path.extname(filePath).toLowerCase() === '.webp');
+        if (labelTileFiles.length === 0) {
+            throw new Error(`No ${language} label tiles found under ${path.relative(repoRoot, labelTileDir)}`);
+        }
+
+        labelTilePathTemplates[language] = `tiles/labels/${language}/{z}/{x}/{y}.webp`;
+        labelTileCount += labelTileFiles.length;
+        for (const filePath of labelTileFiles) {
+            const relativeToLabelTileDir = path.relative(labelTileDir, filePath).split(path.sep).join('/');
+            const zipPath = path.posix.join('tiles', 'labels', language, relativeToLabelTileDir);
+            zip.file(zipPath, await fs.readFile(filePath));
+        }
+    }
+    if (Object.keys(labelTilePathTemplates).length > 0) {
+        manifest.labelTilePathTemplates = labelTilePathTemplates;
     }
 
     if (absoluteImagePath) {
@@ -215,7 +245,9 @@ async function buildBundle(guideId) {
 
     return {
         outputPath,
-        tileCount: tileFiles.length,
+        tileCount: baseTileFiles.length + labelTileCount,
+        baseTileCount: baseTileFiles.length,
+        labelTileCount,
         bytes: bundleBuffer.byteLength
     };
 }
@@ -226,8 +258,11 @@ if (!guideId) {
     process.exitCode = 1;
 } else {
     buildBundle(guideId)
-        .then(({ outputPath, tileCount, bytes }) => {
-            console.log(`Created ${path.relative(repoRoot, outputPath)} with ${tileCount} tiles (${bytes} bytes)`);
+        .then(({ outputPath, tileCount, baseTileCount, labelTileCount, bytes }) => {
+            const layerSummary = labelTileCount > 0
+                ? `: ${baseTileCount} base, ${labelTileCount} label`
+                : '';
+            console.log(`Created ${path.relative(repoRoot, outputPath)} with ${tileCount} tiles${layerSummary} (${bytes} bytes)`);
         })
         .catch((error) => {
             console.error(error instanceof Error ? error.message : String(error));

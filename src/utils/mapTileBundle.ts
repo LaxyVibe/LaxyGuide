@@ -3,13 +3,14 @@ import JSZip from 'jszip';
 const MAP_TILE_BUNDLE_MANIFEST = 'manifest.json';
 
 export interface MapTileBundleManifest {
-    schemaVersion: 1;
+    schemaVersion: 1 | 2;
     guideId: string;
     createdAt?: string;
     mapPixelWidth: number;
     mapPixelHeight: number;
     mapTileMaxZoom: number;
     tilePathTemplate: string;
+    labelTilePathTemplates?: Record<string, string>;
     mapImageFile?: string;
 }
 
@@ -87,6 +88,25 @@ export function resolveBundledTileUrl(
     return bundle.tileUrlByPath[path];
 }
 
+export function resolveBundledLabelTileUrl(
+    bundle: ResolvedMapTileBundle,
+    language: string,
+    z: number,
+    x: number,
+    y: number
+): string | undefined {
+    const templates = bundle.manifest.labelTilePathTemplates;
+    if (!templates) return undefined;
+
+    const normalizedLanguage = language.trim().toLowerCase();
+    const templateEntry = Object.entries(templates).find(([candidate]) => (
+        candidate.toLowerCase() === normalizedLanguage
+    ));
+    if (!templateEntry) return undefined;
+
+    return bundle.tileUrlByPath[buildTilePath(templateEntry[1], z, x, y)];
+}
+
 async function readBundleBytes(bundleUrl: string): Promise<ArrayBuffer> {
     const response = await fetch(bundleUrl, { cache: 'no-store' });
     if (!response.ok) {
@@ -147,7 +167,14 @@ export async function loadMapTileBundle(
         if (!tilePathTemplate) {
             throw new Error('Map tile bundle does not contain a tile path template');
         }
-        const tilePathMatcher = createTilePathMatcher(tilePathTemplate);
+        const labelTilePathTemplates = Object.fromEntries(
+            Object.entries(parsedManifest?.labelTilePathTemplates ?? {})
+                .filter(([language, template]) => Boolean(language) && typeof template === 'string' && template.length > 0)
+        );
+        const tilePathMatchers = [
+            createTilePathMatcher(tilePathTemplate),
+            ...Object.values(labelTilePathTemplates).map(createTilePathMatcher)
+        ];
 
         const mapPixelWidth = Number(parsedManifest?.mapPixelWidth ?? fallback?.mapPixelWidth);
         const mapPixelHeight = Number(parsedManifest?.mapPixelHeight ?? fallback?.mapPixelHeight);
@@ -159,7 +186,7 @@ export async function loadMapTileBundle(
         const tileUrlByPath: Record<string, string> = {};
         for (const fileName of fileNames) {
             const normalized = normalizePath(fileName);
-            if (!tilePathMatcher.test(normalized)) continue;
+            if (!tilePathMatchers.some((matcher) => matcher.test(normalized))) continue;
 
             const blob = await zip.file(fileName)?.async('blob');
             if (!blob) continue;
@@ -167,13 +194,14 @@ export async function loadMapTileBundle(
         }
 
         const manifest: MapTileBundleManifest = {
-            schemaVersion: 1,
+            schemaVersion: parsedManifest?.schemaVersion === 2 ? 2 : 1,
             guideId: parsedManifest?.guideId || expectedGuideId,
             createdAt: parsedManifest?.createdAt,
             mapPixelWidth,
             mapPixelHeight,
             mapTileMaxZoom,
-            tilePathTemplate
+            tilePathTemplate,
+            ...(Object.keys(labelTilePathTemplates).length > 0 ? { labelTilePathTemplates } : {})
         };
 
         let mapImageUrl: string | undefined;
