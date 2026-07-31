@@ -47,6 +47,11 @@ test('normalizeMapAuthoringDocument preserves full pin and traversable fidelity'
                     { lat: 35.2, lng: 139.2 },
                     { lat: 35.3, lng: 139.3 }
                 ],
+                polygonNormalized: [
+                    { x: 0.1, y: 0.2 },
+                    { x: 0.2, y: 0.2 },
+                    { x: 0.2, y: 0.3 }
+                ],
                 createdAt: '2026-06-20T00:00:00.000Z'
             }
         ],
@@ -76,6 +81,7 @@ test('normalizeMapAuthoringDocument preserves full pin and traversable fidelity'
     assert.equal(document.pins[0].label, 'Main Gate');
     assert.equal(document.pins[0].latLngs?.length, 1);
     assert.equal(document.pins[0].createdAt, '2026-06-20T00:00:00.000Z');
+    assert.equal(document.pins[0].polygonNormalized?.length, 3);
     assert.equal(document.traversableRegions[0].polygonNormalized?.length, 3);
     assert.equal(document.traversableRegions[0].geoPolygon?.length, 3);
 });

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { TileLayer, useMap } from 'react-leaflet';
 import * as L from 'leaflet';
 import {
+    CURRENT_MAP_LABEL_LANGUAGE,
     resolveBundledLabelTileUrl,
     resolveBundledTileUrl,
     type ResolvedMapTileBundle
@@ -21,7 +22,6 @@ interface MapTileLayerProps {
 
 const BundledTileLayer: React.FC<MapTileLayerProps> = ({
     mapTileBundle,
-    mapLanguage,
     bounds,
     mapTileMaxZoom,
     mapMinZoom,
@@ -50,10 +50,10 @@ const BundledTileLayer: React.FC<MapTileLayerProps> = ({
         baseLayer.addTo(map);
 
         let labelLayer: L.TileLayer | null = null;
-        const hasLabelLayer = mapLanguage && Object.keys(
+        const hasLabelLayer = Object.keys(
             mapTileBundle.manifest.labelTilePathTemplates ?? {}
-        ).some((language) => language.toLowerCase() === mapLanguage.toLowerCase());
-        if (mapLanguage && hasLabelLayer) {
+        ).some((language) => language.toLowerCase() === CURRENT_MAP_LABEL_LANGUAGE.toLowerCase());
+        if (hasLabelLayer) {
             labelLayer = new L.TileLayer('', {
                 noWrap: true,
                 bounds,
@@ -67,7 +67,7 @@ const BundledTileLayer: React.FC<MapTileLayerProps> = ({
             labelLayer.getTileUrl = (coords: L.Coords) => {
                 return resolveBundledLabelTileUrl(
                     mapTileBundle,
-                    mapLanguage,
+                    CURRENT_MAP_LABEL_LANGUAGE,
                     coords.z,
                     coords.x,
                     coords.y
@@ -80,7 +80,7 @@ const BundledTileLayer: React.FC<MapTileLayerProps> = ({
             map.removeLayer(baseLayer);
             if (labelLayer) map.removeLayer(labelLayer);
         };
-    }, [bounds, map, mapLanguage, mapMaxZoom, mapMinZoom, mapTileBundle, mapTileMaxZoom]);
+    }, [bounds, map, mapMaxZoom, mapMinZoom, mapTileBundle, mapTileMaxZoom]);
 
     return null;
 };
@@ -88,7 +88,6 @@ const BundledTileLayer: React.FC<MapTileLayerProps> = ({
 const MapTileLayer: React.FC<MapTileLayerProps> = ({
     mapTileUrlTemplate,
     mapTileBundle,
-    mapLanguage,
     bounds,
     mapTileMaxZoom,
     mapMinZoom,
@@ -98,7 +97,6 @@ const MapTileLayer: React.FC<MapTileLayerProps> = ({
         return (
             <BundledTileLayer
                 mapTileBundle={mapTileBundle}
-                mapLanguage={mapLanguage}
                 bounds={bounds}
                 mapTileMaxZoom={mapTileMaxZoom}
                 mapMinZoom={mapMinZoom}

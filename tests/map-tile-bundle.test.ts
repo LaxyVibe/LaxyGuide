@@ -24,7 +24,7 @@ const layeredBundle: ResolvedMapTileBundle = {
     }
 };
 
-test('layered map bundles resolve shared base and language-specific label tiles', () => {
+test('layered map bundles resolve shared base and always use Japanese label tiles', () => {
     assert.equal(resolveBundledTileUrl(layeredBundle, 5, 3, 4), 'blob:base-tile');
     assert.equal(
         resolveBundledLabelTileUrl(layeredBundle, 'ja-JP', 5, 3, 4),
@@ -34,5 +34,8 @@ test('layered map bundles resolve shared base and language-specific label tiles'
         resolveBundledLabelTileUrl(layeredBundle, 'JA-jp', 5, 3, 4),
         'blob:ja-label-tile'
     );
-    assert.equal(resolveBundledLabelTileUrl(layeredBundle, 'en-US', 5, 3, 4), undefined);
+    assert.equal(
+        resolveBundledLabelTileUrl(layeredBundle, 'en-US', 5, 3, 4),
+        'blob:ja-label-tile'
+    );
 });

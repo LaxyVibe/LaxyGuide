@@ -1,6 +1,7 @@
 import JSZip from 'jszip';
 
 const MAP_TILE_BUNDLE_MANIFEST = 'manifest.json';
+export const CURRENT_MAP_LABEL_LANGUAGE = 'ja-JP';
 
 export interface MapTileBundleManifest {
     schemaVersion: 1 | 2;
@@ -90,7 +91,7 @@ export function resolveBundledTileUrl(
 
 export function resolveBundledLabelTileUrl(
     bundle: ResolvedMapTileBundle,
-    language: string,
+    _language: string,
     z: number,
     x: number,
     y: number
@@ -98,7 +99,8 @@ export function resolveBundledLabelTileUrl(
     const templates = bundle.manifest.labelTilePathTemplates;
     if (!templates) return undefined;
 
-    const normalizedLanguage = language.trim().toLowerCase();
+    // Temporarily use the Japanese artwork for every interface language.
+    const normalizedLanguage = CURRENT_MAP_LABEL_LANGUAGE.toLowerCase();
     const templateEntry = Object.entries(templates).find(([candidate]) => (
         candidate.toLowerCase() === normalizedLanguage
     ));

@@ -4,6 +4,7 @@ import type { MapPin, TraversableRegion } from '../types';
 import TiledMapViewer from './TiledMapViewer';
 import type { ResolvedMapTileBundle } from '../utils/mapTileBundle';
 import { resolveResetViewTarget } from '../utils/mapResetView';
+import { buildNormalizedPoiRegions } from '../utils/mapPoiRegions';
 
 interface NormalizedPolygonRegion {
     id: string;
@@ -270,6 +271,17 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
         && mapPixelWidth! > 0
         && mapPixelHeight! > 0
         && (Boolean(mapTileBundle) || !imageUrl.startsWith('data:image/'));
+    const normalizedPoiRegions = buildNormalizedPoiRegions(
+        pins,
+        Number.isFinite(mapPixelWidth) && Number.isFinite(mapPixelHeight)
+            ? {
+                mapPixelWidth: mapPixelWidth!,
+                mapPixelHeight: mapPixelHeight!,
+                mapTileMaxZoom
+            }
+            : undefined
+    );
+    const usePoiRegionInteraction = pins.length > 0 && normalizedPoiRegions.length === pins.length;
 
     if (shouldUseTiles) {
         return (
@@ -468,6 +480,38 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                             </svg>
                                         )}
 
+                                        {usePoiRegionInteraction && (
+                                            <svg
+                                                viewBox="0 0 100 100"
+                                                preserveAspectRatio="none"
+                                                style={{
+                                                    position: 'absolute',
+                                                    inset: 0,
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    pointerEvents: 'none',
+                                                    zIndex: 2
+                                                }}
+                                            >
+                                                {normalizedPoiRegions.map((region) => (
+                                                    <polygon
+                                                        key={`poi-region-${region.id}`}
+                                                        points={region.polygon
+                                                            .map((point) => `${clamp01(point.x) * 100},${clamp01(point.y) * 100}`)
+                                                            .join(' ')}
+                                                        fill="transparent"
+                                                        stroke="transparent"
+                                                        pointerEvents="all"
+                                                        cursor={onPinClick ? 'pointer' : 'default'}
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            onPinClick?.(region.id);
+                                                        }}
+                                                    />
+                                                ))}
+                                            </svg>
+                                        )}
+
                                         {pins.map(pin => {
                                             const isHighlighted = pin.id === highlightedPinId;
                                             const showFocusCard = focusedPinCard?.pinId === pin.id;
@@ -483,10 +527,10 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                             return (
                                                 <div
                                                     key={pin.id}
-                                                    role={onPinClick ? 'button' : undefined}
-                                                    aria-label={onPinClick ? `Select pin` : undefined}
+                                                    role={!usePoiRegionInteraction && onPinClick ? 'button' : undefined}
+                                                    aria-label={!usePoiRegionInteraction && onPinClick ? 'Select pin' : undefined}
                                                     onPointerDown={
-                                                        onPinLongPress
+                                                        !usePoiRegionInteraction && onPinLongPress
                                                             ? (e) => {
                                                                 e.stopPropagation();
                                                                 onPinLongPressPrime?.(pin.id);
@@ -494,11 +538,11 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                             }
                                                             : undefined
                                                     }
-                                                    onPointerUp={onPinLongPress ? clearLongPress : undefined}
-                                                    onPointerCancel={onPinLongPress ? clearLongPress : undefined}
-                                                    onPointerLeave={onPinLongPress ? clearLongPress : undefined}
+                                                    onPointerUp={!usePoiRegionInteraction && onPinLongPress ? clearLongPress : undefined}
+                                                    onPointerCancel={!usePoiRegionInteraction && onPinLongPress ? clearLongPress : undefined}
+                                                    onPointerLeave={!usePoiRegionInteraction && onPinLongPress ? clearLongPress : undefined}
                                                     onClick={
-                                                        onPinClick
+                                                        !usePoiRegionInteraction && onPinClick
                                                             ? (e) => {
                                                                 e.stopPropagation();
                                                                 if (suppressClickRef.current) {
@@ -514,14 +558,19 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         left: `${pin.x * 100}%`,
                                                         top: `${pin.y * 100}%`,
                                                         transform: 'translate(-50%, -50%)',
-                                                        width: size,
-                                                        height: size,
+                                                        width: usePoiRegionInteraction ? 1 : size,
+                                                        height: usePoiRegionInteraction ? 1 : size,
                                                         overflow: 'visible',
                                                         borderRadius: 999,
-                                                        background: isHighlighted ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.65)',
-                                                        border: isHighlighted ? '2px solid rgba(245, 245, 245, 0.95)' : '2px solid rgba(245, 245, 245, 0.75)',
+                                                        background: usePoiRegionInteraction
+                                                            ? 'transparent'
+                                                            : (isHighlighted ? 'var(--misc-opam)' : 'rgba(33, 36, 39, 0.65)'),
+                                                        border: usePoiRegionInteraction
+                                                            ? 'none'
+                                                            : (isHighlighted ? '2px solid rgba(245, 245, 245, 0.95)' : '2px solid rgba(245, 245, 245, 0.75)'),
                                                         boxShadow: 'none',
-                                                        cursor: onPinClick || onPinLongPress ? 'pointer' : 'default',
+                                                        cursor: !usePoiRegionInteraction && (onPinClick || onPinLongPress) ? 'pointer' : 'default',
+                                                        pointerEvents: usePoiRegionInteraction ? 'none' : undefined,
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'center',
@@ -531,9 +580,9 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         lineHeight: 1
                                                     }}
                                                 >
-                                                    {showPinGpsCount ? gpsCount : null}
+                                                    {!usePoiRegionInteraction && showPinGpsCount ? gpsCount : null}
 
-                                                    {!showFocusCard && (
+                                                    {!showFocusCard && !usePoiRegionInteraction && (
                                                         <div
                                                             aria-hidden="true"
                                                             style={{
@@ -650,7 +699,7 @@ const MapViewer = React.forwardRef<MapViewerHandle, MapViewerProps>(
                                                         </div>
                                                     )}
 
-                                                    {isPressing && (
+                                                    {isPressing && !usePoiRegionInteraction && (
                                                         <svg
                                                             width={ringSize}
                                                             height={ringSize}
