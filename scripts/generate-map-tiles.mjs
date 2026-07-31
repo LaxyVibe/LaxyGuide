@@ -8,6 +8,32 @@ import { getGuideMapConfig, getGuideMapSourceImagePath } from './guide-map-confi
 const execFile = promisify(execFileCallback);
 const repoRoot = process.cwd();
 
+async function generateTileLayer(sourceImagePath, tileOutputDir, mapTileMaxZoom) {
+    await fs.access(sourceImagePath);
+    await fs.mkdir(path.dirname(tileOutputDir), { recursive: true });
+
+    await execFile('gdal2tiles', [
+        '--xyz',
+        '-p', 'raster',
+        '-r', 'lanczos',
+        '--tilesize=256',
+        '--tiledriver=WEBP',
+        '--webp-quality=85',
+        '--webviewer=none',
+        '-z', `0-${mapTileMaxZoom}`,
+        sourceImagePath,
+        tileOutputDir
+    ], {
+        cwd: repoRoot
+    });
+}
+
+function resolveSourceImagePath(configuredPath) {
+    return path.isAbsolute(configuredPath)
+        ? configuredPath
+        : path.join(repoRoot, configuredPath);
+}
+
 async function generateTiles(guideId) {
     const config = getGuideMapConfig(guideId);
     if (!config) {
@@ -19,31 +45,26 @@ async function generateTiles(guideId) {
         throw new Error(`No source image path configured for ${guideId}. Pass one as the second argument.`);
     }
 
-    const sourceImagePath = path.isAbsolute(configuredSourceImagePath)
-        ? configuredSourceImagePath
-        : path.join(repoRoot, configuredSourceImagePath);
     const tileOutputDir = path.join(repoRoot, 'public', config.tileOutputDir);
-
-    await fs.access(sourceImagePath);
     await fs.rm(tileOutputDir, { recursive: true, force: true });
-    await fs.mkdir(path.dirname(tileOutputDir), { recursive: true });
 
-    await execFile('gdal2tiles', [
-        '--xyz',
-        '-p', 'raster',
-        '-r', 'lanczos',
-        '--tilesize=256',
-        '--tiledriver=WEBP',
-        '--webp-quality=85',
-        '-z', `0-${config.mapTileMaxZoom}`,
-        sourceImagePath,
-        tileOutputDir
-    ], {
-        cwd: repoRoot
-    });
+    const sourceImagePath = resolveSourceImagePath(configuredSourceImagePath);
+    const isLayeredMap = Boolean(config.baseSourceImagePath || config.labelSourceImagePaths);
+    const baseTileOutputDir = isLayeredMap
+        ? path.join(tileOutputDir, 'base')
+        : tileOutputDir;
+    await generateTileLayer(sourceImagePath, baseTileOutputDir, config.mapTileMaxZoom);
+
+    const labelSourceImagePaths = config.labelSourceImagePaths ?? {};
+    for (const [language, labelSourcePath] of Object.entries(labelSourceImagePaths)) {
+        const absoluteLabelSourcePath = resolveSourceImagePath(labelSourcePath);
+        const labelTileOutputDir = path.join(tileOutputDir, 'labels', language);
+        await generateTileLayer(absoluteLabelSourcePath, labelTileOutputDir, config.mapTileMaxZoom);
+    }
 
     return {
-        tileOutputDir
+        tileOutputDir,
+        labelLanguages: Object.keys(labelSourceImagePaths)
     };
 }
 
@@ -53,8 +74,11 @@ if (!guideId) {
     process.exitCode = 1;
 } else {
     generateTiles(guideId)
-        .then(({ tileOutputDir }) => {
+        .then(({ tileOutputDir, labelLanguages }) => {
             console.log(`Generated tiles in ${path.relative(repoRoot, tileOutputDir)}`);
+            if (labelLanguages.length > 0) {
+                console.log(`Generated label layers for: ${labelLanguages.join(', ')}`);
+            }
         })
         .catch((error) => {
             console.error(error instanceof Error ? error.message : String(error));

@@ -1063,6 +1063,7 @@ const GuideMapDraw: React.FC = () => {
                             <TiledMapDrawer
                                 mapTileUrlTemplate={effectiveMapTileUrlTemplate!}
                                 mapTileBundle={effectiveMapTileBundle ?? undefined}
+                                mapLanguage={lang}
                                 mapTileMaxZoom={effectiveMapTileMaxZoom}
                                 mapPixelWidth={effectiveMapPixelWidth!}
                                 mapPixelHeight={effectiveMapPixelHeight!}

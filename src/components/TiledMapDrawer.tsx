@@ -12,6 +12,7 @@ type EditLayerMode = 'pins' | 'traversable';
 export interface TiledMapDrawerProps {
     mapTileUrlTemplate?: string;
     mapTileBundle?: ResolvedMapTileBundle;
+    mapLanguage?: string;
     mapPixelWidth: number;
     mapPixelHeight: number;
     mapTileMaxZoom?: number;
@@ -289,6 +290,7 @@ const DrawController: React.FC<{
 const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
     mapTileUrlTemplate,
     mapTileBundle,
+    mapLanguage,
     mapPixelWidth,
     mapPixelHeight,
     mapTileMaxZoom = 5,
@@ -348,6 +350,7 @@ const TiledMapDrawer: React.FC<TiledMapDrawerProps> = ({
             <MapTileLayer
                 mapTileUrlTemplate={mapTileUrlTemplate}
                 mapTileBundle={mapTileBundle}
+                mapLanguage={mapLanguage}
                 bounds={imageBounds}
                 mapTileMaxZoom={mapTileMaxZoom}
                 mapMinZoom={mapMinZoom}
