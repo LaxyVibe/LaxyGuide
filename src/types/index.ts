@@ -131,8 +131,10 @@ export interface MapPin {
     /** Clustered GPS points captured for this pin */
     latLngs?: Array<{ lat: number; lng: number; capturedAt?: string; seq?: number }>;
 
-    /** Polygon vertices captured/edited on a real-world basemap. */
+    /** Legacy Leaflet CRS.Simple polygon kept for backward-compatible editing. */
     polygon?: Array<{ lat: number; lng: number }>;
+    /** Canonical image-space click region for opening this POI (0..1). */
+    polygonNormalized?: Array<{ x: number; y: number }>;
 
     /** Legacy single-point fields (v1). Kept optional for migration only. */
     lat?: number;

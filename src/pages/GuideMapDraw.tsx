@@ -28,6 +28,11 @@ import {
     updateTraversableRegionPolygonForEditor
 } from '../utils/mapDrawTraversableRegions.ts';
 import {
+    normalizePoiPinsForEditor,
+    resolvePinPolygonNormalized,
+    updatePoiPolygonForEditor
+} from '../utils/mapPoiRegions.ts';
+import {
     CORNER_IMAGE_COORDINATES,
     CORNER_LABEL,
     CORNER_ORDER,
@@ -241,11 +246,14 @@ const GuideMapDraw: React.FC = () => {
 
         const applyAuthoringDocument = (document: MapAuthoringDocument) => {
             const normalizedDocument = normalizeMapAuthoringDocument(document, document.guideId);
-            const nextPinsFile: MapPinsFile = {
-                version: 2,
-                guideId: normalizedDocument.guideId,
-                pins: normalizedDocument.pins
-            };
+            const nextPinsFile = normalizePoiPinsForEditor(
+                {
+                    version: 2,
+                    guideId: normalizedDocument.guideId,
+                    pins: normalizedDocument.pins
+                },
+                editorMapGeometry
+            );
             const nextTraversableFile = normalizeTraversableRegionsForEditor(
                 {
                     version: 1,
@@ -390,8 +398,15 @@ const GuideMapDraw: React.FC = () => {
         };
     }, [calibrationTileImageUrl]);
 
-    const pins = pinsFile?.pins ?? [];
-    const traversableRegions = traversableRegionsFile?.regions ?? [];
+    const pins = useMemo(() => pinsFile?.pins ?? [], [pinsFile?.pins]);
+    const traversableRegions = useMemo(
+        () => traversableRegionsFile?.regions ?? [],
+        [traversableRegionsFile?.regions]
+    );
+    const completedPoiRegionCount = useMemo(
+        () => pins.filter((pin) => resolvePinPolygonNormalized(pin, editorMapGeometry).length >= 3).length,
+        [editorMapGeometry, pins]
+    );
 
     useEffect(() => {
         if (selectedPinId) {
@@ -461,25 +476,19 @@ const GuideMapDraw: React.FC = () => {
     const handlePolygonChange = React.useCallback(
         (pinId: string, polygon: Array<{ lat: number; lng: number }> | undefined) => {
             if (!guideId) return;
+            if (!editorMapGeometry) return;
             setPinsFile((prev) => {
                 if (!prev) return prev;
-                const nextPins = prev.pins.map((pin) => {
-                    if (pin.id !== pinId) return pin;
-                    return {
-                        ...pin,
-                        polygon
-                    };
-                });
-                const next: MapPinsFile = {
-                    ...prev,
+                return updatePoiPolygonForEditor({
+                    file: prev,
                     guideId,
-                    version: 2,
-                    pins: nextPins
-                };
-                return next;
+                    pinId,
+                    polygon,
+                    geometry: editorMapGeometry
+                });
             });
         },
-        [guideId]
+        [editorMapGeometry, guideId]
     );
 
     const handleTraversableRegionPolygonChange = React.useCallback(
@@ -596,7 +605,7 @@ const GuideMapDraw: React.FC = () => {
             if (!prev) return prev;
             const nextPins = prev.pins.map((pin) => (
                 pin.id === pinId
-                    ? { ...pin, polygon: undefined }
+                    ? { ...pin, polygon: undefined, polygonNormalized: undefined }
                     : pin
             ));
             const next: MapPinsFile = {
@@ -699,11 +708,6 @@ const GuideMapDraw: React.FC = () => {
         const points: GeoPoint[] = [];
         for (const pin of pins) {
             for (const point of pin.latLngs ?? []) {
-                if (Number.isFinite(point.lat) && Number.isFinite(point.lng)) {
-                    points.push({ lat: point.lat, lng: point.lng });
-                }
-            }
-            for (const point of pin.polygon ?? []) {
                 if (Number.isFinite(point.lat) && Number.isFinite(point.lng)) {
                     points.push({ lat: point.lat, lng: point.lng });
                 }
@@ -931,7 +935,9 @@ const GuideMapDraw: React.FC = () => {
                                     <div className="map-draw-desktop-card__header">
                                         <div>
                                             <div className="map-draw-desktop-label">POI Pins</div>
-                                            <div className="map-draw-desktop-title">Authoring targets</div>
+                                            <div className="map-draw-desktop-title">
+                                                Authoring targets · {completedPoiRegionCount}/{pins.length} regions
+                                            </div>
                                         </div>
                                         <button
                                             onClick={() => {
@@ -949,7 +955,7 @@ const GuideMapDraw: React.FC = () => {
                                         ) : pins.map((pin) => {
                                             const isSelected = pin.id === selectedPinId;
                                             const title = pinDisplayNameById[pin.id] || pin.id;
-                                            const hasPolygon = Array.isArray(pin.polygon) && pin.polygon.length >= 3;
+                                            const hasPolygon = resolvePinPolygonNormalized(pin, editorMapGeometry).length >= 3;
                                             return (
                                                 <button
                                                     key={pin.id}
@@ -1500,7 +1506,7 @@ const GuideMapDraw: React.FC = () => {
                                     {drawLayerMode === 'pins' && pins.map((pin) => {
                                         const isSelected = pin.id === selectedPinId;
                                         const title = pinDisplayNameById[pin.id] || pin.id;
-                                        const hasPolygon = Array.isArray(pin.polygon) && pin.polygon.length >= 3;
+                                        const hasPolygon = resolvePinPolygonNormalized(pin, editorMapGeometry).length >= 3;
                                         return (
                                             <button
                                                 key={pin.id}
