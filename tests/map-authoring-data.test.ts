@@ -140,7 +140,7 @@ test('getMapAuthoringPublicUrl points at the public Firebase Storage object', ()
     assert.equal(getMapTileBundleObjectPath('JPN-USAA-TEM-001'), 'maps/JPN-USAA-TEM-001-map-tiles.zip');
     assert.equal(
         getMapTileBundlePublicUrl('JPN-USAA-TEM-001'),
-        'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-tiles.zip'
+        'https://storage.googleapis.com/laxy-guide-dev.firebasestorage.app/maps/JPN-USAA-TEM-001-map-tiles.zip?v=layered-v2'
     );
 });
 

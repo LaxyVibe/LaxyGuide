@@ -3,6 +3,7 @@ type EnvLikeImportMeta = ImportMeta & {
 };
 
 const DEFAULT_FIREBASE_STORAGE_BUCKET = 'laxy-guide-dev.firebasestorage.app';
+const DEFAULT_MAP_TILE_BUNDLE_VERSION = 'layered-v2';
 
 export function getFirebaseStorageBucket() {
     const bucketName = (import.meta as EnvLikeImportMeta).env?.VITE_FIREBASE_STORAGE_BUCKET;
@@ -35,6 +36,14 @@ export function getMapTileBundleObjectPath(guideId: string) {
     return `maps/${String(guideId).trim()}-map-tiles.zip`;
 }
 
+export function getMapTileBundleVersion() {
+    const configuredVersion = import.meta.env?.VITE_MAP_ASSET_VERSION;
+    return typeof configuredVersion === 'string' && configuredVersion.trim()
+        ? configuredVersion.trim()
+        : DEFAULT_MAP_TILE_BUNDLE_VERSION;
+}
+
 export function getMapTileBundlePublicUrl(guideId: string) {
-    return buildFirebaseStoragePublicUrl(getMapTileBundleObjectPath(guideId));
+    const bundleUrl = buildFirebaseStoragePublicUrl(getMapTileBundleObjectPath(guideId));
+    return `${bundleUrl}?v=${encodeURIComponent(getMapTileBundleVersion())}`;
 }
